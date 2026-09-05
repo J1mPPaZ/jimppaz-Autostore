@@ -1,3454 +1,1199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J1mPPaZ BGL Autostore</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-:root{
-  --bg:#05070a;
-  --bg2:#080d13;
-  --panel:#0b1119;
-  --panel2:#0f1721;
-  --panel3:#121d29;
-  --line:#1d2a38;
-  --blue:#28a9ff;
-  --blue2:#087fe0;
-  --cyan:#55ddff;
-  --text:#f5f9ff;
-  --muted:#8290a0;
-  --green:#4ade80;
-  --red:#ff5d68;
-  --yellow:#ffd45a;
-  --shadow:0 24px 80px rgba(0,0,0,.45);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html,body{
-  width:100%;
-  height:100%;
-}
-
-body{
-  background:
-    radial-gradient(circle at 75% 0%,rgba(40,169,255,.12),transparent 28%),
-    radial-gradient(circle at 20% 90%,rgba(0,120,255,.07),transparent 25%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,Arial,sans-serif;
-  overflow:hidden;
-}
-
-button,input{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.app{
-  height:100vh;
-  display:flex;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-  width:255px;
-  height:100vh;
-  flex-shrink:0;
-  border-right:1px solid var(--line);
-  background:rgba(7,11,16,.92);
-  backdrop-filter:blur(20px);
-  padding:22px 15px;
-  display:flex;
-  flex-direction:column;
-  z-index:20;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:4px 10px 26px;
-}
-
-.brand-icon{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:
-    radial-gradient(circle at 35% 25%,#8ff0ff,transparent 25%),
-    linear-gradient(145deg,#159bff,#064c9a);
-  box-shadow:
-    0 0 25px rgba(40,169,255,.28),
-    inset 0 1px rgba(255,255,255,.25);
-  font-weight:900;
-  font-size:18px;
-}
-
-.brand-name{
-  font-family:"Space Grotesk",sans-serif;
-  font-weight:700;
-  font-size:17px;
-  letter-spacing:-.4px;
-}
-
-.brand-sub{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:2px;
-}
-
-.nav-title{
-  color:#566574;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.4px;
-  padding:0 12px 9px;
-  text-transform:uppercase;
-}
-
-.nav{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.nav-btn{
-  border:0;
-  background:transparent;
-  color:#8e9cab;
-  border-radius:11px;
-  padding:12px 13px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  text-align:left;
-  transition:.18s;
-  font-size:13px;
-  font-weight:600;
-}
-
-.nav-btn:hover{
-  background:#101923;
-  color:white;
-}
-
-.nav-btn.active{
-  background:linear-gradient(90deg,rgba(40,169,255,.16),rgba(40,169,255,.04));
-  color:white;
-  box-shadow:inset 3px 0 var(--blue);
-}
-
-.nav-icon{
-  width:18px;
-  text-align:center;
-  font-size:15px;
-}
-
-.sidebar-bottom{
-  margin-top:auto;
-}
-
-.status-box{
-  border:1px solid var(--line);
-  background:#0a1017;
-  border-radius:14px;
-  padding:13px;
-}
-
-.status-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:12px;
-  font-weight:600;
-}
-
-.status-dot{
-  width:7px;
-  height:7px;
-  background:var(--green);
-  border-radius:50%;
-  box-shadow:0 0 12px rgba(74,222,128,.8);
-}
-
-.status-small{
-  color:var(--muted);
-  font-size:10px;
-  margin-top:5px;
-}
-
-/* MAIN */
-
-.main{
-  flex:1;
-  min-width:0;
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.topbar{
-  height:72px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  background:rgba(5,8,12,.7);
-  backdrop-filter:blur(20px);
-  flex-shrink:0;
-}
-
-.page-title{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:19px;
-  font-weight:700;
-}
-
-.page-sub{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:3px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.top-btn{
-  height:39px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#0b1118;
-  color:#b6c1cc;
-  padding:0 13px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.top-btn:hover{
-  border-color:#2e4357;
-  color:white;
-}
-
-.cart-btn{
-  background:linear-gradient(135deg,#159cff,#0874cf);
-  border:0;
-  color:white;
-  box-shadow:0 8px 25px rgba(0,130,255,.2);
-}
-
-.cart-count{
-  background:white;
-  color:#0875cf;
-  min-width:18px;
-  height:18px;
-  border-radius:20px;
-  display:inline-grid;
-  place-items:center;
-  margin-left:6px;
-  font-size:10px;
-}
-
-.content{
-  flex:1;
-  overflow:auto;
-  padding:28px;
-}
-
-.content::-webkit-scrollbar{
-  width:6px;
-}
-
-.content::-webkit-scrollbar-thumb{
-  background:#1b2a38;
-  border-radius:10px;
-}
-
-.view{
-  display:none;
-  max-width:1400px;
-  margin:auto;
-}
-
-.view.active{
-  display:block;
-}
-
-/* HERO */
-
-.hero{
-  min-height:280px;
-  border:1px solid var(--line);
-  border-radius:22px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 80% 50%,rgba(40,169,255,.2),transparent 30%),
-    linear-gradient(135deg,#0c151f,#071019 70%);
-  box-shadow:var(--shadow);
-  display:grid;
-  grid-template-columns:1fr 340px;
-}
-
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:34px 34px;
-  mask-image:linear-gradient(90deg,#000,transparent 90%);
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-  padding:38px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.hero-tag{
-  width:max-content;
-  padding:6px 9px;
-  border:1px solid rgba(40,169,255,.25);
-  background:rgba(40,169,255,.08);
-  color:#65c7ff;
-  border-radius:7px;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  margin-bottom:15px;
-}
-
-.hero h1{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:43px;
-  line-height:1;
-  letter-spacing:-1.8px;
-  max-width:600px;
-}
-
-.hero h1 span{
-  color:var(--blue);
-}
-
-.hero-text{
-  color:#8c9aa8;
-  font-size:13px;
-  line-height:1.6;
-  margin-top:14px;
-  max-width:500px;
-}
-
-.hero-image{
-  position:relative;
-  display:grid;
-  place-items:center;
-}
-
-.hero-glow{
-  position:absolute;
-  width:230px;
-  height:230px;
-  border-radius:50%;
-  background:rgba(30,164,255,.18);
-  filter:blur(50px);
-}
-
-.bgl-art{
-  position:relative;
-  width:150px;
-  height:150px;
-  transform:rotate(-7deg);
-  filter:
-    drop-shadow(0 20px 30px rgba(0,0,0,.6))
-    drop-shadow(0 0 25px rgba(25,170,255,.4));
-}
-
-.bgl-body{
-  position:absolute;
-  left:26px;
-  top:35px;
-  width:98px;
-  height:85px;
-  border-radius:28px 28px 34px 34px;
-  background:
-    linear-gradient(135deg,#b9f8ff 0%,#45d9ff 17%,#087bdc 60%,#06488c);
-  border:5px solid #073f73;
-  box-shadow:
-    inset 8px 8px 0 rgba(255,255,255,.25),
-    inset -10px -12px 0 rgba(0,0,0,.25);
-}
-
-.bgl-top{
-  position:absolute;
-  left:45px;
-  top:21px;
-  width:60px;
-  height:42px;
-  background:linear-gradient(145deg,#76ecff,#0786e8);
-  clip-path:polygon(50% 0,100% 50%,78% 100%,22% 100%,0 50%);
-  border:3px solid #075ca8;
-  box-shadow:0 0 18px rgba(72,213,255,.5);
-}
-
-.bgl-hole{
-  position:absolute;
-  left:67px;
-  top:67px;
-  width:28px;
-  height:38px;
-  border-radius:13px 13px 10px 10px;
-  background:#062d56;
-  border:4px solid #8cffc0;
-  box-shadow:0 0 10px rgba(74,255,174,.5);
-}
-
-.bgl-hole::after{
-  content:"";
-  position:absolute;
-  width:10px;
-  height:17px;
-  background:#8cffc0;
-  border-radius:7px;
-  left:5px;
-  top:5px;
-}
-
-/* STORE GRID */
-
-.store-grid{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 310px;
-  gap:20px;
-}
-
-.card{
-  border:1px solid var(--line);
-  background:linear-gradient(145deg,#0c131c,#090f16);
-  border-radius:18px;
-  box-shadow:0 15px 50px rgba(0,0,0,.18);
-}
-
-.card-head{
-  padding:20px 21px 15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.045);
-}
-
-.card-title{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:15px;
-  font-weight:700;
-}
-
-.card-muted{
-  color:var(--muted);
-  font-size:11px;
-}
-
-/* PRODUCT */
-
-.product-card{
-  padding:22px;
-}
-
-.product-top{
-  display:flex;
-  gap:20px;
-}
-
-.product-visual{
-  width:165px;
-  min-width:165px;
-  height:165px;
-  border-radius:16px;
-  border:1px solid #1e3549;
-  background:
-    radial-gradient(circle,rgba(42,181,255,.2),transparent 60%),
-    #07111a;
-  display:grid;
-  place-items:center;
-}
-
-.product-visual .bgl-art{
-  transform:scale(.85) rotate(-7deg);
-}
-
-.product-info{
-  flex:1;
-}
-
-.product-name{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:23px;
-  font-weight:700;
-}
-
-.product-desc{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  margin-top:7px;
-  max-width:500px;
-}
-
-.price{
-  margin-top:18px;
-  display:flex;
-  align-items:end;
-  gap:7px;
-}
-
-.price-main{
-  font-size:27px;
-  font-weight:800;
-  letter-spacing:-1px;
-}
-
-.price-unit{
-  color:var(--muted);
-  font-size:11px;
-  padding-bottom:5px;
-}
-
-.stock-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  color:#76e5a0;
-  background:rgba(74,222,128,.08);
-  border:1px solid rgba(74,222,128,.15);
-  border-radius:7px;
-  padding:6px 8px;
-  font-size:10px;
-  font-weight:700;
-  margin-top:12px;
-}
-
-.stock-pill::before{
-  content:"";
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 7px var(--green);
-}
-
-/* BUY */
-
-.buy-row{
-  border-top:1px solid var(--line);
-  margin-top:22px;
-  padding-top:20px;
-  display:flex;
-  align-items:end;
-  gap:13px;
-}
-
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.field label{
-  color:#778593;
-  font-size:10px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.7px;
-}
-
-.qty-control{
-  height:43px;
-  display:flex;
-  align-items:center;
-  border:1px solid var(--line);
-  background:#080e15;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.qty-control button{
-  width:40px;
-  height:100%;
-  border:0;
-  background:transparent;
-  color:#b5c1ce;
-  font-size:18px;
-}
-
-.qty-control button:hover{
-  background:#111d28;
-  color:white;
-}
-
-.qty-control input{
-  width:65px;
-  height:100%;
-  border:0;
-  outline:0;
-  text-align:center;
-  color:white;
-  background:transparent;
-  font-size:13px;
-  font-weight:700;
-}
-
-.total-box{
-  margin-left:auto;
-  text-align:right;
-}
-
-.total-label{
-  color:var(--muted);
-  font-size:10px;
-}
-
-.total-price{
-  font-size:21px;
-  font-weight:800;
-  margin-top:2px;
-}
-
-.primary-btn{
-  height:43px;
-  border:0;
-  border-radius:10px;
-  padding:0 19px;
-  background:linear-gradient(135deg,#1da4ff,#0875d0);
-  color:white;
-  font-size:12px;
-  font-weight:800;
-  box-shadow:0 9px 24px rgba(0,126,220,.2);
-}
-
-.primary-btn:hover{
-  filter:brightness(1.08);
-  transform:translateY(-1px);
-}
-
-/* RIGHT SIDE */
-
-.side-stack{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.rate-card{
-  padding:21px;
-}
-
-.rate-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.rate-title{
-  font-size:12px;
-  font-weight:700;
-}
-
-.live{
-  font-size:9px;
-  font-weight:800;
-  color:#6ee7a0;
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-
-.live::before{
-  content:"";
-  width:5px;
-  height:5px;
-  background:var(--green);
-  border-radius:50%;
-}
-
-.rate-value{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:31px;
-  font-weight:700;
-  margin-top:17px;
-}
-
-.rate-note{
-  color:var(--muted);
-  font-size:10px;
-  margin-top:4px;
-}
-
-.info-card{
-  padding:21px;
-}
-
-.info-list{
-  margin-top:15px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.info-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:#9daab7;
-  font-size:11px;
-}
-
-.info-icon{
-  width:29px;
-  height:29px;
-  display:grid;
-  place-items:center;
-  border-radius:8px;
-  background:#101b26;
-  border:1px solid #1c2b39;
-}
-
-/* QUICK */
-
-.quick{
-  margin-top:20px;
-}
-
-.quick-title{
-  color:#72808e;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  margin-bottom:9px;
-}
-
-.quick-list{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-}
-
-.quick-btn{
-  border:1px solid var(--line);
-  background:#0a1119;
-  color:#91a0af;
-  padding:8px 12px;
-  border-radius:8px;
-  font-size:10px;
-  font-weight:700;
-}
-
-.quick-btn:hover{
-  border-color:#28506e;
-  color:white;
-}
-
-/* ORDERS */
-
-.empty{
-  border:1px dashed #243442;
-  border-radius:15px;
-  padding:45px 20px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.empty-icon{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.empty-title{
-  color:#d6dee7;
-  font-weight:700;
-  font-size:14px;
-}
-
-.empty-text{
-  font-size:11px;
-  margin-top:5px;
-}
-
-/* PROFILE */
-
-.profile-grid{
-  display:grid;
-  grid-template-columns:300px 1fr;
-  gap:20px;
-}
-
-.profile-card{
-  padding:25px;
-  text-align:center;
-}
-
-.avatar{
-  width:75px;
-  height:75px;
-  border-radius:20px;
-  margin:0 auto 15px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(145deg,#168fe7,#07559b);
-  font-size:26px;
-  font-weight:800;
-}
-
-.profile-name{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:18px;
-  font-weight:700;
-}
-
-.profile-email{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:4px;
-}
-
-.form-card{
-  padding:24px;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-}
-
-.input-group{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.input-group.full{
-  grid-column:1/-1;
-}
-
-.input-group label{
-  color:#7d8b99;
-  font-size:10px;
-  font-weight:700;
-  text-transform:uppercase;
-}
-
-.input-group input{
-  height:43px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  outline:none;
-  background:#080e15;
-  color:white;
-  padding:0 12px;
-  font-size:12px;
-}
-
-.input-group input:focus{
-  border-color:#267eae;
-}
-
-/* ADMIN */
-
-.admin-login{
-  max-width:430px;
-  margin:70px auto;
-}
-
-.admin-login-card{
-  padding:30px;
-}
-
-.admin-login h2{
-  font-family:"Space Grotesk";
-  font-size:23px;
-}
-
-.admin-login p{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:7px;
-  line-height:1.5;
-}
-
-.admin-form{
-  margin-top:22px;
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-}
-
-.admin-form input{
-  height:44px;
-  background:#080e15;
-  border:1px solid var(--line);
-  border-radius:9px;
-  color:white;
-  padding:0 12px;
-  outline:none;
-}
-
-.admin-dashboard{
-  display:none;
-}
-
-.admin-dashboard.show{
-  display:block;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-}
-
-.stat{
-  padding:19px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:10px;
-  font-weight:700;
-}
-
-.stat-value{
-  font-family:"Space Grotesk";
-  font-size:24px;
-  font-weight:700;
-  margin-top:9px;
-}
-
-.stat-small{
-  color:#65d994;
-  font-size:9px;
-  margin-top:4px;
-}
-
-.admin-tabs{
-  display:flex;
-  gap:6px;
-  margin:20px 0 12px;
-  overflow:auto;
-}
-
-.admin-tab{
-  border:1px solid var(--line);
-  background:#0a1118;
-  color:#7e8d9b;
-  border-radius:8px;
-  padding:9px 12px;
-  font-size:10px;
-  font-weight:700;
-  white-space:nowrap;
-}
-
-.admin-tab.active{
-  color:white;
-  background:#112236;
-  border-color:#24557a;
-}
-
-.admin-panel{
-  display:none;
-}
-
-.admin-panel.active{
-  display:block;
-}
-
-.table-wrap{
-  overflow:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th{
-  color:#687787;
-  text-align:left;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.6px;
-  padding:13px;
-  border-bottom:1px solid var(--line);
-}
-
-td{
-  padding:14px 13px;
-  border-bottom:1px solid rgba(255,255,255,.045);
-  font-size:11px;
-  color:#b7c1cb;
-}
-
-.badge{
-  display:inline-flex;
-  padding:5px 7px;
-  border-radius:6px;
-  font-size:9px;
-  font-weight:800;
-}
-
-.badge.pending{
-  color:#ffd875;
-  background:rgba(255,212,90,.08);
-}
-
-.badge.completed{
-  color:#69e79a;
-  background:rgba(74,222,128,.08);
-}
-
-.badge.cancelled{
-  color:#ff737c;
-  background:rgba(255,93,104,.08);
-}
-
-.small-btn{
-  border:1px solid var(--line);
-  background:#0b131c;
-  color:#a6b2be;
-  padding:6px 8px;
-  border-radius:6px;
-  font-size:9px;
-}
-
-/* MODAL */
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(7px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:100;
-  padding:20px;
-}
-
-.overlay.show{
-  display:flex;
-}
-
-.modal{
-  width:100%;
-  max-width:520px;
-  max-height:90vh;
-  overflow:auto;
-  background:#0b121a;
-  border:1px solid #223344;
-  border-radius:17px;
-  box-shadow:0 30px 100px rgba(0,0,0,.6);
-}
-
-.modal-head{
-  padding:19px 21px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.modal-title{
-  font-family:"Space Grotesk";
-  font-weight:700;
-  font-size:16px;
-}
-
-.close{
-  width:30px;
-  height:30px;
-  border:0;
-  border-radius:8px;
-  background:#111b25;
-  color:#8d9aa8;
-}
-
-.modal-body{
-  padding:21px;
-}
-
-.modal-actions{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
-  margin-top:20px;
-}
-
-.secondary-btn{
-  height:41px;
-  border:1px solid var(--line);
-  background:#0c141d;
-  color:#a9b5c0;
-  border-radius:9px;
-  padding:0 15px;
-  font-size:11px;
-  font-weight:700;
-}
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:300;
-  background:#101a24;
-  border:1px solid #274056;
-  color:#dce7f0;
-  border-radius:10px;
-  padding:12px 15px;
-  font-size:11px;
-  font-weight:600;
-  box-shadow:0 15px 50px rgba(0,0,0,.4);
-  transform:translateY(20px);
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-}
-
-.toast.show{
-  transform:translateY(0);
-  opacity:1;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-  display:none;
-}
-
-@media(max-width:900px){
-
-  body{
-    overflow:auto;
-  }
-
-  .app{
-    min-height:100vh;
-    height:auto;
-  }
-
-  .sidebar{
-    position:fixed;
-    left:-270px;
-    top:0;
-    transition:.25s;
-    box-shadow:20px 0 60px rgba(0,0,0,.5);
-  }
-
-  .sidebar.open{
-    left:0;
-  }
-
-  .main{
-    min-height:100vh;
-    height:auto;
-  }
-
-  .mobile-menu{
-    display:grid;
-    place-items:center;
-    width:38px;
-    height:38px;
-    border:1px solid var(--line);
-    background:#0b1118;
-    color:white;
-    border-radius:9px;
-    margin-right:10px;
-  }
-
-  .topbar{
-    padding:0 14px;
-  }
-
-  .page-title{
-    font-size:15px;
-  }
-
-  .page-sub{
-    display:none;
-  }
-
-  .content{
-    padding:14px;
-    overflow:visible;
-  }
-
-  .hero{
-    grid-template-columns:1fr;
-    min-height:440px;
-  }
-
-  .hero-content{
-    padding:26px;
-  }
-
-  .hero h1{
-    font-size:35px;
-  }
-
-  .hero-image{
-    height:150px;
-  }
-
-  .store-grid{
-    grid-template-columns:1fr;
-  }
-
-  .product-top{
-    flex-direction:column;
-  }
-
-  .product-visual{
-    width:100%;
-    height:180px;
-  }
-
-  .buy-row{
-    flex-wrap:wrap;
-  }
-
-  .total-box{
-    margin-left:0;
-  }
-
-  .primary-btn{
-    width:100%;
-  }
-
-  .profile-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .input-group.full{
-    grid-column:auto;
-  }
-}
-
-@media(max-width:500px){
-
-  .top-actions .top-btn:not(.cart-btn){
-    display:none;
-  }
-
-  .hero h1{
-    font-size:31px;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .product-card{
-    padding:15px;
-  }
-
-  .card-head{
-    padding:17px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J1mPPaZ BGL Autostore</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg: #070b12;
+      --panel: #0d131d;
+      --panel-2: #111a26;
+      --border: rgba(255,255,255,.08);
+      --text: #f4f7fb;
+      --muted: #8793a5;
+      --blue: #248cff;
+      --blue-2: #00c8ff;
+      --green: #34d399;
+      --red: #ff5c6c;
+    }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(36,140,255,.12), transparent 30%),
+        radial-gradient(circle at 20% 80%, rgba(0,200,255,.07), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    button,
+    input {
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+    /* SIDEBAR */
+    .sidebar {
+      width: 245px;
+      min-height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 24px 16px;
+      background: rgba(7,11,18,.92);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      z-index: 10;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 4px 10px 28px;
+    }
+    .logo-mark {
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue), var(--blue-2));
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 8px 30px rgba(36,140,255,.25);
+    }
+    .logo-text {
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .logo-sub {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .nav-title {
+      color: #566274;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      padding: 0 10px 9px;
+    }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .nav button {
+      border: 0;
+      background: transparent;
+      color: #8995a7;
+      width: 100%;
+      text-align: left;
+      padding: 12px 13px;
+      border-radius: 11px;
+      transition: .2s;
+    }
+    .nav button:hover,
+    .nav button.active {
+      color: white;
+      background: #121c2a;
+    }
+    .nav button.active {
+      box-shadow: inset 3px 0 0 var(--blue);
+    }
+    .sidebar-bottom {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 20px;
+    }
+    .stock-mini {
+      background: linear-gradient(145deg,#0e1724,#0b111a);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .stock-mini-title {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .stock-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stock-number {
+      font-weight: 800;
+    }
+    .online {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green);
+      font-size: 11px;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+    /* MAIN */
+    .main {
+      width: calc(100% - 245px);
+      margin-left: 245px;
+      padding: 34px;
+    }
+    .page {
+      display: none;
+      max-width: 1250px;
+      margin: auto;
+    }
+    .page.active {
+      display: block;
+    }
+    /* HERO */
+    .hero {
+      min-height: 390px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 25px;
+      align-items: center;
+      background:
+        linear-gradient(120deg, rgba(15,26,41,.95), rgba(8,13,21,.95));
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      padding: 45px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero:after {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(36,140,255,.07);
+      right: -230px;
+      top: -220px;
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #8fc8ff;
+      background: rgba(36,140,255,.09);
+      border: 1px solid rgba(36,140,255,.18);
+      padding: 7px 11px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 17px;
+    }
+    .hero h1 {
+      font-size: clamp(38px,5vw,66px);
+      line-height: .98;
+      letter-spacing: -3px;
+      max-width: 650px;
+    }
+    .hero h1 span {
+      color: var(--blue-2);
+    }
+    .hero p {
+      color: var(--muted);
+      margin-top: 17px;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+    .primary {
+      border: 0;
+      border-radius: 11px;
+      padding: 13px 18px;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(135deg,var(--blue),var(--blue-2));
+      box-shadow: 0 12px 30px rgba(36,140,255,.2);
+    }
+    .secondary {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 13px 18px;
+      color: white;
+      background: rgba(255,255,255,.035);
+      font-weight: 700;
+    }
+    .bgl-hero {
+      display: grid;
+      place-items: center;
+      min-height: 300px;
+      position: relative;
+      z-index: 1;
+    }
+    .bgl-image {
+      width: 270px;
+      height: 270px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 25px 35px rgba(0,0,0,.45));
+    }
+    /* SECTION */
+    .section {
+      margin-top: 25px;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .section-head h2 {
+      font-size: 20px;
+    }
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    /* STORE */
+    .store-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 310px;
+      gap: 20px;
+    }
+    .product {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+    }
+    .product-top {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 25px;
+      align-items: center;
+    }
+    .product-image {
+      min-height: 180px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: #0a1019;
+      border: 1px solid var(--border);
+    }
+    .product-image img {
+      width: 145px;
+      height: 145px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+    .product-label {
+      color: var(--blue-2);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+    .product h3 {
+      margin-top: 6px;
+      font-size: 27px;
+    }
+    .price {
+      margin-top: 10px;
+      font-size: 26px;
+      font-weight: 900;
+    }
+    .price small {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .product-desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      margin-top: 10px;
+    }
+    .quantity {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .qty-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      color: white;
+      background: #101824;
+      font-size: 18px;
+    }
+    .qty-value {
+      min-width: 55px;
+      text-align: center;
+      font-weight: 900;
+    }
+    .buy-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(135deg,var(--blue),var(--blue-2));
+      color: white;
+      font-weight: 900;
+    }
+    /* INFO CARDS */
+    .info-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .info-card + .info-card {
+      margin-top: 14px;
+    }
+    .info-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+    .rate {
+      font-size: 31px;
+      font-weight: 900;
+      margin-top: 6px;
+    }
+    .check-list {
+      list-style: none;
+      margin-top: 13px;
+      display: grid;
+      gap: 10px;
+    }
+    .check-list li {
+      color: #b8c1ce;
+      font-size: 12px;
+    }
+    .check-list li:before {
+      content: "✓";
+      color: var(--green);
+      margin-right: 8px;
+      font-weight: 900;
+    }
+    /* ORDERS */
+    .empty {
+      text-align: center;
+      padding: 70px 20px;
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.015);
+    }
+    .empty-icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+    .empty h3 {
+      font-size: 18px;
+    }
+    .empty p {
+      color: var(--muted);
+      margin-top: 7px;
+      font-size: 13px;
+    }
+    .order {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 17px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+    .order-id {
+      font-weight: 800;
+    }
+    .order-meta {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    .status {
+      padding: 6px 9px;
+      border-radius: 7px;
+      background: rgba(52,211,153,.09);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    /* PROFILE */
+    .form-card {
+      max-width: 600px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+    }
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {
+      display: block;
+      color: #9ba6b5;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #090f17;
+      color: white;
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+    }
+    .field input:focus {
+      border-color: rgba(36,140,255,.6);
+    }
+    /* ADMIN */
+    .admin-login,
+    .admin-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+    }
+    .admin-login {
+      max-width: 500px;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .admin-stat {
+      background: #0a1018;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 18px;
+    }
+    .admin-stat span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .admin-stat strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 25px;
+    }
+    .admin-tools {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(7px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+    }
+    .modal.show {
+      display: flex;
+    }
+    .modal-box {
+      width: 100%;
+      max-width: 480px;
+      background: #0d141e;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .close {
+      border: 0;
+      background: transparent;
+      color: #8995a7;
+      font-size: 22px;
+    }
+    .summary {
+      background: #09101a;
+      border: 1px solid var(--border);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      color: #aeb8c6;
+      font-size: 13px;
+    }
+    .summary-row.total {
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+      padding-top: 12px;
+    }
+    /* TOAST */
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: #111a25;
+      border: 1px solid var(--border);
+      padding: 13px 16px;
+      border-radius: 11px;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: .25s;
+      z-index: 100;
+      font-size: 13px;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 200px;
+      }
+      .main {
+        width: calc(100% - 200px);
+        margin-left: 200px;
+        padding: 20px;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 30px;
+      }
+      .store-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 650px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        padding: 15px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-bottom {
+        display: none;
+      }
+      .nav {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+      .nav button {
+        min-width: max-content;
+      }
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 14px;
+      }
+      .hero {
+        padding: 24px;
+        min-height: auto;
+      }
+      .hero h1 {
+        font-size: 43px;
+      }
+      .bgl-image {
+        width: 210px;
+        height: 210px;
+      }
+      .product-top {
+        grid-template-columns: 1fr;
+      }
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
 <div class="app">
-
-  <aside class="sidebar" id="sidebar">
-
-    <div class="brand">
-      <div class="brand-icon">J</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">J</div>
       <div>
-        <div class="brand-name">J1mPPaZ</div>
-        <div class="brand-sub">BGL Autostore</div>
+        <div class="logo-text">J1mPPaZ</div>
+        <div class="logo-sub">BGL Autostore</div>
       </div>
     </div>
-
     <div class="nav-title">Menu</div>
-
     <nav class="nav">
-
-      <button class="nav-btn active" onclick="showView('store',this)">
-        <span class="nav-icon">⌂</span>
-        Store
-      </button>
-
-      <button class="nav-btn" onclick="showView('orders',this)">
-        <span class="nav-icon">▣</span>
-        My Orders
-      </button>
-
-      <button class="nav-btn" onclick="showView('profile',this)">
-        <span class="nav-icon">●</span>
-        Profile
-      </button>
-
-      <button class="nav-btn" onclick="showView('admin',this)">
-        <span class="nav-icon">⚙</span>
-        Admin Panel
-      </button>
-
+      <button class="active" onclick="showPage('store', this)">Store</button>
+      <button onclick="showPage('orders', this)">My Orders</button>
+      <button onclick="showPage('profile', this)">Profile</button>
+      <button onclick="showPage('admin', this)">Admin Panel</button>
     </nav>
-
     <div class="sidebar-bottom">
-
-      <div class="status-box">
-        <div class="status-row">
-          <span class="status-dot"></span>
-          Store online
-        </div>
-        <div class="status-small">
-          Orders are currently open
+      <div class="stock-mini">
+        <div class="stock-mini-title">Current stock</div>
+        <div class="stock-row">
+          <div class="stock-number">
+            <span id="stockSide">100</span> BGL
+          </div>
+          <div class="online">
+            <span class="dot"></span>
+            Online
+          </div>
         </div>
       </div>
-
     </div>
-
   </aside>
-
-
+  <!-- MAIN -->
   <main class="main">
-
-    <header class="topbar">
-
-      <div style="display:flex;align-items:center;">
-
-        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
-
+    <!-- STORE -->
+    <section id="store" class="page active">
+      <div class="hero">
         <div>
-          <div class="page-title" id="pageTitle">Store</div>
-          <div class="page-sub" id="pageSub">J1mPPaZ BGL Autostore</div>
-        </div>
-
-      </div>
-
-      <div class="top-actions">
-
-        <button class="top-btn" onclick="showView('profile')">
-          Profile
-        </button>
-
-        <button class="top-btn cart-btn" onclick="openCart()">
-          Cart
-          <span class="cart-count" id="cartCount">0</span>
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <div class="content">
-
-
-      <!-- STORE -->
-
-      <section class="view active" id="view-store">
-
-        <div class="hero">
-
-          <div class="hero-content">
-
-            <div class="hero-tag">BGL Store</div>
-
-            <h1>
-              Get your <span>BGL</span>.
-            </h1>
-
-            <p class="hero-text">
-              Pick the amount you need, add it to your cart and place your order.
-            </p>
-
+          <div class="eyebrow">BGL AUTOSTORE</div>
+          <h1>
+            Get your <span>BGL.</span>
+          </h1>
+          <p>
+            Simple BGL store. Pick an amount, place your order and keep track of it from your account.
+          </p>
+          <div class="hero-actions">
+            <button class="primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+              Buy BGL
+            </button>
+            <button class="secondary" onclick="showPage('orders', document.querySelectorAll('.nav button')[1])">
+              My Orders
+            </button>
           </div>
-
-          <div class="hero-image">
-
-            <div class="hero-glow"></div>
-
-            <div class="bgl-art">
-
-              <div class="bgl-top"></div>
-              <div class="bgl-body"></div>
-              <div class="bgl-hole"></div>
-
-            </div>
-
-          </div>
-
         </div>
-
-
+        <!-- REAL BGL IMAGE -->
+        <div class="bgl-hero">
+          <img
+            class="bgl-image"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
+            alt="BGL"
+          >
+        </div>
+      </div>
+      <div class="section" id="shop">
+        <div class="section-head">
+          <h2>Buy BGL</h2>
+          <span>Fast & simple</span>
+        </div>
         <div class="store-grid">
-
-          <div class="card product-card">
-
+          <div class="product">
             <div class="product-top">
-
-              <div class="product-visual">
-
-                <div class="bgl-art">
-
-                  <div class="bgl-top"></div>
-                  <div class="bgl-body"></div>
-                  <div class="bgl-hole"></div>
-
-                </div>
-
-              </div>
-
-
-              <div class="product-info">
-
-                <div class="product-name">
-                  Blue Gem Lock
-                </div>
-
-                <div class="product-desc">
-                  BGL for your Growtopia account. Choose the amount below.
-                </div>
-
-                <div class="price">
-
-                  <div class="price-main">
-                    2.30€
-                  </div>
-
-                  <div class="price-unit">
-                    / BGL
-                  </div>
-
-                </div>
-
-                <div class="stock-pill">
-                  In stock
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <div class="buy-row">
-
-              <div class="field">
-
-                <label>Amount</label>
-
-                <div class="qty-control">
-
-                  <button onclick="changeQty(-1)">−</button>
-
-                  <input
-                    id="quantity"
-                    type="number"
-                    min="1"
-                    value="1"
-                    oninput="updateTotal()"
-                  >
-
-                  <button onclick="changeQty(1)">+</button>
-
-                </div>
-
-              </div>
-
-
-              <div class="total-box">
-
-                <div class="total-label">
-                  Total
-                </div>
-
-                <div class="total-price" id="totalPrice">
-                  2.30€
-                </div>
-
-              </div>
-
-
-              <button class="primary-btn" onclick="addToCart()">
-                Add to cart
-              </button>
-
-            </div>
-
-
-            <div class="quick">
-
-              <div class="quick-title">
-                Quick amount
-              </div>
-
-              <div class="quick-list">
-
-                <button class="quick-btn" onclick="setQty(1)">1 BGL</button>
-                <button class="quick-btn" onclick="setQty(5)">5 BGL</button>
-                <button class="quick-btn" onclick="setQty(10)">10 BGL</button>
-                <button class="quick-btn" onclick="setQty(25)">25 BGL</button>
-                <button class="quick-btn" onclick="setQty(50)">50 BGL</button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="side-stack">
-
-
-            <div class="card rate-card">
-
-              <div class="rate-top">
-
-                <div class="rate-title">
-                  Current rate
-                </div>
-
-                <div class="live">
-                  LIVE
-                </div>
-
-              </div>
-
-              <div class="rate-value">
-                2.30€
-              </div>
-
-              <div class="rate-note">
-                Price per BGL
-              </div>
-
-            </div>
-
-
-            <div class="card info-card">
-
-              <div class="card-title">
-                Before ordering
-              </div>
-
-              <div class="info-list">
-
-                <div class="info-item">
-                  <div class="info-icon">✓</div>
-                  Check your quantity
-                </div>
-
-                <div class="info-item">
-                  <div class="info-icon">↗</div>
-                  Enter your details at checkout
-                </div>
-
-                <div class="info-item">
-                  <div class="info-icon">▣</div>
-                  Track your order later
-                </div>
-
-              </div>
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ORDERS -->
-
-      <section class="view" id="view-orders">
-
-        <div class="card">
-
-          <div class="card-head">
-
-            <div>
-              <div class="card-title">My Orders</div>
-              <div class="card-muted">
-                Your recent orders
-              </div>
-            </div>
-
-          </div>
-
-          <div style="padding:20px" id="ordersContainer">
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- PROFILE -->
-
-      <section class="view" id="view-profile">
-
-        <div class="profile-grid">
-
-          <div class="card profile-card">
-
-            <div class="avatar" id="profileAvatar">
-              J
-            </div>
-
-            <div class="profile-name" id="profileName">
-              Guest
-            </div>
-
-            <div class="profile-email" id="profileEmail">
-              No email added
-            </div>
-
-          </div>
-
-
-          <div class="card form-card">
-
-            <div class="card-title">
-              Profile
-            </div>
-
-            <div class="card-muted" style="margin-top:4px">
-              Your order details
-            </div>
-
-
-            <div class="form-grid" style="margin-top:20px">
-
-              <div class="input-group">
-                <label>Name</label>
-                <input id="nameInput" placeholder="Your name">
-              </div>
-
-              <div class="input-group">
-                <label>Email</label>
-                <input id="emailInput" placeholder="you@example.com">
-              </div>
-
-              <div class="input-group full">
-                <label>Growtopia username</label>
-                <input id="gtInput" placeholder="Your Growtopia username">
-              </div>
-
-            </div>
-
-
-            <button
-              class="primary-btn"
-              style="margin-top:18px"
-              onclick="saveProfile()"
-            >
-              Save changes
-            </button>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ADMIN -->
-
-      <section class="view" id="view-admin">
-
-        <div class="admin-login" id="adminLogin">
-
-          <div class="card admin-login-card">
-
-            <h2>Admin Panel</h2>
-
-            <p>
-              Sign in to manage orders, stock and store settings.
-            </p>
-
-            <div class="admin-form">
-
-              <input
-                id="adminUsername"
-                placeholder="Username"
-                autocomplete="off"
-              >
-
-              <input
-                id="adminPassword"
-                type="password"
-                placeholder="Password"
-              >
-
-              <button class="primary-btn" onclick="adminLogin()">
-                Sign in
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="admin-dashboard" id="adminDashboard">
-
-          <div class="stats">
-
-            <div class="card stat">
-              <div class="stat-label">ORDERS</div>
-              <div class="stat-value" id="statOrders">0</div>
-              <div class="stat-small">Total orders</div>
-            </div>
-
-            <div class="card stat">
-              <div class="stat-label">REVENUE</div>
-              <div class="stat-value" id="statRevenue">0.00€</div>
-              <div class="stat-small">All orders</div>
-            </div>
-
-            <div class="card stat">
-              <div class="stat-label">BGL SOLD</div>
-              <div class="stat-value" id="statBgl">0</div>
-              <div class="stat-small">Total quantity</div>
-            </div>
-
-            <div class="card stat">
-              <div class="stat-label">STATUS</div>
-              <div class="stat-value" style="font-size:18px">ONLINE</div>
-              <div class="stat-small">Store active</div>
-            </div>
-
-          </div>
-
-
-          <div class="admin-tabs">
-
-            <button class="admin-tab active" onclick="adminTab('orders',this)">
-              Orders
-            </button>
-
-            <button class="admin-tab" onclick="adminTab('customers',this)">
-              Customers
-            </button>
-
-            <button class="admin-tab" onclick="adminTab('stock',this)">
-              Stock
-            </button>
-
-            <button class="admin-tab" onclick="adminTab('products',this)">
-              Products
-            </button>
-
-            <button class="admin-tab" onclick="adminTab('settings',this)">
-              Settings
-            </button>
-
-          </div>
-
-
-          <div class="admin-panel active" id="admin-orders">
-
-            <div class="card">
-
-              <div class="card-head">
-                <div class="card-title">Orders</div>
-              </div>
-
-              <div class="table-wrap">
-
-                <table>
-
-                  <thead>
-                    <tr>
-                      <th>Order</th>
-                      <th>Customer</th>
-                      <th>BGL</th>
-                      <th>Total</th>
-                      <th>Status</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-
-                  <tbody id="adminOrdersBody"></tbody>
-
-                </table>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="admin-panel" id="admin-customers">
-
-            <div class="card">
-
-              <div class="card-head">
-                <div class="card-title">Customers</div>
-              </div>
-
-              <div class="table-wrap">
-
-                <table>
-
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Growtopia</th>
-                      <th>Orders</th>
-                    </tr>
-                  </thead>
-
-                  <tbody id="customersBody"></tbody>
-
-                </table>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="admin-panel" id="admin-stock">
-
-            <div class="card" style="padding:22px">
-
-              <div class="card-title">
-                Stock
-              </div>
-
-              <div class="card-muted" style="margin-top:4px">
-                Change the amount shown in the store.
-              </div>
-
-              <div class="input-group" style="margin-top:20px">
-
-                <label>BGL stock</label>
-
-                <input
-                  id="stockInput"
-                  type="number"
-                  min="0"
-                  value="100"
+              <div class="product-image">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
+                  alt="BGL"
                 >
-
               </div>
-
-              <button
-                class="primary-btn"
-                style="margin-top:14px"
-                onclick="saveStock()"
-              >
-                Save stock
-              </button>
-
+              <div>
+                <div class="product-label">Growtopia Currency</div>
+                <h3>Blue Gem Lock</h3>
+                <div class="price">
+                  2.30€ <small>/ BGL</small>
+                </div>
+                <p class="product-desc">
+                  Choose how many BGL you want and continue to checkout.
+                </p>
+                <div class="quantity">
+                  <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                  <div class="qty-value" id="qty">1 BGL</div>
+                  <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
+                <button class="buy-btn" onclick="openCheckout()">
+                  Continue
+                </button>
+              </div>
             </div>
-
           </div>
-
-
-          <div class="admin-panel" id="admin-products">
-
-            <div class="card" style="padding:22px">
-
-              <div class="card-title">
-                Product
+          <div>
+            <div class="info-card">
+              <div class="info-label">Current rate</div>
+              <div class="rate">2.30€</div>
+              <div style="color:#8793a5;font-size:12px;margin-top:5px;">
+                per BGL
               </div>
-
-              <div class="form-grid" style="margin-top:18px">
-
-                <div class="input-group">
-                  <label>Product</label>
-                  <input value="Blue Gem Lock" disabled>
-                </div>
-
-                <div class="input-group">
-                  <label>Price</label>
-                  <input value="2.30€ / BGL" disabled>
-                </div>
-
-              </div>
-
             </div>
-
-          </div>
-
-
-          <div class="admin-panel" id="admin-settings">
-
-            <div class="card" style="padding:22px">
-
-              <div class="card-title">
-                Settings
-              </div>
-
-              <div class="card-muted" style="margin-top:4px">
-                Store settings
-              </div>
-
-              <div class="info-list">
-
-                <div class="info-item">
-                  <div class="info-icon">●</div>
-                  Store status: Online
-                </div>
-
-                <div class="info-item">
-                  <div class="info-icon">€</div>
-                  Current price: 2.30€ / BGL
-                </div>
-
-              </div>
-
+            <div class="info-card">
+              <div class="info-label">Before ordering</div>
+              <ul class="check-list">
+                <li>Check your BGL amount</li>
+                <li>Enter your GrowID correctly</li>
+                <li>Check your order details</li>
+                <li>Keep your order ID</li>
+              </ul>
             </div>
-
           </div>
-
         </div>
-
-      </section>
-
-
-    </div>
-
+      </div>
+    </section>
+    <!-- ORDERS -->
+    <section id="orders" class="page">
+      <div class="section-head">
+        <div>
+          <h2>My Orders</h2>
+          <span>Your previous orders</span>
+        </div>
+      </div>
+      <div id="ordersList"></div>
+    </section>
+    <!-- PROFILE -->
+    <section id="profile" class="page">
+      <div class="section-head">
+        <div>
+          <h2>Profile</h2>
+          <span>Your delivery information</span>
+        </div>
+      </div>
+      <div class="form-card">
+        <div class="field">
+          <label>GrowID</label>
+          <input id="profileGrowID" placeholder="Your GrowID">
+        </div>
+        <div class="field">
+          <label>Discord</label>
+          <input id="profileDiscord" placeholder="Your Discord username">
+        </div>
+        <button class="primary" onclick="saveProfile()">
+          Save Profile
+        </button>
+      </div>
+    </section>
+    <!-- ADMIN -->
+    <section id="admin" class="page">
+      <div class="section-head">
+        <div>
+          <h2>Admin Panel</h2>
+          <span>Private store management</span>
+        </div>
+      </div>
+      <div id="adminContent"></div>
+    </section>
   </main>
-
 </div>
-<!-- MODALS -->
-
-<div class="overlay" id="cartOverlay" onclick="outsideClose(event,'cartOverlay')">
-
-  <div class="modal">
-
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
     <div class="modal-head">
-
-      <div class="modal-title">Cart</div>
-
-      <button class="close" onclick="closeModal('cartOverlay')">×</button>
-
+      <h3>Checkout</h3>
+      <button class="close" onclick="closeModal('checkoutModal')">×</button>
     </div>
-
-    <div class="modal-body" id="cartBody"></div>
-
+    <div class="summary">
+      <div class="summary-row">
+        <span>Product</span>
+        <span>Blue Gem Lock</span>
+      </div>
+      <div class="summary-row">
+        <span>Amount</span>
+        <span id="checkoutQty">1 BGL</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="checkoutTotal">2.30€</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>GrowID</label>
+      <input id="checkoutGrowID" placeholder="Your GrowID">
+    </div>
+    <div class="field">
+      <label>Discord</label>
+      <input id="checkoutDiscord" placeholder="Your Discord username">
+    </div>
+    <button class="primary" style="width:100%;" onclick="placeOrder()">
+      Place Order
+    </button>
   </div>
-
 </div>
-
-
-<div class="overlay" id="checkoutOverlay" onclick="outsideClose(event,'checkoutOverlay')">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div class="modal-title">Checkout</div>
-
-      <button class="close" onclick="closeModal('checkoutOverlay')">×</button>
-
-    </div>
-
-    <div class="modal-body">
-
-      <div class="input-group">
-        <label>Name</label>
-        <input id="checkoutName" placeholder="Your name">
-      </div>
-
-      <div class="input-group" style="margin-top:13px">
-        <label>Email</label>
-        <input id="checkoutEmail" placeholder="you@example.com">
-      </div>
-
-      <div class="input-group" style="margin-top:13px">
-        <label>Growtopia username</label>
-        <input id="checkoutGt" placeholder="Your Growtopia username">
-      </div>
-
-      <div
-        style="
-          margin-top:18px;
-          padding:15px;
-          border:1px solid var(--line);
-          border-radius:10px;
-          background:#080f16;
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-        "
-      >
-        <span style="color:var(--muted);font-size:11px">
-          Order total
-        </span>
-
-        <strong id="checkoutTotal">
-          0.00€
-        </strong>
-      </div>
-
-      <div class="modal-actions">
-
-        <button
-          class="secondary-btn"
-          onclick="closeModal('checkoutOverlay')"
-        >
-          Cancel
-        </button>
-
-        <button
-          class="primary-btn"
-          onclick="createOrder()"
-        >
-          Place order
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<div class="overlay" id="orderOverlay" onclick="outsideClose(event,'orderOverlay')">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div class="modal-title">
-        Order placed
-      </div>
-
-      <button class="close" onclick="closeModal('orderOverlay')">
-        ×
-      </button>
-
-    </div>
-
-    <div class="modal-body">
-
-      <div
-        style="
-          text-align:center;
-          padding:15px 0 10px;
-        "
-      >
-
-        <div
-          style="
-            width:55px;
-            height:55px;
-            border-radius:50%;
-            display:grid;
-            place-items:center;
-            margin:auto;
-            background:rgba(74,222,128,.1);
-            border:1px solid rgba(74,222,128,.25);
-            color:#6ee7a0;
-            font-size:25px;
-          "
-        >
-          ✓
-        </div>
-
-        <div
-          style="
-            font-family:'Space Grotesk';
-            font-size:19px;
-            font-weight:700;
-            margin-top:14px;
-          "
-        >
-          Order received
-        </div>
-
-        <div
-          style="
-            color:var(--muted);
-            font-size:11px;
-            margin-top:6px;
-          "
-        >
-          Your order has been saved.
-        </div>
-
-        <div
-          id="newOrderId"
-          style="
-            margin-top:16px;
-            padding:10px;
-            border-radius:8px;
-            background:#080f16;
-            border:1px solid var(--line);
-            font-size:12px;
-            font-weight:800;
-          "
-        ></div>
-
-      </div>
-
-      <div class="modal-actions">
-
-        <button
-          class="primary-btn"
-          onclick="closeModal('orderOverlay');showView('orders')"
-        >
-          View orders
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-
 <script>
-
-const PRICE_PER_BGL = 2.30;
-
-const ADMIN_USERNAME = "JimpanAdmini";
-const ADMIN_PASSWORD = "JimppaFortniteAdmin";
-
-let state = JSON.parse(
-  localStorage.getItem("j1mppaz_bgl_store")
-) || {
-  cart: [],
-  orders: [],
-  profile: {
-    name: "",
-    email: "",
-    gt: ""
-  },
-  stock: 100,
-  admin: false
-};
-
-
-/* SAVE */
-
-function saveState(){
-
-  localStorage.setItem(
-    "j1mppaz_bgl_store",
-    JSON.stringify(state)
-  );
-
-}
-
-
-/* TOAST */
-
-let toastTimer;
-
-function toast(message){
-
-  const el = document.getElementById("toast");
-
-  el.textContent = message;
-
-  el.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-    el.classList.remove("show");
-  },2500);
-
-}
-
-
-/* SIDEBAR */
-
-function toggleSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.toggle("open");
-
-}
-
-
-/* VIEW */
-
-function showView(view,button){
-
-  document
-    .querySelectorAll(".view")
-    .forEach(v => v.classList.remove("active"));
-
-  const target =
-    document.getElementById("view-" + view);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document
-    .querySelectorAll(".nav-btn")
-    .forEach(b => b.classList.remove("active"));
-
-  if(button){
-    button.classList.add("active");
-  }else{
-
-    const matching =
-      [...document.querySelectorAll(".nav-btn")]
-      .find(b =>
-        b.getAttribute("onclick")?.includes(
-          "'" + view + "'"
-        )
-      );
-
-    if(matching){
-      matching.classList.add("active");
-    }
-
-  }
-
-  const titles = {
-
-    store: [
-      "Store",
-      "J1mPPaZ BGL Autostore"
-    ],
-
-    orders: [
-      "My Orders",
-      "Your recent orders"
-    ],
-
-    profile: [
-      "Profile",
-      "Your account details"
-    ],
-
-    admin: [
-      "Admin Panel",
-      "Store management"
-    ]
-
+  const PRICE_PER_BGL = 2.30;
+  let quantity = 1;
+  let state = JSON.parse(
+    localStorage.getItem("j1mppaz_bgl_store")
+  ) || {
+    stock: 100,
+    orders: [],
+    profile: {
+      growID: "",
+      discord: ""
+    },
+    adminLogged: false
   };
-
-  if(titles[view]){
-
-    document.getElementById("pageTitle").textContent =
-      titles[view][0];
-
-    document.getElementById("pageSub").textContent =
-      titles[view][1];
-
-  }
-
-  if(view === "orders"){
-    renderOrders();
-  }
-
-  if(view === "profile"){
-    loadProfile();
-  }
-
-  if(view === "admin"){
-    updateAdmin();
-  }
-
-  if(window.innerWidth <= 900){
-    document
-      .getElementById("sidebar")
-      .classList.remove("open");
-  }
-
-}
-
-
-/* QUANTITY */
-
-function getQuantity(){
-
-  let q =
-    parseInt(
-      document.getElementById("quantity").value
-    ) || 1;
-
-  if(q < 1) q = 1;
-
-  return q;
-
-}
-
-
-function setQty(amount){
-
-  document.getElementById("quantity").value =
-    amount;
-
-  updateTotal();
-
-}
-
-
-function changeQty(amount){
-
-  const input =
-    document.getElementById("quantity");
-
-  let value =
-    parseInt(input.value) || 1;
-
-  value += amount;
-
-  if(value < 1){
-    value = 1;
-  }
-
-  input.value = value;
-
-  updateTotal();
-
-}
-
-
-function updateTotal(){
-
-  const quantity = getQuantity();
-
-  const total =
-    quantity * PRICE_PER_BGL;
-
-  document.getElementById("totalPrice")
-    .textContent =
-    total.toFixed(2) + "€";
-
-}
-
-
-/* CART */
-
-function addToCart(){
-
-  const quantity = getQuantity();
-
-  const existing =
-    state.cart.find(
-      item => item.product === "Blue Gem Lock"
+  function saveState() {
+    localStorage.setItem(
+      "j1mppaz_bgl_store",
+      JSON.stringify(state)
     );
-
-  if(existing){
-
-    existing.quantity += quantity;
-
-  }else{
-
-    state.cart.push({
-      product: "Blue Gem Lock",
-      quantity: quantity,
-      price: PRICE_PER_BGL
+    updateStock();
+  }
+  function updateStock() {
+    document.getElementById("stockSide").textContent =
+      state.stock;
+  }
+  function showPage(id, button) {
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.remove("active");
     });
-
+    document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".nav button").forEach(btn => {
+      btn.classList.remove("active");
+    });
+    if (button) {
+      button.classList.add("active");
+    }
+    if (id === "orders") {
+      renderOrders();
+    }
+    if (id === "profile") {
+      loadProfile();
+    }
+    if (id === "admin") {
+      renderAdmin();
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
-
-  saveState();
-
-  updateCartCount();
-
-  toast(
-    quantity +
-    " BGL added to cart"
-  );
-
-}
-
-
-function updateCartCount(){
-
-  const count =
-    state.cart.reduce(
-      (sum,item) =>
-        sum + item.quantity,
-      0
-    );
-
-  document.getElementById("cartCount")
-    .textContent = count;
-
-}
-
-
-function cartTotal(){
-
-  return state.cart.reduce(
-    (sum,item) =>
-      sum + item.quantity * item.price,
-    0
-  );
-
-}
-
-
-function openCart(){
-
-  renderCart();
-
-  document
-    .getElementById("cartOverlay")
-    .classList.add("show");
-
-}
-
-
-function renderCart(){
-
-  const body =
-    document.getElementById("cartBody");
-
-  if(!state.cart.length){
-
-    body.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">🛒</div>
-
-        <div class="empty-title">
-          Your cart is empty
-        </div>
-
-        <div class="empty-text">
-          Add some BGL first.
-        </div>
-
-      </div>
-
-    `;
-
-    return;
-
+  function changeQty(amount) {
+    quantity += amount;
+    if (quantity < 1) {
+      quantity = 1;
+    }
+    if (quantity > state.stock) {
+      quantity = state.stock;
+    }
+    document.getElementById("qty").textContent =
+      quantity + (quantity === 1 ? " BGL" : " BGL");
   }
-
-
-  let html = "";
-
-  state.cart.forEach((item,index) => {
-
-    html += `
-
-      <div
-        style="
-          display:flex;
-          align-items:center;
-          gap:13px;
-          padding:13px 0;
-          border-bottom:1px solid var(--line);
-        "
-      >
-
-        <div
-          style="
-            width:48px;
-            height:48px;
-            border-radius:10px;
-            display:grid;
-            place-items:center;
-            background:#07131e;
-            border:1px solid #1d3448;
-          "
-        >
-
-          <div
-            style="
-              width:25px;
-              height:25px;
-              border-radius:8px;
-              background:linear-gradient(135deg,#9af4ff,#087cdb);
-              box-shadow:0 0 12px rgba(40,169,255,.35);
-            "
-          ></div>
-
-        </div>
-
-        <div style="flex:1">
-
-          <div
-            style="
-              font-size:12px;
-              font-weight:700;
-            "
-          >
-            ${escapeHtml(item.product)}
-          </div>
-
-          <div
-            style="
-              color:var(--muted);
-              font-size:10px;
-              margin-top:3px;
-            "
-          >
-            ${item.quantity} BGL × ${item.price.toFixed(2)}€
-          </div>
-
-        </div>
-
-        <div
-          style="
-            font-size:12px;
-            font-weight:800;
-          "
-        >
-          ${(item.quantity * item.price).toFixed(2)}€
-        </div>
-
-        <button
-          class="small-btn"
-          onclick="removeCartItem(${index})"
-        >
-          Remove
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
-
-  html += `
-
-    <div
-      style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        padding-top:18px;
-      "
-    >
-
-      <div>
-
-        <div
-          style="
-            color:var(--muted);
-            font-size:10px;
-          "
-        >
-          Total
-        </div>
-
-        <div
-          style="
-            font-size:21px;
-            font-weight:800;
-            margin-top:3px;
-          "
-        >
-          ${cartTotal().toFixed(2)}€
-        </div>
-
-      </div>
-
-      <div style="display:flex;gap:7px">
-
-        <button
-          class="secondary-btn"
-          onclick="clearCart()"
-        >
-          Clear
-        </button>
-
-        <button
-          class="primary-btn"
-          onclick="openCheckout()"
-        >
-          Checkout
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-  body.innerHTML = html;
-
-}
-
-
-function removeCartItem(index){
-
-  state.cart.splice(index,1);
-
-  saveState();
-
-  updateCartCount();
-
-  renderCart();
-
-  toast("Removed from cart");
-
-}
-
-
-function clearCart(){
-
-  state.cart = [];
-
-  saveState();
-
-  updateCartCount();
-
-  renderCart();
-
-}
-
-
-/* CHECKOUT */
-
-function openCheckout(){
-
-  if(!state.cart.length){
-
-    toast("Your cart is empty");
-
-    return;
-
-  }
-
-  closeModal("cartOverlay");
-
-  const p = state.profile;
-
-  document.getElementById("checkoutName").value =
-    p.name || "";
-
-  document.getElementById("checkoutEmail").value =
-    p.email || "";
-
-  document.getElementById("checkoutGt").value =
-    p.gt || "";
-
-  document.getElementById("checkoutTotal").textContent =
-    cartTotal().toFixed(2) + "€";
-
-  document
-    .getElementById("checkoutOverlay")
-    .classList.add("show");
-
-}
-
-
-function createOrder(){
-
-  const name =
-    document.getElementById("checkoutName")
-      .value.trim();
-
-  const email =
-    document.getElementById("checkoutEmail")
-      .value.trim();
-
-  const gt =
-    document.getElementById("checkoutGt")
-      .value.trim();
-
-  if(!name){
-
-    toast("Enter your name");
-
-    return;
-
-  }
-
-  if(!email){
-
-    toast("Enter your email");
-
-    return;
-
-  }
-
-  if(!gt){
-
-    toast("Enter your Growtopia username");
-
-    return;
-
-  }
-
-
-  const quantity =
-    state.cart.reduce(
-      (sum,item) =>
-        sum + item.quantity,
-      0
-    );
-
-  const total =
-    cartTotal();
-
-  const orderId =
-    "JPZ-" +
-    Math.random()
-      .toString(36)
-      .substring(2,8)
-      .toUpperCase();
-
-
-  const order = {
-
-    id: orderId,
-
-    name: name,
-
-    email: email,
-
-    gt: gt,
-
-    quantity: quantity,
-
-    total: total,
-
-    status: "Pending",
-
-    created:
-      new Date().toISOString()
-
-  };
-
-
-  state.orders.unshift(order);
-
-  state.profile = {
-    name: name,
-    email: email,
-    gt: gt
-  };
-
-  state.cart = [];
-
-  saveState();
-
-  updateCartCount();
-
-  closeModal("checkoutOverlay");
-
-  document.getElementById("newOrderId")
-    .textContent =
-    orderId;
-
-  document
-    .getElementById("orderOverlay")
-    .classList.add("show");
-
-  updateAdmin();
-
-}
-
-
-/* ORDERS */
-
-function renderOrders(){
-
-  const container =
-    document.getElementById("ordersContainer");
-
-  if(!state.orders.length){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">▣</div>
-
-        <div class="empty-title">
-          No orders yet
-        </div>
-
-        <div class="empty-text">
-          Your orders will appear here.
-        </div>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  let html = "";
-
-  state.orders.forEach(order => {
-
-    html += `
-
-      <div
-        style="
-          display:flex;
-          align-items:center;
-          gap:15px;
-          padding:16px 2px;
-          border-bottom:1px solid var(--line);
-        "
-      >
-
-        <div
-          style="
-            width:44px;
-            height:44px;
-            display:grid;
-            place-items:center;
-            border-radius:10px;
-            background:#0c1924;
-            border:1px solid #1b354b;
-            color:#55cfff;
-            font-weight:800;
-            font-size:13px;
-          "
-        >
-          BGL
-        </div>
-
-        <div style="flex:1">
-
-          <div
-            style="
-              font-size:12px;
-              font-weight:700;
-            "
-          >
-            ${escapeHtml(order.id)}
-          </div>
-
-          <div
-            style="
-              color:var(--muted);
-              font-size:10px;
-              margin-top:4px;
-            "
-          >
-            ${order.quantity} BGL ·
-            ${formatDate(order.created)}
-          </div>
-
-        </div>
-
-        <div style="text-align:right">
-
-          <div
-            style="
-              font-weight:800;
-              font-size:12px;
-            "
-          >
-            ${order.total.toFixed(2)}€
-          </div>
-
-          <div style="margin-top:5px">
-            ${statusBadge(order.status)}
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-  container.innerHTML = html;
-
-}
-
-
-function statusBadge(status){
-
-  const s =
-    String(status).toLowerCase();
-
-  let cls = "pending";
-
-  if(s === "completed"){
-    cls = "completed";
-  }
-
-  if(s === "cancelled"){
-    cls = "cancelled";
-  }
-
-  return `
-    <span class="badge ${cls}">
-      ${escapeHtml(status)}
-    </span>
-  `;
-
-}
-
-
-/* PROFILE */
-
-function loadProfile(){
-
-  const p = state.profile;
-
-  document.getElementById("nameInput").value =
-    p.name || "";
-
-  document.getElementById("emailInput").value =
-    p.email || "";
-
-  document.getElementById("gtInput").value =
-    p.gt || "";
-
-  document.getElementById("profileName")
-    .textContent =
-    p.name || "Guest";
-
-  document.getElementById("profileEmail")
-    .textContent =
-    p.email || "No email added";
-
-  document.getElementById("profileAvatar")
-    .textContent =
-    p.name
-      ? p.name.charAt(0).toUpperCase()
-      : "J";
-
-}
-
-
-function saveProfile(){
-
-  state.profile = {
-
-    name:
-      document.getElementById("nameInput")
-        .value.trim(),
-
-    email:
-      document.getElementById("emailInput")
-        .value.trim(),
-
-    gt:
-      document.getElementById("gtInput")
-        .value.trim()
-
-  };
-
-  saveState();
-
-  loadProfile();
-
-  toast("Profile saved");
-
-}
-
-
-/* ADMIN */
-
-function openAdmin(){
-
-  showView("admin");
-
-}
-
-
-function adminLogin(){
-
-  const username =
-    document.getElementById("adminUsername")
-      .value;
-
-  const password =
-    document.getElementById("adminPassword")
-      .value;
-
-
-  if(
-    username === ADMIN_USERNAME &&
-    password === ADMIN_PASSWORD
-  ){
-
-    state.admin = true;
-
-    saveState();
-
-    document.getElementById("adminLogin")
-      .style.display = "none";
-
-    document.getElementById("adminDashboard")
+  function openCheckout() {
+    if (state.stock <= 0) {
+      showToast("Out of stock");
+      return;
+    }
+    if (quantity > state.stock) {
+      showToast("Not enough stock");
+      return;
+    }
+    document.getElementById("checkoutQty").textContent =
+      quantity + " BGL";
+    document.getElementById("checkoutTotal").textContent =
+      (quantity * PRICE_PER_BGL).toFixed(2) + "€";
+    document.getElementById("checkoutGrowID").value =
+      state.profile.growID || "";
+    document.getElementById("checkoutDiscord").value =
+      state.profile.discord || "";
+    document
+      .getElementById("checkoutModal")
       .classList.add("show");
-
-    updateAdmin();
-
-    toast("Signed in");
-
-  }else{
-
-    toast("Wrong username or password");
-
   }
-
-}
-
-
-function updateAdmin(){
-
-  if(!state.admin){
-
-    document.getElementById("adminLogin")
-      .style.display = "block";
-
-    document.getElementById("adminDashboard")
-      .classList.remove("show");
-
-    return;
-
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("show");
   }
-
-
-  document.getElementById("adminLogin")
-    .style.display = "none";
-
-  document.getElementById("adminDashboard")
-    .classList.add("show");
-
-
-  const orders =
-    state.orders;
-
-  const revenue =
-    orders.reduce(
-      (sum,o) =>
-        sum + Number(o.total || 0),
-      0
+  function placeOrder() {
+    const growID =
+      document.getElementById("checkoutGrowID").value.trim();
+    const discord =
+      document.getElementById("checkoutDiscord").value.trim();
+    if (!growID) {
+      showToast("Enter your GrowID");
+      return;
+    }
+    if (!discord) {
+      showToast("Enter your Discord");
+      return;
+    }
+    if (quantity > state.stock) {
+      showToast("Not enough stock");
+      return;
+    }
+    const order = {
+      id:
+        "BGL-" +
+        Math.random()
+          .toString(36)
+          .substring(2,8)
+          .toUpperCase(),
+      amount: quantity,
+      total:
+        Number(
+          (quantity * PRICE_PER_BGL).toFixed(2)
+        ),
+      growID,
+      discord,
+      status: "Pending",
+      date: new Date().toLocaleString("fi-FI")
+    };
+    state.orders.unshift(order);
+    state.stock -= quantity;
+    state.profile.growID = growID;
+    state.profile.discord = discord;
+    saveState();
+    closeModal("checkoutModal");
+    quantity = 1;
+    document.getElementById("qty").textContent = "1 BGL";
+    showToast("Order placed!");
+    showPage(
+      "orders",
+      document.querySelectorAll(".nav button")[1]
     );
-
-  const bgl =
-    orders.reduce(
-      (sum,o) =>
-        sum + Number(o.quantity || 0),
-      0
-    );
-
-
-  document.getElementById("statOrders")
-    .textContent =
-    orders.length;
-
-  document.getElementById("statRevenue")
-    .textContent =
-    revenue.toFixed(2) + "€";
-
-  document.getElementById("statBgl")
-    .textContent =
-    bgl;
-
-  document.getElementById("stockInput")
-    .value =
-    state.stock;
-
-  renderAdminOrders();
-
-  renderCustomers();
-
-}
-
-
-/* ADMIN ORDERS */
-
-function renderAdminOrders(){
-
-  const body =
-    document.getElementById("adminOrdersBody");
-
-  if(!state.orders.length){
-
-    body.innerHTML = `
-
-      <tr>
-
-        <td colspan="6">
-          <span style="color:var(--muted)">
-            No orders yet.
-          </span>
-        </td>
-
-      </tr>
-
-    `;
-
-    return;
-
   }
-
-
-  body.innerHTML =
-    state.orders.map(order => `
-
-      <tr>
-
-        <td>
-          <strong>${escapeHtml(order.id)}</strong>
-        </td>
-
-        <td>
-          ${escapeHtml(order.name)}
-        </td>
-
-        <td>
-          ${order.quantity}
-        </td>
-
-        <td>
-          ${order.total.toFixed(2)}€
-        </td>
-
-        <td>
-          ${statusBadge(order.status)}
-        </td>
-
-        <td>
-
-          <select
-            onchange="changeOrderStatus('${escapeHtml(order.id)}',this.value)"
+  function renderOrders() {
+    const box =
+      document.getElementById("ordersList");
+    if (!state.orders.length) {
+      box.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">📦</div>
+          <h3>No orders yet</h3>
+          <p>Your orders will appear here.</p>
+        </div>
+      `;
+      return;
+    }
+    box.innerHTML =
+      state.orders.map(order => `
+        <div class="order">
+          <div>
+            <div class="order-id">
+              ${escapeHTML(order.id)}
+            </div>
+            <div class="order-meta">
+              ${escapeHTML(order.amount)} BGL
+              ·
+              ${escapeHTML(order.total)}€
+              ·
+              ${escapeHTML(order.date)}
+            </div>
+          </div>
+          <div class="status">
+            ${escapeHTML(order.status)}
+          </div>
+        </div>
+      `).join("");
+  }
+  function loadProfile() {
+    document.getElementById("profileGrowID").value =
+      state.profile.growID || "";
+    document.getElementById("profileDiscord").value =
+      state.profile.discord || "";
+  }
+  function saveProfile() {
+    state.profile.growID =
+      document.getElementById("profileGrowID").value.trim();
+    state.profile.discord =
+      document.getElementById("profileDiscord").value.trim();
+    saveState();
+    showToast("Profile saved");
+  }
+  function renderAdmin() {
+    const box =
+      document.getElementById("adminContent");
+    if (!state.adminLogged) {
+      box.innerHTML = `
+        <div class="admin-login">
+          <h3>Admin login</h3>
+          <p style="color:#8793a5;font-size:13px;margin:7px 0 20px;">
+            This area is only for the store owner.
+          </p>
+          <div class="field">
+            <label>Username</label>
+            <input id="adminUser" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input id="adminPass" type="password">
+          </div>
+          <button class="primary" onclick="adminLogin()">
+            Login
+          </button>
+        </div>
+      `;
+      return;
+    }
+    box.innerHTML = `
+      <div class="admin-panel">
+        <h3>Store Dashboard</h3>
+        <div class="admin-grid">
+          <div class="admin-stat">
+            <span>Orders</span>
+            <strong>${state.orders.length}</strong>
+          </div>
+          <div class="admin-stat">
+            <span>Stock</span>
+            <strong>${state.stock}</strong>
+          </div>
+          <div class="admin-stat">
+            <span>Revenue</span>
+            <strong>
+              ${state.orders
+                .reduce((sum,o) => sum + Number(o.total),0)
+                .toFixed(2)}€
+            </strong>
+          </div>
+        </div>
+        <div class="admin-tools">
+          <input
+            id="stockInput"
+            type="number"
+            min="0"
+            value="${state.stock}"
             style="
-              background:#0a1118;
-              border:1px solid var(--line);
-              color:#aeb9c5;
-              border-radius:6px;
-              padding:6px;
-              font-size:9px;
+              padding:12px;
+              border-radius:10px;
+              border:1px solid var(--border);
+              background:#090f17;
+              color:white;
+              width:180px;
             "
           >
-
-            <option
-              ${order.status==="Pending"?"selected":""}
-            >
-              Pending
-            </option>
-
-            <option
-              ${order.status==="Completed"?"selected":""}
-            >
-              Completed
-            </option>
-
-            <option
-              ${order.status==="Cancelled"?"selected":""}
-            >
-              Cancelled
-            </option>
-
-          </select>
-
-        </td>
-
-      </tr>
-
-    `).join("");
-
-}
-
-
-function changeOrderStatus(id,status){
-
-  const order =
-    state.orders.find(
-      o => o.id === id
-    );
-
-  if(!order) return;
-
-  order.status = status;
-
-  saveState();
-
-  renderAdminOrders();
-
-  renderOrders();
-
-  toast("Order updated");
-
-}
-
-
-/* CUSTOMERS */
-
-function renderCustomers(){
-
-  const body =
-    document.getElementById("customersBody");
-
-  const customers = {};
-
-  state.orders.forEach(order => {
-
-    const key =
-      order.email.toLowerCase();
-
-    if(!customers[key]){
-
-      customers[key] = {
-
-        name: order.name,
-
-        email: order.email,
-
-        gt: order.gt,
-
-        orders: 0
-
-      };
-
-    }
-
-    customers[key].orders++;
-
-  });
-
-
-  const list =
-    Object.values(customers);
-
-
-  if(!list.length){
-
-    body.innerHTML = `
-
-      <tr>
-
-        <td colspan="4">
-          <span style="color:var(--muted)">
-            No customers yet.
-          </span>
-        </td>
-
-      </tr>
-
+          <button
+            class="primary"
+            onclick="updateAdminStock()"
+          >
+            Update Stock
+          </button>
+          <button
+            class="secondary"
+            onclick="adminLogout()"
+          >
+            Logout
+          </button>
+        </div>
+        <div style="margin-top:25px;">
+          <h3 style="margin-bottom:12px;">
+            Recent Orders
+          </h3>
+          ${
+            state.orders.length
+              ? state.orders.slice(0,10).map(order => `
+                <div class="order">
+                  <div>
+                    <div class="order-id">
+                      ${escapeHTML(order.id)}
+                    </div>
+                    <div class="order-meta">
+                      ${escapeHTML(order.growID)}
+                      ·
+                      ${escapeHTML(order.amount)} BGL
+                      ·
+                      ${escapeHTML(order.total)}€
+                    </div>
+                  </div>
+                  <div class="status">
+                    ${escapeHTML(order.status)}
+                  </div>
+                </div>
+              `).join("")
+              : `
+                <div class="empty">
+                  <div class="empty-icon">📦</div>
+                  <h3>No orders</h3>
+                </div>
+              `
+          }
+        </div>
+      </div>
     `;
-
-    return;
-
   }
-
-
-  body.innerHTML =
-    list.map(customer => `
-
-      <tr>
-
-        <td>
-          ${escapeHtml(customer.name)}
-        </td>
-
-        <td>
-          ${escapeHtml(customer.email)}
-        </td>
-
-        <td>
-          ${escapeHtml(customer.gt)}
-        </td>
-
-        <td>
-          ${customer.orders}
-        </td>
-
-      </tr>
-
-    `).join("");
-
-}
-
-
-/* ADMIN TABS */
-
-function adminTab(tab,button){
-
-  document
-    .querySelectorAll(".admin-tab")
-    .forEach(b =>
-      b.classList.remove("active")
-    );
-
-  button.classList.add("active");
-
-
-  document
-    .querySelectorAll(".admin-panel")
-    .forEach(panel =>
-      panel.classList.remove("active")
-    );
-
-
-  const target =
-    document.getElementById(
-      "admin-" + tab
-    );
-
-  if(target){
-    target.classList.add("active");
-  }
-
-}
-
-
-/* STOCK */
-
-function saveStock(){
-
-  const value =
-    parseInt(
-      document.getElementById("stockInput").value
-    ) || 0;
-
-  state.stock =
-    Math.max(0,value);
-
-  saveState();
-
-  toast("Stock saved");
-
-}
-
-
-/* MODALS */
-
-function closeModal(id){
-
-  const el =
-    document.getElementById(id);
-
-  if(el){
-    el.classList.remove("show");
-  }
-
-}
-
-
-function outsideClose(event,id){
-
-  if(event.target.id === id){
-    closeModal(id);
-  }
-
-}
-
-
-document.addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key === "Escape"){
-
-      document
-        .querySelectorAll(".overlay.show")
-        .forEach(el =>
-          el.classList.remove("show")
-        );
-
+  function adminLogin() {
+    const username =
+      document.getElementById("adminUser").value;
+    const password =
+      document.getElementById("adminPass").value;
+    if (
+      username === "JimpanAdmini" &&
+      password === "JimppaFortniteAdmin"
+    ) {
+      state.adminLogged = true;
+      saveState();
+      renderAdmin();
+      showToast("Admin login successful");
+    } else {
+      showToast("Wrong username or password");
     }
-
   }
-);
-
-
-/* HELPERS */
-
-function formatDate(date){
-
-  if(!date) return "";
-
-  const d =
-    new Date(date);
-
-  return d.toLocaleDateString(
-    "fi-FI",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric"
+  function adminLogout() {
+    state.adminLogged = false;
+    saveState();
+    renderAdmin();
+    showToast("Logged out");
+  }
+  function updateAdminStock() {
+    const value =
+      Number(
+        document.getElementById("stockInput").value
+      );
+    if (!Number.isFinite(value) || value < 0) {
+      showToast("Invalid stock");
+      return;
     }
-  );
-
-}
-
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* START */
-
-updateTotal();
-
-updateCartCount();
-
-loadProfile();
-
-updateAdmin();
-
-
+    state.stock = Math.floor(value);
+    saveState();
+    renderAdmin();
+    showToast("Stock updated");
+  }
+  function showToast(message) {
+    const toast =
+      document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+  }
+  function escapeHTML(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+  updateStock();
 </script>
-
 </body>
 </html>
