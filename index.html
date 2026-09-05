@@ -1,36 +1,49 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J1mPPaZ Tournament</title>
+
+<title>J1mPPaZ BGL Autostore</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root{
-  --bg:#07090d;
-  --panel:#0d1118;
-  --panel2:#11161f;
-  --line:#202936;
-  --muted:#8d98a8;
-  --text:#f5f7fa;
-  --accent:#d7ff3f;
-  --danger:#ff5263;
-  --ok:#72e29a;
-  --sidebar:268px;
+  --bg:#070909;
+  --panel:#0d1110;
+  --panel2:#111715;
+  --border:#202a26;
+  --text:#f4f7f5;
+  --muted:#89938e;
+  --green:#b8ff35;
+  --green2:#75c91d;
+  --danger:#ff5353;
+  --shadow:0 20px 60px rgba(0,0,0,.35);
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
-  margin:0;
-  background:var(--bg);
+  font-family:Inter,sans-serif;
+  background:
+    radial-gradient(
+      circle at 80% -10%,
+      rgba(184,255,53,.09),
+      transparent 30%
+    ),
+    var(--bg);
   color:var(--text);
-  font-family:Inter,Arial,sans-serif;
+  min-height:100vh;
 }
 
-button,input{
+button,
+input,
+select{
   font:inherit;
 }
 
@@ -38,645 +51,805 @@ button{
   cursor:pointer;
 }
 
-.topbar{
-  height:70px;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:80;
+/* =========================
+   APP
+========================= */
+
+.app{
   display:flex;
-  align-items:center;
-  gap:14px;
-  padding:0 22px;
-  background:#07090df2;
-  border-bottom:1px solid #ffffff0d;
-  backdrop-filter:blur(18px);
+  min-height:100vh;
 }
 
-.menu-btn{
-  width:42px;
-  height:42px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#0d1118;
-  color:#fff;
-  font-size:20px;
-}
-
-.brand{
-  font-family:"Space Grotesk";
-  font-weight:800;
-}
-
-.brand span{
-  color:var(--accent);
-}
-
-.top-actions{
-  margin-left:auto;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.user-pill{
-  display:none;
-  border:1px solid #d7ff3f33;
-  background:#d7ff3f0d;
-  padding:8px 12px;
-  border-radius:99px;
-  font-size:11px;
-  font-weight:800;
-}
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
-  position:fixed;
-  z-index:70;
-  top:70px;
-  left:0;
-  width:var(--sidebar);
-  height:calc(100vh - 70px);
-  background:#090c12;
-  border-right:1px solid var(--line);
+  width:250px;
+  background:#090c0b;
+  border-right:1px solid var(--border);
   padding:22px 15px;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  z-index:50;
   transition:.25s;
 }
 
-.sidebar:not(.open){
-  transform:translateX(calc(-1 * var(--sidebar)));
-}
-
-.side-title{
-  font-size:10px;
-  letter-spacing:2px;
-  color:#5f6a78;
-  font-weight:900;
-  margin:4px 12px 10px;
-}
-
-.nav{
-  width:100%;
+.logo{
   display:flex;
   align-items:center;
   gap:11px;
-  padding:12px 13px;
-  margin-bottom:5px;
-  border:0;
-  border-radius:9px;
-  background:transparent;
-  color:#aab2bf;
-  text-align:left;
+  padding:8px 10px 28px;
+}
+
+.logo-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:var(--green);
+  color:#071000;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:18px;
+  box-shadow:0 0 25px rgba(184,255,53,.15);
+}
+
+.logo-text{
+  font-family:"Space Grotesk";
   font-weight:700;
-  font-size:13px;
+  font-size:16px;
 }
 
-.nav:hover,
-.nav.active{
-  background:#ffffff08;
-  color:#fff;
+.logo-text span{
+  display:block;
+  color:var(--green);
+  font-size:11px;
+  margin-top:2px;
 }
 
-.nav.active{
-  box-shadow:inset 3px 0 var(--accent);
-}
-
-.nav .ico{
-  width:20px;
-  text-align:center;
-}
-
-.nav.cta{
-  margin-top:12px;
-  background:var(--accent);
-  color:#080a0d;
-  justify-content:center;
-}
-
-.nav.admin{
-  margin-top:9px;
-  border:1px solid #d7ff3f22;
-  color:var(--accent);
-}
-
-.side-footer{
-  position:absolute;
-  bottom:17px;
-  left:27px;
-  color:#566170;
+.nav-title{
+  color:#59635e;
   font-size:10px;
-  line-height:1.5;
+  font-weight:800;
+  letter-spacing:1.5px;
+  padding:0 12px 9px;
 }
 
-.backdrop{
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav button{
+  border:0;
+  background:transparent;
+  color:#89938e;
+  text-align:left;
+  padding:12px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:600;
+  font-size:13px;
+  transition:.2s;
+}
+
+.nav button:hover{
+  background:#111613;
+  color:white;
+}
+
+.nav button.active{
+  color:#101500;
+  background:var(--green);
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:15px;
+}
+
+.sidebar-bottom{
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:20px;
+}
+
+.status{
+  border:1px solid var(--border);
+  background:#0d1210;
+  border-radius:12px;
+  padding:13px;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.status-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#75e52d;
+  margin-right:7px;
+  box-shadow:0 0 10px #75e52d;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+}
+
+.topbar{
+  height:72px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  background:rgba(7,9,9,.8);
+  backdrop-filter:blur(15px);
+  position:sticky;
+  top:0;
+  z-index:30;
+}
+
+.mobile-menu{
   display:none;
+  border:1px solid var(--border);
+  background:#101513;
+  color:white;
+  width:40px;
+  height:40px;
+  border-radius:10px;
 }
 
-main{
-  margin-left:var(--sidebar);
-  padding-top:70px;
-  min-height:calc(100vh - 70px);
-  transition:.25s;
+.top-actions{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.icon-btn{
+  border:1px solid var(--border);
+  background:#0e1211;
+  color:#c7ceca;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+}
+
+.icon-btn:hover{
+  border-color:#38453f;
+}
+
+.cart-btn{
+  border:1px solid var(--green);
+  background:rgba(184,255,53,.07);
+  color:var(--green);
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.cart-count{
+  background:var(--green);
+  color:#0b1005;
+  padding:2px 6px;
+  border-radius:20px;
+  font-size:10px;
+  margin-left:4px;
+}
+
+.content{
+  padding:32px;
+  max-width:1450px;
+  margin:auto;
 }
 
 .view{
   display:none;
-  max-width:1250px;
-  margin:auto;
-  padding:42px 28px 80px;
 }
 
 .view.active{
   display:block;
 }
 
-.view-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:20px;
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  border:1px solid var(--border);
+  background:
+    linear-gradient(
+      110deg,
+      rgba(184,255,53,.08),
+      transparent 45%
+    ),
+    #0c110f;
+  border-radius:20px;
+  padding:42px;
+  position:relative;
+  overflow:hidden;
   margin-bottom:25px;
 }
 
-.eyebrow{
-  font-size:10px;
-  letter-spacing:2.5px;
-  color:#7f8a98;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.view h1,
-.view h2{
+.hero:after{
+  content:"BGL";
+  position:absolute;
+  right:30px;
+  bottom:-55px;
   font-family:"Space Grotesk";
-  margin:0;
+  font-size:180px;
+  font-weight:900;
+  color:rgba(184,255,53,.025);
+  pointer-events:none;
 }
 
-.view h1{
-  font-size:clamp(36px,5vw,58px);
+.eyebrow{
+  color:var(--green);
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.hero h1{
+  font-family:"Space Grotesk";
+  font-size:clamp(32px,5vw,58px);
+  line-height:1;
+  max-width:700px;
   letter-spacing:-2px;
 }
 
-.muted{
+.hero h1 span{
+  color:var(--green);
+}
+
+.hero p{
   color:var(--muted);
-  line-height:1.6;
-  font-size:13px;
-}
-
-.hero-card{
-  min-height:calc(100vh - 150px);
-  display:flex;
-  align-items:center;
-  background:
-    radial-gradient(circle at 78% 20%,#d7ff3f10,transparent 28%),
-    linear-gradient(145deg,#0d1118,#080b10);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:clamp(30px,6vw,80px);
-  overflow:hidden;
-}
-
-.hero-copy{
-  max-width:820px;
-}
-
-.hero-copy h1{
-  font-family:"Space Grotesk";
-  font-size:clamp(55px,9vw,112px);
-  line-height:.82;
-  letter-spacing:-6px;
-  text-transform:uppercase;
-  margin:0;
-}
-
-.hero-copy h1 em{
-  font-style:normal;
-  color:var(--accent);
-}
-
-.hero-copy p{
-  max-width:590px;
-  color:#929dac;
+  max-width:620px;
+  margin-top:17px;
   line-height:1.7;
-  margin:27px 0;
-  font-size:15px;
+  font-size:14px;
 }
 
-.buttons{
+.hero-buttons{
   display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.primary,
-.secondary,
-.danger-btn{
-  border-radius:9px;
-  padding:12px 17px;
-  font-weight:900;
-  border:1px solid transparent;
-}
-
-.primary{
-  background:var(--accent);
-  color:#07090d;
-}
-
-.primary:hover{
-  filter:brightness(1.08);
-}
-
-.secondary{
-  background:#ffffff08;
-  color:#fff;
-  border-color:var(--line);
-}
-
-.secondary:hover{
-  border-color:#596473;
-}
-
-.danger-btn{
-  background:#ff526314;
-  color:#ff7b88;
-  border-color:#ff52632d;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  margin-top:48px;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-
-.stat{
-  padding:17px 16px;
-  border-right:1px solid var(--line);
-}
-
-.stat:last-child{
-  border:0;
-}
-
-.stat b{
-  font-family:"Space Grotesk";
-  font-size:24px;
-}
-
-.stat small{
-  display:block;
-  color:#6f7b89;
-  margin-top:4px;
-  text-transform:uppercase;
-  font-size:9px;
-  letter-spacing:1.4px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.card{
-  background:linear-gradient(145deg,#11161e,#0c1016);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:19px;
-}
-
-.match{
-  min-height:140px;
-  text-align:left;
-  color:inherit;
-  width:100%;
-}
-
-.match:hover{
-  border-color:#d7ff3f35;
-}
-
-.match-top{
-  display:flex;
-  justify-content:space-between;
-  color:#778393;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-.versus{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
   gap:10px;
   margin-top:25px;
 }
 
-.player{
-  font-weight:900;
+.primary{
+  border:0;
+  background:var(--green);
+  color:#0a1005;
+  padding:13px 19px;
+  border-radius:10px;
+  font-weight:800;
 }
 
-.player:last-child{
-  text-align:right;
+.primary:hover{
+  background:#cbff69;
 }
 
-.score{
+.secondary{
+  border:1px solid var(--border);
+  background:#111614;
+  color:white;
+  padding:13px 19px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin:28px 0 14px;
+}
+
+.section-head h2{
   font-family:"Space Grotesk";
   font-size:21px;
-  color:var(--accent);
 }
 
-.tag{
-  font-size:9px;
-  color:var(--accent);
-  border:1px solid #d7ff3f33;
-  padding:4px 7px;
-  border-radius:4px;
+.section-head p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
 }
 
-.player-grid{
+/* =========================
+   STORE
+========================= */
+
+.store-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:18px;
 }
 
-.player-card{
+.card{
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:16px;
+}
+
+.purchase{
+  padding:24px;
+}
+
+.product-top{
   display:flex;
-  align-items:center;
-  gap:11px;
-  padding:14px;
-  border:1px solid var(--line);
-  background:#0d1118;
-  border-radius:10px;
+  justify-content:space-between;
+  align-items:start;
+  gap:20px;
 }
 
-.avatar,
-.big-avatar{
+.product-icon{
+  width:62px;
+  height:62px;
+  border-radius:16px;
+  background:linear-gradient(
+    145deg,
+    #c8ff50,
+    #70a91e
+  );
   display:grid;
   place-items:center;
-  background:#151b24;
-  color:var(--accent);
+  color:#0b1105;
+  font-size:27px;
   font-weight:900;
-  border:1px solid #ffffff10;
+  box-shadow:0 10px 30px rgba(184,255,53,.1);
 }
 
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:8px;
+.product-info{
+  flex:1;
 }
 
-.pcopy{
-  min-width:0;
+.product-info h3{
+  font-family:"Space Grotesk";
+  font-size:20px;
 }
 
-.pcopy b{
+.product-info p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.badge{
+  color:var(--green);
+  background:rgba(184,255,53,.08);
+  border:1px solid rgba(184,255,53,.18);
+  padding:6px 8px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:800;
+}
+
+.rate-box{
+  margin-top:25px;
+  border:1px solid var(--border);
+  background:#090d0b;
+  border-radius:13px;
+  padding:17px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.rate-label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.rate{
+  color:var(--green);
+  font-family:"Space Grotesk";
+  font-weight:800;
+  font-size:20px;
+  margin-top:3px;
+}
+
+.quantity-area{
+  margin-top:22px;
+}
+
+.quantity-area label{
+  color:#aab2ae;
+  font-size:11px;
+  font-weight:700;
   display:block;
-  white-space:nowrap;
+  margin-bottom:8px;
+}
+
+.quantity{
+  display:flex;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:11px;
   overflow:hidden;
-  text-overflow:ellipsis;
+  background:#090c0b;
 }
 
-.pcopy small{
-  color:#727d8c;
+.quantity button{
+  width:48px;
+  height:47px;
+  border:0;
+  background:#111613;
+  color:white;
+  font-size:20px;
 }
 
-.leader{
+.quantity input{
+  width:100%;
+  height:47px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:white;
+  text-align:center;
+  font-weight:800;
+}
+
+.total-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:19px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
+}
+
+.total-label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.total{
+  font-family:"Space Grotesk";
+  font-size:27px;
+  font-weight:800;
+}
+
+.add-cart{
+  width:100%;
+  margin-top:17px;
+  height:48px;
+}
+
+/* =========================
+   STOCK
+========================= */
+
+.stock-card{
+  padding:22px;
+}
+
+.stock-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stock-head h3{
+  font-family:"Space Grotesk";
+}
+
+.stock-live{
+  font-size:9px;
+  color:#7ce531;
+  border:1px solid rgba(124,229,49,.2);
+  padding:5px 7px;
+  border-radius:6px;
+}
+
+.stock-main{
+  margin-top:20px;
+  padding:20px;
+  background:#090d0b;
+  border:1px solid var(--border);
+  border-radius:13px;
+}
+
+.stock-title{
+  font-size:10px;
+  color:#69736e;
+  letter-spacing:1.4px;
+  font-weight:800;
+}
+
+.stock-price{
+  font-family:"Space Grotesk";
+  font-size:24px;
+  font-weight:800;
+  color:var(--green);
+  margin-top:7px;
+}
+
+.stock-line{
+  height:1px;
+  background:var(--border);
+  margin:17px 0;
+}
+
+.stock-available{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  color:#aab3ae;
+}
+
+.available-dot{
+  width:8px;
+  height:8px;
+  background:#75e52d;
+  border-radius:50%;
+  box-shadow:0 0 10px #75e52d;
+}
+
+.info-list{
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.info-item{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.info-item b{
+  color:#e9eeeb;
+}
+
+/* =========================
+   ORDERS
+========================= */
+
+.empty{
+  text-align:center;
+  padding:65px 20px;
+  border:1px dashed #29332e;
+  border-radius:15px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:34px;
+  margin-bottom:12px;
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table-card{
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:auto;
+  background:var(--panel);
+}
+
+table{
   width:100%;
   border-collapse:collapse;
-  background:#0d1118;
-  border:1px solid var(--line);
+  min-width:700px;
 }
 
-.leader th,
-.leader td{
-  padding:14px;
+th{
   text-align:left;
-  border-bottom:1px solid var(--line);
-  font-size:13px;
-}
-
-.leader th{
-  color:#6f7b89;
+  padding:14px 17px;
   font-size:9px;
-  text-transform:uppercase;
+  color:#69736e;
   letter-spacing:1px;
+  border-bottom:1px solid var(--border);
 }
 
-.rank{
-  color:var(--accent);
-  font-weight:900;
+td{
+  padding:15px 17px;
+  font-size:12px;
+  border-bottom:1px solid #171e1b;
 }
 
-.rule-list{
+tr:last-child td{
+  border-bottom:0;
+}
+
+.status-badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:6px;
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.pending{
+  background:rgba(255,190,60,.1);
+  color:#ffc94f;
+}
+
+.completed{
+  background:rgba(115,230,50,.1);
+  color:#7fe744;
+}
+
+.cancelled{
+  background:rgba(255,80,80,.1);
+  color:#ff6868;
+}/* =========================
+   ADMIN
+========================= */
+
+.admin-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
 }
 
-.rule{
-  padding:17px;
-  background:#0d1118;
-  border:1px solid var(--line);
-  border-radius:10px;
-  color:#b2bac5;
+.stat{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
 }
 
-.rule b{
-  display:block;
-  color:#fff;
-  margin-bottom:5px;
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
 }
 
-.footer{
-  border-top:1px solid var(--line);
-  padding:30px;
-  color:#677382;
-  text-align:center;
-  font-size:11px;
-  margin-left:var(--sidebar);
+.stat-value{
+  font-family:"Space Grotesk";
+  font-size:26px;
+  font-weight:800;
+  margin-top:8px;
 }
 
-.admin-shell{
-  display:grid;
-  grid-template-columns:220px 1fr;
-  gap:14px;
+.admin-section{
+  margin-top:18px;
 }
 
 .admin-nav{
-  background:#0b0f15;
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:10px;
-  height:max-content;
-  position:sticky;
-  top:90px;
-}
-
-.admin-tab{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#8e99a8;
-  text-align:left;
-  padding:11px 12px;
-  border-radius:8px;
-  font-weight:800;
-  font-size:12px;
-}
-
-.admin-tab.active,
-.admin-tab:hover{
-  background:#ffffff08;
-  color:#fff;
-}
-
-.admin-tab.active{
-  box-shadow:inset 3px 0 var(--accent);
-}
-
-.admin-content{
-  min-width:0;
-}
-
-.admin-panel{
-  display:none;
-}
-
-.admin-panel.active{
-  display:block;
-}
-
-.admin-top{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:14px;
+  gap:7px;
+  margin-bottom:15px;
+  flex-wrap:wrap;
 }
 
-.admin-title{
-  font-family:"Space Grotesk";
-  font-size:25px;
-  margin:0;
+.admin-nav button{
+  border:1px solid var(--border);
+  background:#0e1210;
+  color:#87918c;
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:700;
 }
 
-.kpi-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:14px;
+.admin-nav button.active{
+  background:var(--green);
+  color:#0a1005;
+  border-color:var(--green);
 }
 
-.kpi,
 .admin-box{
-  background:#0d1118;
-  border:1px solid var(--line);
-  border-radius:11px;
-  padding:16px;
+  padding:20px;
 }
 
-.kpi b{
-  display:block;
-  font-family:"Space Grotesk";
-  font-size:26px;
-}
-
-.kpi small{
-  color:#6f7b89;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-.admin-cards{
+.form-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  gap:15px;
 }
 
-.admin-box h3{
-  margin:0 0 10px;
-  font-family:"Space Grotesk";
+.field label{
+  display:block;
+  color:#9ba59f;
+  font-size:10px;
+  margin-bottom:7px;
+  font-weight:700;
 }
 
-.lock-note,
-.notice{
-  padding:11px 13px;
-  border:1px solid #d7ff3f25;
-  background:#d7ff3f08;
-  color:#aeb8c4;
-  border-radius:8px;
-  font-size:11px;
-  line-height:1.5;
-}
-
-.admin-table{
+.field input,
+.field select{
   width:100%;
-  border-collapse:collapse;
-  background:#0d1118;
-  border:1px solid var(--line);
-}
-
-.admin-table th,
-.admin-table td{
+  border:1px solid var(--border);
+  outline:0;
+  background:#080c0a;
+  color:white;
+  border-radius:9px;
   padding:12px;
-  text-align:left;
-  border-bottom:1px solid var(--line);
   font-size:12px;
 }
 
-.admin-table th{
-  font-size:9px;
-  color:#6f7b89;
-  text-transform:uppercase;
-  letter-spacing:1px;
+.admin-note{
+  margin-top:15px;
+  padding:13px;
+  border-radius:9px;
+  background:rgba(255,190,60,.06);
+  border:1px solid rgba(255,190,60,.12);
+  color:#b9a26d;
+  font-size:10px;
+  line-height:1.6;
 }
 
-.status{
-  display:inline-block;
-  padding:4px 7px;
-  border-radius:5px;
-  font-size:9px;
-  font-weight:900;
+/* =========================
+   PROFILE
+========================= */
+
+.profile-card{
+  max-width:650px;
+  padding:25px;
 }
 
-.status.live{
-  color:var(--accent);
-  background:#d7ff3f12;
-}
-
-.status.done{
-  color:var(--ok);
-  background:#72e29a12;
-}
-
-.admin-list{
+.avatar{
+  width:70px;
+  height:70px;
+  border-radius:20px;
+  background:var(--green);
+  color:#091000;
   display:grid;
-  gap:7px;
-  margin-top:12px;
+  place-items:center;
+  font-family:"Space Grotesk";
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:18px;
 }
 
-.admin-list div{
-  display:flex;
-  justify-content:space-between;
-  padding:10px;
-  background:#080b10;
-  border:1px solid #171e28;
-  border-radius:8px;
-  font-size:11px;
+.profile-card h2{
+  font-family:"Space Grotesk";
 }
+
+.profile-card p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.profile-form{
+  margin-top:25px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* =========================
+   MODALS
+========================= */
 
 .overlay{
-  display:none;
   position:fixed;
   inset:0;
-  z-index:120;
-  background:#000c;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(8px);
+  z-index:100;
+  display:none;
   align-items:center;
   justify-content:center;
-  padding:18px;
+  padding:20px;
 }
 
 .overlay.show{
@@ -684,166 +857,106 @@ main{
 }
 
 .modal{
-  width:min(520px,100%);
-  max-height:92vh;
-  overflow:auto;
-  background:#0b0f15;
-  border:1px solid #2a333f;
-  border-radius:15px;
-  box-shadow:0 18px 60px #0009;
-  padding:27px;
+  width:100%;
+  max-width:520px;
+  background:#0c100e;
+  border:1px solid #28312d;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:var(--shadow);
 }
 
 .modal-head{
   display:flex;
   justify-content:space-between;
-  gap:20px;
+  align-items:center;
+  margin-bottom:20px;
 }
 
-.modal h3{
+.modal-head h2{
   font-family:"Space Grotesk";
-  font-size:26px;
-  margin:0;
 }
 
-.modal p{
-  color:#7f8b99;
-  font-size:12px;
-  line-height:1.6;
-}
-
-.x{
+.close{
   border:0;
-  background:#ffffff08;
-  color:#fff;
-  width:36px;
-  height:36px;
+  background:#161c19;
+  color:#9da7a1;
+  width:34px;
+  height:34px;
   border-radius:8px;
 }
 
-.form{
-  display:grid;
-  gap:13px;
-  margin-top:20px;
+.modal-summary{
+  border:1px solid var(--border);
+  background:#090d0b;
+  padding:15px;
+  border-radius:11px;
+  margin-bottom:16px;
 }
 
-.form label{
-  font-size:10px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  color:#8994a2;
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  margin:7px 0;
+  font-size:12px;
+  color:var(--muted);
 }
 
-.form input{
-  margin-top:7px;
-  width:100%;
-  background:#080b10;
-  border:1px solid #252e39;
-  color:#fff;
-  padding:12px;
-  border-radius:8px;
-  outline:none;
+.summary-row strong{
+  color:white;
 }
 
-.form input:focus{
-  border-color:#d7ff3f66;
-}
-
-.form .row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+.modal-fields{
+  display:flex;
+  flex-direction:column;
   gap:12px;
 }
 
-.error{
-  color:#ff7784;
-  font-size:11px;
-  display:none;
+.modal-fields input{
+  border:1px solid var(--border);
+  background:#080c0a;
+  color:white;
+  outline:0;
+  padding:13px;
+  border-radius:9px;
 }
 
-.success{
-  color:var(--accent);
-  font-size:11px;
-  display:none;
+.full{
+  width:100%;
+  margin-top:17px;
 }
 
-.profile-box{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  padding:18px;
-  background:#0d1118;
-  border:1px solid var(--line);
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  background:#101613;
+  border:1px solid #2c3832;
+  color:white;
+  padding:13px 17px;
   border-radius:10px;
-  margin-top:18px;
+  font-size:11px;
+  z-index:200;
+  transform:translateY(100px);
+  opacity:0;
+  transition:.25s;
 }
 
-.big-avatar{
-  width:60px;
-  height:60px;
-  border-radius:10px;
-  font-size:22px;
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
 }
 
-.detail{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin:14px 0;
-}
-
-.detail div{
-  padding:12px;
-  background:#0d1118;
-  border:1px solid var(--line);
-  border-radius:8px;
-}
-
-.detail small{
-  display:block;
-  color:#697584;
-  font-size:9px;
-  text-transform:uppercase;
-  margin-bottom:4px;
-}
-
-.detail b{
-  font-size:13px;
-  word-break:break-word;
-}
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:900px){
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
 
-  .player-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .kpi-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .admin-shell{
-    grid-template-columns:1fr;
-  }
-
-  .admin-nav{
-    position:static;
-    display:flex;
-    overflow:auto;
-    gap:4px;
-  }
-
-  .admin-tab{
-    white-space:nowrap;
-    width:auto;
-  }
-}
-
-@media(max-width:650px){
   .sidebar{
     transform:translateX(-100%);
   }
@@ -852,71 +965,60 @@ main{
     transform:translateX(0);
   }
 
-  .backdrop.show{
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .mobile-menu{
     display:block;
-    position:fixed;
-    inset:70px 0 0;
-    background:#0009;
-    z-index:65;
-  }
-
-  main{
-    margin-left:0;
-  }
-
-  .footer{
-    margin-left:0;
-  }
-
-  .view{
-    padding:28px 15px 60px;
   }
 
   .topbar{
-    padding:0 13px;
+    padding:0 15px;
   }
 
-  .brand{
-    font-size:13px;
+  .content{
+    padding:18px 14px;
   }
 
-  .hero-copy h1{
-    font-size:52px;
-    letter-spacing:-4px;
+  .hero{
+    padding:27px 21px;
   }
 
-  .hero-card{
-    padding:27px;
-    min-height:calc(100vh - 135px);
+  .store-grid{
+    grid-template-columns:1fr;
   }
 
-  .stats{
+  .admin-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:550px){
+
+  .hero h1{
+    font-size:35px;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .hero-buttons button{
+    width:100%;
+  }
+
+  .admin-grid{
     grid-template-columns:1fr 1fr;
   }
 
-  .stat:nth-child(2){
-    border-right:0;
-  }
-
-  .stat:nth-child(-n+2){
-    border-bottom:1px solid var(--line);
-  }
-
-  .grid,
-  .player-grid,
-  .admin-cards{
+  .form-grid{
     grid-template-columns:1fr;
   }
 
-  .form .row,
-  .detail{
-    grid-template-columns:1fr;
-  }
-
-  .admin-table{
-    display:block;
-    overflow-x:auto;
-    white-space:nowrap;
+  .cart-btn{
+    padding:9px 10px;
   }
 }
 </style>
@@ -924,371 +1026,775 @@ main{
 
 <body>
 
-<header class="topbar">
-  <button class="menu-btn" id="menuBtn">☰</button>
-  <div class="brand">J1mPPaZ <span>/</span> TOURNAMENT</div>
+<div class="app">
 
-  <div class="top-actions">
-    <div class="user-pill" id="userPill"></div>
-    <button class="secondary" id="topRegister">Register</button>
-  </div>
-</header>
+<!-- SIDEBAR -->
 
-<aside class="sidebar open" id="sidebar">
+<aside class="sidebar" id="sidebar">
 
-  <div class="side-title">TOURNAMENT</div>
+  <div class="logo">
 
-  <button class="nav active" data-view="overview">
-    <span class="ico">⌂</span> Overview
-  </button>
+    <div class="logo-icon">
+      JZ
+    </div>
 
-  <button class="nav" data-view="bracket">
-    <span class="ico">◈</span> Bracket
-  </button>
+    <div class="logo-text">
+      J1mPPaZ
+      <span>BGL AUTOSTORE</span>
+    </div>
 
-  <button class="nav" data-view="players">
-    <span class="ico">♙</span> Players
-  </button>
-
-  <button class="nav" data-view="leaderboard">
-    <span class="ico">#</span> Leaderboard
-  </button>
-
-  <button class="nav" data-view="rules">
-    <span class="ico">▤</span> Rules
-  </button>
-
-  <button class="nav cta" id="sideRegister">
-    Register for tournament
-  </button>
-
-  <button class="nav" id="profileBtn" style="display:none">
-    <span class="ico">●</span> My profile
-  </button>
-
-  <div class="side-title" style="margin-top:25px">
-    PRIVATE
   </div>
 
-  <button class="nav admin" id="adminOpen">
-    <span class="ico">⚙</span> Admin panel
-  </button>
+  <div class="nav-title">
+    STORE
+  </div>
 
-  <div class="side-footer">
-    J1mPPaZ Tournament<br>
-    Competitive Fortnite hub
+  <nav class="nav">
+
+    <button
+      class="active"
+      onclick="showView('store',this)"
+    >
+      <span class="nav-icon">⌂</span>
+      Store
+    </button>
+
+    <button onclick="showView('orders',this)">
+      <span class="nav-icon">▣</span>
+      My Orders
+    </button>
+
+    <button onclick="showView('profile',this)">
+      <span class="nav-icon">◉</span>
+      Profile
+    </button>
+
+  </nav>
+
+  <div style="height:25px"></div>
+
+  <div class="nav-title">
+    MANAGEMENT
+  </div>
+
+  <nav class="nav">
+
+    <button onclick="openAdmin()">
+      <span class="nav-icon">⚙</span>
+      Admin Panel
+    </button>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="status">
+      <span class="status-dot"></span>
+      Store operational
+    </div>
+
   </div>
 
 </aside>
 
-<div class="backdrop" id="backdrop"></div>
 
-<main>
+<!-- MAIN -->
 
-<section class="view active" id="view-overview">
+<main class="main">
 
-  <div class="hero-card">
+<header class="topbar">
 
-    <div class="hero-copy">
+  <button
+    class="mobile-menu"
+    onclick="toggleSidebar()"
+  >
+    ☰
+  </button>
 
-      <div class="eyebrow">
-        FORTNITE / 1V1 / ELIMINATION
-      </div>
-
-      <h1>
-        J1mPPaZ<br>
-        <em>TOURNAMENT</em>
-      </h1>
-
-      <p>
-        Kaikki tärkeä samassa paikassa. Valitse vasemmalta vain
-        se näkymä, jonka haluat nähdä — ei loputonta scrollaamista.
-      </p>
-
-      <div class="buttons">
-        <button class="primary" id="heroRegister">
-          Register now
-        </button>
-
-        <button class="secondary" data-go="bracket">
-          View bracket
-        </button>
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-          <b id="statPlayers">8</b>
-          <small>Players</small>
-        </div>
-
-        <div class="stat">
-          <b>8</b>
-          <small>Matches</small>
-        </div>
-
-        <div class="stat">
-          <b>4</b>
-          <small>Rounds</small>
-        </div>
-
-        <div class="stat">
-          <b style="color:var(--accent)">OPEN</b>
-          <small>Registration</small>
-        </div>
-
-      </div>
-
-    </div>
-
+  <div style="font-size:12px;color:#68726d">
+    J1mPPaZ /
+    <span style="color:#dce3df">
+      BGL Autostore
+    </span>
   </div>
 
-</section>
+  <div class="top-actions">
 
+    <button
+      class="icon-btn"
+      onclick="showView('profile')"
+    >
+      ◉
+    </button>
 
-<section class="view" id="view-bracket">
-
-  <div class="view-head">
-    <div>
-      <div class="eyebrow">COMPETITION</div>
-      <h1>Match center</h1>
-    </div>
-
-    <div class="muted">
-      Valitse ottelu nähdäksesi sen tarkemmin.
-    </div>
-  </div>
-
-  <div class="grid" id="matchGrid"></div>
-
-</section>
-
-
-<section class="view" id="view-players">
-
-  <div class="view-head">
-    <div>
-      <div class="eyebrow">ROSTER</div>
-      <h1>Players</h1>
-    </div>
-
-    <div class="muted" id="playerCountText"></div>
-  </div>
-
-  <div class="player-grid" id="playerGrid"></div>
-
-</section>
-
-
-<section class="view" id="view-leaderboard">
-
-  <div class="view-head">
-    <div>
-      <div class="eyebrow">STANDINGS</div>
-      <h1>Leaderboard</h1>
-    </div>
-  </div>
-
-  <table class="leader">
-
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Player</th>
-        <th>W</th>
-        <th>L</th>
-        <th>Points</th>
-      </tr>
-    </thead>
-
-    <tbody id="leaderBody"></tbody>
-
-  </table>
-
-</section>
-
-
-<section class="view" id="view-rules">
-
-  <div class="view-head">
-    <div>
-      <div class="eyebrow">INFO</div>
-      <h1>Rules</h1>
-    </div>
-  </div>
-
-  <div class="rule-list">
-
-    <div class="rule">
-      <b>01 / Check-in</b>
-      Players must be ready before their scheduled match.
-    </div>
-
-    <div class="rule">
-      <b>02 / Fair play</b>
-      No cheating, teaming or intentional exploitation.
-    </div>
-
-    <div class="rule">
-      <b>03 / Match result</b>
-      The winner reports the final score.
-    </div>
-
-    <div class="rule">
-      <b>04 / Staff decision</b>
-      Tournament staff have the final say on disputes.
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="view" id="view-admin">
-
-  <div class="view-head">
-
-    <div>
-      <div class="eyebrow">PRIVATE AREA</div>
-      <h1>Admin panel</h1>
-    </div>
-
-    <button class="danger-btn" id="adminLogout">
-      Log out
+    <button
+      class="cart-btn"
+      onclick="openCart()"
+    >
+      Cart
+      <span
+        class="cart-count"
+        id="cartCount"
+      >
+        0
+      </span>
     </button>
 
   </div>
 
+</header>
 
-  <div class="admin-shell">
+
+<div class="content">
+
+
+<!-- STORE -->
+
+<section
+  class="view active"
+  id="store"
+>
+
+  <div class="hero">
+
+    <div class="eyebrow">
+      J1mPPaZ BGL AUTOSTORE
+    </div>
+
+    <h1>
+      Fast & clean way to get your
+      <span>BGL.</span>
+    </h1>
+
+    <p>
+      Welcome to the J1mPPaZ BGL Autostore.
+      Choose your amount, add it to your cart
+      and create your order.
+    </p>
+
+    <div class="hero-buttons">
+
+      <button
+        class="primary"
+        onclick="document.getElementById('purchase').scrollIntoView({behavior:'smooth'})"
+      >
+        Buy BGL →
+      </button>
+
+      <button
+        class="secondary"
+        onclick="showView('orders')"
+      >
+        Track order
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="section-head">
+
+    <div>
+      <h2>
+        Purchase
+      </h2>
+
+      <p>
+        Select the amount of BGL you want.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div
+    class="store-grid"
+    id="purchase"
+  >
+
+
+    <!-- PRODUCT -->
+
+    <div class="card purchase">
+
+      <div class="product-top">
+
+        <div class="product-icon">
+          B
+        </div>
+
+        <div class="product-info">
+
+          <h3>
+            Growtopia BGL
+          </h3>
+
+          <p>
+            Digital currency order
+          </p>
+
+        </div>
+
+        <div class="badge">
+          AVAILABLE
+        </div>
+
+      </div>
+
+
+      <div class="rate-box">
+
+        <div>
+
+          <div class="rate-label">
+            CURRENT RATE
+          </div>
+
+          <div class="rate">
+            2.30€ / BGL
+          </div>
+
+        </div>
+
+        <div style="font-size:22px">
+          ◆
+        </div>
+
+      </div>
+
+
+      <div class="quantity-area">
+
+        <label>
+          AMOUNT OF BGL
+        </label>
+
+        <div class="quantity">
+
+          <button onclick="changeQty(-1)">
+            −
+          </button>
+
+          <input
+            id="quantity"
+            type="number"
+            value="1"
+            min="1"
+            max="1000"
+            oninput="updateTotal()"
+          >
+
+          <button onclick="changeQty(1)">
+            +
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="total-row">
+
+        <div class="total-label">
+          TOTAL PRICE
+        </div>
+
+        <div
+          class="total"
+          id="total"
+        >
+          2.30€
+        </div>
+
+      </div>
+
+
+      <button
+        class="primary add-cart"
+        onclick="addToCart()"
+      >
+        Add to cart
+      </button>
+
+    </div>
+
+
+    <!-- STOCK -->
+
+    <div class="card stock-card">
+
+      <div class="stock-head">
+
+        <h3>
+          Stock
+        </h3>
+
+        <span class="stock-live">
+          ● LIVE
+        </span>
+
+      </div>
+
+
+      <div class="stock-main">
+
+        <div class="stock-title">
+          CURRENT OFFER
+        </div>
+
+        <div class="stock-price">
+          Gamblit: 2.30€ / BGL
+        </div>
+
+        <div class="stock-line"></div>
+
+        <div class="stock-available">
+
+          <span class="available-dot"></span>
+
+          BGL available
+
+        </div>
+
+      </div>
+
+
+      <div class="info-list">
+
+        <div class="info-item">
+          <span>Product</span>
+          <b>BGL</b>
+        </div>
+
+        <div class="info-item">
+          <span>Rate</span>
+          <b>2.30€</b>
+        </div>
+
+        <div class="info-item">
+          <span>Status</span>
+          <b style="color:#7fe744">
+            Available
+          </b>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section
+  class="view"
+  id="orders"
+>
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>
+        My Orders
+      </h2>
+
+      <p>
+        Track your previous orders.
+      </p>
+
+    </div>
+
+  </div>
+
+  <div id="ordersContainer"></div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section
+  class="view"
+  id="profile"
+>
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>
+        Profile
+      </h2>
+
+      <p>
+        Your store customer profile.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="card profile-card">
+
+    <div
+      class="avatar"
+      id="profileAvatar"
+    >
+      JZ
+    </div>
+
+    <h2 id="profileName">
+      Guest
+    </h2>
+
+    <p id="profileEmail">
+      No email connected
+    </p>
+
+
+    <div class="profile-form">
+
+      <div class="field">
+
+        <label>
+          DISPLAY NAME
+        </label>
+
+        <input
+          id="profileNameInput"
+          placeholder="Your name"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          EMAIL
+        </label>
+
+        <input
+          id="profileEmailInput"
+          type="email"
+          placeholder="you@example.com"
+        >
+
+      </div>
+
+
+      <button
+        class="primary"
+        onclick="saveProfile()"
+      >
+        Save profile
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section
+  class="view"
+  id="admin"
+>
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>
+        Admin Panel
+      </h2>
+
+      <p>
+        J1mPPaZ BGL Autostore management.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="admin-grid">
+
+    <div class="stat">
+
+      <div class="stat-label">
+        TOTAL ORDERS
+      </div>
+
+      <div
+        class="stat-value"
+        id="statOrders"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        REVENUE
+      </div>
+
+      <div
+        class="stat-value"
+        id="statRevenue"
+      >
+        0.00€
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        BGL SOLD
+      </div>
+
+      <div
+        class="stat-value"
+        id="statBgl"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-label">
+        STORE STATUS
+      </div>
+
+      <div
+        class="stat-value"
+        style="font-size:17px;color:#7fe744"
+      >
+        ONLINE
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="admin-section">
 
     <div class="admin-nav">
 
-      <button class="admin-tab active" data-admin="dashboard">
-        Dashboard
+      <button
+        class="active"
+        onclick="adminTab('adminOrders',this)"
+      >
+        Orders
       </button>
 
-      <button class="admin-tab" data-admin="tournaments">
-        Tournaments
+      <button
+        onclick="adminTab('adminCustomers',this)"
+      >
+        Customers
       </button>
 
-      <button class="admin-tab" data-admin="players">
-        Players
+      <button
+        onclick="adminTab('adminStock',this)"
+      >
+        Stock
       </button>
 
-      <button class="admin-tab" data-admin="matches">
-        Matches
+      <button
+        onclick="adminTab('adminProducts',this)"
+      >
+        Products
       </button>
 
-      <button class="admin-tab" data-admin="settings">
+      <button
+        onclick="adminTab('adminSettings',this)"
+      >
         Settings
       </button>
 
     </div>
 
 
-    <div class="admin-content">
+    <!-- ADMIN ORDERS -->
 
-      <div class="admin-panel active" id="admin-dashboard">
+    <div
+      class="card admin-box admin-tab"
+      id="adminOrders"
+    >
 
-        <div class="kpi-grid">
+      <div id="adminOrdersContainer"></div>
 
-          <div class="kpi">
-            <b id="adminPlayerCount">8</b>
-            <small>Registered players</small>
-          </div>
+    </div>
 
-          <div class="kpi">
-            <b>8</b>
-            <small>Total matches</small>
-          </div>
 
-          <div class="kpi">
-            <b>1</b>
-            <small>Live match</small>
-          </div>
+    <!-- CUSTOMERS -->
 
-          <div class="kpi">
-            <b style="color:var(--accent)">OPEN</b>
-            <small>Tournament status</small>
-          </div>
+    <div
+      class="card admin-box admin-tab"
+      id="adminCustomers"
+      style="display:none"
+    >
+
+      <h3
+        style="
+          font-family:'Space Grotesk';
+          margin-bottom:17px
+        "
+      >
+        Customers
+      </h3>
+
+      <div id="customersContainer"></div>
+
+    </div>
+
+
+    <!-- STOCK -->
+
+    <div
+      class="card admin-box admin-tab"
+      id="adminStock"
+      style="display:none"
+    >
+
+      <h3
+        style="
+          font-family:'Space Grotesk';
+          margin-bottom:17px
+        "
+      >
+        Stock Management
+      </h3>
+
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>
+            BGL RATE (€)
+          </label>
+
+          <input
+            id="adminRate"
+            type="number"
+            value="2.30"
+            step="0.01"
+          >
 
         </div>
 
 
-        <div class="admin-cards">
+        <div class="field">
 
-          <div class="admin-box">
-            <h3>Quick actions</h3>
+          <label>
+            STOCK STATUS
+          </label>
 
-            <div class="buttons">
+          <select id="adminStockStatus">
 
-              <button class="primary" id="quickAddTournament">
-                + New tournament
-              </button>
+            <option>
+              Available
+            </option>
 
-              <button class="secondary" data-admin-jump="players">
-                Manage players
-              </button>
+            <option>
+              Low stock
+            </option>
 
-            </div>
-          </div>
+            <option>
+              Out of stock
+            </option>
 
-
-          <div class="admin-box">
-
-            <h3>Admin status</h3>
-
-            <div class="lock-note">
-              ● Kirjautunut sisään adminina.
-              Backend voidaan yhdistää myöhemmin.
-            </div>
-
-          </div>
+          </select>
 
         </div>
 
       </div>
 
 
-      <div class="admin-panel" id="admin-tournaments">
+      <button
+        class="primary"
+        style="margin-top:15px"
+        onclick="saveStock()"
+      >
+        Save stock settings
+      </button>
 
-        <div class="admin-top">
-          <h2 class="admin-title">Tournaments</h2>
+    </div>
 
-          <button class="primary" id="newTournament">
-            + New tournament
-          </button>
-        </div>
 
-        <table class="admin-table">
+    <!-- PRODUCTS -->
+
+    <div
+      class="card admin-box admin-tab"
+      id="adminProducts"
+      style="display:none"
+    >
+
+      <h3
+        style="
+          font-family:'Space Grotesk';
+          margin-bottom:17px
+        "
+      >
+        Products
+      </h3>
+
+
+      <div class="table-card">
+
+        <table>
 
           <thead>
+
             <tr>
-              <th>Name</th>
-              <th>Game</th>
-              <th>Status</th>
-              <th>Players</th>
-              <th>Action</th>
+              <th>PRODUCT</th>
+              <th>RATE</th>
+              <th>STATUS</th>
             </tr>
+
           </thead>
 
           <tbody>
 
             <tr>
-              <td><b>J1mPPaZ Tournament</b></td>
-              <td>Fortnite 1v1</td>
+
               <td>
-                <span class="status live">OPEN</span>
+                Growtopia BGL
               </td>
-              <td>8 / 16</td>
+
               <td>
-                <button
-                  class="secondary"
-                  onclick="alert('Tournament editor voidaan yhdistää backend-tietokantaan.')">
-                  Edit
-                </button>
+                2.30€ / BGL
               </td>
+
+              <td>
+
+                <span
+                  class="status-badge completed"
+                >
+                  Active
+                </span>
+
+              </td>
+
             </tr>
 
           </tbody>
@@ -1297,87 +1803,72 @@ main{
 
       </div>
 
+    </div>
 
-      <div class="admin-panel" id="admin-players">
 
-        <div class="admin-top">
-          <h2 class="admin-title">Player management</h2>
+    <!-- SETTINGS -->
 
-          <button class="secondary" id="refreshPlayers">
-            Refresh
-          </button>
+    <div
+      class="card admin-box admin-tab"
+      id="adminSettings"
+      style="display:none"
+    >
+
+      <h3
+        style="
+          font-family:'Space Grotesk';
+          margin-bottom:17px
+        "
+      >
+        Store Settings
+      </h3>
+
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>
+            STORE NAME
+          </label>
+
+          <input
+            value="J1mPPaZ BGL Autostore"
+            id="storeName"
+          >
+
         </div>
 
-        <table class="admin-table">
 
-          <thead>
-            <tr>
-              <th>Player</th>
-              <th>Name</th>
-              <th>Score</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+        <div class="field">
 
-          <tbody id="adminPlayerBody"></tbody>
+          <label>
+            STORE STATUS
+          </label>
 
-        </table>
+          <select>
+
+            <option>
+              Online
+            </option>
+
+            <option>
+              Maintenance
+            </option>
+
+          </select>
+
+        </div>
 
       </div>
 
 
-      <div class="admin-panel" id="admin-matches">
+      <div class="admin-note">
 
-        <div class="admin-top">
-          <h2 class="admin-title">Match management</h2>
-
-          <button class="primary" id="newMatch">
-            + Add match
-          </button>
-        </div>
-
-        <div class="admin-cards" id="adminMatchCards"></div>
-
-      </div>
-
-
-      <div class="admin-panel" id="admin-settings">
-
-        <div class="admin-box">
-
-          <h3>Site controls</h3>
-
-          <div class="admin-list">
-
-            <div>
-              <span>Registration</span>
-              <b style="color:var(--accent)">OPEN</b>
-            </div>
-
-            <div>
-              <span>Public leaderboard</span>
-              <b>ON</b>
-            </div>
-
-            <div>
-              <span>Public bracket</span>
-              <b>ON</b>
-            </div>
-
-            <div>
-              <span>Backend</span>
-              <b style="color:#ff7784">NOT CONNECTED</b>
-            </div>
-
-          </div>
-
-          <p class="muted">
-            Backendin kanssa näistä voidaan tehdä oikeita
-            tietokanta-asetuksia.
-          </p>
-
-        </div>
+        Frontend demo mode: orders and settings
+        are stored locally in the browser.
+        Connect a real backend/database before
+        using this as a real store.
 
       </div>
 
@@ -1387,233 +1878,191 @@ main{
 
 </section>
 
+</div>
+
 </main>
 
+</div>
 
-<footer class="footer">
-  J1mPPaZ Tournament · Competitive Fortnite community
-</footer>
+
+<!-- CART MODAL -->
+
+<div
+  class="overlay"
+  id="cartModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <h2>
+        Your Cart
+      </h2>
+
+      <button
+        class="close"
+        onclick="closeModal('cartModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div id="cartContent"></div>
+
+  </div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div
+  class="overlay"
+  id="checkoutModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <h2>
+        Create Order
+      </h2>
+
+      <button
+        class="close"
+        onclick="closeModal('checkoutModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-summary">
+
+      <div class="summary-row">
+
+        <span>
+          Product
+        </span>
+
+        <strong>
+          Growtopia BGL
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Amount
+        </span>
+
+        <strong id="checkoutAmount">
+          0 BGL
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Total
+        </span>
+
+        <strong id="checkoutTotal">
+          0.00€
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-fields">
+
+      <input
+        id="checkoutName"
+        placeholder="Your display name"
+      >
+
+      <input
+        id="checkoutEmail"
+        type="email"
+        placeholder="Your email"
+      >
+
+    </div>
+
+
+    <button
+      class="primary full"
+      onclick="createOrder()"
+    >
+      Create order
+    </button>
+
+  </div>
+
+</div>
 
 
 <!-- ADMIN LOGIN -->
 
-<div class="overlay" id="loginModal">
+<div
+  class="overlay"
+  id="adminLogin"
+>
 
   <div class="modal">
 
     <div class="modal-head">
 
-      <div>
-        <h3>Admin access</h3>
-        <p>
-          Syötä admin-tunnukset päästäksesi hallintapaneeliin.
-        </p>
-      </div>
+      <h2>
+        Admin Access
+      </h2>
 
-      <button class="x" data-close="loginModal">
+      <button
+        class="close"
+        onclick="closeModal('adminLogin')"
+      >
         ×
       </button>
 
     </div>
 
 
-    <form class="form" id="adminLoginForm">
+    <div class="modal-fields">
 
-      <label>
-        Käyttäjänimi
-        <input
-          id="adminUser"
-          autocomplete="username"
-          placeholder="JimpanAdmini"
-          required>
-      </label>
+      <input
+        id="adminUsername"
+        placeholder="Username"
+      >
 
-
-      <label>
-        Salasana
-        <input
-          id="adminPass"
-          type="password"
-          required>
-      </label>
-
-
-      <div class="error" id="loginError">
-        Väärä käyttäjänimi tai salasana.
-      </div>
-
-
-      <button class="primary" type="submit">
-        Kirjaudu admin-paneeliin
-      </button>
-
-
-      <div class="notice">
-        Tämä on frontend-versio. Tunnukset näkyvät
-        lähdekoodissa, joten tämä ei ole vielä oikea
-        tietoturvaratkaisu.
-      </div>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- REGISTER -->
-
-<div class="overlay" id="registerModal">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div>
-        <h3>Create player account</h3>
-        <p>Rekisteröidy turnaukseen.</p>
-      </div>
-
-      <button class="x" data-close="registerModal">
-        ×
-      </button>
+      <input
+        id="adminPassword"
+        type="password"
+        placeholder="Password"
+      >
 
     </div>
 
 
-    <form class="form" id="registerForm">
-
-      <div class="row">
-
-        <label>
-          Game name
-          <input
-            id="gameName"
-            required
-            maxlength="20"
-            placeholder="J1mPPaZ">
-        </label>
-
-        <label>
-          First name
-          <input
-            id="firstName"
-            required
-            maxlength="30">
-        </label>
-
-      </div>
+    <button
+      class="primary full"
+      onclick="adminLogin()"
+    >
+      Login
+    </button>
 
 
-      <div class="row">
-
-        <label>
-          Last name
-          <input
-            id="lastName"
-            required
-            maxlength="30">
-        </label>
-
-        <label>
-          Email
-          <input
-            id="email"
-            type="email"
-            required>
-        </label>
-
-      </div>
-
-
-      <label>
-        Password
-        <input
-          id="password"
-          type="password"
-          required
-          minlength="6">
-      </label>
-
-
-      <div class="notice">
-        Tässä versiossa tiedot tallennetaan vain
-        tämän selaimen localStorageen.
-      </div>
-
-
-      <div class="error" id="formError"></div>
-
-
-      <button class="primary">
-        Create account & register
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- PROFILE -->
-
-<div class="overlay" id="profileModal">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div>
-        <h3>My player profile</h3>
-        <p>Your tournament account.</p>
-      </div>
-
-      <button class="x" data-close="profileModal">
-        ×
-      </button>
-
-    </div>
-
-    <div id="profileContent"></div>
-
-  </div>
-
-</div>
-
-
-<!-- MATCH -->
-
-<div class="overlay" id="matchModal">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div>
-        <h3 id="matchTitle">Match</h3>
-        <p id="matchInfo"></p>
-      </div>
-
-      <button class="x" data-close="matchModal">
-        ×
-      </button>
-
-    </div>
-
-
-    <div class="card" style="margin-top:18px">
-
-      <div class="versus">
-
-        <div class="player" id="mA"></div>
-
-        <div class="score" id="mScore"></div>
-
-        <div class="player" id="mB"></div>
-
-      </div>
-
+    <div class="admin-note">
+      Demo admin access is frontend-only.
     </div>
 
   </div>
@@ -1621,257 +2070,131 @@ main{
 </div>
 
 
-<!-- NEW TOURNAMENT -->
-
-<div class="overlay" id="tournamentModal">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div>
-        <h3>New tournament</h3>
-        <p>Demo-editori admin-paneelia varten.</p>
-      </div>
-
-      <button class="x" data-close="tournamentModal">
-        ×
-      </button>
-
-    </div>
-
-
-    <form class="form" id="tournamentForm">
-
-      <label>
-        Tournament name
-        <input
-          id="tName"
-          placeholder="J1mPPaZ Summer Cup"
-          required>
-      </label>
-
-
-      <div class="row">
-
-        <label>
-          Game
-          <input
-            id="tGame"
-            value="Fortnite"
-            required>
-        </label>
-
-        <label>
-          Max players
-          <input
-            id="tPlayers"
-            type="number"
-            value="16"
-            min="2"
-            required>
-        </label>
-
-      </div>
-
-
-      <button class="primary">
-        Create tournament
-      </button>
-
-
-      <div class="success" id="tSuccess">
-        Tournament luotu demo-näkymään.
-      </div>
-
-    </form>
-
-  </div>
-
-</div>
+<div
+  class="toast"
+  id="toast"
+></div>
 
 
 <script>
+
+/* =========================
+   SETTINGS
+========================= */
+
+const PRICE_PER_BGL = 2.30;
 
 const ADMIN_USERNAME = "JimpanAdmini";
 const ADMIN_PASSWORD = "JimppaFortniteAdmin";
 
 
-const seedPlayers = [
+/* =========================
+   STATE
+========================= */
 
-  {
-    game:"J1mPPaZ",
-    first:"J1mPPaZ",
-    last:"",
-    email:"",
-    score:3
-  },
+let cart = JSON.parse(
+  localStorage.getItem("jz_cart") || "null"
+) || {
+  quantity: 0
+};
 
-  {
-    game:"Kullervo",
-    first:"Kullervo",
-    last:"",
-    email:"",
-    score:2
-  },
+let orders = JSON.parse(
+  localStorage.getItem("jz_orders") || "[]"
+);
 
-  {
-    game:"Nikke",
-    first:"Nikke",
-    last:"",
-    email:"",
-    score:2
-  },
-
-  {
-    game:"Vallu",
-    first:"Vallu",
-    last:"",
-    email:"",
-    score:4
-  },
-
-  {
-    game:"Aapo",
-    first:"Aapo",
-    last:"",
-    email:"",
-    score:3
-  },
-
-  {
-    game:"Roni",
-    first:"Roni",
-    last:"",
-    email:"",
-    score:1
-  },
-
-  {
-    game:"Masa",
-    first:"Masa",
-    last:"",
-    email:"",
-    score:1
-  },
-
-  {
-    game:"Jere",
-    first:"Jere",
-    last:"",
-    email:"",
-    score:3
-  }
-
-];
+let profile = JSON.parse(
+  localStorage.getItem("jz_profile") || "null"
+) || {
+  name:"",
+  email:""
+};
 
 
-const matches = [
+/* =========================
+   HELPERS
+========================= */
 
-  ["Round 1","J1mPPaZ","Kullervo","2","1"],
-  ["Round 1","Nikke","Vallu","0","2"],
-  ["Round 1","Aapo","Roni","2","0"],
-  ["Round 1","Masa","Jere","1","2"],
+function saveState(){
 
-  ["Quarterfinal","J1mPPaZ","Vallu","2","1"],
-  ["Quarterfinal","Aapo","Jere","1","2"],
+  localStorage.setItem(
+    "jz_cart",
+    JSON.stringify(cart)
+  );
 
-  ["Semifinal","J1mPPaZ","Jere","TBD","TBD"],
+  localStorage.setItem(
+    "jz_orders",
+    JSON.stringify(orders)
+  );
 
-  ["Grand Final","TBD","TBD","TBD","TBD"]
-
-];
-
-
-let players = [...seedPlayers];
-
-
-const $ = id => document.getElementById(id);
-
-
-function esc(value){
-
-  return String(value ?? "").replace(
-    /[&<>'"]/g,
-    char => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      "'":"&#39;",
-      '"':"&quot;"
-    }[char])
+  localStorage.setItem(
+    "jz_profile",
+    JSON.stringify(profile)
   );
 
 }
 
 
-function initials(name){
+function toast(message){
 
-  return String(name || "?")
-    .slice(0,2)
-    .toUpperCase();
+  const el =
+    document.getElementById("toast");
 
-}
+  el.textContent = message;
 
+  el.classList.add("show");
 
-function currentUser(){
-
-  return JSON.parse(
-    localStorage.getItem("j1_user") || "null"
-  );
+  setTimeout(()=>{
+    el.classList.remove("show");
+  },2500);
 
 }
 
 
-function openModal(id){
+/* =========================
+   NAVIGATION
+========================= */
 
-  $(id).classList.add("show");
-
-}
-
-
-function closeModal(id){
-
-  $(id).classList.remove("show");
-
-}
-
-
-function closeSide(){
-
-  $("sidebar").classList.remove("open");
-  $("backdrop").classList.remove("show");
-
-}
-
-
-function showView(view){
+function showView(viewId,button){
 
   document
     .querySelectorAll(".view")
-    .forEach(v => v.classList.remove("active"));
-
-  $("view-" + view).classList.add("active");
-
-
-  document
-    .querySelectorAll(".nav[data-view]")
-    .forEach(nav => {
-
-      nav.classList.toggle(
-        "active",
-        nav.dataset.view === view
-      );
-
+    .forEach(v=>{
+      v.classList.remove("active");
     });
 
+  const target =
+    document.getElementById(viewId);
 
-  if(window.innerWidth <= 650){
-
-    closeSide();
-
+  if(target){
+    target.classList.add("active");
   }
 
+  if(button){
+
+    document
+      .querySelectorAll(".nav button")
+      .forEach(b=>{
+        b.classList.remove("active");
+      });
+
+    button.classList.add("active");
+  }
+
+  if(viewId === "orders"){
+    renderOrders();
+  }
+
+  if(viewId === "profile"){
+    loadProfile();
+  }
+
+  if(viewId === "admin"){
+    updateAdmin();
+  }
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
 
   window.scrollTo({
     top:0,
@@ -1881,747 +2204,960 @@ function showView(view){
 }
 
 
-$("menuBtn").onclick = () => {
-
-  $("sidebar").classList.toggle("open");
-
-  if(window.innerWidth <= 650){
-
-    $("backdrop").classList.toggle("show");
-
-  }
-
-};
-
-
-$("backdrop").onclick = closeSide;
-
-
-document
-  .querySelectorAll(".nav[data-view]")
-  .forEach(button => {
-
-    button.onclick = () => {
-
-      showView(button.dataset.view);
-
-    };
-
-  });
-
-
-document
-  .querySelectorAll("[data-go]")
-  .forEach(button => {
-
-    button.onclick = () => {
-
-      showView(button.dataset.go);
-
-    };
-
-  });
-
-
-document
-  .querySelectorAll("[data-close]")
-  .forEach(button => {
-
-    button.onclick = () => {
-
-      closeModal(button.dataset.close);
-
-    };
-
-  });
-
-
-document
-  .querySelectorAll(".overlay")
-  .forEach(overlay => {
-
-    overlay.onclick = event => {
-
-      if(event.target === overlay){
-
-        overlay.classList.remove("show");
-
-      }
-
-    };
-
-  });
-
-
-function register(){
-
-  openModal("registerModal");
-
-  setTimeout(() => {
-
-    $("gameName").focus();
-
-  },100);
-
-}
-
-
-function showProfile(){
-
-  const user = currentUser();
-
-  if(!user){
-
-    register();
-
-    return;
-
-  }
-
-
-  $("profileContent").innerHTML = `
-
-    <div class="profile-box">
-
-      <div class="big-avatar">
-        ${initials(user.game)}
-      </div>
-
-      <div>
-
-        <b style="font-size:18px">
-          ${esc(user.game)}
-        </b>
-
-        <div class="muted">
-          Registered tournament player
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="detail">
-
-      <div>
-        <small>First name</small>
-        <b>${esc(user.first)}</b>
-      </div>
-
-      <div>
-        <small>Last name</small>
-        <b>${esc(user.last)}</b>
-      </div>
-
-      <div>
-        <small>Email</small>
-        <b>${esc(user.email)}</b>
-      </div>
-
-      <div>
-        <small>Status</small>
-        <b style="color:var(--accent)">
-          REGISTERED
-        </b>
-      </div>
-
-    </div>
-
-
-    <button class="secondary" id="logout">
-      Log out on this browser
-    </button>
-
-  `;
-
-
-  openModal("profileModal");
-
-
-  $("logout").onclick = () => {
-
-    localStorage.removeItem("j1_user");
-
-    location.reload();
-
-  };
-
-}
-
-
-$("topRegister").onclick = () => {
-
-  if(currentUser()){
-
-    showProfile();
-
-  }else{
-
-    register();
-
-  }
-
-};
-
-
-$("heroRegister").onclick = register;
-$("sideRegister").onclick = register;
-$("profileBtn").onclick = showProfile;
-
-
-$("registerForm").onsubmit = event => {
-
-  event.preventDefault();
-
-
-  const game = $("gameName").value.trim();
-  const first = $("firstName").value.trim();
-  const last = $("lastName").value.trim();
-  const email = $("email").value.trim();
-  const password = $("password").value;
-
-
-  if(
-    players.some(
-      p => p.game.toLowerCase() === game.toLowerCase()
-    )
-  ){
-
-    $("formError").textContent =
-      "That game name is already registered.";
-
-    $("formError").style.display = "block";
-
-    return;
-
-  }
-
-
-  if(password.length < 6){
-
-    $("formError").textContent =
-      "Password must be at least 6 characters.";
-
-    $("formError").style.display = "block";
-
-    return;
-
-  }
-
-
-  const user = {
-    game,
-    first,
-    last,
-    email,
-    password
-  };
-
-
-  localStorage.setItem(
-    "j1_user",
-    JSON.stringify(user)
-  );
-
-
-  players.push({
-    ...user,
-    score:0
-  });
-
-
-  closeModal("registerModal");
-
-  render();
-
-  alert("Registration complete.");
-
-};
-
-
-function render(){
-
-  const user = currentUser();
-
-
-  if(
-    user &&
-    !players.some(
-      p => p.game.toLowerCase() === user.game.toLowerCase()
-    )
-  ){
-
-    players.push({
-      ...user,
-      score:0
-    });
-
-  }
-
-
-  $("matchGrid").innerHTML = matches.map(
-    (match,index) => `
-
-      <button
-        class="card match"
-        data-match="${index}">
-
-        <div class="match-top">
-
-          <span>${match[0]}</span>
-
-          <span class="tag">
-            ${match[3] === "TBD"
-              ? "UPCOMING"
-              : "COMPLETED"}
-          </span>
-
-        </div>
-
-
-        <div class="versus">
-
-          <div class="player">
-            ${esc(match[1])}
-          </div>
-
-          <div class="score">
-            ${match[3]} : ${match[4]}
-          </div>
-
-          <div class="player">
-            ${esc(match[2])}
-          </div>
-
-        </div>
-
-      </button>
-
-    `
-  ).join("");
-
+function toggleSidebar(){
 
   document
-    .querySelectorAll("[data-match]")
-    .forEach(button => {
+    .getElementById("sidebar")
+    .classList.toggle("open");
 
-      button.onclick = () => {
-
-        showMatch(
-          Number(button.dataset.match)
-        );
-
-      };
-
-    });
+}
 
 
-  $("playerGrid").innerHTML = players.map(
-    player => `
+/* =========================
+   QUANTITY
+========================= */
 
-      <div class="player-card">
+function changeQty(amount){
 
-        <div class="avatar">
-          ${initials(player.game)}
-        </div>
+  const input =
+    document.getElementById("quantity");
 
-        <div class="pcopy">
+  let value =
+    parseInt(input.value) || 1;
 
-          <b>
-            ${esc(player.game)}
-          </b>
+  value += amount;
 
-          <small>
-            ${esc(
-              (player.first || "Registered player")
-              + " "
-              + (player.last || "")
-            )}
-          </small>
+  if(value < 1){
+    value = 1;
+  }
 
-        </div>
+  if(value > 1000){
+    value = 1000;
+  }
 
-      </div>
+  input.value = value;
 
-    `
-  ).join("");
+  updateTotal();
+
+}
 
 
-  $("playerCountText").textContent =
-    players.length +
-    " confirmed participant" +
-    (players.length === 1 ? "" : "s");
+function updateTotal(){
+
+  const input =
+    document.getElementById("quantity");
+
+  let value =
+    parseInt(input.value) || 1;
+
+  if(value < 1){
+    value = 1;
+  }
+
+  if(value > 1000){
+    value = 1000;
+  }
+
+  input.value = value;
+
+  const total =
+    value * PRICE_PER_BGL;
+
+  document.getElementById("total")
+    .textContent =
+      total.toFixed(2) + "€";
+
+}
 
 
-  $("statPlayers").textContent =
-    players.length;
+/* =========================
+   CART
+========================= */
 
+function addToCart(){
 
-  const sorted = [...players].sort(
-    (a,b) => (b.score || 0) - (a.score || 0)
+  const quantity =
+    parseInt(
+      document.getElementById("quantity").value
+    ) || 1;
+
+  cart.quantity += quantity;
+
+  saveState();
+
+  updateCartCount();
+
+  toast(
+    quantity +
+    " BGL added to cart."
   );
 
-
-  $("leaderBody").innerHTML = sorted.map(
-    (player,index) => `
-
-      <tr>
-
-        <td class="rank">
-          ${index + 1}
-        </td>
-
-        <td>
-          <b>${esc(player.game)}</b>
-        </td>
-
-        <td>
-          ${player.score || 0}
-        </td>
-
-        <td>
-          ${Math.max(
-            0,
-            3 - (player.score || 0)
-          )}
-        </td>
-
-        <td>
-          ${(player.score || 0) * 3}
-        </td>
-
-      </tr>
-
-    `
-  ).join("");
+}
 
 
-  if(user){
+function updateCartCount(){
 
-    $("userPill").style.display = "block";
-
-    $("userPill").textContent =
-      "● " + user.game;
-
-    $("topRegister").textContent =
-      "Profile";
-
-    $("profileBtn").style.display =
-      "flex";
-
-  }
-
-
-  renderAdmin();
+  document.getElementById("cartCount")
+    .textContent =
+      cart.quantity;
 
 }
 
 
-function showMatch(index){
+function openCart(){
 
-  const match = matches[index];
+  renderCart();
 
-
-  $("matchTitle").textContent =
-    match[0];
-
-  $("matchInfo").textContent =
-    "Match card";
-
-  $("mA").textContent =
-    match[1];
-
-  $("mB").textContent =
-    match[2];
-
-  $("mScore").textContent =
-    match[3] + " : " + match[4];
-
-
-  openModal("matchModal");
+  document
+    .getElementById("cartModal")
+    .classList.add("show");
 
 }
 
 
-function openAdmin(){
+function renderCart(){
 
-  if(
-    localStorage.getItem("j1_admin") === "1"
-  ){
+  const container =
+    document.getElementById("cartContent");
 
-    showView("admin");
+  if(cart.quantity <= 0){
+
+    container.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🛒</div>
+        <div>Your cart is empty.</div>
+      </div>
+    `;
 
     return;
-
   }
 
 
-  openModal("loginModal");
+  const total =
+    cart.quantity * PRICE_PER_BGL;
+
+
+  container.innerHTML = `
+
+    <div class="modal-summary">
+
+      <div class="summary-row">
+        <span>Product</span>
+        <strong>Growtopia BGL</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Amount</span>
+        <strong>${cart.quantity} BGL</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Total</span>
+        <strong>${total.toFixed(2)}€</strong>
+      </div>
+
+    </div>
+
+    <button
+      class="primary full"
+      onclick="openCheckout()"
+    >
+      Continue →
+    </button>
+
+    <button
+      class="secondary full"
+      onclick="clearCart()"
+    >
+      Clear cart
+    </button>
+  `;
 
 }
 
 
-$("adminOpen").onclick = openAdmin;
+function clearCart(){
+
+  cart.quantity = 0;
+
+  saveState();
+
+  updateCartCount();
+
+  renderCart();
+
+  toast("Cart cleared.");
+
+}
 
 
-$("adminLoginForm").onsubmit = event => {
+/* =========================
+   CHECKOUT
+========================= */
 
-  event.preventDefault();
+function openCheckout(){
+
+  if(cart.quantity <= 0){
+    toast("Your cart is empty.");
+    return;
+  }
+
+  closeModal("cartModal");
+
+  const total =
+    cart.quantity * PRICE_PER_BGL;
+
+  document.getElementById("checkoutAmount")
+    .textContent =
+      cart.quantity + " BGL";
+
+  document.getElementById("checkoutTotal")
+    .textContent =
+      total.toFixed(2) + "€";
+
+  document.getElementById("checkoutName")
+    .value =
+      profile.name || "";
+
+  document.getElementById("checkoutEmail")
+    .value =
+      profile.email || "";
+
+  document
+    .getElementById("checkoutModal")
+    .classList.add("show");
+
+}
 
 
-  if(
-    $("adminUser").value === ADMIN_USERNAME &&
-    $("adminPass").value === ADMIN_PASSWORD
-  ){
+function createOrder(){
 
-    localStorage.setItem(
-      "j1_admin",
-      "1"
+  const name =
+    document.getElementById("checkoutName")
+      .value.trim();
+
+  const email =
+    document.getElementById("checkoutEmail")
+      .value.trim();
+
+
+  if(!name || !email){
+
+    toast(
+      "Please enter your name and email."
+    );
+
+    return;
+  }
+
+
+  if(cart.quantity <= 0){
+
+    toast("Your cart is empty.");
+
+    return;
+  }
+
+
+  const order = {
+
+    id:
+      "JZ-" +
+      Date.now()
+        .toString()
+        .slice(-8),
+
+    name:name,
+
+    email:email,
+
+    product:"Growtopia BGL",
+
+    quantity:cart.quantity,
+
+    total:
+      cart.quantity * PRICE_PER_BGL,
+
+    status:"pending",
+
+    created:
+      new Date().toLocaleString()
+
+  };
+
+
+  orders.unshift(order);
+
+
+  profile.name = name;
+  profile.email = email;
+
+
+  cart.quantity = 0;
+
+
+  saveState();
+
+  updateCartCount();
+
+  closeModal("checkoutModal");
+
+  renderOrders();
+
+  toast(
+    "Order " +
+    order.id +
+    " created."
+  );
+
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+function renderOrders(){
+
+  const container =
+    document.getElementById(
+      "ordersContainer"
     );
 
 
-    $("loginError").style.display =
-      "none";
+  if(orders.length === 0){
 
-    closeModal("loginModal");
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          ▣
+        </div>
+
+        <div>
+          You don't have any orders yet.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = `
+
+    <div class="table-card">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ORDER</th>
+            <th>PRODUCT</th>
+            <th>AMOUNT</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+            <th>DATE</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${orders.map(order => `
+
+            <tr>
+
+              <td>
+                <strong>
+                  ${order.id}
+                </strong>
+              </td>
+
+              <td>
+                ${order.product}
+              </td>
+
+              <td>
+                ${order.quantity} BGL
+              </td>
+
+              <td>
+                ${order.total.toFixed(2)}€
+              </td>
+
+              <td>
+                ${statusBadge(order.status)}
+              </td>
+
+              <td>
+                ${order.created}
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+}
+
+
+function statusBadge(status){
+
+  const text =
+    status === "completed"
+      ? "Completed"
+      : status === "cancelled"
+      ? "Cancelled"
+      : "Pending";
+
+  return `
+    <span
+      class="status-badge ${status}"
+    >
+      ${text}
+    </span>
+  `;
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function loadProfile(){
+
+  document.getElementById("profileName")
+    .textContent =
+      profile.name || "Guest";
+
+  document.getElementById("profileEmail")
+    .textContent =
+      profile.email ||
+      "No email connected";
+
+  document.getElementById("profileNameInput")
+    .value =
+      profile.name || "";
+
+  document.getElementById("profileEmailInput")
+    .value =
+      profile.email || "";
+
+
+  const initials =
+    profile.name
+      ? profile.name
+          .split(" ")
+          .map(x=>x[0])
+          .join("")
+          .slice(0,2)
+          .toUpperCase()
+      : "JZ";
+
+
+  document.getElementById("profileAvatar")
+    .textContent =
+      initials;
+
+}
+
+
+function saveProfile(){
+
+  const name =
+    document.getElementById(
+      "profileNameInput"
+    ).value.trim();
+
+  const email =
+    document.getElementById(
+      "profileEmailInput"
+    ).value.trim();
+
+
+  profile.name = name;
+  profile.email = email;
+
+  saveState();
+
+  loadProfile();
+
+  toast(
+    "Profile saved."
+  );
+
+}
+
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+function openAdmin(){
+
+  document
+    .getElementById("adminLogin")
+    .classList.add("show");
+
+}
+
+
+function adminLogin(){
+
+  const username =
+    document.getElementById(
+      "adminUsername"
+    ).value;
+
+  const password =
+    document.getElementById(
+      "adminPassword"
+    ).value;
+
+
+  if(
+    username === ADMIN_USERNAME &&
+    password === ADMIN_PASSWORD
+  ){
+
+    closeModal("adminLogin");
 
     showView("admin");
 
+    toast(
+      "Admin access granted."
+    );
+
   }else{
 
-    $("loginError").style.display =
-      "block";
+    toast(
+      "Wrong username or password."
+    );
 
   }
 
-};
+}
 
 
-$("adminLogout").onclick = () => {
+/* =========================
+   ADMIN DASHBOARD
+========================= */
 
-  localStorage.removeItem(
-    "j1_admin"
-  );
+function updateAdmin(){
 
-  showView("overview");
+  const revenue =
+    orders.reduce(
+      (sum,order)=>
+        sum + Number(order.total),
+      0
+    );
 
-};
-
-
-document
-  .querySelectorAll(".admin-tab")
-  .forEach(button => {
-
-    button.onclick = () => {
-
-      document
-        .querySelectorAll(".admin-tab")
-        .forEach(x =>
-          x.classList.remove("active")
-        );
+  const bgl =
+    orders.reduce(
+      (sum,order)=>
+        sum + Number(order.quantity),
+      0
+    );
 
 
-      document
-        .querySelectorAll(".admin-panel")
-        .forEach(x =>
-          x.classList.remove("active")
-        );
+  document.getElementById("statOrders")
+    .textContent =
+      orders.length;
+
+  document.getElementById("statRevenue")
+    .textContent =
+      revenue.toFixed(2) + "€";
+
+  document.getElementById("statBgl")
+    .textContent =
+      bgl;
 
 
-      button.classList.add("active");
+  renderAdminOrders();
+  renderCustomers();
+
+}
 
 
-      $("admin-" + button.dataset.admin)
-        .classList.add("active");
+function renderAdminOrders(){
 
-    };
-
-  });
-
-
-document
-  .querySelectorAll("[data-admin-jump]")
-  .forEach(button => {
-
-    button.onclick = () => {
-
-      document
-        .querySelector(
-          '.admin-tab[data-admin="' +
-          button.dataset.adminJump +
-          '"]'
-        )
-        .click();
-
-    };
-
-  });
+  const container =
+    document.getElementById(
+      "adminOrdersContainer"
+    );
 
 
-function renderAdmin(){
+  if(orders.length === 0){
 
-  $("adminPlayerCount").textContent =
-    players.length;
+    container.innerHTML = `
 
+      <div class="empty">
 
-  $("adminPlayerBody").innerHTML =
-    players.map(
-      player => `
-
-        <tr>
-
-          <td>
-            <b>${esc(player.game)}</b>
-          </td>
-
-          <td>
-            ${esc(
-              (player.first || "") +
-              " " +
-              (player.last || "")
-            )}
-          </td>
-
-          <td>
-            ${player.score || 0}
-          </td>
-
-          <td>
-            <span class="status done">
-              REGISTERED
-            </span>
-          </td>
-
-          <td>
-
-            <button
-              class="danger-btn"
-              onclick="removePlayer(${JSON.stringify(player.game)})">
-
-              Remove
-
-            </button>
-
-          </td>
-
-        </tr>
-
-      `
-    ).join("");
-
-
-  $("adminMatchCards").innerHTML =
-    matches.map(
-      (match,index) => `
-
-        <div class="admin-box">
-
-          <div class="eyebrow">
-            ${match[0]}
-          </div>
-
-          <h3>
-
-            ${esc(match[1])}
-
-            <span style="color:var(--accent)">
-              ${match[3]}:${match[4]}
-            </span>
-
-            ${esc(match[2])}
-
-          </h3>
-
-          <button
-            class="secondary"
-            onclick="showMatch(${index})">
-
-            Open match
-
-          </button>
-
+        <div class="empty-icon">
+          ▣
         </div>
 
-      `
-    ).join("");
+        No orders yet.
 
-}
+      </div>
 
+    `;
 
-window.removePlayer = game => {
-
-  if(
-    confirm(
-      "Poistetaanko " +
-      game +
-      " rosterista?"
-    )
-  ){
-
-    players =
-      players.filter(
-        player => player.game !== game
-      );
-
-    render();
-
+    return;
   }
 
-};
 
+  container.innerHTML = `
 
-$("refreshPlayers").onclick =
-  renderAdmin;
+    <div class="table-card">
 
+      <table>
 
-function newTournament(){
+        <thead>
 
-  openModal("tournamentModal");
+          <tr>
+            <th>ORDER</th>
+            <th>CUSTOMER</th>
+            <th>AMOUNT</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
 
-  $("tSuccess").style.display =
-    "none";
+        </thead>
 
-  $("tName").focus();
+        <tbody>
+
+          ${orders.map((order,index)=>`
+
+            <tr>
+
+              <td>
+                <strong>
+                  ${order.id}
+                </strong>
+              </td>
+
+              <td>
+                ${escapeHtml(order.name)}
+                <br>
+                <span style="color:#69736e;font-size:10px">
+                  ${escapeHtml(order.email)}
+                </span>
+              </td>
+
+              <td>
+                ${order.quantity} BGL
+              </td>
+
+              <td>
+                ${order.total.toFixed(2)}€
+              </td>
+
+              <td>
+                ${statusBadge(order.status)}
+              </td>
+
+              <td>
+
+                <select
+                  onchange="changeOrderStatus(${index},this.value)"
+                  style="
+                    background:#080c0a;
+                    color:white;
+                    border:1px solid #202a26;
+                    border-radius:7px;
+                    padding:7px;
+                    font-size:10px;
+                  "
+                >
+
+                  <option
+                    value="pending"
+                    ${order.status==="pending"?"selected":""}
+                  >
+                    Pending
+                  </option>
+
+                  <option
+                    value="completed"
+                    ${order.status==="completed"?"selected":""}
+                  >
+                    Completed
+                  </option>
+
+                  <option
+                    value="cancelled"
+                    ${order.status==="cancelled"?"selected":""}
+                  >
+                    Cancelled
+                  </option>
+
+                </select>
+
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
 
 }
 
 
-$("newTournament").onclick =
-  newTournament;
+function changeOrderStatus(index,status){
 
-$("quickAddTournament").onclick =
-  newTournament;
+  orders[index].status = status;
 
+  saveState();
 
-$("tournamentForm").onsubmit = event => {
+  updateAdmin();
 
-  event.preventDefault();
-
-
-  $("tSuccess").style.display =
-    "block";
-
-
-  setTimeout(
-    () => closeModal("tournamentModal"),
-    900
+  toast(
+    "Order status updated."
   );
 
-};
+}
 
 
-$("newMatch").onclick = () => {
+/* =========================
+   CUSTOMERS
+========================= */
 
-  alert(
-    "Match-editori voidaan yhdistää " +
-    "tietokantaan backend-vaiheessa."
+function renderCustomers(){
+
+  const container =
+    document.getElementById(
+      "customersContainer"
+    );
+
+
+  const map = new Map();
+
+
+  orders.forEach(order=>{
+
+    if(!map.has(order.email)){
+
+      map.set(
+        order.email,
+        {
+          name:order.name,
+          email:order.email,
+          orders:0,
+          spent:0
+        }
+      );
+
+    }
+
+    const customer =
+      map.get(order.email);
+
+    customer.orders++;
+
+    customer.spent +=
+      Number(order.total);
+
+  });
+
+
+  const customers =
+    [...map.values()];
+
+
+  if(customers.length === 0){
+
+    container.innerHTML = `
+
+      <div class="empty">
+        No customers yet.
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = `
+
+    <div class="table-card">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>CUSTOMER</th>
+            <th>EMAIL</th>
+            <th>ORDERS</th>
+            <th>SPENT</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${customers.map(c=>`
+
+            <tr>
+
+              <td>
+                ${escapeHtml(c.name)}
+              </td>
+
+              <td>
+                ${escapeHtml(c.email)}
+              </td>
+
+              <td>
+                ${c.orders}
+              </td>
+
+              <td>
+                ${c.spent.toFixed(2)}€
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   ADMIN TABS
+========================= */
+
+function adminTab(id,button){
+
+  document
+    .querySelectorAll(".admin-tab")
+    .forEach(tab=>{
+      tab.style.display = "none";
+    });
+
+
+  document.getElementById(id)
+    .style.display = "block";
+
+
+  document
+    .querySelectorAll(".admin-nav button")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+
+  button.classList.add("active");
+
+}
+
+
+/* =========================
+   STOCK
+========================= */
+
+function saveStock(){
+
+  const rate =
+    document.getElementById(
+      "adminRate"
+    ).value;
+
+  const status =
+    document.getElementById(
+      "adminStockStatus"
+    ).value;
+
+
+  localStorage.setItem(
+    "jz_rate",
+    rate
   );
 
-};
+  localStorage.setItem(
+    "jz_stock_status",
+    status
+  );
 
 
-render();
+  toast(
+    "Stock settings saved locally."
+  );
+
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+function closeModal(id){
+
+  document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+/* =========================
+   SECURITY HELPER
+========================= */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   STARTUP
+========================= */
+
+updateTotal();
+
+updateCartCount();
+
+loadProfile();
+
+renderOrders();
 
 </script>
 
