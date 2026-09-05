@@ -1,1199 +1,1569 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>J1mPPaZ BGL Autostore</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    :root {
-      --bg: #070b12;
-      --panel: #0d131d;
-      --panel-2: #111a26;
-      --border: rgba(255,255,255,.08);
-      --text: #f4f7fb;
-      --muted: #8793a5;
-      --blue: #248cff;
-      --blue-2: #00c8ff;
-      --green: #34d399;
-      --red: #ff5c6c;
-    }
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background:
-        radial-gradient(circle at 80% 10%, rgba(36,140,255,.12), transparent 30%),
-        radial-gradient(circle at 20% 80%, rgba(0,200,255,.07), transparent 25%),
-        var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-    button,
-    input {
-      font: inherit;
-    }
-    button {
-      cursor: pointer;
-    }
-    .app {
-      min-height: 100vh;
-      display: flex;
-    }
-    /* SIDEBAR */
-    .sidebar {
-      width: 245px;
-      min-height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      padding: 24px 16px;
-      background: rgba(7,11,18,.92);
-      border-right: 1px solid var(--border);
-      backdrop-filter: blur(18px);
-      z-index: 10;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 4px 10px 28px;
-    }
-    .logo-mark {
-      width: 39px;
-      height: 39px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--blue), var(--blue-2));
-      color: white;
-      font-weight: 900;
-      box-shadow: 0 8px 30px rgba(36,140,255,.25);
-    }
-    .logo-text {
-      font-weight: 800;
-      font-size: 15px;
-    }
-    .logo-sub {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 2px;
-    }
-    .nav-title {
-      color: #566274;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      padding: 0 10px 9px;
-    }
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .nav button {
-      border: 0;
-      background: transparent;
-      color: #8995a7;
-      width: 100%;
-      text-align: left;
-      padding: 12px 13px;
-      border-radius: 11px;
-      transition: .2s;
-    }
-    .nav button:hover,
-    .nav button.active {
-      color: white;
-      background: #121c2a;
-    }
-    .nav button.active {
-      box-shadow: inset 3px 0 0 var(--blue);
-    }
-    .sidebar-bottom {
-      position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 20px;
-    }
-    .stock-mini {
-      background: linear-gradient(145deg,#0e1724,#0b111a);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-    }
-    .stock-mini-title {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .stock-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .stock-number {
-      font-weight: 800;
-    }
-    .online {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--green);
-      font-size: 11px;
-    }
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--green);
-      border-radius: 50%;
-    }
-    /* MAIN */
-    .main {
-      width: calc(100% - 245px);
-      margin-left: 245px;
-      padding: 34px;
-    }
-    .page {
-      display: none;
-      max-width: 1250px;
-      margin: auto;
-    }
-    .page.active {
-      display: block;
-    }
-    /* HERO */
-    .hero {
-      min-height: 390px;
-      display: grid;
-      grid-template-columns: 1fr 400px;
-      gap: 25px;
-      align-items: center;
-      background:
-        linear-gradient(120deg, rgba(15,26,41,.95), rgba(8,13,21,.95));
-      border: 1px solid var(--border);
-      border-radius: 25px;
-      padding: 45px;
-      overflow: hidden;
-      position: relative;
-    }
-    .hero:after {
-      content: "";
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: rgba(36,140,255,.07);
-      right: -230px;
-      top: -220px;
-      pointer-events: none;
-    }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: #8fc8ff;
-      background: rgba(36,140,255,.09);
-      border: 1px solid rgba(36,140,255,.18);
-      padding: 7px 11px;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 17px;
-    }
-    .hero h1 {
-      font-size: clamp(38px,5vw,66px);
-      line-height: .98;
-      letter-spacing: -3px;
-      max-width: 650px;
-    }
-    .hero h1 span {
-      color: var(--blue-2);
-    }
-    .hero p {
-      color: var(--muted);
-      margin-top: 17px;
-      max-width: 500px;
-      line-height: 1.6;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-      flex-wrap: wrap;
-    }
-    .primary {
-      border: 0;
-      border-radius: 11px;
-      padding: 13px 18px;
-      color: white;
-      font-weight: 800;
-      background: linear-gradient(135deg,var(--blue),var(--blue-2));
-      box-shadow: 0 12px 30px rgba(36,140,255,.2);
-    }
-    .secondary {
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 13px 18px;
-      color: white;
-      background: rgba(255,255,255,.035);
-      font-weight: 700;
-    }
-    .bgl-hero {
-      display: grid;
-      place-items: center;
-      min-height: 300px;
-      position: relative;
-      z-index: 1;
-    }
-    .bgl-image {
-      width: 270px;
-      height: 270px;
-      object-fit: contain;
-      image-rendering: pixelated;
-      filter: drop-shadow(0 25px 35px rgba(0,0,0,.45));
-    }
-    /* SECTION */
-    .section {
-      margin-top: 25px;
-    }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .section-head h2 {
-      font-size: 20px;
-    }
-    .section-head span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-    /* STORE */
-    .store-grid {
-      display: grid;
-      grid-template-columns: minmax(0,1fr) 310px;
-      gap: 20px;
-    }
-    .product {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-    }
-    .product-top {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 25px;
-      align-items: center;
-    }
-    .product-image {
-      min-height: 180px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background: #0a1019;
-      border: 1px solid var(--border);
-    }
-    .product-image img {
-      width: 145px;
-      height: 145px;
-      object-fit: contain;
-      image-rendering: pixelated;
-    }
-    .product-label {
-      color: var(--blue-2);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 800;
-    }
-    .product h3 {
-      margin-top: 6px;
-      font-size: 27px;
-    }
-    .price {
-      margin-top: 10px;
-      font-size: 26px;
-      font-weight: 900;
-    }
-    .price small {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .product-desc {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-      margin-top: 10px;
-    }
-    .quantity {
-      margin-top: 18px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-    .qty-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      color: white;
-      background: #101824;
-      font-size: 18px;
-    }
-    .qty-value {
-      min-width: 55px;
-      text-align: center;
-      font-weight: 900;
-    }
-    .buy-btn {
-      margin-top: 15px;
-      width: 100%;
-      padding: 14px;
-      border: 0;
-      border-radius: 11px;
-      background: linear-gradient(135deg,var(--blue),var(--blue-2));
-      color: white;
-      font-weight: 900;
-    }
-    /* INFO CARDS */
-    .info-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-    }
-    .info-card + .info-card {
-      margin-top: 14px;
-    }
-    .info-label {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-    }
-    .rate {
-      font-size: 31px;
-      font-weight: 900;
-      margin-top: 6px;
-    }
-    .check-list {
-      list-style: none;
-      margin-top: 13px;
-      display: grid;
-      gap: 10px;
-    }
-    .check-list li {
-      color: #b8c1ce;
-      font-size: 12px;
-    }
-    .check-list li:before {
-      content: "✓";
-      color: var(--green);
-      margin-right: 8px;
-      font-weight: 900;
-    }
-    /* ORDERS */
-    .empty {
-      text-align: center;
-      padding: 70px 20px;
-      border: 1px dashed var(--border);
-      border-radius: 18px;
-      background: rgba(255,255,255,.015);
-    }
-    .empty-icon {
-      font-size: 35px;
-      margin-bottom: 10px;
-    }
-    .empty h3 {
-      font-size: 18px;
-    }
-    .empty p {
-      color: var(--muted);
-      margin-top: 7px;
-      font-size: 13px;
-    }
-    .order {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 17px;
-      border-radius: 14px;
-      margin-bottom: 10px;
-    }
-    .order-id {
-      font-weight: 800;
-    }
-    .order-meta {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 4px;
-    }
-    .status {
-      padding: 6px 9px;
-      border-radius: 7px;
-      background: rgba(52,211,153,.09);
-      color: var(--green);
-      font-size: 11px;
-      font-weight: 800;
-    }
-    /* PROFILE */
-    .form-card {
-      max-width: 600px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 25px;
-    }
-    .field {
-      margin-bottom: 16px;
-    }
-    .field label {
-      display: block;
-      color: #9ba6b5;
-      font-size: 12px;
-      margin-bottom: 7px;
-    }
-    .field input {
-      width: 100%;
-      border: 1px solid var(--border);
-      background: #090f17;
-      color: white;
-      border-radius: 10px;
-      padding: 12px;
-      outline: none;
-    }
-    .field input:focus {
-      border-color: rgba(36,140,255,.6);
-    }
-    /* ADMIN */
-    .admin-login,
-    .admin-panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 25px;
-    }
-    .admin-login {
-      max-width: 500px;
-    }
-    .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
-    .admin-stat {
-      background: #0a1018;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 18px;
-    }
-    .admin-stat span {
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .admin-stat strong {
-      display: block;
-      margin-top: 5px;
-      font-size: 25px;
-    }
-    .admin-tools {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    /* MODAL */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.7);
-      backdrop-filter: blur(7px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 50;
-    }
-    .modal.show {
-      display: flex;
-    }
-    .modal-box {
-      width: 100%;
-      max-width: 480px;
-      background: #0d141e;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.5);
-    }
-    .modal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-    .close {
-      border: 0;
-      background: transparent;
-      color: #8995a7;
-      font-size: 22px;
-    }
-    .summary {
-      background: #09101a;
-      border: 1px solid var(--border);
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      color: #aeb8c6;
-      font-size: 13px;
-    }
-    .summary-row.total {
-      color: white;
-      font-size: 16px;
-      font-weight: 900;
-      border-top: 1px solid var(--border);
-      margin-top: 8px;
-      padding-top: 12px;
-    }
-    /* TOAST */
-    .toast {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      background: #111a25;
-      border: 1px solid var(--border);
-      padding: 13px 16px;
-      border-radius: 11px;
-      transform: translateY(120px);
-      opacity: 0;
-      transition: .25s;
-      z-index: 100;
-      font-size: 13px;
-    }
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    /* MOBILE */
-    @media (max-width: 900px) {
-      .sidebar {
-        width: 200px;
-      }
-      .main {
-        width: calc(100% - 200px);
-        margin-left: 200px;
-        padding: 20px;
-      }
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 30px;
-      }
-      .store-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (max-width: 650px) {
-      .sidebar {
-        position: relative;
-        width: 100%;
-        min-height: auto;
-        padding: 15px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-      }
-      .sidebar-bottom {
-        display: none;
-      }
-      .nav {
-        flex-direction: row;
-        overflow-x: auto;
-      }
-      .nav button {
-        min-width: max-content;
-      }
-      .main {
-        width: 100%;
-        margin-left: 0;
-        padding: 14px;
-      }
-      .hero {
-        padding: 24px;
-        min-height: auto;
-      }
-      .hero h1 {
-        font-size: 43px;
-      }
-      .bgl-image {
-        width: 210px;
-        height: 210px;
-      }
-      .product-top {
-        grid-template-columns: 1fr;
-      }
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J1mPPaZ BGL Autostore</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#05080d;
+--panel:#0b1119;
+--panel2:#0f1722;
+--border:rgba(255,255,255,.075);
+--text:#f4f7fb;
+--muted:#7e8a9b;
+--blue:#258cff;
+--cyan:#00d5ff;
+--green:#38d99b;
+--red:#ff5c6c;
+}
+html{scroll-behavior:smooth}
+body{
+font-family:Inter,Arial,sans-serif;
+background:
+radial-gradient(circle at 80% 0%,rgba(37,140,255,.14),transparent 30%),
+radial-gradient(circle at 15% 75%,rgba(0,213,255,.055),transparent 27%),
+var(--bg);
+color:var(--text);
+min-height:100vh;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh}
+/* SIDEBAR */
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+width:245px;
+padding:22px 15px;
+background:rgba(5,8,13,.91);
+border-right:1px solid var(--border);
+backdrop-filter:blur(20px);
+z-index:20;
+}
+.brand{
+display:flex;
+align-items:center;
+gap:11px;
+padding:6px 10px 30px;
+}
+.logo{
+width:42px;
+height:42px;
+border-radius:13px;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,var(--blue),var(--cyan));
+font-size:18px;
+font-weight:950;
+box-shadow:0 12px 35px rgba(37,140,255,.25);
+}
+.brand strong{font-size:15px}
+.brand small{
+display:block;
+color:var(--muted);
+font-size:10px;
+margin-top:3px;
+}
+.nav-title{
+color:#4f5b6b;
+font-size:9px;
+font-weight:800;
+letter-spacing:1.5px;
+padding:0 10px 9px;
+}
+.nav{
+display:grid;
+gap:5px;
+}
+.nav button{
+width:100%;
+border:0;
+background:transparent;
+color:#7e8999;
+text-align:left;
+padding:12px 13px;
+border-radius:10px;
+transition:.2s;
+}
+.nav button:hover{
+background:rgba(255,255,255,.035);
+color:white;
+}
+.nav button.active{
+background:linear-gradient(90deg,rgba(37,140,255,.15),rgba(37,140,255,.025));
+color:white;
+box-shadow:inset 3px 0 var(--blue);
+}
+.side-bottom{
+position:absolute;
+left:15px;
+right:15px;
+bottom:20px;
+}
+.stock-mini{
+background:linear-gradient(145deg,#0d1722,#080d14);
+border:1px solid var(--border);
+border-radius:14px;
+padding:15px;
+}
+.stock-mini-label{
+color:var(--muted);
+font-size:10px;
+}
+.stock-mini-value{
+font-size:23px;
+font-weight:900;
+margin-top:5px;
+}
+.online{
+display:flex;
+align-items:center;
+gap:6px;
+color:var(--green);
+font-size:10px;
+margin-top:8px;
+}
+.online-dot{
+width:6px;
+height:6px;
+border-radius:50%;
+background:var(--green);
+}
+/* MAIN */
+.main{
+margin-left:245px;
+width:calc(100% - 245px);
+padding:30px;
+}
+.page{
+display:none;
+max-width:1250px;
+margin:auto;
+}
+.page.active{display:block}
+/* TOP */
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px;
+}
+.top h1{
+font-size:24px;
+letter-spacing:-.7px;
+}
+.top p{
+color:var(--muted);
+font-size:12px;
+margin-top:4px;
+}
+.user{
+display:flex;
+align-items:center;
+gap:8px;
+padding:8px 11px;
+background:#0b1119;
+border:1px solid var(--border);
+border-radius:10px;
+color:#aab5c3;
+font-size:11px;
+}
+.avatar{
+width:27px;
+height:27px;
+border-radius:8px;
+display:grid;
+place-items:center;
+background:#152438;
+color:#79bdff;
+font-weight:900;
+}
+/* HERO */
+.hero{
+position:relative;
+overflow:hidden;
+min-height:420px;
+border:1px solid var(--border);
+border-radius:25px;
+padding:48px;
+display:grid;
+grid-template-columns:1.1fr .9fr;
+align-items:center;
+background:
+linear-gradient(125deg,#0e1825,#080d14);
+}
+.hero:before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+border-radius:50%;
+right:-330px;
+top:-300px;
+background:rgba(37,140,255,.08);
+}
+.hero-content{
+position:relative;
+z-index:2;
+}
+.tag{
+display:inline-flex;
+padding:7px 10px;
+border-radius:8px;
+background:rgba(37,140,255,.08);
+border:1px solid rgba(37,140,255,.2);
+color:#7ec4ff;
+font-size:9px;
+font-weight:900;
+letter-spacing:1.5px;
+}
+.hero h2{
+font-size:clamp(43px,6vw,72px);
+line-height:.92;
+letter-spacing:-4px;
+margin-top:18px;
+}
+.hero h2 span{color:var(--cyan)}
+.hero p{
+max-width:500px;
+color:#8490a0;
+font-size:13px;
+line-height:1.65;
+margin-top:18px;
+}
+.hero-buttons{
+display:flex;
+gap:9px;
+margin-top:25px;
+}
+.btn{
+border:0;
+border-radius:10px;
+padding:12px 17px;
+font-weight:850;
+transition:.2s;
+}
+.primary{
+color:white;
+background:linear-gradient(135deg,var(--blue),var(--cyan));
+box-shadow:0 12px 30px rgba(37,140,255,.18);
+}
+.primary:hover{transform:translateY(-1px)}
+.secondary{
+color:white;
+background:#101822;
+border:1px solid var(--border);
+}
+.hero-visual{
+position:relative;
+z-index:2;
+display:grid;
+place-items:center;
+min-height:300px;
+}
+.bgl{
+width:275px;
+height:275px;
+object-fit:contain;
+image-rendering:pixelated;
+filter:drop-shadow(0 30px 35px rgba(0,0,0,.5));
+}
+/* STATS */
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:16px;
+}
+.stat{
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:15px;
+padding:17px;
+}
+.stat span{
+color:var(--muted);
+font-size:10px;
+}
+.stat strong{
+display:block;
+font-size:21px;
+margin-top:5px;
+}
+/* STORE */
+.section{
+margin-top:27px;
+}
+.section-head{
+display:flex;
+justify-content:space-between;
+align-items:end;
+margin-bottom:13px;
+}
+.section-head h2{
+font-size:19px;
+}
+.section-head span{
+color:var(--muted);
+font-size:11px;
+}
+.store-grid{
+display:grid;
+grid-template-columns:minmax(0,1fr) 310px;
+gap:16px;
+}
+.product{
+background:linear-gradient(145deg,#0d151f,#090f17);
+border:1px solid var(--border);
+border-radius:20px;
+padding:23px;
+}
+.product-main{
+display:grid;
+grid-template-columns:190px 1fr;
+gap:24px;
+align-items:center;
+}
+.product-img{
+height:190px;
+border-radius:16px;
+background:#080e16;
+border:1px solid var(--border);
+display:grid;
+place-items:center;
+}
+.product-img img{
+width:145px;
+height:145px;
+object-fit:contain;
+image-rendering:pixelated;
+}
+.product-label{
+color:#42b7ff;
+font-size:9px;
+font-weight:900;
+letter-spacing:1.4px;
+}
+.product h3{
+font-size:27px;
+margin-top:6px;
+}
+.price{
+font-size:26px;
+font-weight:950;
+margin-top:9px;
+}
+.price small{
+font-size:11px;
+color:var(--muted);
+font-weight:500;
+}
+.description{
+font-size:12px;
+color:var(--muted);
+line-height:1.55;
+margin-top:9px;
+}
+/* PURCHASE */
+.purchase{
+margin-top:20px;
+padding-top:20px;
+border-top:1px solid var(--border);
+}
+.purchase-title{
+font-size:12px;
+font-weight:850;
+margin-bottom:12px;
+}
+.amount{
+display:flex;
+align-items:center;
+gap:8px;
+}
+.amount button{
+width:37px;
+height:37px;
+border-radius:9px;
+border:1px solid var(--border);
+background:#111a25;
+color:white;
+font-size:18px;
+}
+.amount-display{
+min-width:80px;
+text-align:center;
+}
+.amount-display strong{font-size:19px}
+.amount-display span{
+color:var(--muted);
+font-size:10px;
+}
+.quick{
+display:flex;
+gap:6px;
+margin-top:9px;
+flex-wrap:wrap;
+}
+.quick button{
+border:1px solid var(--border);
+background:#0c131c;
+color:#8e9aaa;
+border-radius:7px;
+padding:6px 9px;
+font-size:10px;
+}
+.quick button:hover{
+border-color:rgba(37,140,255,.4);
+color:white;
+}
+.buy{
+width:100%;
+margin-top:13px;
+padding:13px;
+border:0;
+border-radius:10px;
+color:white;
+font-weight:900;
+background:linear-gradient(135deg,var(--blue),var(--cyan));
+}
+/* INFO */
+.info{
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:17px;
+padding:19px;
+}
+.info + .info{margin-top:12px}
+.info-label{
+color:var(--muted);
+font-size:9px;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+.rate{
+font-size:30px;
+font-weight:950;
+margin-top:5px;
+}
+.info-list{
+list-style:none;
+display:grid;
+gap:9px;
+margin-top:13px;
+}
+.info-list li{
+font-size:11px;
+color:#aab4c1;
+}
+.info-list li:before{
+content:"✓";
+color:var(--green);
+font-weight:900;
+margin-right:7px;
+}
+/* PURCHASE MODAL */
+.modal{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:rgba(0,0,0,.76);
+backdrop-filter:blur(8px);
+z-index:100;
+}
+.modal.show{display:flex}
+.purchase-box{
+width:100%;
+max-width:520px;
+max-height:90vh;
+overflow:auto;
+background:#0c131d;
+border:1px solid var(--border);
+border-radius:21px;
+padding:25px;
+box-shadow:0 35px 100px rgba(0,0,0,.55);
+}
+.modal-head{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+}
+.modal-head small{
+display:block;
+color:#43b8ff;
+font-size:9px;
+font-weight:900;
+letter-spacing:1.4px;
+}
+.modal-head h2{
+font-size:23px;
+margin-top:5px;
+}
+.modal-head p{
+color:var(--muted);
+font-size:11px;
+margin-top:4px;
+}
+.close{
+border:0;
+background:transparent;
+color:#758092;
+font-size:24px;
+}
+.form-section{
+margin-top:20px;
+}
+.form-section>label{
+display:block;
+color:#aeb8c5;
+font-size:10px;
+font-weight:800;
+margin-bottom:8px;
+}
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+}
+.input{
+background:#080e16;
+border:1px solid var(--border);
+border-radius:10px;
+padding:11px;
+}
+.input label{
+display:block;
+font-size:9px;
+color:#687587;
+margin-bottom:5px;
+}
+.input input{
+width:100%;
+background:transparent;
+border:0;
+outline:0;
+color:white;
+font-size:12px;
+}
+.payment-list{
+display:grid;
+gap:7px;
+}
+.payment{
+width:100%;
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px;
+border-radius:11px;
+border:1px solid var(--border);
+background:#090f17;
+color:white;
+text-align:left;
+}
+.payment.selected{
+border-color:rgba(37,140,255,.55);
+background:rgba(37,140,255,.07);
+}
+.payment-icon{
+width:31px;
+height:31px;
+border-radius:8px;
+display:grid;
+place-items:center;
+background:#132033;
+color:#61b9ff;
+font-weight:900;
+}
+.payment-info strong{
+display:block;
+font-size:11px;
+}
+.payment-info span{
+display:block;
+font-size:9px;
+color:var(--muted);
+margin-top:2px;
+}
+.payment-check{
+margin-left:auto;
+opacity:0;
+color:var(--cyan);
+font-weight:900;
+}
+.payment.selected .payment-check{opacity:1}
+.checkout-summary{
+margin-top:19px;
+padding:14px;
+border-radius:11px;
+background:#080e16;
+border:1px solid var(--border);
+}
+.summary-line{
+display:flex;
+justify-content:space-between;
+font-size:11px;
+color:#8995a5;
+padding:4px 0;
+}
+.summary-line.total{
+border-top:1px solid var(--border);
+margin-top:7px;
+padding-top:12px;
+color:white;
+font-size:16px;
+font-weight:900;
+}
+.confirm{
+width:100%;
+margin-top:13px;
+padding:13px;
+border:0;
+border-radius:10px;
+background:linear-gradient(135deg,var(--blue),var(--cyan));
+color:white;
+font-weight:900;
+}
+/* ORDERS */
+.orders{
+display:grid;
+gap:9px;
+}
+.order{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:17px;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:14px;
+}
+.order-id{
+font-weight:850;
+font-size:12px;
+}
+.order-meta{
+color:var(--muted);
+font-size:10px;
+margin-top:5px;
+}
+.status{
+padding:6px 9px;
+border-radius:7px;
+background:rgba(56,217,155,.08);
+color:var(--green);
+font-size:9px;
+font-weight:900;
+}
+.empty{
+padding:65px 20px;
+border:1px dashed var(--border);
+border-radius:17px;
+text-align:center;
+}
+.empty-icon{font-size:32px}
+.empty h3{
+font-size:17px;
+margin-top:9px;
+}
+.empty p{
+font-size:11px;
+color:var(--muted);
+margin-top:5px;
+}
+/* PROFILE */
+.profile-card,
+.admin-card{
+max-width:650px;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:18px;
+padding:23px;
+}
+.field{margin-bottom:14px}
+.field label{
+display:block;
+font-size:10px;
+color:#9ba6b4;
+margin-bottom:6px;
+}
+.field input{
+width:100%;
+padding:12px;
+border-radius:9px;
+border:1px solid var(--border);
+background:#080e16;
+color:white;
+outline:0;
+}
+.field input:focus{
+border-color:rgba(37,140,255,.5);
+}
+/* ADMIN */
+.admin-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:17px;
+}
+.admin-stat{
+background:#080e16;
+border:1px solid var(--border);
+border-radius:12px;
+padding:16px;
+}
+.admin-stat span{
+color:var(--muted);
+font-size:9px;
+}
+.admin-stat strong{
+display:block;
+font-size:23px;
+margin-top:5px;
+}
+.admin-tools{
+display:flex;
+gap:8px;
+margin-top:17px;
+flex-wrap:wrap;
+}
+.admin-tools input{
+width:150px;
+padding:11px;
+border-radius:9px;
+border:1px solid var(--border);
+background:#080e16;
+color:white;
+outline:0;
+}
+.admin-orders{
+margin-top:22px;
+}
+/* TOAST */
+.toast{
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:200;
+background:#111a25;
+border:1px solid var(--border);
+padding:12px 15px;
+border-radius:10px;
+font-size:11px;
+transform:translateY(100px);
+opacity:0;
+transition:.25s;
+}
+.toast.show{
+transform:translateY(0);
+opacity:1;
+}
+/* MOBILE */
+@media(max-width:900px){
+.sidebar{
+width:205px;
+}
+.main{
+margin-left:205px;
+width:calc(100% - 205px);
+padding:20px;
+}
+.hero{
+grid-template-columns:1fr;
+padding:32px;
+}
+.store-grid{
+grid-template-columns:1fr;
+}
+}
+@media(max-width:650px){
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+padding:14px;
+border-right:0;
+border-bottom:1px solid var(--border);
+}
+.brand{
+padding-bottom:15px;
+}
+.side-bottom{display:none}
+.nav{
+display:flex;
+overflow-x:auto;
+}
+.nav button{
+min-width:max-content;
+}
+.main{
+margin-left:0;
+width:100%;
+padding:14px;
+}
+.hero{
+padding:25px;
+min-height:auto;
+}
+.hero h2{
+font-size:46px;
+}
+.hero-visual{
+min-height:220px;
+}
+.bgl{
+width:210px;
+height:210px;
+}
+.stats{
+grid-template-columns:1fr;
+}
+.product-main{
+grid-template-columns:1fr;
+}
+.product-img{
+height:220px;
+}
+.form-grid{
+grid-template-columns:1fr;
+}
+.admin-grid{
+grid-template-columns:1fr;
+}
+.top{
+align-items:flex-start;
+}
+.user{
+display:none;
+}
+}
+</style>
 </head>
 <body>
 <div class="app">
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-mark">J</div>
-      <div>
-        <div class="logo-text">J1mPPaZ</div>
-        <div class="logo-sub">BGL Autostore</div>
-      </div>
-    </div>
-    <div class="nav-title">Menu</div>
-    <nav class="nav">
-      <button class="active" onclick="showPage('store', this)">Store</button>
-      <button onclick="showPage('orders', this)">My Orders</button>
-      <button onclick="showPage('profile', this)">Profile</button>
-      <button onclick="showPage('admin', this)">Admin Panel</button>
-    </nav>
-    <div class="sidebar-bottom">
-      <div class="stock-mini">
-        <div class="stock-mini-title">Current stock</div>
-        <div class="stock-row">
-          <div class="stock-number">
-            <span id="stockSide">100</span> BGL
-          </div>
-          <div class="online">
-            <span class="dot"></span>
-            Online
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-  <!-- MAIN -->
-  <main class="main">
-    <!-- STORE -->
-    <section id="store" class="page active">
-      <div class="hero">
-        <div>
-          <div class="eyebrow">BGL AUTOSTORE</div>
-          <h1>
-            Get your <span>BGL.</span>
-          </h1>
-          <p>
-            Simple BGL store. Pick an amount, place your order and keep track of it from your account.
-          </p>
-          <div class="hero-actions">
-            <button class="primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
-              Buy BGL
-            </button>
-            <button class="secondary" onclick="showPage('orders', document.querySelectorAll('.nav button')[1])">
-              My Orders
-            </button>
-          </div>
-        </div>
-        <!-- REAL BGL IMAGE -->
-        <div class="bgl-hero">
-          <img
-            class="bgl-image"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
-            alt="BGL"
-          >
-        </div>
-      </div>
-      <div class="section" id="shop">
-        <div class="section-head">
-          <h2>Buy BGL</h2>
-          <span>Fast & simple</span>
-        </div>
-        <div class="store-grid">
-          <div class="product">
-            <div class="product-top">
-              <div class="product-image">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
-                  alt="BGL"
-                >
-              </div>
-              <div>
-                <div class="product-label">Growtopia Currency</div>
-                <h3>Blue Gem Lock</h3>
-                <div class="price">
-                  2.30€ <small>/ BGL</small>
-                </div>
-                <p class="product-desc">
-                  Choose how many BGL you want and continue to checkout.
-                </p>
-                <div class="quantity">
-                  <button class="qty-btn" onclick="changeQty(-1)">−</button>
-                  <div class="qty-value" id="qty">1 BGL</div>
-                  <button class="qty-btn" onclick="changeQty(1)">+</button>
-                </div>
-                <button class="buy-btn" onclick="openCheckout()">
-                  Continue
-                </button>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="info-card">
-              <div class="info-label">Current rate</div>
-              <div class="rate">2.30€</div>
-              <div style="color:#8793a5;font-size:12px;margin-top:5px;">
-                per BGL
-              </div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">Before ordering</div>
-              <ul class="check-list">
-                <li>Check your BGL amount</li>
-                <li>Enter your GrowID correctly</li>
-                <li>Check your order details</li>
-                <li>Keep your order ID</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ORDERS -->
-    <section id="orders" class="page">
-      <div class="section-head">
-        <div>
-          <h2>My Orders</h2>
-          <span>Your previous orders</span>
-        </div>
-      </div>
-      <div id="ordersList"></div>
-    </section>
-    <!-- PROFILE -->
-    <section id="profile" class="page">
-      <div class="section-head">
-        <div>
-          <h2>Profile</h2>
-          <span>Your delivery information</span>
-        </div>
-      </div>
-      <div class="form-card">
-        <div class="field">
-          <label>GrowID</label>
-          <input id="profileGrowID" placeholder="Your GrowID">
-        </div>
-        <div class="field">
-          <label>Discord</label>
-          <input id="profileDiscord" placeholder="Your Discord username">
-        </div>
-        <button class="primary" onclick="saveProfile()">
-          Save Profile
-        </button>
-      </div>
-    </section>
-    <!-- ADMIN -->
-    <section id="admin" class="page">
-      <div class="section-head">
-        <div>
-          <h2>Admin Panel</h2>
-          <span>Private store management</span>
-        </div>
-      </div>
-      <div id="adminContent"></div>
-    </section>
-  </main>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<div class="brand">
+<div class="logo">J</div>
+<div>
+<strong>J1mPPaZ</strong>
+<small>BGL Autostore</small>
 </div>
-<!-- CHECKOUT MODAL -->
-<div class="modal" id="checkoutModal">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3>Checkout</h3>
-      <button class="close" onclick="closeModal('checkoutModal')">×</button>
-    </div>
-    <div class="summary">
-      <div class="summary-row">
-        <span>Product</span>
-        <span>Blue Gem Lock</span>
-      </div>
-      <div class="summary-row">
-        <span>Amount</span>
-        <span id="checkoutQty">1 BGL</span>
-      </div>
-      <div class="summary-row total">
-        <span>Total</span>
-        <span id="checkoutTotal">2.30€</span>
-      </div>
-    </div>
-    <div class="field">
-      <label>GrowID</label>
-      <input id="checkoutGrowID" placeholder="Your GrowID">
-    </div>
-    <div class="field">
-      <label>Discord</label>
-      <input id="checkoutDiscord" placeholder="Your Discord username">
-    </div>
-    <button class="primary" style="width:100%;" onclick="placeOrder()">
-      Place Order
-    </button>
-  </div>
 </div>
-<!-- TOAST -->
+<div class="nav-title">STORE</div>
+<nav class="nav">
+<button class="active" onclick="showPage('store',this)">
+Store
+</button>
+<button onclick="showPage('orders',this)">
+My Orders
+</button>
+<button onclick="showPage('profile',this)">
+Profile
+</button>
+<button onclick="showPage('admin',this)">
+Admin Panel
+</button>
+</nav>
+<div class="side-bottom">
+<div class="stock-mini">
+<div class="stock-mini-label">
+Current stock
+</div>
+<div class="stock-mini-value">
+<span id="sideStock">100</span> BGL
+</div>
+<div class="online">
+<span class="online-dot"></span>
+Store online
+</div>
+</div>
+</div>
+</aside>
+<!-- MAIN -->
+<main class="main">
+<!-- STORE -->
+<section id="store" class="page active">
+<div class="top">
+<div>
+<h1>Store</h1>
+<p>Blue Gem Locks · J1mPPaZ</p>
+</div>
+<div class="user">
+<div class="avatar">J</div>
+Guest
+</div>
+</div>
+<div class="hero">
+<div class="hero-content">
+<div class="tag">
+BGL AUTOSTORE
+</div>
+<h2>
+Buy your<br>
+<span>BGL.</span>
+</h2>
+<p>
+Choose your amount, enter your delivery details
+and place your order. Everything you need is in one place.
+</p>
+<div class="hero-buttons">
+<button class="btn primary"
+onclick="document.getElementById('products').scrollIntoView()">
+Buy BGL
+</button>
+<button class="btn secondary"
+onclick="showPage('orders',document.querySelectorAll('.nav button')[1])">
+My Orders
+</button>
+</div>
+</div>
+<div class="hero-visual">
+<img
+class="bgl"
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
+alt="BGL"
+>
+</div>
+</div>
+<div class="stats">
+<div class="stat">
+<span>PRICE</span>
+<strong>2.30€ / BGL</strong>
+</div>
+<div class="stat">
+<span>AVAILABLE</span>
+<strong id="statStock">100 BGL</strong>
+</div>
+<div class="stat">
+<span>STATUS</span>
+<strong style="color:var(--green)">Online</strong>
+</div>
+</div>
+<div class="section" id="products">
+<div class="section-head">
+<h2>Available product</h2>
+<span>1 product</span>
+</div>
+<div class="store-grid">
+<div class="product">
+<div class="product-main">
+<div class="product-img">
+<img
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
+alt="Blue Gem Lock"
+>
+</div>
+<div>
+<div class="product-label">
+GROWtopia CURRENCY
+</div>
+<h3>Blue Gem Lock</h3>
+<div class="price">
+2.30€ <small>/ BGL</small>
+</div>
+<p class="description">
+Select the amount you need and continue to purchase.
+</p>
+<div class="purchase">
+<div class="purchase-title">
+Amount
+</div>
+<div class="amount">
+<button onclick="changeAmount(-1)">−</button>
+<div class="amount-display">
+<strong id="amount">1</strong>
+<span>BGL</span>
+</div>
+<button onclick="changeAmount(1)">+</button>
+</div>
+<div class="quick">
+<button onclick="setAmount(1)">1 BGL</button>
+<button onclick="setAmount(5)">5 BGL</button>
+<button onclick="setAmount(10)">10 BGL</button>
+<button onclick="setAmount(25)">25 BGL</button>
+</div>
+<button class="buy" onclick="openPurchase()">
+Purchase
+</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div class="info">
+<div class="info-label">
+Current rate
+</div>
+<div class="rate">
+2.30€
+</div>
+<div style="color:var(--muted);font-size:10px;margin-top:3px">
+per BGL
+</div>
+</div>
+<div class="info">
+<div class="info-label">
+Before ordering
+</div>
+<ul class="info-list">
+<li>Check your amount</li>
+<li>Enter correct GrowID</li>
+<li>Check your Discord</li>
+<li>Keep your order ID</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<!-- ORDERS -->
+<section id="orders" class="page">
+<div class="top">
+<div>
+<h1>My Orders</h1>
+<p>Your previous orders</p>
+</div>
+</div>
+<div id="ordersList"></div>
+</section>
+<!-- PROFILE -->
+<section id="profile" class="page">
+<div class="top">
+<div>
+<h1>Profile</h1>
+<p>Manage your delivery information</p>
+</div>
+</div>
+<div class="profile-card">
+<div class="field">
+<label>GrowID</label>
+<input
+id="profileGrowID"
+placeholder="Your GrowID"
+>
+</div>
+<div class="field">
+<label>Discord</label>
+<input
+id="profileDiscord"
+placeholder="Your Discord username"
+>
+</div>
+<button class="btn primary" onclick="saveProfile()">
+Save profile
+</button>
+</div>
+</section>
+<!-- ADMIN -->
+<section id="admin" class="page">
+<div class="top">
+<div>
+<h1>Admin Panel</h1>
+<p>Private store management</p>
+</div>
+</div>
+<div id="adminContent"></div>
+</section>
+</main>
+</div>
+<!-- PURCHASE MODAL -->
+<div class="modal" id="purchaseModal">
+<div class="purchase-box">
+<div class="modal-head">
+<div>
+<small>PURCHASE</small>
+<h2>Buy BGL</h2>
+<p>Complete your order details.</p>
+</div>
+<button class="close"
+onclick="closePurchase()">
+×
+</button>
+</div>
+<div class="form-section">
+<label>Amount</label>
+<div class="amount">
+<button onclick="changeAmount(-1)">−</button>
+<div class="amount-display">
+<strong id="modalAmount">1</strong>
+<span>BGL</span>
+</div>
+<button onclick="changeAmount(1)">+</button>
+</div>
+</div>
+<div class="form-section">
+<label>Delivery details</label>
+<div class="form-grid">
+<div class="input">
+<label>GrowID</label>
+<input
+id="purchaseGrowID"
+placeholder="Your GrowID"
+>
+</div>
+<div class="input">
+<label>Discord</label>
+<input
+id="purchaseDiscord"
+placeholder="username"
+>
+</div>
+</div>
+</div>
+<div class="form-section">
+<label>Payment method</label>
+<div class="payment-list">
+<button
+class="payment selected"
+onclick="selectPayment(this,'Manual Payment')"
+>
+<div class="payment-icon">€</div>
+<div class="payment-info">
+<strong>Manual Payment</strong>
+<span>Payment instructions after order</span>
+</div>
+<div class="payment-check">✓</div>
+</button>
+<button
+class="payment"
+onclick="selectPayment(this,'Discord Payment')"
+>
+<div class="payment-icon">D</div>
+<div class="payment-info">
+<strong>Discord Payment</strong>
+<span>Payment instructions through Discord</span>
+</div>
+<div class="payment-check">✓</div>
+</button>
+</div>
+</div>
+<div class="checkout-summary">
+<div class="summary-line">
+<span>BGL amount</span>
+<strong id="summaryAmount">
+1
+</strong>
+</div>
+<div class="summary-line">
+<span>Rate</span>
+<strong>2.30€ / BGL</strong>
+</div>
+<div class="summary-line total">
+<span>Total</span>
+<strong id="summaryTotal">
+2.30€
+</strong>
+</div>
+</div>
+<button class="confirm" onclick="placeOrder()">
+Continue to order →
+</button>
+</div>
+</div>
 <div class="toast" id="toast"></div>
 <script>
-  const PRICE_PER_BGL = 2.30;
-  let quantity = 1;
-  let state = JSON.parse(
-    localStorage.getItem("j1mppaz_bgl_store")
-  ) || {
-    stock: 100,
-    orders: [],
-    profile: {
-      growID: "",
-      discord: ""
-    },
-    adminLogged: false
-  };
-  function saveState() {
-    localStorage.setItem(
-      "j1mppaz_bgl_store",
-      JSON.stringify(state)
-    );
-    updateStock();
-  }
-  function updateStock() {
-    document.getElementById("stockSide").textContent =
-      state.stock;
-  }
-  function showPage(id, button) {
-    document.querySelectorAll(".page").forEach(page => {
-      page.classList.remove("active");
-    });
-    document.getElementById(id).classList.add("active");
-    document.querySelectorAll(".nav button").forEach(btn => {
-      btn.classList.remove("active");
-    });
-    if (button) {
-      button.classList.add("active");
-    }
-    if (id === "orders") {
-      renderOrders();
-    }
-    if (id === "profile") {
-      loadProfile();
-    }
-    if (id === "admin") {
-      renderAdmin();
-    }
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-  function changeQty(amount) {
-    quantity += amount;
-    if (quantity < 1) {
-      quantity = 1;
-    }
-    if (quantity > state.stock) {
-      quantity = state.stock;
-    }
-    document.getElementById("qty").textContent =
-      quantity + (quantity === 1 ? " BGL" : " BGL");
-  }
-  function openCheckout() {
-    if (state.stock <= 0) {
-      showToast("Out of stock");
-      return;
-    }
-    if (quantity > state.stock) {
-      showToast("Not enough stock");
-      return;
-    }
-    document.getElementById("checkoutQty").textContent =
-      quantity + " BGL";
-    document.getElementById("checkoutTotal").textContent =
-      (quantity * PRICE_PER_BGL).toFixed(2) + "€";
-    document.getElementById("checkoutGrowID").value =
-      state.profile.growID || "";
-    document.getElementById("checkoutDiscord").value =
-      state.profile.discord || "";
-    document
-      .getElementById("checkoutModal")
-      .classList.add("show");
-  }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove("show");
-  }
-  function placeOrder() {
-    const growID =
-      document.getElementById("checkoutGrowID").value.trim();
-    const discord =
-      document.getElementById("checkoutDiscord").value.trim();
-    if (!growID) {
-      showToast("Enter your GrowID");
-      return;
-    }
-    if (!discord) {
-      showToast("Enter your Discord");
-      return;
-    }
-    if (quantity > state.stock) {
-      showToast("Not enough stock");
-      return;
-    }
-    const order = {
-      id:
-        "BGL-" +
-        Math.random()
-          .toString(36)
-          .substring(2,8)
-          .toUpperCase(),
-      amount: quantity,
-      total:
-        Number(
-          (quantity * PRICE_PER_BGL).toFixed(2)
-        ),
-      growID,
-      discord,
-      status: "Pending",
-      date: new Date().toLocaleString("fi-FI")
-    };
-    state.orders.unshift(order);
-    state.stock -= quantity;
-    state.profile.growID = growID;
-    state.profile.discord = discord;
-    saveState();
-    closeModal("checkoutModal");
-    quantity = 1;
-    document.getElementById("qty").textContent = "1 BGL";
-    showToast("Order placed!");
-    showPage(
-      "orders",
-      document.querySelectorAll(".nav button")[1]
-    );
-  }
-  function renderOrders() {
-    const box =
-      document.getElementById("ordersList");
-    if (!state.orders.length) {
-      box.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">📦</div>
-          <h3>No orders yet</h3>
-          <p>Your orders will appear here.</p>
-        </div>
-      `;
-      return;
-    }
-    box.innerHTML =
-      state.orders.map(order => `
-        <div class="order">
-          <div>
-            <div class="order-id">
-              ${escapeHTML(order.id)}
-            </div>
-            <div class="order-meta">
-              ${escapeHTML(order.amount)} BGL
-              ·
-              ${escapeHTML(order.total)}€
-              ·
-              ${escapeHTML(order.date)}
-            </div>
-          </div>
-          <div class="status">
-            ${escapeHTML(order.status)}
-          </div>
-        </div>
-      `).join("");
-  }
-  function loadProfile() {
-    document.getElementById("profileGrowID").value =
-      state.profile.growID || "";
-    document.getElementById("profileDiscord").value =
-      state.profile.discord || "";
-  }
-  function saveProfile() {
-    state.profile.growID =
-      document.getElementById("profileGrowID").value.trim();
-    state.profile.discord =
-      document.getElementById("profileDiscord").value.trim();
-    saveState();
-    showToast("Profile saved");
-  }
-  function renderAdmin() {
-    const box =
-      document.getElementById("adminContent");
-    if (!state.adminLogged) {
-      box.innerHTML = `
-        <div class="admin-login">
-          <h3>Admin login</h3>
-          <p style="color:#8793a5;font-size:13px;margin:7px 0 20px;">
-            This area is only for the store owner.
-          </p>
-          <div class="field">
-            <label>Username</label>
-            <input id="adminUser" autocomplete="off">
-          </div>
-          <div class="field">
-            <label>Password</label>
-            <input id="adminPass" type="password">
-          </div>
-          <button class="primary" onclick="adminLogin()">
-            Login
-          </button>
-        </div>
-      `;
-      return;
-    }
-    box.innerHTML = `
-      <div class="admin-panel">
-        <h3>Store Dashboard</h3>
-        <div class="admin-grid">
-          <div class="admin-stat">
-            <span>Orders</span>
-            <strong>${state.orders.length}</strong>
-          </div>
-          <div class="admin-stat">
-            <span>Stock</span>
-            <strong>${state.stock}</strong>
-          </div>
-          <div class="admin-stat">
-            <span>Revenue</span>
-            <strong>
-              ${state.orders
-                .reduce((sum,o) => sum + Number(o.total),0)
-                .toFixed(2)}€
-            </strong>
-          </div>
-        </div>
-        <div class="admin-tools">
-          <input
-            id="stockInput"
-            type="number"
-            min="0"
-            value="${state.stock}"
-            style="
-              padding:12px;
-              border-radius:10px;
-              border:1px solid var(--border);
-              background:#090f17;
-              color:white;
-              width:180px;
-            "
-          >
-          <button
-            class="primary"
-            onclick="updateAdminStock()"
-          >
-            Update Stock
-          </button>
-          <button
-            class="secondary"
-            onclick="adminLogout()"
-          >
-            Logout
-          </button>
-        </div>
-        <div style="margin-top:25px;">
-          <h3 style="margin-bottom:12px;">
-            Recent Orders
-          </h3>
-          ${
-            state.orders.length
-              ? state.orders.slice(0,10).map(order => `
-                <div class="order">
-                  <div>
-                    <div class="order-id">
-                      ${escapeHTML(order.id)}
-                    </div>
-                    <div class="order-meta">
-                      ${escapeHTML(order.growID)}
-                      ·
-                      ${escapeHTML(order.amount)} BGL
-                      ·
-                      ${escapeHTML(order.total)}€
-                    </div>
-                  </div>
-                  <div class="status">
-                    ${escapeHTML(order.status)}
-                  </div>
-                </div>
-              `).join("")
-              : `
-                <div class="empty">
-                  <div class="empty-icon">📦</div>
-                  <h3>No orders</h3>
-                </div>
-              `
-          }
-        </div>
-      </div>
-    `;
-  }
-  function adminLogin() {
-    const username =
-      document.getElementById("adminUser").value;
-    const password =
-      document.getElementById("adminPass").value;
-    if (
-      username === "JimpanAdmini" &&
-      password === "JimppaFortniteAdmin"
-    ) {
-      state.adminLogged = true;
-      saveState();
-      renderAdmin();
-      showToast("Admin login successful");
-    } else {
-      showToast("Wrong username or password");
-    }
-  }
-  function adminLogout() {
-    state.adminLogged = false;
-    saveState();
-    renderAdmin();
-    showToast("Logged out");
-  }
-  function updateAdminStock() {
-    const value =
-      Number(
-        document.getElementById("stockInput").value
-      );
-    if (!Number.isFinite(value) || value < 0) {
-      showToast("Invalid stock");
-      return;
-    }
-    state.stock = Math.floor(value);
-    saveState();
-    renderAdmin();
-    showToast("Stock updated");
-  }
-  function showToast(message) {
-    const toast =
-      document.getElementById("toast");
-    toast.textContent = message;
-    toast.classList.add("show");
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2200);
-  }
-  function escapeHTML(value) {
-    return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-  updateStock();
+const PRICE = 2.30;
+const ADMIN_USER = "JimpanAdmini";
+const ADMIN_PASS = "JimppaFortniteAdmin";
+let amount = 1;
+let selectedPayment = "Manual Payment";
+let state = JSON.parse(
+localStorage.getItem("j1mppaz_bgl_store")
+) || {
+stock:100,
+orders:[],
+profile:{
+growID:"",
+discord:""
+},
+adminLogged:false
+};
+function save(){
+localStorage.setItem(
+"j1mppaz_bgl_store",
+JSON.stringify(state)
+);
+updateStock();
+}
+function updateStock(){
+document.getElementById("sideStock").textContent =
+state.stock;
+document.getElementById("statStock").textContent =
+state.stock + " BGL";
+}
+function showPage(id,btn){
+document
+.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+document
+.getElementById(id)
+.classList.add("active");
+document
+.querySelectorAll(".nav button")
+.forEach(b=>b.classList.remove("active"));
+if(btn) btn.classList.add("active");
+if(id==="orders") renderOrders();
+if(id==="profile") loadProfile();
+if(id==="admin") renderAdmin();
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+}
+function changeAmount(change){
+amount += change;
+if(amount < 1)
+amount = 1;
+if(amount > state.stock)
+amount = state.stock;
+updatePurchaseDisplay();
+}
+function setAmount(value){
+amount = Math.min(value,state.stock);
+if(amount < 1)
+amount = 1;
+updatePurchaseDisplay();
+}
+function updatePurchaseDisplay(){
+document.getElementById("amount").textContent =
+amount;
+document.getElementById("modalAmount").textContent =
+amount;
+document.getElementById("summaryAmount").textContent =
+amount;
+document.getElementById("summaryTotal").textContent =
+(amount * PRICE).toFixed(2) + "€";
+}
+function openPurchase(){
+if(state.stock <= 0){
+showToast("Out of stock");
+return;
+}
+document.getElementById("purchaseGrowID").value =
+state.profile.growID || "";
+document.getElementById("purchaseDiscord").value =
+state.profile.discord || "";
+updatePurchaseDisplay();
+document
+.getElementById("purchaseModal")
+.classList.add("show");
+}
+function closePurchase(){
+document
+.getElementById("purchaseModal")
+.classList.remove("show");
+}
+function selectPayment(button,name){
+selectedPayment = name;
+document
+.querySelectorAll(".payment")
+.forEach(p=>p.classList.remove("selected"));
+button.classList.add("selected");
+}
+function placeOrder(){
+const growID =
+document.getElementById("purchaseGrowID")
+.value.trim();
+const discord =
+document.getElementById("purchaseDiscord")
+.value.trim();
+if(!growID){
+showToast("Enter your GrowID");
+return;
+}
+if(!discord){
+showToast("Enter your Discord");
+return;
+}
+if(amount > state.stock){
+showToast("Not enough stock");
+return;
+}
+const order = {
+id:
+"BGL-" +
+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase(),
+amount:amount,
+total:Number(
+(amount * PRICE).toFixed(2)
+),
+growID:growID,
+discord:discord,
+payment:selectedPayment,
+status:"Pending",
+date:new Date().toLocaleString("fi-FI")
+};
+state.orders.unshift(order);
+state.stock -= amount;
+state.profile.growID = growID;
+state.profile.discord = discord;
+save();
+closePurchase();
+amount = 1;
+updatePurchaseDisplay();
+showToast("Order placed!");
+showPage(
+"orders",
+document.querySelectorAll(".nav button")[1]
+);
+}
+function renderOrders(){
+const box =
+document.getElementById("ordersList");
+if(!state.orders.length){
+box.innerHTML = `
+<div class="empty">
+<div class="empty-icon">📦</div>
+<h3>No orders yet</h3>
+<p>Your orders will appear here.</p>
+</div>
+`;
+return;
+}
+box.innerHTML = `
+<div class="orders">
+${
+state.orders.map(order=>`
+<div class="order">
+<div>
+<div class="order-id">
+${escapeHTML(order.id)}
+</div>
+<div class="order-meta">
+${escapeHTML(order.amount)} BGL
+·
+${escapeHTML(order.total)}€
+·
+${escapeHTML(order.date)}
+</div>
+</div>
+<div class="status">
+${escapeHTML(order.status)}
+</div>
+</div>
+`).join("")
+}
+</div>
+`;
+}
+function loadProfile(){
+document.getElementById("profileGrowID").value =
+state.profile.growID || "";
+document.getElementById("profileDiscord").value =
+state.profile.discord || "";
+}
+function saveProfile(){
+state.profile.growID =
+document.getElementById("profileGrowID")
+.value.trim();
+state.profile.discord =
+document.getElementById("profileDiscord")
+.value.trim();
+save();
+showToast("Profile saved");
+}
+function renderAdmin(){
+const box =
+document.getElementById("adminContent");
+if(!state.adminLogged){
+box.innerHTML = `
+<div class="admin-card">
+<h3>Admin login</h3>
+<p style="
+color:var(--muted);
+font-size:11px;
+margin-top:5px;
+margin-bottom:18px;
+">
+Private store management area.
+</p>
+<div class="field">
+<label>Username</label>
+<input
+id="adminUser"
+autocomplete="off"
+>
+</div>
+<div class="field">
+<label>Password</label>
+<input
+id="adminPass"
+type="password"
+>
+</div>
+<button
+class="btn primary"
+onclick="adminLogin()"
+>
+Login
+</button>
+</div>
+`;
+return;
+}
+const revenue =
+state.orders.reduce(
+(sum,o)=>sum+Number(o.total),
+0
+);
+box.innerHTML = `
+<div class="admin-card">
+<h3>Store Dashboard</h3>
+<div class="admin-grid">
+<div class="admin-stat">
+<span>ORDERS</span>
+<strong>
+${state.orders.length}
+</strong>
+</div>
+<div class="admin-stat">
+<span>STOCK</span>
+<strong>
+${state.stock}
+</strong>
+</div>
+<div class="admin-stat">
+<span>REVENUE</span>
+<strong>
+${revenue.toFixed(2)}€
+</strong>
+</div>
+</div>
+<div class="admin-tools">
+<input
+id="stockInput"
+type="number"
+min="0"
+value="${state.stock}"
+>
+<button
+class="btn primary"
+onclick="updateAdminStock()"
+>
+Update Stock
+</button>
+<button
+class="btn secondary"
+onclick="adminLogout()"
+>
+Logout
+</button>
+</div>
+<div class="admin-orders">
+<h3 style="font-size:14px;margin-bottom:10px">
+Recent Orders
+</h3>
+${
+state.orders.length
+?
+state.orders.slice(0,10).map(order=>`
+<div class="order">
+<div>
+<div class="order-id">
+${escapeHTML(order.id)}
+</div>
+<div class="order-meta">
+${escapeHTML(order.growID)}
+·
+${escapeHTML(order.amount)} BGL
+·
+${escapeHTML(order.total)}€
+·
+${escapeHTML(order.payment)}
+</div>
+</div>
+<div class="status">
+${escapeHTML(order.status)}
+</div>
+</div>
+`).join("")
+:
+`
+<div class="empty">
+<div class="empty-icon">📦</div>
+<h3>No orders</h3>
+<p>Orders will appear here.</p>
+</div>
+`
+}
+</div>
+</div>
+`;
+}
+function adminLogin(){
+const username =
+document.getElementById("adminUser").value;
+const password =
+document.getElementById("adminPass").value;
+if(
+username === ADMIN_USER &&
+password === ADMIN_PASS
+){
+state.adminLogged = true;
+save();
+renderAdmin();
+showToast("Admin login successful");
+}else{
+showToast("Wrong login");
+}
+}
+function adminLogout(){
+state.adminLogged = false;
+save();
+renderAdmin();
+showToast("Logged out");
+}
+function updateAdminStock(){
+const input =
+document.getElementById("stockInput");
+const value =
+Number(input.value);
+if(!Number.isFinite(value) || value < 0){
+showToast("Invalid stock");
+return;
+}
+state.stock = Math.floor(value);
+save();
+renderAdmin();
+showToast("Stock updated");
+}
+function showToast(message){
+const toast =
+document.getElementById("toast");
+toast.textContent = message;
+toast.classList.add("show");
+setTimeout(
+()=>toast.classList.remove("show"),
+2200
+);
+}
+function escapeHTML(value){
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+document
+.getElementById("purchaseModal")
+.addEventListener("click",function(e){
+if(e.target === this)
+closePurchase();
+});
+updateStock();
+updatePurchaseDisplay();
 </script>
 </body>
 </html>
