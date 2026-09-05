@@ -2,475 +2,646 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J1mPPaZ BGL Store</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>J1mPPaZ BGL Autostore</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 :root{
-  --bg:#07080c;
-  --panel:#0d1017;
-  --panel2:#11151e;
-  --panel3:#151a25;
-  --line:#202633;
-  --text:#f5f7fb;
-  --muted:#858da0;
+  --bg:#05060a;
+  --bg2:#080a10;
+  --card:rgba(15,18,27,.72);
+  --card2:#111520;
+  --line:rgba(255,255,255,.075);
+  --text:#f7f8fc;
+  --muted:#858da1;
   --purple:#8b5cf6;
   --purple2:#a78bfa;
-  --cyan:#22d3ee;
-  --green:#34d399;
-  --red:#fb7185;
+  --cyan:#28d7ff;
+  --green:#35e0a0;
+  --discord:#5865f2;
 }
-
-*{box-sizing:border-box}
-
+*{
+  box-sizing:border-box;
+}
+html{
+  scroll-behavior:smooth;
+}
 body{
   margin:0;
   min-height:100vh;
   color:var(--text);
   background:
-    radial-gradient(circle at 80% -10%,rgba(139,92,246,.17),transparent 32%),
-    radial-gradient(circle at -10% 100%,rgba(34,211,238,.08),transparent 30%),
-    var(--bg);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    radial-gradient(circle at 50% -15%,rgba(139,92,246,.18),transparent 35%),
+    radial-gradient(circle at 100% 40%,rgba(40,215,255,.07),transparent 28%),
+    #05060a;
+  font-family:Inter,system-ui,sans-serif;
+  overflow-x:hidden;
 }
-
-button{
-  font:inherit;
+/* =========================
+   BACKGROUND EFFECTS
+========================= */
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:50px 50px;
+  mask-image:linear-gradient(to bottom,black,transparent 80%);
 }
-
-button:focus{
-  outline:none;
+.noise{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.025;
+  z-index:100;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
-
-.app{
-  min-height:100vh;
-}
-
-/* SIDEBAR */
-
+/* =========================
+   SIDEBAR
+========================= */
 .sidebar{
   position:fixed;
   left:0;
   top:0;
   bottom:0;
-  width:250px;
-  padding:22px 15px;
-  background:rgba(7,9,14,.94);
+  width:255px;
+  z-index:50;
+  padding:22px 14px;
+  background:rgba(5,7,11,.82);
   border-right:1px solid var(--line);
   backdrop-filter:blur(25px);
-  z-index:20;
 }
-
 .logo{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:4px 10px 30px;
+  padding:5px 11px 32px;
 }
-
-.logo-box{
+.logoIcon{
   width:43px;
   height:43px;
-  border-radius:13px;
   display:grid;
   place-items:center;
-  font-size:18px;
-  font-weight:950;
+  border-radius:14px;
+  color:white;
+  font-weight:900;
   background:linear-gradient(135deg,var(--purple),var(--cyan));
-  box-shadow:0 10px 35px rgba(139,92,246,.25);
+  box-shadow:
+    0 0 25px rgba(139,92,246,.3),
+    inset 0 1px rgba(255,255,255,.25);
 }
-
-.logo strong{
+.logoText b{
   display:block;
   font-size:15px;
 }
-
-.logo span{
+.logoText span{
   display:block;
   margin-top:3px;
-  color:var(--muted);
-  font-size:9px;
+  color:#70788b;
+  font-size:8px;
   font-weight:800;
-  letter-spacing:.16em;
+  letter-spacing:.18em;
 }
-
 .nav{
   display:grid;
   gap:5px;
 }
-
 .nav button{
   width:100%;
-  padding:12px 13px;
+  position:relative;
+  padding:12px 14px;
   border:0;
-  border-radius:11px;
+  border-radius:12px;
+  color:#7f879a;
   background:transparent;
-  color:#858da0;
   text-align:left;
   cursor:pointer;
-  font-size:13px;
   font-weight:700;
-  transition:.2s;
+  transition:.25s;
 }
-
+.nav button:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:20%;
+  width:2px;
+  height:60%;
+  border-radius:4px;
+  background:var(--purple);
+  opacity:0;
+  transition:.25s;
+}
 .nav button:hover{
   color:white;
-  background:#121722;
+  background:rgba(255,255,255,.035);
+  transform:translateX(2px);
 }
-
 .nav button.active{
   color:white;
-  background:linear-gradient(90deg,#181c29,#12151d);
-  box-shadow:inset 2px 0 var(--purple);
+  background:linear-gradient(90deg,rgba(139,92,246,.13),rgba(255,255,255,.025));
 }
-
-/* MAIN */
-
+.nav button.active:before{
+  opacity:1;
+}
+/* =========================
+   MAIN
+========================= */
 .main{
-  margin-left:250px;
-  padding:28px;
-  max-width:1550px;
+  margin-left:255px;
+  padding:27px;
+  max-width:1600px;
 }
-
 .topbar{
+  height:60px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:28px;
+  margin-bottom:25px;
 }
-
 .eyebrow{
-  color:#7f8799;
-  font-size:10px;
+  color:#747d91;
+  font-size:9px;
   font-weight:900;
-  letter-spacing:.17em;
+  letter-spacing:.2em;
   text-transform:uppercase;
 }
-
-.page-title{
-  margin:5px 0 0;
-  font-size:29px;
-  letter-spacing:-.04em;
+.pageTitle{
+  margin:4px 0 0;
+  font-size:28px;
+  letter-spacing:-.045em;
 }
-
-.discord-btn{
-  padding:11px 16px;
-  border:1px solid #30384b;
+.discordTop{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border:1px solid rgba(255,255,255,.09);
   border-radius:12px;
-  background:#111622;
   color:white;
+  background:#111522;
   cursor:pointer;
+  font-size:11px;
   font-weight:800;
-  transition:.2s;
+  transition:.25s;
 }
-
-.discord-btn:hover{
-  background:#5865f2;
-  border-color:#5865f2;
+.discordTop:hover{
+  background:var(--discord);
+  border-color:var(--discord);
+  box-shadow:0 10px 35px rgba(88,101,242,.25);
+  transform:translateY(-2px);
 }
-
-/* VIEWS */
-
+.discordDot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#7289da;
+  box-shadow:0 0 12px #7289da;
+}
+/* =========================
+   VIEWS
+========================= */
 .view{
   display:none;
+  animation:viewIn .35s ease;
 }
-
 .view.active{
   display:block;
 }
-
-/* HERO */
-
+@keyframes viewIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+/* =========================
+   HERO
+========================= */
 .hero{
-  min-height:470px;
   position:relative;
+  min-height:465px;
   overflow:hidden;
   display:grid;
-  grid-template-columns:1.05fr .95fr;
+  grid-template-columns:1fr .9fr;
   border:1px solid var(--line);
-  border-radius:27px;
+  border-radius:28px;
   background:
-    linear-gradient(135deg,rgba(18,21,31,.98),rgba(8,10,15,.95));
+    linear-gradient(135deg,rgba(17,20,31,.95),rgba(7,9,14,.91));
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.25),
+    inset 0 1px rgba(255,255,255,.025);
 }
-
 .hero:before{
   content:"";
   position:absolute;
-  width:500px;
-  height:500px;
-  right:-150px;
-  top:-230px;
+  width:550px;
+  height:550px;
+  right:-190px;
+  top:-250px;
   border-radius:50%;
-  background:rgba(139,92,246,.15);
+  background:rgba(139,92,246,.18);
+  filter:blur(100px);
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  left:30%;
+  bottom:-230px;
+  border-radius:50%;
+  background:rgba(40,215,255,.08);
   filter:blur(90px);
 }
-
-.hero-content{
+.heroContent{
   position:relative;
-  z-index:2;
+  z-index:3;
   padding:60px;
 }
-
-.hero h2{
-  margin:13px 0 20px;
-  font-size:63px;
-  line-height:.94;
-  letter-spacing:-.065em;
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border:1px solid rgba(53,224,160,.15);
+  border-radius:999px;
+  color:#9af1cf;
+  background:rgba(53,224,160,.05);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.08em;
 }
-
+.statusDot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+  animation:pulse 1.8s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.45;transform:scale(.75)}
+}
+.hero h2{
+  margin:20px 0 17px;
+  font-size:62px;
+  line-height:.92;
+  letter-spacing:-.07em;
+}
+.gradientText{
+  background:linear-gradient(100deg,#fff 10%,#b79cff 55%,#58dcff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
 .hero p{
-  max-width:580px;
-  color:var(--muted);
-  font-size:14px;
+  max-width:560px;
+  color:#858da1;
+  font-size:13px;
   line-height:1.8;
 }
-
 .tags{
   display:flex;
-  flex-wrap:wrap;
   gap:8px;
-  margin:25px 0;
+  flex-wrap:wrap;
+  margin:23px 0;
 }
-
 .tag{
-  padding:8px 11px;
+  padding:8px 10px;
   border:1px solid var(--line);
   border-radius:999px;
-  background:#0c1018;
-  color:#b9c0cf;
-  font-size:10px;
+  background:rgba(255,255,255,.025);
+  color:#adb4c3;
+  font-size:9px;
   font-weight:700;
 }
-
 .primary{
-  padding:13px 18px;
   border:0;
+  padding:13px 18px;
   border-radius:12px;
   color:white;
-  background:linear-gradient(135deg,var(--purple),#6948e8);
+  background:linear-gradient(135deg,var(--purple),#6948eb);
   cursor:pointer;
   font-weight:850;
-  box-shadow:0 10px 35px rgba(139,92,246,.16);
-  transition:.2s;
+  box-shadow:0 10px 35px rgba(139,92,246,.18);
+  transition:.25s;
 }
-
 .primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 15px 40px rgba(139,92,246,.27);
+  transform:translateY(-3px);
+  box-shadow:0 18px 45px rgba(139,92,246,.3);
 }
-
-.hero-image{
+.heroVisual{
   position:relative;
-  z-index:2;
+  z-index:3;
   display:grid;
   place-items:center;
-  padding:35px;
 }
-
-.bgl-image{
-  width:min(420px,90%);
-  max-height:370px;
+.heroOrb{
+  position:absolute;
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  border:1px solid rgba(139,92,246,.15);
+  box-shadow:
+    0 0 100px rgba(139,92,246,.13),
+    inset 0 0 80px rgba(139,92,246,.06);
+  animation:orb 8s ease-in-out infinite;
+}
+@keyframes orb{
+  0%,100%{transform:scale(1) rotate(0)}
+  50%{transform:scale(1.06) rotate(8deg)}
+}
+.heroBgl{
+  position:relative;
+  z-index:4;
+  width:min(390px,82%);
+  max-height:350px;
   object-fit:contain;
-  filter:drop-shadow(0 35px 55px rgba(0,0,0,.7));
+  filter:
+    drop-shadow(0 30px 45px rgba(0,0,0,.7))
+    drop-shadow(0 0 35px rgba(139,92,246,.13));
+  animation:float 4.5s ease-in-out infinite;
 }
-
-/* STATS */
-
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-13px) rotate(1deg)}
+}
+/* floating coins */
+.floatBgl{
+  position:absolute;
+  width:42px;
+  opacity:.35;
+  pointer-events:none;
+  filter:drop-shadow(0 0 15px rgba(139,92,246,.35));
+}
+.f1{top:13%;right:13%;animation:f1 6s infinite ease-in-out}
+.f2{bottom:16%;left:9%;width:30px;animation:f2 7s infinite ease-in-out}
+.f3{top:28%;left:10%;width:25px;animation:f3 5s infinite ease-in-out}
+.f4{bottom:10%;right:19%;width:23px;animation:f4 8s infinite ease-in-out}
+@keyframes f1{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  50%{transform:translate(-25px,20px) rotate(25deg)}
+}
+@keyframes f2{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(20px,-25px)}
+}
+@keyframes f3{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(18px,15px)}
+}
+@keyframes f4{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  50%{transform:translate(-20px,-20px) rotate(-25deg)}
+}
+/* =========================
+   STATS
+========================= */
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
-  margin-top:14px;
+  margin-top:13px;
 }
-
 .stat{
+  position:relative;
+  overflow:hidden;
   padding:18px;
   border:1px solid var(--line);
   border-radius:16px;
-  background:rgba(13,16,23,.86);
+  background:rgba(12,15,22,.75);
+  transition:.25s;
 }
-
+.stat:hover{
+  transform:translateY(-3px);
+  border-color:rgba(139,92,246,.22);
+  background:#10131c;
+}
+.stat:after{
+  content:"";
+  position:absolute;
+  right:-30px;
+  bottom:-40px;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:rgba(139,92,246,.08);
+  filter:blur(30px);
+}
 .stat small{
-  color:var(--muted);
-  font-size:10px;
+  color:#717a8d;
+  font-size:9px;
   font-weight:700;
 }
-
 .stat strong{
   display:block;
   margin-top:7px;
-  font-size:20px;
+  font-size:19px;
 }
-
-/* CARDS */
-
-.section-head{
+/* =========================
+   STORE
+========================= */
+.sectionHead{
   display:flex;
   justify-content:space-between;
   align-items:end;
-  margin:31px 0 14px;
+  margin:30px 0 14px;
 }
-
-.section-head h3{
+.sectionHead h3{
   margin:4px 0 0;
-  font-size:20px;
+  font-size:21px;
+  letter-spacing:-.03em;
 }
-
-.card-grid{
+.storeGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:13px;
+  gap:15px;
 }
-
+.product{
+  position:relative;
+  overflow:hidden;
+  padding:22px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(139,92,246,.08),transparent 45%),
+    rgba(12,15,22,.82);
+  transition:.3s;
+}
+.product:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  opacity:0;
+  background:linear-gradient(120deg,transparent,rgba(167,139,250,.18),transparent);
+  transform:translateX(-100%);
+  transition:.7s;
+}
+.product:hover{
+  transform:translateY(-7px);
+  border-color:rgba(167,139,250,.28);
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.product:hover:before{
+  opacity:1;
+  transform:translateX(100%);
+}
+.productVisual{
+  height:145px;
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+.productVisual:before{
+  content:"";
+  position:absolute;
+  width:115px;
+  height:115px;
+  border-radius:50%;
+  background:rgba(139,92,246,.1);
+  filter:blur(25px);
+}
+.productVisual img{
+  position:relative;
+  width:125px;
+  max-height:125px;
+  object-fit:contain;
+  filter:drop-shadow(0 18px 22px rgba(0,0,0,.55));
+  transition:.3s;
+}
+.product:hover img{
+  transform:translateY(-6px) scale(1.07) rotate(3deg);
+}
+.product h3{
+  margin:12px 0 5px;
+  font-size:18px;
+}
+.product p{
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+}
+.productBottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:20px;
+}
+.price strong{
+  display:block;
+  font-size:22px;
+}
+.price span{
+  color:#6f7789;
+  font-size:9px;
+}
+.buyBtn{
+  padding:10px 13px;
+  border:1px solid rgba(139,92,246,.25);
+  border-radius:10px;
+  color:white;
+  background:rgba(139,92,246,.1);
+  cursor:pointer;
+  font-size:10px;
+  font-weight:800;
+  transition:.2s;
+}
+.buyBtn:hover{
+  background:var(--purple);
+  border-color:var(--purple);
+  box-shadow:0 8px 25px rgba(139,92,246,.25);
+}
+/* =========================
+   GENERIC CARDS
+========================= */
+.cardGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
 .card{
   padding:20px;
   border:1px solid var(--line);
   border-radius:17px;
-  background:rgba(13,16,23,.86);
+  background:rgba(12,15,22,.8);
+  transition:.25s;
 }
-
+.card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,255,255,.12);
+}
 .feature{
   display:flex;
   align-items:center;
   gap:14px;
 }
-
-.feature-icon{
-  width:48px;
-  height:48px;
+.featureIcon{
+  width:47px;
+  height:47px;
   display:grid;
   place-items:center;
-  flex-shrink:0;
-  border-radius:14px;
   border:1px solid #2b3344;
-  background:linear-gradient(135deg,#1b2030,#11151e);
+  border-radius:14px;
+  background:linear-gradient(135deg,#1b2030,#10131b);
   font-weight:900;
-  font-size:18px;
 }
-
-.feature b{
-  display:block;
-}
-
-.feature span{
-  display:block;
-  margin-top:4px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-/* STORE */
-
-.store-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-
-.product{
-  position:relative;
-  overflow:hidden;
-  padding:23px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:linear-gradient(145deg,#11151e,#0b0e14);
-}
-
-.product:hover{
-  border-color:#353d51;
-}
-
-.product-image{
-  height:130px;
-  display:grid;
-  place-items:center;
-}
-
-.product-image img{
-  width:120px;
-  max-height:115px;
-  object-fit:contain;
-  filter:drop-shadow(0 15px 20px rgba(0,0,0,.55));
-}
-
-.product h3{
-  margin:14px 0 5px;
-  font-size:18px;
-}
-
-.product p{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-.price{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  margin-top:20px;
-}
-
-.price strong{
-  font-size:23px;
-}
-
-.price span{
-  color:var(--muted);
-  font-size:10px;
-}
-
-/* RANKS */
-
-.rank-grid{
+/* =========================
+   RANKS
+========================= */
+.rankGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:13px;
 }
-
-.rank-card{
+.rankCard{
   padding:18px;
   border:1px solid var(--line);
   border-radius:16px;
   background:#0d1017;
+  transition:.25s;
 }
-
-.rank-top{
+.rankCard:hover{
+  transform:translateY(-4px);
+  border-color:rgba(139,92,246,.2);
+}
+.rankTop{
   display:flex;
   align-items:center;
   gap:13px;
 }
-
-.rank-icon{
-  width:48px;
-  height:48px;
+.rankIcon{
+  width:47px;
+  height:47px;
   display:grid;
   place-items:center;
-  border-radius:13px;
   border:1px solid #2c3446;
+  border-radius:13px;
   background:linear-gradient(135deg,#1b2030,#11151e);
-  font-weight:950;
+  font-weight:900;
 }
-
-.rank-name{
+.rankName{
   font-weight:850;
 }
-
-.rank-desc{
+.rankDesc{
   margin-top:4px;
   color:var(--muted);
-  font-size:10px;
+  font-size:9px;
 }
-
 .current{
   margin-left:auto;
   color:var(--purple2);
-  font-size:9px;
+  font-size:8px;
   font-weight:900;
   text-transform:uppercase;
 }
-
 .progress{
   height:7px;
   margin-top:15px;
@@ -478,942 +649,883 @@ button:focus{
   border-radius:20px;
   background:#191e29;
 }
-
-.progress-bar{
-  width:0%;
+.progressBar{
+  width:0;
   height:100%;
   border-radius:20px;
   background:linear-gradient(90deg,var(--purple),var(--cyan));
-  transition:.5s;
+  box-shadow:0 0 12px rgba(139,92,246,.4);
 }
-
-/* TABLE */
-
-.table-card{
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:#0d1017;
+/* =========================
+   EMPTY
+========================= */
+.empty{
+  padding:70px 20px;
+  text-align:center;
 }
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th,td{
-  padding:15px 18px;
-  text-align:left;
-  border-bottom:1px solid var(--line);
-}
-
-th{
-  color:var(--muted);
-  font-size:9px;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-}
-
-td{
-  font-size:12px;
-}
-
-.badge{
-  display:inline-flex;
-  padding:5px 8px;
-  border-radius:7px;
-  background:#171c28;
-  color:#c8cede;
-  font-size:9px;
-  font-weight:850;
-}
-
-/* PROFILE */
-
-.profile{
-  max-width:700px;
-}
-
-.profile-card{
-  padding:30px;
-  border:1px solid var(--line);
-  border-radius:21px;
-  background:#0d1017;
-}
-
-.profile-head{
-  display:flex;
-  align-items:center;
-  gap:18px;
-  padding-bottom:25px;
-  border-bottom:1px solid var(--line);
-}
-
-.avatar{
-  width:70px;
-  height:70px;
+.emptyCircle{
+  width:65px;
+  height:65px;
   display:grid;
   place-items:center;
-  border-radius:20px;
-  background:linear-gradient(135deg,#5865f2,#7289da);
-  font-size:25px;
-  font-weight:950;
+  margin:0 auto 17px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  color:#687084;
+  background:#0a0d13;
+  font-size:22px;
 }
-
-.profile-name{
-  font-size:21px;
-  font-weight:900;
+.empty h3{
+  margin:0 0 7px;
 }
-
-.profile-sub{
-  margin-top:4px;
+.empty p{
+  margin:0;
   color:var(--muted);
   font-size:11px;
 }
-
-.profile-info{
+/* =========================
+   PROFILE
+========================= */
+.profileWrap{
+  max-width:720px;
+}
+.profileCard{
+  padding:30px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:#0d1017;
+}
+.profileHead{
+  display:flex;
+  align-items:center;
+  gap:17px;
+}
+.avatar{
+  width:67px;
+  height:67px;
+  display:grid;
+  place-items:center;
+  border-radius:19px;
+  background:linear-gradient(135deg,#5865f2,#7289da);
+  font-size:23px;
+  font-weight:900;
+  box-shadow:0 15px 35px rgba(88,101,242,.2);
+}
+.profileName{
+  font-size:20px;
+  font-weight:900;
+}
+.profileSub{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
+}
+.profileInfo{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-top:22px;
+  gap:11px;
+  margin-top:25px;
 }
-
 .info{
   padding:15px;
   border:1px solid var(--line);
   border-radius:13px;
   background:#0a0d13;
 }
-
 .info small{
-  color:var(--muted);
+  color:#71798c;
   font-size:9px;
 }
-
 .info strong{
   display:block;
   margin-top:5px;
 }
-
-/* LOGIN */
-
-.login-box{
-  max-width:520px;
-  margin:70px auto;
-  padding:45px;
-  text-align:center;
-  border:1px solid var(--line);
-  border-radius:23px;
-  background:#0d1017;
+/* =========================
+   DISCORD MODAL
+========================= */
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  place-items:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(14px);
 }
-
-.discord-logo{
-  width:75px;
-  height:75px;
+.modal.show{
+  display:grid;
+  animation:modalBg .25s ease;
+}
+@keyframes modalBg{
+  from{opacity:0}
+  to{opacity:1}
+}
+.discordModal{
+  width:min(440px,100%);
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 50% -20%,rgba(88,101,242,.25),transparent 50%),
+    #0d1018;
+  box-shadow:0 35px 100px rgba(0,0,0,.6);
+  animation:modalIn .35s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:translateY(25px) scale(.96);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+.closeModal{
+  position:absolute;
+  top:15px;
+  right:15px;
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:9px;
+  color:#8991a4;
+  background:#151923;
+  cursor:pointer;
+}
+.discordBig{
+  width:70px;
+  height:70px;
   display:grid;
   place-items:center;
   margin:0 auto 20px;
-  border-radius:23px;
-  background:#5865f2;
-  font-size:30px;
-  font-weight:950;
-  box-shadow:0 15px 40px rgba(88,101,242,.22);
+  border-radius:22px;
+  color:white;
+  background:var(--discord);
+  font-size:27px;
+  font-weight:900;
+  box-shadow:
+    0 15px 45px rgba(88,101,242,.3),
+    0 0 0 8px rgba(88,101,242,.06);
+  animation:discordFloat 2.8s ease-in-out infinite;
 }
-
-.login-box h2{
-  margin:0 0 8px;
+@keyframes discordFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
 }
-
-.login-box p{
+.discordModal h2{
+  margin:0;
+  text-align:center;
+  font-size:25px;
+  letter-spacing:-.04em;
+}
+.discordModal p{
+  margin:9px auto 24px;
+  max-width:330px;
   color:var(--muted);
-  line-height:1.6;
-  font-size:12px;
+  text-align:center;
+  font-size:11px;
+  line-height:1.7;
 }
-
-/* ADMIN */
-
-.admin-grid{
+.loginInput{
+  width:100%;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  outline:none;
+  color:white;
+  background:#080b11;
+}
+.loginInput:focus{
+  border-color:#5865f2;
+  box-shadow:0 0 0 3px rgba(88,101,242,.08);
+}
+.discordContinue{
+  width:100%;
+  margin-top:11px;
+  padding:13px;
+  border:0;
+  border-radius:11px;
+  color:white;
+  background:var(--discord);
+  cursor:pointer;
+  font-weight:850;
+  transition:.2s;
+}
+.discordContinue:hover{
+  background:#6975ef;
+  transform:translateY(-2px);
+}
+/* =========================
+   TOAST
+========================= */
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:300;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:13px 16px;
+  border:1px solid rgba(53,224,160,.2);
+  border-radius:13px;
+  background:#0e1715;
+  box-shadow:0 20px 50px rgba(0,0,0,.45);
+  transform:translateY(30px);
+  opacity:0;
+  pointer-events:none;
+  transition:.35s;
+}
+.toast.show{
+  opacity:1;
+  transform:none;
+}
+.toastIcon{
+  width:25px;
+  height:25px;
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
+  place-items:center;
+  border-radius:8px;
+  color:#07130e;
+  background:var(--green);
+  font-size:12px;
+  font-weight:900;
 }
-
-.admin-login{
-  max-width:450px;
-  margin:70px auto;
+.toast b{
+  display:block;
+  font-size:11px;
+}
+.toast span{
+  display:block;
+  margin-top:2px;
+  color:#748082;
+  font-size:9px;
+}
+/* =========================
+   ADMIN
+========================= */
+.adminLogin{
+  max-width:430px;
+  margin:65px auto;
   padding:32px;
   border:1px solid var(--line);
   border-radius:21px;
   background:#0d1017;
 }
-
-.input{
+.adminInput{
   width:100%;
-  margin-top:12px;
+  margin-top:10px;
   padding:13px;
   border:1px solid var(--line);
   border-radius:11px;
   outline:none;
-  background:#090c12;
   color:white;
+  background:#080b11;
 }
-
-.input:focus{
+.adminInput:focus{
   border-color:var(--purple);
 }
-
-.admin-login button{
-  width:100%;
-  margin-top:14px;
-}
-
-.admin-content{
+.adminContent{
   display:none;
 }
-
-.admin-content.show{
+.adminContent.show{
   display:block;
 }
-
-.warning{
-  margin-top:14px;
-  padding:14px;
-  border:1px dashed #343d50;
-  border-radius:12px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.6;
+.adminGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
 }
-
-/* EMPTY */
-
-.empty{
-  padding:60px 20px;
-  text-align:center;
-}
-
-.empty-icon{
-  margin-bottom:10px;
-  font-size:32px;
-}
-
-.empty h3{
-  margin:0 0 7px;
-}
-
-.empty p{
-  margin:0;
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* MOBILE */
-
-.mobile-nav{
+/* =========================
+   MOBILE
+========================= */
+.mobileNav{
   display:none;
 }
-
-@media(max-width:900px){
-
+@media(max-width:950px){
   .sidebar{
     display:none;
   }
-
   .main{
     margin-left:0;
-    padding:17px 15px 95px;
+    padding:16px 15px 95px;
   }
-
   .hero{
     grid-template-columns:1fr;
   }
-
-  .hero-content{
-    padding:35px 25px 15px;
+  .heroContent{
+    padding:35px 25px 10px;
   }
-
   .hero h2{
-    font-size:43px;
+    font-size:45px;
   }
-
-  .hero-image{
-    padding:10px 20px 35px;
+  .heroVisual{
+    min-height:320px;
   }
-
+  .heroOrb{
+    width:270px;
+    height:270px;
+  }
+  .heroBgl{
+    width:300px;
+  }
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
-
-  .card-grid,
-  .store-grid,
-  .rank-grid,
-  .admin-grid{
+  .storeGrid,
+  .cardGrid,
+  .rankGrid,
+  .adminGrid{
     grid-template-columns:repeat(2,1fr);
   }
-
-  .mobile-nav{
-    display:flex;
+  .mobileNav{
     position:fixed;
-    left:10px;
-    right:10px;
-    bottom:10px;
-    z-index:50;
-    gap:5px;
+    left:9px;
+    right:9px;
+    bottom:9px;
+    z-index:100;
+    display:flex;
+    gap:4px;
     padding:7px;
     border:1px solid var(--line);
     border-radius:17px;
-    background:rgba(12,15,23,.96);
-    backdrop-filter:blur(18px);
+    background:rgba(10,13,20,.94);
+    backdrop-filter:blur(20px);
   }
-
-  .mobile-nav button{
+  .mobileNav button{
     flex:1;
     padding:8px 2px;
     border:0;
     border-radius:10px;
+    color:#727b8e;
     background:transparent;
-    color:#858da0;
     font-size:9px;
   }
-
-  .mobile-nav button.active{
+  .mobileNav button.active{
     color:white;
-    background:#191e2c;
+    background:#181d29;
   }
 }
-
-@media(max-width:560px){
-
+@media(max-width:570px){
   .topbar{
+    height:auto;
     margin-bottom:20px;
   }
-
-  .page-title{
+  .pageTitle{
     font-size:22px;
   }
-
-  .discord-btn{
-    padding:9px 10px;
-    font-size:10px;
+  .discordTop{
+    padding:9px;
+    font-size:0;
   }
-
+  .discordDot{
+    margin:0 3px;
+  }
   .hero h2{
-    font-size:37px;
+    font-size:38px;
   }
-
   .stats,
-  .card-grid,
-  .store-grid,
-  .rank-grid,
-  .admin-grid,
-  .profile-info{
+  .storeGrid,
+  .cardGrid,
+  .rankGrid,
+  .adminGrid{
     grid-template-columns:1fr;
   }
-
-  .login-box{
-    margin:35px auto;
-    padding:30px 20px;
+  .heroVisual{
+    min-height:270px;
+  }
+  .heroBgl{
+    width:250px;
+  }
+  .profileInfo{
+    grid-template-columns:1fr;
+  }
+  .discordModal{
+    padding:28px 20px;
+  }
+  .toast{
+    left:15px;
+    right:15px;
+    bottom:85px;
   }
 }
 </style>
 </head>
-
 <body>
-
-<div class="app">
-
+<div class="noise"></div>
+<!-- =========================
+     SIDEBAR
+========================= -->
 <aside class="sidebar">
-
   <div class="logo">
-    <div class="logo-box">J</div>
-
-    <div>
-      <strong>J1mPPaZ</strong>
+    <div class="logoIcon">J</div>
+    <div class="logoText">
+      <b>J1mPPaZ</b>
       <span>BGL AUTOSTORE</span>
     </div>
   </div>
-
   <nav class="nav">
-
-    <button class="active" data-view="store">⌂ &nbsp; Store</button>
-    <button data-view="buy">▣ &nbsp; Buy BGLs</button>
-    <button data-view="orders">▤ &nbsp; Order History</button>
-    <button data-view="ranks">✦ &nbsp; Rank Progress</button>
-    <button data-view="leaderboard">♛ &nbsp; Leaderboard</button>
-    <button data-view="profile">● &nbsp; Profile</button>
-    <button data-view="admin">⚙ &nbsp; Admin Panel</button>
-
+    <button class="active" data-view="store">
+      ⌂ &nbsp; Store
+    </button>
+    <button data-view="buy">
+      ◈ &nbsp; Buy BGLs
+    </button>
+    <button data-view="orders">
+      ▤ &nbsp; Order History
+    </button>
+    <button data-view="ranks">
+      ✦ &nbsp; Rank Progress
+    </button>
+    <button data-view="leaderboard">
+      ♛ &nbsp; Leaderboard
+    </button>
+    <button data-view="profile">
+      ● &nbsp; Profile
+    </button>
+    <button data-view="admin">
+      ⚙ &nbsp; Admin Panel
+    </button>
   </nav>
-
 </aside>
-
+<!-- =========================
+     MAIN
+========================= -->
 <main class="main">
-
 <header class="topbar">
-
   <div>
-    <div class="eyebrow">J1mPPaZ / BGL AUTOSTORE</div>
-    <h1 class="page-title" id="pageTitle">Store</h1>
+    <div class="eyebrow">J1mPPaZ / AUTOSTORE</div>
+    <h1 class="pageTitle" id="pageTitle">Store</h1>
   </div>
-
-  <button class="discord-btn" onclick="discordLogin()">
-    <span id="loginButtonText">Login with Discord</span>
+  <button class="discordTop" onclick="openDiscord()">
+    <span class="discordDot"></span>
+    <span id="topLoginText">Login with Discord</span>
   </button>
-
 </header>
-
-
-<!-- STORE -->
-
-<section id="store" class="view active">
-
+<!-- =========================
+     STORE HOME
+========================= -->
+<section class="view active" id="store">
   <div class="hero">
-
-    <div class="hero-content">
-
-      <div class="eyebrow">
-        BGL STORE • ONLINE
+    <div class="heroContent">
+      <div class="status">
+        <span class="statusDot"></span>
+        STORE ONLINE
       </div>
-
       <h2>
         Your BGL.<br>
-        Your way.
+        <span class="gradientText">Your way.</span>
       </h2>
-
       <p>
         Welcome to J1mPPaZ BGL Autostore.
-        Manage your account, track orders, view your
-        rank progression and see the monthly leaderboard
-        from one clean dashboard.
+        Explore the store, manage your profile,
+        follow your rank progression and keep track
+        of your orders in one place.
       </p>
-
       <div class="tags">
-        <span class="tag">⚡ Fast</span>
-        <span class="tag">◈ Discord Account</span>
-        <span class="tag">✦ Rank System</span>
-        <span class="tag">♛ Leaderboard</span>
+        <span class="tag">⚡ FAST</span>
+        <span class="tag">◈ DISCORD</span>
+        <span class="tag">✦ RANKS</span>
+        <span class="tag">♛ LEADERBOARD</span>
       </div>
-
       <button class="primary" onclick="showView('buy')">
-        Browse BGLs
+        Explore Store →
       </button>
-
     </div>
-
-    <div class="hero-image">
-
+    <div class="heroVisual">
+      <div class="heroOrb"></div>
       <img
-        class="bgl-image"
+        class="heroBgl"
         src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-        alt="J1mPPaZ BGL"
+        alt="BGL"
       >
-
+      <img class="floatBgl f1"
+        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      <img class="floatBgl f2"
+        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      <img class="floatBgl f3"
+        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      <img class="floatBgl f4"
+        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
     </div>
-
   </div>
-
   <div class="stats">
-
     <div class="stat">
-      <small>Store Status</small>
+      <small>STORE STATUS</small>
       <strong>
         <span style="color:var(--green)">●</span>
         Online
       </strong>
     </div>
-
     <div class="stat">
-      <small>Your Rank</small>
+      <small>YOUR RANK</small>
       <strong id="homeRank">Unranked</strong>
     </div>
-
     <div class="stat">
-      <small>Progress</small>
+      <small>PROGRESS</small>
       <strong id="homeProgress">0%</strong>
     </div>
-
     <div class="stat">
-      <small>Account</small>
+      <small>ACCOUNT</small>
       <strong id="homeAccount">Guest</strong>
     </div>
-
   </div>
-
-  <div class="section-head">
+  <div class="sectionHead">
     <div>
-      <div class="eyebrow">DASHBOARD</div>
-      <h3>Everything in one place</h3>
+      <div class="eyebrow">FEATURES</div>
+      <h3>Built around your account</h3>
     </div>
   </div>
-
-  <div class="card-grid">
-
+  <div class="cardGrid">
     <div class="card">
       <div class="feature">
-        <div class="feature-icon">▣</div>
+        <div class="featureIcon">◈</div>
         <div>
-          <b>Buy BGLs</b>
-          <span>Browse the available BGL store.</span>
+          <b>Instant Account</b>
+          <span style="display:block;color:var(--muted);font-size:10px;margin-top:4px">
+            Create your profile through Discord.
+          </span>
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="feature">
-        <div class="feature-icon">✦</div>
+        <div class="featureIcon">✦</div>
         <div>
-          <b>Rank Progress</b>
-          <span>Start at Unranked and progress through ranks.</span>
+          <b>Rank Progression</b>
+          <span style="display:block;color:var(--muted);font-size:10px;margin-top:4px">
+            Everyone starts at Unranked 0%.
+          </span>
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="feature">
-        <div class="feature-icon">D</div>
+        <div class="featureIcon">♛</div>
         <div>
-          <b>Discord Account</b>
-          <span>Use the demo Discord login for your profile.</span>
+          <b>Real Leaderboard</b>
+          <span style="display:block;color:var(--muted);font-size:10px;margin-top:4px">
+            No fake members or placeholder accounts.
+          </span>
         </div>
       </div>
     </div>
-
   </div>
-
 </section>
-
-
-<!-- BUY -->
-
-<section id="buy" class="view">
-
-  <div class="section-head">
-
+<!-- =========================
+     BUY
+========================= -->
+<section class="view" id="buy">
+  <div class="sectionHead">
     <div>
-      <div class="eyebrow">STORE</div>
+      <div class="eyebrow">STORE / BGL</div>
       <h3>Buy BGLs</h3>
     </div>
-
-    <span class="badge">2.30€ / BGL</span>
-
+    <span class="tag">2.30€ / BGL</span>
   </div>
-
-  <div class="store-grid">
-
+  <div class="storeGrid">
     <div class="product">
-
-      <div class="product-image">
+      <div class="productVisual">
         <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
       </div>
-
       <h3>1 BGL</h3>
-
       <p>
-        BGL store item.
+        Single BGL package.
       </p>
-
-      <div class="price">
-        <strong>2.30€</strong>
-        <span>1 BGL</span>
+      <div class="productBottom">
+        <div class="price">
+          <strong>2.30€</strong>
+          <span>1 BGL</span>
+        </div>
+        <button class="buyBtn" onclick="selectBgl(1)">
+          Select
+        </button>
       </div>
-
-      <button class="primary" style="width:100%;margin-top:17px" onclick="demoOrder()">
-        Select
-      </button>
-
     </div>
-
-
     <div class="product">
-
-      <div class="product-image">
+      <div class="productVisual">
         <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
       </div>
-
       <h3>5 BGL</h3>
-
       <p>
-        BGL store item.
+        Five BGL package.
       </p>
-
-      <div class="price">
-        <strong>11.50€</strong>
-        <span>5 BGL</span>
+      <div class="productBottom">
+        <div class="price">
+          <strong>11.50€</strong>
+          <span>5 BGL</span>
+        </div>
+        <button class="buyBtn" onclick="selectBgl(5)">
+          Select
+        </button>
       </div>
-
-      <button class="primary" style="width:100%;margin-top:17px" onclick="demoOrder()">
-        Select
-      </button>
-
     </div>
-
-
     <div class="product">
-
-      <div class="product-image">
+      <div class="productVisual">
         <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
       </div>
-
       <h3>10 BGL</h3>
-
       <p>
-        BGL store item.
+        Ten BGL package.
       </p>
-
-      <div class="price">
-        <strong>23.00€</strong>
-        <span>10 BGL</span>
+      <div class="productBottom">
+        <div class="price">
+          <strong>23.00€</strong>
+          <span>10 BGL</span>
+        </div>
+        <button class="buyBtn" onclick="selectBgl(10)">
+          Select
+        </button>
       </div>
-
-      <button class="primary" style="width:100%;margin-top:17px" onclick="demoOrder()">
-        Select
-      </button>
-
     </div>
-
   </div>
-
 </section>
-
-
-<!-- ORDERS -->
-
-<section id="orders" class="view">
-
+<!-- =========================
+     ORDERS
+========================= -->
+<section class="view" id="orders">
   <div class="table-card">
-
-    <div class="section-head" style="padding:0 20px">
-
+    <div class="sectionHead" style="padding:0 20px">
       <div>
         <div class="eyebrow">ACCOUNT</div>
         <h3>Order History</h3>
       </div>
-
-      <span class="badge" id="orderCount">0 ORDERS</span>
-
+      <span class="tag" id="orderCount">0 ORDERS</span>
     </div>
-
-    <div class="empty" id="ordersEmpty">
-
-      <div class="empty-icon">▣</div>
-
+    <div class="empty">
+      <div class="emptyCircle">▤</div>
       <h3>No orders yet</h3>
-
       <p>
-        Your orders will appear here after they are created.
+        Your approved orders will appear here.
       </p>
-
     </div>
-
   </div>
-
 </section>
-
-
-<!-- RANKS -->
-
-<section id="ranks" class="view">
-
-  <div class="section-head">
-
+<!-- =========================
+     RANKS
+========================= -->
+<section class="view" id="ranks">
+  <div class="sectionHead">
     <div>
       <div class="eyebrow">PROGRESSION</div>
       <h3>Rank Progress</h3>
     </div>
-
-    <span class="badge" id="rankBadge">
-      UNRANKED
-    </span>
-
+    <span class="tag" id="rankBadge">UNRANKED</span>
   </div>
-
-  <div class="rank-grid" id="rankGrid"></div>
-
+  <div class="rankGrid" id="rankGrid"></div>
 </section>
-
-
-<!-- LEADERBOARD -->
-
-<section id="leaderboard" class="view">
-
+<!-- =========================
+     LEADERBOARD
+========================= -->
+<section class="view" id="leaderboard">
   <div class="table-card">
-
-    <div class="section-head" style="padding:0 20px">
-
+    <div class="sectionHead" style="padding:0 20px">
       <div>
         <div class="eyebrow">MONTHLY</div>
         <h3>Leaderboard</h3>
       </div>
-
-      <span class="badge">SEPTEMBER 2026</span>
-
+      <span class="tag">SEPTEMBER 2026</span>
     </div>
-
-    <div class="empty" id="leaderboardEmpty">
-
-      <div class="empty-icon">♛</div>
-
+    <div class="empty">
+      <div class="emptyCircle">♛</div>
       <h3>No players yet</h3>
-
       <p>
-        The leaderboard will appear once real users have joined.
+        The leaderboard will populate with real registered users.
       </p>
-
     </div>
-
-    <table id="leaderboardTable" style="display:none">
-
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Member</th>
-          <th>Rank</th>
-          <th>Progress</th>
-        </tr>
-      </thead>
-
-      <tbody id="leaderboardBody"></tbody>
-
-    </table>
-
   </div>
-
 </section>
-
-
-<!-- PROFILE -->
-
-<section id="profile" class="view">
-
-  <div class="profile">
-
-    <div class="profile-card" id="loggedOutProfile">
-
-      <div class="login-box" style="margin:0;padding:15px 0;border:0;background:none">
-
-        <div class="discord-logo">D</div>
-
-        <h2>Connect Discord</h2>
-
-        <p>
-          Sign in with the demo Discord button to create
-          your local profile.
+<!-- =========================
+     PROFILE
+========================= -->
+<section class="view" id="profile">
+  <div class="profileWrap">
+    <div class="profileCard" id="profileLoggedOut">
+      <div style="text-align:center;padding:25px">
+        <div class="discordBig">D</div>
+        <h2 style="margin:0">
+          Welcome to J1mPPaZ
+        </h2>
+        <p style="color:var(--muted);font-size:11px;line-height:1.7">
+          Connect your Discord account to create your profile.
         </p>
-
-        <button class="primary" onclick="discordLogin()">
+        <button class="primary" onclick="openDiscord()">
           Continue with Discord
         </button>
-
-        <p style="font-size:10px;margin-top:18px">
-          Demo login only — no real Discord OAuth is used.
-        </p>
-
       </div>
-
     </div>
-
-
-    <div class="profile-card" id="loggedInProfile" style="display:none">
-
-      <div class="profile-head">
-
-        <div class="avatar" id="profileAvatar">D</div>
-
+    <div class="profileCard" id="profileLoggedIn" style="display:none">
+      <div class="profileHead">
+        <div class="avatar" id="profileAvatar">J</div>
         <div>
-          <div class="profile-name" id="profileName">Discord User</div>
-          <div class="profile-sub">Discord connected • Demo account</div>
+          <div class="profileName" id="profileName">User</div>
+          <div class="profileSub">Discord connected</div>
         </div>
-
       </div>
-
-      <div class="profile-info">
-
+      <div class="profileInfo">
         <div class="info">
-          <small>Rank</small>
+          <small>RANK</small>
           <strong id="profileRank">Unranked</strong>
         </div>
-
         <div class="info">
-          <small>Progress</small>
+          <small>PROGRESS</small>
           <strong id="profileProgress">0%</strong>
         </div>
-
         <div class="info">
-          <small>Orders</small>
+          <small>ORDERS</small>
           <strong id="profileOrders">0</strong>
         </div>
-
         <div class="info">
-          <small>Status</small>
-          <strong style="color:var(--green)">Connected</strong>
+          <small>STATUS</small>
+          <strong style="color:var(--green)">
+            Connected
+          </strong>
         </div>
-
       </div>
-
       <button
-        class="primary"
+        class="buyBtn"
         style="margin-top:20px"
         onclick="logout()"
       >
         Log out
       </button>
-
     </div>
-
   </div>
-
 </section>
-
-
-<!-- ADMIN -->
-
-<section id="admin" class="view">
-
-  <div id="adminLogin" class="admin-login">
-
+<!-- =========================
+     ADMIN
+========================= -->
+<section class="view" id="admin">
+  <div id="adminLogin" class="adminLogin">
     <div class="eyebrow">PRIVATE AREA</div>
-
-    <h2 style="margin:7px 0 4px">
+    <h2 style="margin:7px 0">
       Admin Panel
     </h2>
-
-    <p style="color:var(--muted);font-size:11px">
-      Enter your admin credentials.
+    <p style="color:var(--muted);font-size:10px">
+      Sign in to manage the store.
     </p>
-
     <input
-      class="input"
       id="adminUser"
+      class="adminInput"
       placeholder="Username"
-      autocomplete="off"
     >
-
     <input
-      class="input"
       id="adminPass"
+      class="adminInput"
       type="password"
       placeholder="Password"
     >
-
-    <button class="primary" onclick="adminLogin()">
-      Enter Admin Panel
+    <button
+      class="primary"
+      style="width:100%;margin-top:13px"
+      onclick="adminLogin()"
+    >
+      Continue
     </button>
-
-    <div class="warning">
-      This is a frontend demo login. It is not secure
-      against someone inspecting the page source.
-    </div>
-
   </div>
-
-
-  <div id="adminContent" class="admin-content">
-
-    <div class="section-head">
-
+  <div id="adminContent" class="adminContent">
+    <div class="sectionHead">
       <div>
         <div class="eyebrow">OWNER</div>
         <h3>Admin Dashboard</h3>
       </div>
-
-      <button class="badge" onclick="adminLogout()">
-        LOG OUT
+      <button class="buyBtn" onclick="adminLogout()">
+        Log out
       </button>
-
     </div>
-
-    <div class="admin-grid">
-
+    <div class="adminGrid">
       <div class="stat">
-        <small>Registered Users</small>
+        <small>REGISTERED USERS</small>
         <strong id="adminUsers">0</strong>
       </div>
-
       <div class="stat">
-        <small>Pending Orders</small>
-        <strong id="adminOrders">0</strong>
+        <small>PENDING ORDERS</small>
+        <strong>0</strong>
       </div>
-
       <div class="stat">
-        <small>Store Status</small>
-        <strong style="color:var(--green)">Online</strong>
+        <small>STORE STATUS</small>
+        <strong style="color:var(--green)">
+          Online
+        </strong>
       </div>
-
     </div>
-
     <div class="table-card" style="margin-top:15px">
-
-      <div class="section-head" style="padding:0 20px">
-
-        <div>
-          <div class="eyebrow">ORDERS</div>
-          <h3>Pending Orders</h3>
-        </div>
-
-      </div>
-
-      <div class="empty" id="adminEmpty">
-
-        <div class="empty-icon">▣</div>
-
+      <div class="empty">
+        <div class="emptyCircle">▤</div>
         <h3>No pending orders</h3>
-
         <p>
-          Real orders will appear here when connected to a backend.
+          Verified orders will appear here when a backend is connected.
         </p>
-
       </div>
-
     </div>
-
-    <div class="warning">
-      Rank progression should only be updated after an order
-      is actually verified by the server. This frontend demo
-      does not provide secure order verification.
-    </div>
-
   </div>
-
 </section>
-
 </main>
-
-
-<!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
+<!-- =========================
+     MOBILE NAV
+========================= -->
+<div class="mobileNav">
   <button class="active" data-view="store">
     ⌂<br>Store
   </button>
-
   <button data-view="buy">
-    ▣<br>Buy
+    ◈<br>Buy
   </button>
-
   <button data-view="orders">
     ▤<br>Orders
   </button>
-
   <button data-view="ranks">
     ✦<br>Ranks
   </button>
-
   <button data-view="profile">
     ●<br>Profile
   </button>
-
 </div>
-
+<!-- =========================
+     DISCORD MODAL
+========================= -->
+<div class="modal" id="discordModal">
+  <div class="discordModal">
+    <button class="closeModal" onclick="closeDiscord()">
+      ×
+    </button>
+    <div class="discordBig">D</div>
+    <h2>Connect Discord</h2>
+    <p>
+      Enter your Discord username to continue.
+    </p>
+    <input
+      id="discordUsername"
+      class="loginInput"
+      placeholder="Discord username"
+      autocomplete="off"
+    >
+    <button
+      class="discordContinue"
+      onclick="createAccount()"
+    >
+      Continue with Discord
+    </button>
+  </div>
 </div>
-
-
+<!-- =========================
+     TOAST
+========================= -->
+<div class="toast" id="toast">
+  <div class="toastIcon">✓</div>
+  <div>
+    <b id="toastTitle">Account creation successful</b>
+    <span id="toastText">Welcome to J1mPPaZ.</span>
+  </div>
+</div>
 <script>
-
-/* -------------------------
-   APP DATA
-------------------------- */
-
+/* =========================
+   DATA
+========================= */
 const titles = {
   store:"Store",
   buy:"Buy BGLs",
@@ -1423,10 +1535,9 @@ const titles = {
   profile:"Profile",
   admin:"Admin Panel"
 };
-
-const ranks = [
+const rankData = [
   ["Unranked","No approved orders yet."],
-  ["Rookie","First progression tier."],
+  ["Rookie","Starting progression tier."],
   ["Bronze","Getting started."],
   ["Silver","Growing member."],
   ["Gold","Experienced member."],
@@ -1436,31 +1547,22 @@ const ranks = [
   ["Champion","Champion tier."],
   ["Apex","Highest rank."]
 ];
-
-let user = JSON.parse(
-  localStorage.getItem("j1mppaz_user") || "null"
-);
-
-let adminLoggedIn =
+let user =
+  JSON.parse(localStorage.getItem("j1mppaz_user") || "null");
+let admin =
   localStorage.getItem("j1mppaz_admin") === "true";
-
-
-/* -------------------------
-   VIEW SYSTEM
-------------------------- */
-
+/* =========================
+   NAVIGATION
+========================= */
 function showView(id){
-
   document
     .querySelectorAll(".view")
     .forEach(v => v.classList.remove("active"));
-
-  const view = document.getElementById(id);
-
-  if(view){
-    view.classList.add("active");
+  const target =
+    document.getElementById(id);
+  if(target){
+    target.classList.add("active");
   }
-
   document
     .querySelectorAll("[data-view]")
     .forEach(btn => {
@@ -1469,400 +1571,301 @@ function showView(id){
         btn.dataset.view === id
       );
     });
-
   document.getElementById("pageTitle").textContent =
     titles[id] || "Store";
-
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
-
   if(id === "admin"){
     updateAdmin();
   }
 }
-
-
-/* -------------------------
-   NAVIGATION
-------------------------- */
-
 document
   .querySelectorAll("[data-view]")
-  .forEach(button => {
-
-    button.addEventListener(
+  .forEach(btn => {
+    btn.addEventListener(
       "click",
-      () => showView(button.dataset.view)
+      () => showView(btn.dataset.view)
     );
-
   });
-
-
-/* -------------------------
-   DEMO DISCORD LOGIN
-------------------------- */
-
-function discordLogin(){
-
+/* =========================
+   DISCORD LOGIN
+========================= */
+function openDiscord(){
   if(user){
     showView("profile");
     return;
   }
-
+  document
+    .getElementById("discordModal")
+    .classList.add("show");
+  setTimeout(() => {
+    document
+      .getElementById("discordUsername")
+      .focus();
+  },150);
+}
+function closeDiscord(){
+  document
+    .getElementById("discordModal")
+    .classList.remove("show");
+}
+function createAccount(){
   const username =
-    prompt("Demo Discord username:");
-
+    document
+      .getElementById("discordUsername")
+      .value
+      .trim();
   if(!username){
+    document
+      .getElementById("discordUsername")
+      .focus();
     return;
   }
-
   user = {
-    id:"demo_" + Date.now(),
+    id:"user_" + Date.now(),
     username:username,
-    avatar:username.charAt(0).toUpperCase(),
+    avatar:username
+      .charAt(0)
+      .toUpperCase(),
     rank:0,
     progress:0,
     orders:[]
   };
-
   localStorage.setItem(
     "j1mppaz_user",
     JSON.stringify(user)
   );
-
+  closeDiscord();
   updateUI();
-
-  alert(
-    "Demo Discord login successful."
+  showToast(
+    "Account creation successful",
+    "Welcome to J1mPPaZ."
   );
-
   showView("profile");
 }
-
-
-/* -------------------------
+/* =========================
+   TOAST
+========================= */
+function showToast(title,text){
+  document.getElementById("toastTitle")
+    .textContent = title;
+  document.getElementById("toastText")
+    .textContent = text;
+  const toast =
+    document.getElementById("toast");
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  },3500);
+}
+/* =========================
    LOGOUT
-------------------------- */
-
+========================= */
 function logout(){
-
   localStorage.removeItem("j1mppaz_user");
-
   user = null;
-
   updateUI();
-
-  showView("profile");
+  showToast(
+    "Logged out",
+    "Your account has been disconnected."
+  );
 }
-
-
-/* -------------------------
-   UI UPDATE
-------------------------- */
-
+/* =========================
+   UI
+========================= */
 function updateUI(){
-
-  const loggedIn =
-    !!user;
-
+  const loggedIn = !!user;
   document.getElementById(
-    "loggedOutProfile"
+    "profileLoggedOut"
   ).style.display =
     loggedIn ? "none" : "block";
-
   document.getElementById(
-    "loggedInProfile"
+    "profileLoggedIn"
   ).style.display =
     loggedIn ? "block" : "none";
-
   document.getElementById(
-    "loginButtonText"
+    "topLoginText"
   ).textContent =
     loggedIn
       ? user.username
       : "Login with Discord";
-
   document.getElementById(
     "homeAccount"
   ).textContent =
     loggedIn
       ? user.username
       : "Guest";
-
-  const rank =
-    ranks[user?.rank || 0][0];
-
+  const rankIndex =
+    user ? user.rank : 0;
   const progress =
-    user?.progress || 0;
-
+    user ? user.progress : 0;
   document.getElementById(
     "homeRank"
   ).textContent =
-    rank;
-
+    rankData[rankIndex][0];
   document.getElementById(
     "homeProgress"
   ).textContent =
     progress + "%";
-
-  if(loggedIn){
-
+  if(user){
     document.getElementById(
       "profileAvatar"
     ).textContent =
       user.avatar;
-
     document.getElementById(
       "profileName"
     ).textContent =
       user.username;
-
     document.getElementById(
       "profileRank"
     ).textContent =
-      rank;
-
+      rankData[user.rank][0];
     document.getElementById(
       "profileProgress"
     ).textContent =
-      progress + "%";
-
+      user.progress + "%";
     document.getElementById(
       "profileOrders"
     ).textContent =
       user.orders.length;
-
+    document.getElementById(
+      "orderCount"
+    ).textContent =
+      user.orders.length +
+      (user.orders.length === 1
+        ? " ORDER"
+        : " ORDERS");
   }
-
   renderRanks();
-  renderOrders();
 }
-
-
-/* -------------------------
-   RANK SYSTEM
-------------------------- */
-
+/* =========================
+   RANKS
+========================= */
 function renderRanks(){
-
   const grid =
     document.getElementById("rankGrid");
-
   grid.innerHTML = "";
-
-  const currentRank =
-    user?.rank || 0;
-
-  const currentProgress =
-    user?.progress || 0;
-
-  ranks.forEach((r,index)=>{
-
+  const current =
+    user ? user.rank : 0;
+  const progress =
+    user ? user.progress : 0;
+  rankData.forEach((rank,index)=>{
     const card =
       document.createElement("div");
-
     card.className =
-      "rank-card";
-
-    const isCurrent =
-      index === currentRank;
-
+      "rankCard";
     card.innerHTML = `
-
-      <div class="rank-top">
-
-        <div class="rank-icon">
+      <div class="rankTop">
+        <div class="rankIcon">
           ${index}
         </div>
-
         <div>
-
-          <div class="rank-name">
-            ${r[0]}
+          <div class="rankName">
+            ${rank[0]}
           </div>
-
-          <div class="rank-desc">
-            ${r[1]}
+          <div class="rankDesc">
+            ${rank[1]}
           </div>
-
         </div>
-
         ${
-          isCurrent
+          index === current
             ? `<div class="current">Current</div>`
             : ""
         }
-
       </div>
-
       ${
-        isCurrent
+        index === current
           ? `
             <div class="progress">
               <div
-                class="progress-bar"
-                style="width:${currentProgress}%"
+                class="progressBar"
+                style="width:${progress}%"
               ></div>
             </div>
           `
           : ""
       }
-
     `;
-
     grid.appendChild(card);
-
   });
-
   document.getElementById(
     "rankBadge"
   ).textContent =
-    ranks[currentRank][0].toUpperCase();
-
+    rankData[current][0].toUpperCase();
 }
-
-
-/* -------------------------
-   ORDERS
-------------------------- */
-
-function renderOrders(){
-
-  const count =
-    user?.orders?.length || 0;
-
-  document.getElementById(
-    "orderCount"
-  ).textContent =
-    count + (count === 1 ? " ORDER" : " ORDERS");
-
-  document.getElementById(
-    "ordersEmpty"
-  ).style.display =
-    count === 0 ? "block" : "none";
-}
-
-
-/* -------------------------
-   DEMO ORDER
-------------------------- */
-
-function demoOrder(){
-
+/* =========================
+   STORE SELECTION
+========================= */
+function selectBgl(amount){
   if(!user){
-
-    alert(
-      "Please login with Discord first."
-    );
-
-    showView("profile");
-
+    openDiscord();
     return;
   }
-
-  alert(
-    "Store selection saved as a demo. " +
-    "A real order/payment system requires a secure backend."
+  showToast(
+    "BGL selected",
+    amount + " BGL selected."
   );
-
 }
-
-
-/* -------------------------
+/* =========================
    ADMIN
-------------------------- */
-
+========================= */
 function adminLogin(){
-
   const username =
     document.getElementById("adminUser").value;
-
   const password =
     document.getElementById("adminPass").value;
-
   if(
     username === "JimpanAdmini" &&
     password === "JimppaFortniteAdmin"
   ){
-
-    adminLoggedIn = true;
-
+    admin = true;
     localStorage.setItem(
       "j1mppaz_admin",
       "true"
     );
-
     updateAdmin();
-
-    alert("Admin login successful.");
-
+    showToast(
+      "Admin login successful",
+      "Welcome back."
+    );
   }else{
-
-    alert(
+    showToast(
+      "Login failed",
       "Invalid admin credentials."
     );
-
   }
-
 }
-
-
 function adminLogout(){
-
-  adminLoggedIn = false;
-
+  admin = false;
   localStorage.removeItem(
     "j1mppaz_admin"
   );
-
   updateAdmin();
-
 }
-
-
 function updateAdmin(){
-
   const login =
     document.getElementById("adminLogin");
-
   const content =
     document.getElementById("adminContent");
-
-  if(adminLoggedIn){
-
+  if(admin){
     login.style.display = "none";
     content.classList.add("show");
-
   }else{
-
     login.style.display = "block";
     content.classList.remove("show");
-
   }
-
   document.getElementById(
     "adminUsers"
   ).textContent =
     user ? "1" : "0";
-
-  document.getElementById(
-    "adminOrders"
-  ).textContent =
-    user?.orders?.length || "0";
-
 }
-
-
-/* -------------------------
-   START
-------------------------- */
-
+/* =========================
+   INITIALIZE
+========================= */
 updateUI();
 updateAdmin();
-
 </script>
-
 </body>
 </html>
