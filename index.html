@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J1mPPaZ Fortnite Tournament</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#070912;color:#fff;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,#1744ff33,transparent 35%),radial-gradient(circle at 80% 80%,#00e5ff1c,transparent 35%);pointer-events:none}
+header{height:76px;display:flex;align-items:center;padding:0 28px;border-bottom:1px solid #ffffff14;background:#090c18dd;backdrop-filter:blur(18px);position:sticky;top:0;z-index:5}
+.logo{font-weight:900;font-size:21px;letter-spacing:.5px}.logo span{color:#42d9ff}.status{margin-left:auto;padding:8px 12px;border:1px solid #27e18b44;border-radius:999px;color:#6dffb4;background:#27e18b12;font-size:12px}
+.menuBtn{position:fixed;top:18px;left:16px;z-index:20;width:44px;height:44px;border:1px solid #ffffff1c;border-radius:13px;background:#111627e8;color:white;font-size:21px;cursor:pointer}
+.sidebar{position:fixed;z-index:15;left:0;top:0;bottom:0;width:280px;background:#0b0f1cf7;border-right:1px solid #ffffff16;backdrop-filter:blur(20px);transform:translateX(-105%);transition:.28s;padding:90px 18px 20px;box-shadow:20px 0 60px #0008}
+.sidebar.open{transform:translateX(0)}.sidebar h3{margin:0 10px 15px;color:#7e8aa8;font-size:11px;text-transform:uppercase;letter-spacing:1.5px}
+.nav{display:grid;gap:8px}.nav button{border:1px solid transparent;background:transparent;color:#dbe4ff;text-align:left;padding:13px;border-radius:12px;font-size:14px;cursor:pointer}.nav button:hover,.nav button.active{background:#ffffff0b;border-color:#ffffff12;color:#fff}
+main{max-width:1200px;margin:auto;padding:42px 24px 80px}.hero{padding:35px 0 28px}.eyebrow{color:#58dcff;font-weight:800;font-size:12px;letter-spacing:2px}.hero h1{font-size:clamp(38px,7vw,76px);line-height:.95;margin:12px 0;background:linear-gradient(100deg,#fff,#9db5ff,#42e0ff);-webkit-background-clip:text;color:transparent}.hero p{color:#9ca8c5;max-width:650px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{padding:18px;border:1px solid #ffffff12;background:#ffffff06;border-radius:18px}.stat b{display:block;font-size:26px}.stat span{color:#7f8aa7;font-size:12px}
+.section{margin-top:32px}.sectionTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.section h2{margin:0;font-size:20px}.pill{font-size:11px;color:#8e9bb8;border:1px solid #ffffff15;border-radius:999px;padding:7px 10px}
+.bracket{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;overflow:auto;padding:8px 2px 20px}.round h4{color:#7d8aa9;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 10px 5px}
+.match{position:relative;margin:0 0 26px;padding:12px;border-radius:15px;border:1px solid #ffffff12;background:linear-gradient(145deg,#12182a,#0d1220);box-shadow:0 10px 30px #0003;cursor:pointer;transition:.2s}.match:hover{transform:translateY(-3px);border-color:#42d9ff66;box-shadow:0 15px 35px #1ca9ff18}.player{display:flex;justify-content:space-between;padding:7px 8px;border-radius:9px}.player:first-child{background:#ffffff07}.winner{color:#65ffb0;font-weight:800}.score{color:#aebbd8;font-weight:800}.vs{position:absolute;right:-22px;top:50%;font-size:9px;color:#4d5a76;transform:translateY(-50%)}.final .match{border-color:#ffc85755;background:linear-gradient(145deg,#201a0d,#11111c)}
+.card{padding:20px;border:1px solid #ffffff12;background:#ffffff06;border-radius:18px}.players{display:grid;grid-template-columns:1fr 70px 1fr;gap:12px;align-items:center}.fighter{text-align:center;padding:20px;border-radius:16px;background:#101628;border:1px solid #ffffff12}.fighter strong{font-size:20px}.vsbig{text-align:center;color:#42d9ff;font-weight:900}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:30;padding:20px}.modal.show{display:flex}.modalBox{width:min(500px,100%);background:#0d1322;border:1px solid #ffffff18;border-radius:22px;padding:24px;box-shadow:0 25px 80px #000}.close{float:right;background:#ffffff0d;border:0;color:white;border-radius:10px;padding:8px;cursor:pointer}
+button.primary{background:linear-gradient(90deg,#376cff,#2edcff);border:0;color:white;padding:11px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.bracket{grid-template-columns:repeat(4,240px)}header{padding-left:75px}.hero h1{font-size:48px}.players{grid-template-columns:1fr}.vsbig{display:none}}
+</style>
+</head>
+<body>
+<button class="menuBtn" onclick="toggleMenu()">☰</button>
+<aside class="sidebar" id="sidebar">
+  <h3>Navigation</h3>
+  <div class="nav">
+    <button class="active" onclick="go('tournament')">🏆 Tournament</button>
+    <button onclick="go('bracket')">⚔️ Bracket</button>
+    <button onclick="go('players')">👤 Players</button>
+    <button onclick="go('leaderboard')">📊 Leaderboard</button>
+    <button onclick="go('rules')">📜 Rules</button>
+    <button onclick="alert('Coming soon — registration system!')">➕ Join tournament</button>
+  </div>
+</aside>
+
+<header><div class="logo">J1mPPaZ <span>ARENA</span></div><div class="status">● TOURNAMENT LIVE</div></header>
+
+<main>
+<section class="hero" id="tournament">
+  <div class="eyebrow">FORTNITE • 1V1 • ELIMINATION</div>
+  <h1>J1mPPaZ<br>TOURNAMENT</h1>
+  <p>Seuraa matsien etenemistä, klikkaa matchupia ja katso kuka etenee seuraavalle kierrokselle.</p>
+  <div class="grid">
+    <div class="stat"><b>16</b><span>PLAYERS</span></div>
+    <div class="stat"><b>8</b><span>MATCHES</span></div>
+    <div class="stat"><b>4</b><span>ROUNDS</span></div>
+    <div class="stat"><b>LIVE</b><span>STATUS</span></div>
+  </div>
+</section>
+
+<section class="section" id="bracket">
+<div class="sectionTop"><h2>🏆 Tournament Bracket</h2><span class="pill">Single Elimination</span></div>
+<div class="bracket">
+ <div class="round"><h4>Round 1</h4>
+  <div class="match" onclick="showMatch('J1mPPaZ','Kullervo','2','1')"><div class="player winner">J1mPPaZ <span class="score">2</span></div><div class="player">Kullervo <span class="score">1</span></div><span class="vs">VS</span></div>
+  <div class="match" onclick="showMatch('Nikke','Vallu','0','2')"><div class="player">Nikke <span class="score">0</span></div><div class="player winner">Vallu <span class="score">2</span></div></div>
+  <div class="match" onclick="showMatch('Aapo','Roni','2','0')"><div class="player winner">Aapo <span class="score">2</span></div><div class="player">Roni <span class="score">0</span></div></div>
+  <div class="match" onclick="showMatch('Masa','Jere','1','2')"><div class="player">Masa <span class="score">1</span></div><div class="player winner">Jere <span class="score">2</span></div></div>
+ </div>
+ <div class="round"><h4>Quarterfinals</h4>
+  <div class="match" onclick="showMatch('J1mPPaZ','Vallu','2','1')"><div class="player winner">J1mPPaZ <span class="score">2</span></div><div class="player">Vallu <span class="score">1</span></div></div>
+  <div class="match" onclick="showMatch('Aapo','Jere','1','2')"><div class="player">Aapo <span class="score">1</span></div><div class="player winner">Jere <span class="score">2</span></div></div>
+ </div>
+ <div class="round"><h4>Semifinals</h4>
+  <div class="match" onclick="showMatch('J1mPPaZ','Jere','—','—')"><div class="player">J1mPPaZ <span class="score">—</span></div><div class="player">Jere <span class="score">—</span></div></div>
+ </div>
+ <div class="round final"><h4>Grand Final</h4>
+  <div class="match" onclick="showMatch('TBD','TBD','—','—')"><div class="player">TBD <span class="score">—</span></div><div class="player">TBD <span class="score">—</span></div></div>
+ </div>
+</div>
+</section>
+
+<section class="section" id="players"><div class="sectionTop"><h2>👤 Featured Match</h2><span class="pill">Next up</span></div>
+<div class="card"><div class="players"><div class="fighter"><strong>J1mPPaZ</strong><div style="color:#65ffb0;margin-top:6px">2 WINS</div></div><div class="vsbig">VS</div><div class="fighter"><strong>Jere</strong><div style="color:#ffca65;margin-top:6px">2 WINS</div></div></div></div></section>
+
+<section class="section" id="leaderboard"><div class="sectionTop"><h2>📊 Leaderboard</h2></div>
+<div class="card">🥇 <b>J1mPPaZ</b> — 2-0 <span style="float:right">200 pts</span><hr style="border-color:#ffffff0d"><br>🥈 Jere — 2-0 <span style="float:right">180 pts</span><hr style="border-color:#ffffff0d"><br>🥉 Vallu — 1-1 <span style="float:right">120 pts</span></div></section>
+
+<section class="section" id="rules"><div class="sectionTop"><h2>📜 Rules</h2></div>
+<div class="card">• 1v1 elimination<br>• Voittaja etenee seuraavalle kierrokselle<br>• Ottelun tulos ilmoitetaan adminille<br>• Fair play — ei huijaamista<br>• Bracket päivittyy otteluiden jälkeen</div></section>
+</main>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modalBox"><button class="close" onclick="closeModal()">✕</button><div class="eyebrow">MATCH DETAILS</div><h2 id="modalTitle">Match</h2><div class="players"><div class="fighter"><strong id="p1">—</strong><div class="score" id="s1">—</div></div><div class="vsbig">VS</div><div class="fighter"><strong id="p2">—</strong><div class="score" id="s2">—</div></div></div><br><button class="primary" onclick="closeModal()">Close</button></div></div>
+<script>
+function toggleMenu(){document.getElementById('sidebar').classList.toggle('open')}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});document.getElementById('sidebar').classList.remove('open')}
+function showMatch(a,b,sa,sb){document.getElementById('p1').textContent=a;document.getElementById('p2').textContent=b;document.getElementById('s1').textContent=sa;document.getElementById('s2').textContent=sb;document.getElementById('modalTitle').textContent=a+' vs '+b;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+</script>
+</body>
+</html>
