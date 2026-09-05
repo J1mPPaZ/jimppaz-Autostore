@@ -2,127 +2,162 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>J1mPPaZ BGL Autostore</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#07080d;
-  --panel:#0e1018;
-  --panel2:#121521;
+  --panel:#0d1018;
+  --panel2:#111520;
   --border:rgba(255,255,255,.08);
-  --text:#f5f7ff;
-  --muted:#858da3;
-  --accent:#6875ff;
-  --accent2:#9b6cff;
-  --green:#42e6a4;
-  --red:#ff5577;
+  --text:#f4f7ff;
+  --muted:#858da1;
+  --accent:#7c5cff;
+  --accent2:#9b85ff;
+  --green:#45e59b;
+  --red:#ff5d6c;
   --yellow:#ffc857;
+  --sidebar:250px;
+}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+html,body{
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 body{
-  background:
-    radial-gradient(circle at 70% 0%,rgba(104,117,255,.13),transparent 35%),
-    radial-gradient(circle at 10% 100%,rgba(155,108,255,.08),transparent 35%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  min-height:100vh;
   overflow-x:hidden;
 }
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-.app{display:flex;min-height:100vh}
+button,input,textarea{
+  font:inherit;
+}
+button{
+  border:0;
+  cursor:pointer;
+}
+.app{
+  min-height:100vh;
+}
 /* SIDEBAR */
 .sidebar{
-  width:250px;
-  flex-shrink:0;
-  border-right:1px solid var(--border);
-  background:rgba(8,9,14,.94);
-  backdrop-filter:blur(20px);
-  padding:24px 15px;
   position:fixed;
-  inset:0 auto 0 0;
+  left:0;
+  top:0;
+  bottom:0;
+  width:var(--sidebar);
+  background:rgba(9,11,17,.96);
+  border-right:1px solid var(--border);
+  padding:22px 16px;
   z-index:100;
+  backdrop-filter:blur(20px);
 }
 .logo{
   display:flex;
   align-items:center;
-  gap:11px;
-  padding:5px 10px 28px;
+  gap:12px;
+  margin-bottom:30px;
+  padding:0 8px;
 }
 .logo-mark{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  font-weight:900;
-}
-.logo-text{font-weight:900;font-size:15px}
-.logo-sub{font-size:10px;color:var(--muted);margin-top:2px}
-.nav-title{
-  color:#555d70;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.5px;
-  margin:13px 11px 8px;
-}
-.nav-btn{
-  width:100%;
-  border:0;
-  color:#8e96aa;
-  background:transparent;
-  border-radius:11px;
-  padding:11px 12px;
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:linear-gradient(135deg,#6e4cff,#a992ff);
   display:flex;
   align-items:center;
-  gap:11px;
+  justify-content:center;
+  font-weight:900;
+  box-shadow:0 0 30px rgba(124,92,255,.35);
+}
+.logo-title{
+  font-weight:900;
+  font-size:15px;
+}
+.logo-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.nav button{
+  width:100%;
   text-align:left;
-  margin-bottom:3px;
+  background:transparent;
+  color:#9198aa;
+  padding:12px 13px;
+  border-radius:11px;
+  transition:.2s;
 }
-.nav-btn:hover{
-  background:#151823;
-  color:#fff;
+.nav button:hover{
+  background:rgba(255,255,255,.045);
+  color:white;
 }
-.nav-btn.active{
-  background:linear-gradient(90deg,rgba(104,117,255,.18),rgba(104,117,255,.04));
-  color:#fff;
-  box-shadow:inset 2px 0 var(--accent);
+.nav button.active{
+  color:white;
+  background:linear-gradient(90deg,rgba(124,92,255,.22),rgba(124,92,255,.07));
+  box-shadow:inset 3px 0 0 var(--accent);
 }
-.nav-icon{width:20px;text-align:center}
-.admin-nav{display:none}
+.nav-section{
+  color:#555c6e;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  padding:18px 13px 7px;
+  text-transform:uppercase;
+}
+.admin-nav{
+  display:none;
+}
+.admin-nav.visible{
+  display:block;
+}
 .sidebar-bottom{
   position:absolute;
-  left:15px;
-  right:15px;
+  left:16px;
+  right:16px;
   bottom:20px;
 }
 .user-mini{
-  padding:12px;
+  background:var(--panel);
   border:1px solid var(--border);
-  background:#0d0f16;
-  border-radius:13px;
+  padding:12px;
+  border-radius:14px;
   display:flex;
   align-items:center;
   gap:10px;
 }
 .avatar{
-  width:32px;
-  height:32px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#5865f2,#7c5cff);
-  font-weight:800;
-  font-size:12px;
+  width:35px;
+  height:35px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#7054ff,#a98cff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  color:white;
 }
-.mini-name{font-size:12px;font-weight:700}
-.mini-rank{font-size:10px;color:var(--muted)}
+.user-mini-name{
+  font-size:13px;
+  font-weight:800;
+}
+.user-mini-rank{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:2px;
+}
 /* MAIN */
 .main{
-  margin-left:250px;
-  width:calc(100% - 250px);
+  margin-left:var(--sidebar);
   min-height:100vh;
 }
 .topbar{
@@ -131,1429 +166,1173 @@ button{cursor:pointer}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 32px;
-  background:rgba(7,8,13,.7);
-  backdrop-filter:blur(20px);
+  padding:0 30px;
   position:sticky;
   top:0;
   z-index:50;
+  background:rgba(7,8,13,.78);
+  backdrop-filter:blur(18px);
 }
-.topbar-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.page-title{
+  font-size:20px;
+  font-weight:900;
 }
-.page-title{font-weight:800;font-size:15px}
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.page-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
 }
-.login-btn,
-.ghost-btn,
-.primary-btn,
-.danger-btn,
-.success-btn{
+.mobile-menu{
+  display:none;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:var(--panel);
+  color:white;
   border:1px solid var(--border);
-  color:#fff;
-  border-radius:10px;
-  padding:10px 15px;
-  font-weight:750;
-  transition:.2s;
-}
-.login-btn{
-  background:#5865f2;
-  border-color:#5865f2;
-}
-.ghost-btn{background:#12151e}
-.primary-btn{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  border:0;
-}
-.success-btn{
-  background:rgba(66,230,164,.12);
-  border-color:rgba(66,230,164,.3);
-  color:var(--green);
-}
-.danger-btn{
-  background:rgba(255,85,119,.1);
-  border-color:rgba(255,85,119,.25);
-  color:#ff7691;
+  font-size:20px;
 }
 .content{
-  padding:32px;
-  max-width:1400px;
+  padding:30px;
+  max-width:1450px;
   margin:auto;
 }
 .view{
   display:none;
-  animation:fade .25s ease;
+  animation:fadeIn .25s ease;
 }
-.view.active{display:block}
-@keyframes fade{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
+.view.active{
+  display:block;
 }
-/* ANNOUNCEMENT */
-.announcement{
-  display:none;
-  margin-bottom:22px;
-  padding:14px 17px;
-  border:1px solid rgba(104,117,255,.25);
-  background:rgba(104,117,255,.08);
-  border-radius:13px;
-  color:#dfe3ff;
-  font-size:13px;
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
 }
-/* HERO */
+/* COMMON */
+.grid{
+  display:grid;
+  gap:18px;
+}
+.grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.grid-3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+.card{
+  background:linear-gradient(145deg,rgba(18,21,31,.98),rgba(11,13,20,.98));
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 15px 50px rgba(0,0,0,.16);
+}
+.card-title{
+  font-size:16px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+.card-sub{
+  color:var(--muted);
+  font-size:12px;
+}
+.btn{
+  border-radius:11px;
+  padding:11px 15px;
+  font-weight:800;
+  transition:.18s;
+  background:#191d28;
+  color:white;
+  border:1px solid var(--border);
+}
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.12);
+}
+.btn-primary{
+  background:linear-gradient(135deg,#6d50ff,#947cff);
+  border-color:transparent;
+  box-shadow:0 8px 25px rgba(124,92,255,.25);
+}
+.btn-success{
+  background:rgba(69,229,155,.12);
+  color:var(--green);
+  border-color:rgba(69,229,155,.22);
+}
+.btn-danger{
+  background:rgba(255,93,108,.1);
+  color:var(--red);
+  border-color:rgba(255,93,108,.2);
+}
+.btn-small{
+  padding:7px 9px;
+  font-size:11px;
+}
+.input,
+textarea{
+  width:100%;
+  background:#090b11;
+  border:1px solid var(--border);
+  border-radius:11px;
+  color:white;
+  outline:none;
+  padding:12px;
+}
+.input:focus,
+textarea:focus{
+  border-color:rgba(124,92,255,.7);
+  box-shadow:0 0 0 3px rgba(124,92,255,.08);
+}
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+.label{
+  display:block;
+  font-size:11px;
+  color:#9ba2b4;
+  margin-bottom:7px;
+  font-weight:700;
+}
+/* STORE HERO */
 .hero{
-  min-height:390px;
+  min-height:290px;
   border:1px solid var(--border);
   border-radius:24px;
   overflow:hidden;
   position:relative;
+  background:
+    radial-gradient(circle at 80% 40%,rgba(124,92,255,.2),transparent 34%),
+    radial-gradient(circle at 50% 100%,rgba(70,120,255,.1),transparent 35%),
+    #0c0f17;
   display:flex;
   align-items:center;
-  padding:50px;
-  background:
-    radial-gradient(circle at 80% 50%,rgba(104,117,255,.16),transparent 35%),
-    linear-gradient(135deg,#10121b,#0a0c12);
+  padding:38px;
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:620px;
 }
 .hero h1{
-  font-size:clamp(38px,5vw,68px);
-  line-height:.96;
-  letter-spacing:-3px;
+  font-size:clamp(32px,5vw,62px);
+  line-height:.98;
+  letter-spacing:-2px;
+  font-weight:950;
 }
-.gradient-text{
-  background:linear-gradient(90deg,#fff,#9ba6ff,#c9a7ff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+.hero h1 span{
+  color:#a48fff;
 }
 .hero p{
+  margin-top:15px;
   color:#8f97aa;
-  max-width:530px;
-  line-height:1.7;
-  margin:22px 0;
+  max-width:520px;
+  line-height:1.6;
 }
-.hero-orb{
+.hero-img{
   position:absolute;
-  right:8%;
-  width:270px;
-  height:270px;
-  border-radius:50%;
-  border:1px solid rgba(104,117,255,.25);
-  box-shadow:0 0 100px rgba(104,117,255,.12);
-  animation:float 5s ease-in-out infinite;
-}
-.hero-orb img{
-  width:180px;
-  height:180px;
+  right:6%;
+  width:250px;
+  height:250px;
   object-fit:contain;
-  position:absolute;
-  inset:45px;
-  filter:drop-shadow(0 0 35px rgba(104,117,255,.45));
+  filter:drop-shadow(0 0 40px rgba(124,92,255,.38));
+  animation:float 4s ease-in-out infinite;
 }
 @keyframes float{
-  50%{transform:translateY(-13px) rotate(3deg)}
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-13px) rotate(2deg)}
 }
-/* GENERAL */
-.section-head{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:15px;
-  margin:35px 0 16px;
-}
-.section-head h2{font-size:21px}
-.section-head p{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:5px;
-}
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-.card{
-  border:1px solid var(--border);
-  background:rgba(14,16,24,.8);
-  border-radius:17px;
-  padding:20px;
-}
-.stat-label{
-  font-size:11px;
-  color:var(--muted);
-  font-weight:700;
-}
-.stat-value{
-  font-size:26px;
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(69,229,155,.2);
+  background:rgba(69,229,155,.08);
+  color:var(--green);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:10px;
   font-weight:900;
-  margin-top:8px;
-}
-.stat-small{
-  font-size:11px;
-  color:#697185;
-  margin-top:5px;
+  margin-bottom:16px;
 }
 /* BUY */
 .buy-layout{
   display:grid;
-  grid-template-columns:1.35fr .65fr;
+  grid-template-columns:1.2fr .8fr;
   gap:18px;
 }
-.buy-box{
-  min-height:520px;
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:28px;
-  background:
-    radial-gradient(circle at 50% 15%,rgba(104,117,255,.12),transparent 35%),
-    #0d0f16;
+.buy-card{
   position:relative;
   overflow:hidden;
 }
-.buy-inner{position:relative;z-index:1}
-.buy-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:start;
+.buy-card:before{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  background:rgba(124,92,255,.1);
+  filter:blur(70px);
+  right:-100px;
+  top:-100px;
 }
-.price-tag{
-  padding:8px 11px;
-  border:1px solid rgba(66,230,164,.2);
-  color:var(--green);
-  background:rgba(66,230,164,.07);
-  border-radius:9px;
-  font-size:12px;
-  font-weight:800;
-}
-.bgl-stage{
-  height:190px;
-  display:grid;
-  place-items:center;
-}
-.bgl-stage img{
-  width:145px;
-  height:145px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 35px rgba(104,117,255,.4));
-  animation:coinFloat 3.5s ease-in-out infinite;
-}
-@keyframes coinFloat{
-  50%{transform:translateY(-12px) rotate(4deg)}
-}
-.amount-row{
+.amount-area{
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:18px;
+  gap:10px;
+  margin:22px 0;
 }
 .step{
-  width:42px;
-  height:42px;
+  width:48px;
+  height:48px;
   border-radius:12px;
+  background:#181c27;
+  color:white;
+  font-size:22px;
   border:1px solid var(--border);
-  background:#171a25;
-  color:#fff;
-  font-size:20px;
-}
-.amount{
-  font-size:42px;
-  font-weight:950;
-  min-width:130px;
-  text-align:center;
 }
 .amount-input{
-  width:100%;
-  margin-top:18px;
-  background:#090b11;
-  color:#fff;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:13px 14px;
-  outline:none;
+  flex:1;
+  height:48px;
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
 }
 .presets{
   display:flex;
-  gap:7px;
   flex-wrap:wrap;
-  margin-top:10px;
+  gap:8px;
 }
 .preset{
+  background:#151923;
   border:1px solid var(--border);
-  background:#12151e;
-  color:#8e96aa;
-  border-radius:8px;
-  padding:7px 11px;
+  color:#b8becb;
+  padding:8px 13px;
+  border-radius:10px;
   font-size:11px;
+  font-weight:800;
 }
-.total-row{
+.preset:hover,
+.preset.selected{
+  color:white;
+  border-color:rgba(124,92,255,.5);
+  background:rgba(124,92,255,.13);
+}
+.price-box{
+  margin-top:22px;
+  border-top:1px solid var(--border);
+  padding-top:18px;
   display:flex;
   justify-content:space-between;
-  border-top:1px solid var(--border);
-  margin-top:20px;
-  padding-top:18px;
+  align-items:center;
 }
 .total{
-  font-size:26px;
-  font-weight:900;
+  font-size:28px;
+  font-weight:950;
 }
-.full-btn{
-  width:100%;
-  margin-top:18px;
-  padding:14px;
-}
-.info-panel{
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:23px;
-  background:#0d0f16;
-  height:max-content;
-}
-.info-item{
-  padding:15px 0;
-  border-bottom:1px solid var(--border);
-}
-.info-item:last-child{border-bottom:0}
-.info-item b{
-  display:block;
-  font-size:13px;
-  margin-bottom:5px;
-}
-.info-item span{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-}
-/* TABLES */
-.table-wrap{
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:auto;
-  background:#0d0f16;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:720px;
-}
-th,td{
-  padding:15px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
-th{
-  color:#656d81;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-td{color:#c8ccda}
-tr:last-child td{border-bottom:0}
-.status{
-  display:inline-flex;
-  padding:5px 8px;
-  border-radius:7px;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-}
-.status.pending{
-  background:rgba(255,200,87,.1);
-  color:var(--yellow);
-}
-.status.approved{
-  background:rgba(104,117,255,.12);
-  color:#9ba6ff;
-}
-.status.completed{
-  background:rgba(66,230,164,.1);
-  color:var(--green);
-}
-.status.rejected{
-  background:rgba(255,85,119,.1);
-  color:#ff718b;
-}
-.actions{
+.buy-visual{
+  min-height:100%;
   display:flex;
-  gap:6px;
-  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  position:relative;
 }
-.small-btn{
-  padding:7px 9px;
-  border-radius:7px;
-  border:1px solid var(--border);
-  background:#151823;
-  color:#cbd0df;
+.buy-visual img{
+  width:210px;
+  height:210px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 35px rgba(124,92,255,.45));
+  animation:float 4s ease-in-out infinite;
+}
+/* STATS */
+.stat{
+  padding:20px;
+}
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
+}
+.stat-value{
+  font-size:28px;
+  font-weight:950;
+  margin-top:7px;
+}
+.stat-small{
+  color:#7e879b;
   font-size:10px;
-  font-weight:750;
+  margin-top:3px;
 }
 /* RANK */
-.rank-card{
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:30px;
-  background:
-    radial-gradient(circle at 85% 20%,rgba(104,117,255,.14),transparent 35%),
-    #0d0f16;
+.rank-box{
+  text-align:center;
+  padding:35px;
 }
 .rank-name{
-  font-size:45px;
+  font-size:36px;
   font-weight:950;
-  letter-spacing:-2px;
+  margin:10px 0;
 }
-.rank-desc{
+.xp-number{
   color:var(--muted);
-  margin:5px 0 25px;
+  font-size:13px;
 }
-.progress-track{
+.progress{
   height:12px;
-  background:#191c27;
-  border-radius:20px;
+  background:#171a24;
+  border-radius:999px;
   overflow:hidden;
+  margin:25px 0 10px;
 }
-.progress-fill{
+.progress-bar{
   height:100%;
-  border-radius:20px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  transition:width .6s ease;
+  background:linear-gradient(90deg,#6c4cff,#aa98ff);
+  border-radius:999px;
+  transition:width .5s ease;
 }
 .progress-meta{
   display:flex;
   justify-content:space-between;
-  margin-top:10px;
-  color:#727b90;
-  font-size:11px;
+  color:#777f92;
+  font-size:10px;
 }
-.rank-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:10px;
-  margin-top:20px;
+/* TABLE */
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
 }
-.rank-pill{
-  border:1px solid var(--border);
-  padding:13px;
-  border-radius:12px;
-  background:#10131c;
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
 }
-.rank-pill.active{
-  border-color:rgba(104,117,255,.5);
-  background:rgba(104,117,255,.09);
+th{
+  text-align:left;
+  color:#666e81;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  padding:12px;
+  border-bottom:1px solid var(--border);
 }
-.rank-pill b{
-  display:block;
+td{
+  padding:13px 12px;
+  border-bottom:1px solid rgba(255,255,255,.045);
   font-size:12px;
 }
-.rank-pill span{
-  font-size:10px;
-  color:var(--muted);
+td strong{
+  font-weight:850;
 }
-/* PROFILE */
-.profile-grid{
-  display:grid;
-  grid-template-columns:.8fr 1.2fr;
-  gap:18px;
-}
-.profile-card{
-  text-align:center;
-  padding:35px;
-}
-.profile-avatar{
-  width:80px;
-  height:80px;
-  border-radius:25px;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  font-size:25px;
+.status{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:9px;
   font-weight:900;
-  background:linear-gradient(135deg,#5865f2,#8d62ff);
+  text-transform:uppercase;
 }
-.profile-name{
-  font-size:23px;
-  font-weight:900;
-  margin-top:15px;
+.status.pending{
+  color:var(--yellow);
+  background:rgba(255,200,87,.09);
 }
-.profile-rank{
-  color:#8e96aa;
-  margin-top:4px;
+.status.approved{
+  color:#9b85ff;
+  background:rgba(124,92,255,.1);
 }
-/* ADMIN */
-.admin-tools{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-  margin-top:18px;
+.status.completed{
+  color:var(--green);
+  background:rgba(69,229,155,.09);
 }
-.admin-card{
-  border:1px solid var(--border);
-  background:#0d0f16;
-  border-radius:18px;
-  padding:22px;
+.status.rejected{
+  color:var(--red);
+  background:rgba(255,93,108,.09);
 }
-.admin-card h3{
-  font-size:14px;
-  margin-bottom:5px;
-}
-.admin-card p{
-  font-size:11px;
-  color:var(--muted);
-  margin-bottom:17px;
-}
-.field{
-  width:100%;
-  background:#080a10;
-  border:1px solid var(--border);
-  color:#fff;
-  border-radius:10px;
-  padding:11px 12px;
-  outline:none;
-  margin-bottom:10px;
-}
-textarea.field{
-  min-height:100px;
-  resize:vertical;
-}
-.button-row{
+.actions{
   display:flex;
-  gap:8px;
   flex-wrap:wrap;
+  gap:6px;
 }
-/* EMPTY */
-.empty{
-  text-align:center;
-  padding:60px 20px;
-  color:#697185;
+/* LEADERBOARD */
+.leader-row{
+  display:grid;
+  grid-template-columns:50px 1fr 130px 100px;
+  gap:12px;
+  align-items:center;
+  padding:15px 10px;
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
-.empty-icon{
-  font-size:30px;
-  margin-bottom:10px;
+.leader-rank{
+  font-size:18px;
+  font-weight:950;
 }
-/* MOBILE */
-.drawer-btn{
-  display:none;
+.leader-name{
+  font-weight:850;
 }
-.overlay{
-  display:none;
+.leader-xp{
+  text-align:right;
+  font-weight:900;
 }
-/* MODALS */
+.rank-tag{
+  color:#a999ff;
+  font-size:10px;
+  margin-top:3px;
+}
+/* MODAL */
 .modal-backdrop{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.72);
   backdrop-filter:blur(10px);
-  z-index:500;
   display:none;
   align-items:center;
   justify-content:center;
   padding:18px;
+  z-index:500;
 }
-.modal-backdrop.show{display:flex}
+.modal-backdrop.open{
+  display:flex;
+}
 .modal{
   width:min(430px,100%);
-  border:1px solid rgba(255,255,255,.1);
-  background:#10121a;
+  background:#10131c;
+  border:1px solid var(--border);
   border-radius:22px;
   padding:25px;
-  box-shadow:0 30px 100px rgba(0,0,0,.7);
-  animation:modalIn .25s ease;
+  box-shadow:0 30px 100px rgba(0,0,0,.5);
+  animation:modalIn .22s ease;
 }
 @keyframes modalIn{
-  from{opacity:0;transform:scale(.94) translateY(10px)}
-  to{opacity:1;transform:none}
+  from{opacity:0;transform:scale(.96) translateY(8px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
 }
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:start;
-  margin-bottom:20px;
+.modal h2{
+  font-size:22px;
+  font-weight:950;
 }
-.close{
-  border:0;
-  background:#1a1d28;
-  color:#8c94a8;
-  width:32px;
-  height:32px;
-  border-radius:9px;
+.modal p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  margin:6px 0 20px;
 }
-.discord-logo{
-  width:50px;
-  height:50px;
-  border-radius:15px;
-  background:#5865f2;
-  display:grid;
-  place-items:center;
-  font-size:24px;
+.form-group{
   margin-bottom:14px;
 }
-.modal h2{font-size:22px}
-.modal p{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.6;
-  margin-top:5px;
+.modal-actions{
+  display:flex;
+  gap:8px;
+  margin-top:18px;
 }
-.modal label{
-  display:block;
-  font-size:11px;
-  color:#7f879a;
-  margin:16px 0 7px;
-  font-weight:700;
-}
-.password-wrap{position:relative}
-.password-wrap input{
-  padding-right:65px;
-}
-.show-pass{
-  position:absolute;
-  right:8px;
-  top:7px;
-  border:0;
-  background:#191c26;
-  color:#777f92;
-  border-radius:7px;
-  padding:6px;
-  font-size:10px;
-}
-.modal-note{
-  padding:10px;
-  border-radius:9px;
-  background:rgba(255,200,87,.06);
-  border:1px solid rgba(255,200,87,.15);
-  color:#a99c76;
-  font-size:10px;
-  margin-top:14px;
-  line-height:1.5;
+.modal-actions .btn{
+  flex:1;
 }
 /* TOAST */
-.toast{
+.toast-container{
   position:fixed;
   right:20px;
   bottom:20px;
-  background:#151823;
+  z-index:1000;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.toast{
+  background:#151923;
   border:1px solid var(--border);
-  border-radius:12px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
   padding:13px 16px;
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-  z-index:900;
+  border-radius:12px;
   font-size:12px;
-  font-weight:750;
-  transform:translateY(20px);
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
+  animation:toastIn .25s ease;
+  max-width:320px;
 }
-.toast.show{
-  transform:none;
-  opacity:1;
+@keyframes toastIn{
+  from{opacity:0;transform:translateX(20px)}
+  to{opacity:1;transform:translateX(0)}
 }
-.toast.good{border-color:rgba(66,230,164,.25)}
-.toast.bad{border-color:rgba(255,85,119,.25)}
 /* MOBILE */
-@media(max-width:900px){
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:90;
+  display:none;
+}
+.overlay.open{
+  display:block;
+}
+@media(max-width:850px){
   .sidebar{
     transform:translateX(-105%);
-    transition:.25s;
-    box-shadow:30px 0 80px rgba(0,0,0,.4);
+    transition:.25s ease;
+    box-shadow:20px 0 60px rgba(0,0,0,.5);
   }
-  .sidebar.open{transform:none}
+  .sidebar.open{
+    transform:translateX(0);
+  }
   .main{
     margin-left:0;
-    width:100%;
   }
-  .drawer-btn{
-    display:grid;
-    place-items:center;
-    width:38px;
-    height:38px;
-    border:1px solid var(--border);
-    background:#12151e;
-    color:#fff;
-    border-radius:10px;
+  .mobile-menu{
+    display:block;
   }
-  .overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    z-index:90;
-  }
-  .overlay.show{display:block}
   .topbar{
-    padding:0 16px;
+    padding:0 15px;
   }
   .content{
-    padding:20px 16px;
+    padding:16px;
+  }
+  .grid-2,
+  .grid-3,
+  .buy-layout{
+    grid-template-columns:1fr;
   }
   .hero{
-    padding:30px 25px;
-    min-height:440px;
-  }
-  .hero-orb{
-    opacity:.4;
-    right:-90px;
-  }
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .buy-layout,
-  .profile-grid{
-    grid-template-columns:1fr;
-  }
-  .rank-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .admin-tools{
-    grid-template-columns:1fr;
-  }
-}
-@media(max-width:520px){
-  .page-title{font-size:13px}
-  .top-actions .ghost-btn{
-    display:none;
-  }
-  .login-btn{
-    padding:9px 11px;
-    font-size:11px;
+    min-height:380px;
+    padding:25px;
+    align-items:flex-start;
   }
   .hero h1{
-    font-size:42px;
+    font-size:40px;
   }
-  .hero p{
-    font-size:12px;
+  .hero-img{
+    width:190px;
+    height:190px;
+    right:50%;
+    transform:translateX(50%);
+    bottom:-25px;
   }
-  .cards{
-    gap:9px;
+  .hero-img{
+    animation:floatMobile 4s ease-in-out infinite;
+  }
+  @keyframes floatMobile{
+    0%,100%{transform:translateX(50%) translateY(0) rotate(-2deg)}
+    50%{transform:translateX(50%) translateY(-10px) rotate(2deg)}
+  }
+  .leader-row{
+    grid-template-columns:35px 1fr 80px;
+  }
+  .leader-row .rank-col{
+    display:none;
   }
   .card{
-    padding:15px;
+    padding:17px;
   }
-  .stat-value{
-    font-size:21px;
+  .amount-area{
+    gap:6px;
   }
-  .buy-box{
-    padding:19px;
+  .step{
+    width:43px;
   }
-  .bgl-stage{
-    height:155px;
-  }
-  .bgl-stage img{
-    width:120px;
-    height:120px;
-  }
-  .amount{
-    font-size:34px;
-  }
-  .rank-name{
-    font-size:36px;
-  }
-  .rank-grid{
-    grid-template-columns:1fr 1fr;
+  .toast-container{
+    left:12px;
+    right:12px;
+    bottom:12px;
   }
   .toast{
-    left:15px;
-    right:15px;
-    bottom:15px;
+    max-width:none;
   }
 }
 </style>
 </head>
 <body>
-<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
 <div class="app">
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="logo">
-    <div class="logo-mark">J</div>
-    <div>
-      <div class="logo-text">J1mPPaZ</div>
-      <div class="logo-sub">BGL AUTOSTORE</div>
-    </div>
-  </div>
-  <div class="nav-title">STORE</div>
-  <button class="nav-btn active" data-view="store">
-    <span class="nav-icon">⌂</span>
-    Store
-  </button>
-  <button class="nav-btn" data-view="buy">
-    <span class="nav-icon">◈</span>
-    Buy BGLs
-  </button>
-  <div class="nav-title">ACCOUNT</div>
-  <button class="nav-btn" data-view="orders">
-    <span class="nav-icon">▤</span>
-    Order History
-  </button>
-  <button class="nav-btn" data-view="rank">
-    <span class="nav-icon">★</span>
-    Rank Progress
-  </button>
-  <button class="nav-btn" data-view="leaderboard">
-    <span class="nav-icon">♛</span>
-    Leaderboard
-  </button>
-  <button class="nav-btn" data-view="profile">
-    <span class="nav-icon">●</span>
-    Profile
-  </button>
-  <div class="nav-title admin-nav" id="adminTitle">ADMIN</div>
-  <button class="nav-btn admin-nav" id="adminNav" data-view="admin">
-    <span class="nav-icon">⚙</span>
-    Admin Panel
-  </button>
-  <div class="sidebar-bottom">
-    <div class="user-mini">
-      <div class="avatar" id="miniAvatar">?</div>
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-mark">JZ</div>
       <div>
-        <div class="mini-name" id="miniName">Not logged in</div>
-        <div class="mini-rank" id="miniRank">Unranked</div>
+        <div class="logo-title">J1mPPaZ</div>
+        <div class="logo-sub">BGL AUTOSTORE</div>
       </div>
     </div>
-  </div>
-</aside>
-<!-- MAIN -->
-<main class="main">
-<header class="topbar">
-  <div class="topbar-left">
-    <button class="drawer-btn" onclick="toggleDrawer()">☰</button>
-    <div class="page-title" id="pageTitle">Store</div>
-  </div>
-  <div class="top-actions">
-    <button
-      class="ghost-btn"
-      id="profileTopBtn"
-      onclick="showView('profile')"
-    >
-      Profile
-    </button>
-    <button
-      class="login-btn"
-      id="loginTopBtn"
-      onclick="openLogin()"
-    >
-      Continue
-    </button>
-  </div>
-</header>
-<div class="content">
-<div class="announcement" id="announcement"></div>
-<!-- STORE -->
-<section class="view active" id="view-store">
-  <div class="hero">
-    <div>
-      <div style="font-size:11px;color:#7d86a0;font-weight:800;letter-spacing:2px;margin-bottom:15px">
-        J1mPPaZ BGL AUTOSTORE
-      </div>
-      <h1>
-        Fast.<br>
-        <span class="gradient-text">Simple.</span><br>
-        BGLs.
-      </h1>
-      <p>
-        Order your BGLs through a clean and simple store.
-        Track orders, earn XP from completed orders and climb the ranks.
-      </p>
-      <button class="primary-btn" onclick="showView('buy')">
-        Buy BGLs →
+    <nav class="nav">
+      <button data-action="navigate" data-view="store" class="active">
+        🏠 Store
       </button>
-    </div>
-    <div class="hero-orb">
-      <img
-        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-        alt="BGL"
-      >
-    </div>
-  </div>
-  <div class="section-head">
-    <div>
-      <h2>Your dashboard</h2>
-      <p>Your account statistics.</p>
-    </div>
-  </div>
-  <div class="cards">
-    <div class="card">
-      <div class="stat-label">CURRENT RANK</div>
-      <div class="stat-value" id="dashRank">Unranked</div>
-      <div class="stat-small" id="dashRankSmall">0% progress</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">TOTAL XP</div>
-      <div class="stat-value" id="dashXP">0</div>
-      <div class="stat-small">From completed orders</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">ORDERS</div>
-      <div class="stat-value" id="dashOrders">0</div>
-      <div class="stat-small">All orders</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">COMPLETED</div>
-      <div class="stat-value" id="dashCompleted">0</div>
-      <div class="stat-small">Finished orders</div>
-    </div>
-  </div>
-</section>
-<!-- BUY -->
-<section class="view" id="view-buy">
-  <div class="section-head">
-    <div>
-      <h2>Buy BGLs</h2>
-      <p>Select an amount and create an order.</p>
-    </div>
-  </div>
-  <div class="buy-layout">
-    <div class="buy-box">
-      <div class="buy-inner">
-        <div class="buy-top">
-          <div>
-            <div style="font-size:22px;font-weight:900">
-              BGL Order
-            </div>
-            <div style="font-size:11px;color:var(--muted);margin-top:4px">
-              €2.30 per BGL
-            </div>
-          </div>
-          <div class="price-tag">
-            €2.30 / BGL
-          </div>
+      <button data-action="navigate" data-view="buy">
+        💎 Buy BGLs
+      </button>
+      <button data-action="navigate" data-view="orders">
+        📦 Order History
+      </button>
+      <button data-action="navigate" data-view="rank">
+        ⚡ Rank Progress
+      </button>
+      <button data-action="navigate" data-view="leaderboard">
+        🏆 Leaderboard
+      </button>
+      <button data-action="navigate" data-view="profile">
+        👤 Profile
+      </button>
+      <div class="nav-section admin-nav" id="adminNav">
+        ADMIN
+      </div>
+      <button data-action="navigate" data-view="admin" class="admin-nav" id="adminButton">
+        🛠️ Admin Panel
+      </button>
+      <button data-action="logout">
+        🚪 Logout
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="user-mini">
+        <div class="avatar" id="sideAvatar">?</div>
+        <div>
+          <div class="user-mini-name" id="sideUsername">Not logged in</div>
+          <div class="user-mini-rank" id="sideRank">Unranked · 0 XP</div>
         </div>
-        <div class="bgl-stage">
+      </div>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" data-action="toggle-menu">☰</button>
+      <div>
+        <div class="page-title" id="pageTitle">Store</div>
+        <div class="page-sub">J1mPPaZ BGL Autostore</div>
+      </div>
+      <button class="btn btn-primary" data-action="open-login">
+        Discord Login
+      </button>
+    </header>
+    <div class="content">
+      <!-- STORE -->
+      <section class="view active" id="view-store">
+        <div class="hero">
+          <div class="hero-content">
+            <div class="pill">● STORE ONLINE</div>
+            <h1>
+              Welcome to<br>
+              <span>J1mPPaZ</span> BGL Store
+            </h1>
+            <p>
+              Fast BGL orders, account progression and a ranked system
+              built around your completed orders.
+            </p>
+            <div style="display:flex;gap:9px;margin-top:22px;flex-wrap:wrap">
+              <button class="btn btn-primary" data-action="navigate" data-view="buy">
+                Buy BGLs
+              </button>
+              <button class="btn" data-action="navigate" data-view="leaderboard">
+                View Leaderboard
+              </button>
+            </div>
+          </div>
           <img
+            class="hero-img"
             src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
             alt="BGL"
           >
         </div>
-        <div class="amount-row">
-          <button class="step" onclick="changeAmount(-1)">
-            −
-          </button>
-          <div class="amount" id="amountDisplay">
-            1
+        <div style="height:18px"></div>
+        <div id="announcementStore"></div>
+        <div style="height:18px"></div>
+        <div class="grid grid-3">
+          <div class="card stat">
+            <div class="stat-label">PRICE</div>
+            <div class="stat-value">€2.30</div>
+            <div class="stat-small">per BGL</div>
           </div>
-          <button class="step" onclick="changeAmount(1)">
-            +
-          </button>
+          <div class="card stat">
+            <div class="stat-label">XP RATE</div>
+            <div class="stat-value">10 XP</div>
+            <div class="stat-small">per BGL completed</div>
+          </div>
+          <div class="card stat">
+            <div class="stat-label">MAX RANK</div>
+            <div class="stat-value">Apex</div>
+            <div class="stat-small">5000 XP</div>
+          </div>
         </div>
-        <input
-          class="amount-input"
-          id="amountInput"
-          type="number"
-          min="1"
-          step="1"
-          value="1"
-          oninput="syncAmount()"
-          placeholder="BGL amount"
-        >
-        <div class="presets">
-          <button class="preset" onclick="setAmount(1)">1</button>
-          <button class="preset" onclick="setAmount(5)">5</button>
-          <button class="preset" onclick="setAmount(10)">10</button>
-          <button class="preset" onclick="setAmount(25)">25</button>
-          <button class="preset" onclick="setAmount(50)">50</button>
-          <button class="preset" onclick="setAmount(100)">100</button>
+      </section>
+      <!-- BUY -->
+      <section class="view" id="view-buy">
+        <div class="buy-layout">
+          <div class="card buy-card">
+            <div class="card-title">Buy BGLs</div>
+            <div class="card-sub">
+              Select how many BGLs you want to order.
+            </div>
+            <div class="amount-area">
+              <button class="step" data-action="amount-minus">−</button>
+              <input
+                id="amountInput"
+                class="input amount-input"
+                type="number"
+                min="1"
+                step="1"
+                value="1"
+              >
+              <button class="step" data-action="amount-plus">+</button>
+            </div>
+            <div class="label">Quick select</div>
+            <div class="presets">
+              <button class="preset" data-action="preset" data-amount="1">1 BGL</button>
+              <button class="preset" data-action="preset" data-amount="5">5 BGL</button>
+              <button class="preset" data-action="preset" data-amount="10">10 BGL</button>
+              <button class="preset" data-action="preset" data-amount="25">25 BGL</button>
+              <button class="preset" data-action="preset" data-amount="50">50 BGL</button>
+              <button class="preset" data-action="preset" data-amount="100">100 BGL</button>
+            </div>
+            <div class="price-box">
+              <div>
+                <div class="stat-label">TOTAL</div>
+                <div class="total" id="buyTotal">€2.30</div>
+              </div>
+              <button class="btn btn-primary" data-action="create-order">
+                Create Order
+              </button>
+            </div>
+          </div>
+          <div class="card buy-visual">
+            <img
+              src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+              alt="BGL"
+            >
+          </div>
         </div>
-        <div class="total-row">
-          <span style="color:var(--muted);font-size:12px">
-            Order total
-          </span>
-          <span class="total" id="totalPrice">
-            €2.30
-          </span>
+      </section>
+      <!-- ORDERS -->
+      <section class="view" id="view-orders">
+        <div class="card">
+          <div class="card-title">Order History</div>
+          <div class="card-sub">
+            Your previous BGL orders and awarded XP.
+          </div>
+          <div style="height:18px"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>BGL</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>XP</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
         </div>
-        <button
-          class="primary-btn full-btn"
-          onclick="createOrder()"
-        >
-          Create Order
-        </button>
-      </div>
+      </section>
+      <!-- RANK -->
+      <section class="view" id="view-rank">
+        <div class="card rank-box">
+          <div class="card-sub">YOUR CURRENT RANK</div>
+          <div class="rank-name" id="rankName">Unranked</div>
+          <div class="xp-number" id="rankXP">
+            0 XP
+          </div>
+          <div class="progress">
+            <div class="progress-bar" id="rankProgressBar" style="width:0%"></div>
+          </div>
+          <div class="progress-meta">
+            <span id="rankCurrentXP">0 XP</span>
+            <span id="rankNext">Rookie · 100 XP</span>
+          </div>
+          <div style="margin-top:30px" class="grid grid-3">
+            <div class="card stat">
+              <div class="stat-label">CURRENT RANK</div>
+              <div class="stat-value" style="font-size:20px" id="rankCardCurrent">Unranked</div>
+            </div>
+            <div class="card stat">
+              <div class="stat-label">TOTAL XP</div>
+              <div class="stat-value" style="font-size:20px" id="rankCardXP">0</div>
+            </div>
+            <div class="card stat">
+              <div class="stat-label">XP TO NEXT</div>
+              <div class="stat-value" style="font-size:20px" id="rankCardNeeded">100</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- LEADERBOARD -->
+      <section class="view" id="view-leaderboard">
+        <div class="card">
+          <div class="card-title">Monthly Leaderboard</div>
+          <div class="card-sub">
+            Real accounts only. No placeholder users.
+          </div>
+          <div style="height:15px"></div>
+          <div id="leaderboardList"></div>
+        </div>
+      </section>
+      <!-- PROFILE -->
+      <section class="view" id="view-profile">
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-title">Profile</div>
+            <div class="card-sub">Your store account</div>
+            <div style="height:22px"></div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <div class="avatar" style="width:55px;height:55px;font-size:20px" id="profileAvatar">
+                ?
+              </div>
+              <div>
+                <div style="font-size:18px;font-weight:900" id="profileUsername">
+                  Not logged in
+                </div>
+                <div style="color:#858da1;font-size:12px" id="profileRank">
+                  Unranked
+                </div>
+              </div>
+            </div>
+            <div style="height:22px"></div>
+            <div class="grid grid-2">
+              <div class="card stat">
+                <div class="stat-label">XP</div>
+                <div class="stat-value" style="font-size:22px" id="profileXP">0</div>
+              </div>
+              <div class="card stat">
+                <div class="stat-label">ORDERS</div>
+                <div class="stat-value" style="font-size:22px" id="profileOrders">0</div>
+              </div>
+            </div>
+            <div style="height:15px"></div>
+            <button class="btn btn-danger" data-action="logout">
+              Logout
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- ADMIN -->
+      <section class="view" id="view-admin">
+        <div id="adminContent"></div>
+      </section>
     </div>
-    <div class="info-panel">
-      <h3 style="font-size:16px">
-        How it works
-      </h3>
-      <div class="info-item">
-        <b>01 — Create order</b>
-        <span>Select BGL amount and create your order.</span>
-      </div>
-      <div class="info-item">
-        <b>02 — Approve</b>
-        <span>Admin approves the order.</span>
-      </div>
-      <div class="info-item">
-        <b>03 — Complete</b>
-        <span>Admin completes the order.</span>
-      </div>
-      <div class="info-item">
-        <b>04 — Earn XP</b>
-        <span>You get 10 XP for every BGL in the completed order.</span>
-      </div>
-      <div class="info-item">
-        <b>XP example</b>
-        <span>10 BGL = 100 XP · 50 BGL = 500 XP.</span>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ORDERS -->
-<section class="view" id="view-orders">
-  <div class="section-head">
-    <div>
-      <h2>Order History</h2>
-      <p>All orders created by your account.</p>
-    </div>
-  </div>
-  <div class="table-wrap" id="ordersTable"></div>
-</section>
-<!-- RANK -->
-<section class="view" id="view-rank">
-  <div class="section-head">
-    <div>
-      <h2>Rank Progress</h2>
-      <p>Earn XP from completed orders.</p>
-    </div>
-  </div>
-  <div class="rank-card">
-    <div class="rank-name" id="rankBig">
-      Unranked
-    </div>
-    <div class="rank-desc" id="rankDescription">
-      You are just getting started.
-    </div>
-    <div class="progress-track">
-      <div
-        class="progress-fill"
-        id="rankProgressBar"
-        style="width:0%"
-      ></div>
-    </div>
-    <div class="progress-meta">
-      <span id="rankProgressText">
-        0%
-      </span>
-      <span id="rankNextText">
-        100 XP to Rookie
-      </span>
-    </div>
-    <div class="rank-grid" id="rankGrid"></div>
-  </div>
-</section>
-<!-- LEADERBOARD -->
-<section class="view" id="view-leaderboard">
-  <div class="section-head">
-    <div>
-      <h2>Monthly Leaderboard</h2>
-      <p>Only actual registered accounts are shown.</p>
-    </div>
-  </div>
-  <div class="table-wrap" id="leaderboardTable"></div>
-</section>
-<!-- PROFILE -->
-<section class="view" id="view-profile">
-  <div class="section-head">
-    <div>
-      <h2>Profile</h2>
-      <p>Your account information.</p>
-    </div>
-  </div>
-  <div class="profile-grid">
-    <div class="card profile-card">
-      <div class="profile-avatar" id="profileAvatar">
-        ?
-      </div>
-      <div class="profile-name" id="profileName">
-        Not logged in
-      </div>
-      <div class="profile-rank" id="profileRank">
-        Unranked · 0 XP
-      </div>
-      <button
-        class="danger-btn"
-        style="margin-top:22px"
-        onclick="logout()"
-      >
-        Sign out
-      </button>
-    </div>
-    <div class="card">
-      <h3 style="margin-bottom:20px">
-        Account stats
-      </h3>
-      <div class="info-item">
-        <b>Total XP</b>
-        <span id="profileXP">0</span>
-      </div>
-      <div class="info-item">
-        <b>Rank</b>
-        <span id="profileRank2">Unranked</span>
-      </div>
-      <div class="info-item">
-        <b>Total orders</b>
-        <span id="profileOrders">0</span>
-      </div>
-      <div class="info-item">
-        <b>Completed orders</b>
-        <span id="profileCompleted">0</span>
-      </div>
-      <div class="info-item">
-        <b>Member since</b>
-        <span id="profileSince">—</span>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ADMIN -->
-<section class="view" id="view-admin">
-  <div class="section-head">
-    <div>
-      <h2>Admin Panel</h2>
-      <p>Manage everything from here.</p>
-    </div>
-    <button
-      class="ghost-btn"
-      onclick="exportData()"
-    >
-      Export Backup
-    </button>
-  </div>
-  <div class="cards">
-    <div class="card">
-      <div class="stat-label">USERS</div>
-      <div class="stat-value" id="adminUsers">0</div>
-      <div class="stat-small">Registered accounts</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">PENDING</div>
-      <div class="stat-value" id="adminPending">0</div>
-      <div class="stat-small">Waiting for approval</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">APPROVED</div>
-      <div class="stat-value" id="adminApproved">0</div>
-      <div class="stat-small">Ready to complete</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">COMPLETED</div>
-      <div class="stat-value" id="adminCompleted">0</div>
-      <div class="stat-small">Finished orders</div>
-    </div>
-  </div>
-  <div class="admin-tools">
-    <div class="admin-card">
-      <h3>XP Settings</h3>
-      <p>
-        XP is automatically calculated from BGL amount.
-        Default: 10 XP per BGL.
-      </p>
-      <input
-        class="field"
-        id="xpPerBglInput"
-        type="number"
-        min="0"
-        step="1"
-      >
-      <button
-        class="primary-btn"
-        onclick="saveXPSettings()"
-      >
-        Save XP per BGL
-      </button>
-    </div>
-    <div class="admin-card">
-      <h3>Store Announcement</h3>
-      <p>
-        This message appears at the top of the store.
-      </p>
-      <textarea
-        class="field"
-        id="announcementInput"
-        placeholder="Write an announcement..."
-      ></textarea>
-      <div class="button-row">
-        <button
-          class="primary-btn"
-          onclick="saveAnnouncement()"
-        >
-          Save
-        </button>
-        <button
-          class="ghost-btn"
-          onclick="clearAnnouncement()"
-        >
-          Clear
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="section-head">
-    <div>
-      <h2>Manage Orders</h2>
-      <p>
-        Approve → Complete → XP automatically awarded.
-      </p>
-    </div>
-  </div>
-  <div
-    class="table-wrap"
-    id="adminOrdersTable"
-  ></div>
-  <div class="section-head">
-    <div>
-      <h2>Manage Users</h2>
-      <p>
-        Manually change XP or reset progression.
-      </p>
-    </div>
-  </div>
-  <div
-    class="table-wrap"
-    id="adminUsersTable"
-  ></div>
-</section>
-</div>
-</main>
+  </main>
 </div>
 <!-- LOGIN MODAL -->
 <div class="modal-backdrop" id="loginModal">
   <div class="modal">
-    <div class="modal-head">
-      <div>
-        <div class="discord-logo">
-          ☁
-        </div>
-        <h2>Account Login</h2>
-        <p>
-          Enter your Discord username and your store password.
-        </p>
-      </div>
-      <button
-        class="close"
-        onclick="closeLogin()"
-      >
-        ×
-      </button>
+    <h2>Discord Login</h2>
+    <p>
+      Sign in or create your store account.
+    </p>
+    <div class="form-group">
+      <label class="label">Discord Username</label>
+      <input id="loginUsername" class="input" type="text" maxlength="32" placeholder="Your username">
     </div>
-    <label>Discord Username</label>
-    <input
-      class="field"
-      id="loginUsername"
-      maxlength="32"
-      placeholder="Your Discord username"
-    >
-    <label>Password</label>
-    <div class="password-wrap">
-      <input
-        class="field"
-        id="loginPassword"
-        type="password"
-        maxlength="100"
-        placeholder="Your password"
-      >
-      <button
-        class="show-pass"
-        onclick="togglePassword()"
-      >
-        Show
-      </button>
+    <div class="form-group">
+      <label class="label">Password</label>
+      <input id="loginPassword" class="input" type="password" maxlength="64" placeholder="Password">
     </div>
-    <button
-      class="primary-btn full-btn"
-      onclick="loginOrCreate()"
-    >
-      Continue
-    </button>
-    <div class="modal-note">
-      This is a local store account system.
-      It does not use real Discord OAuth.
+    <div class="modal-actions">
+      <button class="btn" data-action="close-login">
+        Cancel
+      </button>
+      <button class="btn btn-primary" data-action="login">
+        Continue
+      </button>
     </div>
   </div>
 </div>
-<!-- ADMIN LOGIN -->
+<!-- ADMIN LOGIN MODAL -->
 <div class="modal-backdrop" id="adminLoginModal">
   <div class="modal">
-    <div class="modal-head">
-      <div>
-        <div class="discord-logo">
-          ⚙
-        </div>
-        <h2>Admin Access</h2>
-        <p>
-          Enter administrator credentials.
-        </p>
-      </div>
-      <button
-        class="close"
-        onclick="closeAdminLogin()"
-      >
-        ×
+    <h2>Admin Panel</h2>
+    <p>
+      Enter administrator credentials.
+    </p>
+    <div class="form-group">
+      <label class="label">Username</label>
+      <input id="adminUsername" class="input" type="text">
+    </div>
+    <div class="form-group">
+      <label class="label">Password</label>
+      <input id="adminPassword" class="input" type="password">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" data-action="close-admin-login">
+        Cancel
+      </button>
+      <button class="btn btn-primary" data-action="admin-login">
+        Login
       </button>
     </div>
-    <label>Username</label>
-    <input
-      class="field"
-      id="adminUsername"
-      placeholder="Admin username"
-    >
-    <label>Password</label>
-    <input
-      class="field"
-      id="adminPassword"
-      type="password"
-      placeholder="Admin password"
-    >
-    <button
-      class="primary-btn full-btn"
-      onclick="adminLogin()"
-    >
-      Enter Admin Panel
-    </button>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast-container" id="toastContainer"></div>
 <script>
-/* ================================
-   CONFIG
-================================ */
+/* =========================================================
+   J1mPPaZ BGL AUTOSTORE
+   ========================================================= */
 const PRICE_PER_BGL = 2.30;
+const XP_PER_BGL = 10;
 const ADMIN_USERNAME = "JimpanAdmini";
 const ADMIN_PASSWORD = "JimppaFortniteAdmin";
-/*
-   XP SYSTEM
-   1 BGL = 10 XP
-   10 BGL = 100 XP
-   50 BGL = 500 XP
-*/
-const DEFAULT_XP_PER_BGL = 10;
-const RANKS = [
-  {name:"Unranked",min:0},
-  {name:"Rookie",min:100},
-  {name:"Bronze",min:250},
-  {name:"Silver",min:500},
-  {name:"Gold",min:900},
-  {name:"Platinum",min:1400},
-  {name:"Diamond",min:2000},
-  {name:"Elite",min:2800},
-  {name:"Champion",min:3800},
-  {name:"Apex",min:5000}
+const STORAGE_USERS = "jpp_users";
+const STORAGE_ORDERS = "jpp_orders";
+const STORAGE_CURRENT = "jpp_current_user";
+const STORAGE_SETTINGS = "jpp_store_settings";
+const STORAGE_RESET = "jpp_clean_install_v2";
+const ranks = [
+  {name:"Unranked", threshold:0},
+  {name:"Rookie", threshold:100},
+  {name:"Bronze", threshold:250},
+  {name:"Silver", threshold:500},
+  {name:"Gold", threshold:900},
+  {name:"Platinum", threshold:1400},
+  {name:"Diamond", threshold:2000},
+  {name:"Elite", threshold:2800},
+  {name:"Champion", threshold:3800},
+  {name:"Apex", threshold:5000}
 ];
-/* ================================
-   STORAGE
-================================ */
-function getUsers(){
+let users = [];
+let orders = [];
+let currentUser = null;
+let adminLoggedIn = false;
+let settings = {
+  announcement:""
+};
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+function money(value){
+  return "€" + Number(value || 0).toFixed(2);
+}
+function makeId(prefix){
+  return prefix + "-" + Date.now().toString(36) + "-" +
+    Math.random().toString(36).slice(2,7).toUpperCase();
+}
+function saveAll(){
+  localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+  localStorage.setItem(STORAGE_ORDERS, JSON.stringify(orders));
+  localStorage.setItem(STORAGE_SETTINGS, JSON.stringify(settings));
+}
+function loadJSON(key, fallback){
   try{
-    return JSON.parse(
-      localStorage.getItem("jpp_users") || "[]"
-    );
-  }catch(e){
-    return [];
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  }catch{
+    return fallback;
   }
 }
-function saveUsers(users){
-  localStorage.setItem(
-    "jpp_users",
-    JSON.stringify(users)
-  );
-}
-function getOrders(){
-  try{
-    return JSON.parse(
-      localStorage.getItem("jpp_orders") || "[]"
-    );
-  }catch(e){
-    return [];
+/* =========================================================
+   CLEAN INSTALL
+   ========================================================= */
+function cleanInstall(){
+  if(localStorage.getItem(STORAGE_RESET) !== "done"){
+    localStorage.removeItem(STORAGE_USERS);
+    localStorage.removeItem(STORAGE_ORDERS);
+    localStorage.removeItem(STORAGE_CURRENT);
+    localStorage.removeItem(STORAGE_SETTINGS);
+    localStorage.setItem(STORAGE_RESET,"done");
   }
 }
-function saveOrders(orders){
-  localStorage.setItem(
-    "jpp_orders",
-    JSON.stringify(orders)
-  );
-}
-function getSettings(){
-  try{
-    const saved=JSON.parse(
-      localStorage.getItem("jpp_store_settings") || "{}"
-    );
-    return {
-      xpPerBgl:
-        Number(saved.xpPerBgl) ||
-        DEFAULT_XP_PER_BGL,
-      announcement:
-        saved.announcement || ""
-    };
-  }catch(e){
-    return {
-      xpPerBgl:DEFAULT_XP_PER_BGL,
-      announcement:""
-    };
-  }
-}
-function saveSettings(settings){
-  localStorage.setItem(
-    "jpp_store_settings",
-    JSON.stringify(settings)
-  );
-}
-function currentUsername(){
-  return localStorage.getItem(
-    "jpp_current_user"
-  ) || "";
-}
-function currentUser(){
-  const username=currentUsername();
-  return getUsers().find(
-    u=>u.username===username
-  ) || null;
-}
-/* ================================
-   RANK
-================================ */
+/* =========================================================
+   RANK SYSTEM
+   ========================================================= */
 function getRankInfo(xp){
-  xp=Math.max(
-    0,
-    Math.floor(Number(xp)||0)
-  );
-  let index=0;
-  for(let i=0;i<RANKS.length;i++){
-    if(xp>=RANKS[i].min){
-      index=i;
+  xp = Math.max(0,Number(xp) || 0);
+  let current = ranks[0];
+  let next = null;
+  for(let i=0;i<ranks.length;i++){
+    if(xp >= ranks[i].threshold){
+      current = ranks[i];
+    }
+    if(ranks[i].threshold > xp){
+      next = ranks[i];
+      break;
     }
   }
-  const current=RANKS[index];
-  const next=RANKS[index+1];
   if(!next){
     return {
-      index:index,
-      name:current.name,
-      progress:100,
-      xpToNext:0,
-      next:null
+      current,
+      next:null,
+      percent:100,
+      needed:0
     };
   }
-  const range=next.min-current.min;
-  const into=xp-current.min;
-  const progress=Math.max(
-    0,
-    Math.min(
-      100,
-      Math.floor((into/range)*100)
-    )
-  );
+  const range = next.threshold - current.threshold;
+  const progress = xp - current.threshold;
   return {
-    index:index,
-    name:current.name,
-    progress:progress,
-    xpToNext:Math.max(0,next.min-xp),
-    next:next
+    current,
+    next,
+    percent:Math.min(100,Math.max(0,(progress / range) * 100)),
+    needed:next.threshold - xp
   };
 }
-/* ================================
+function normalizeUser(user){
+  if(!user || !user.username) return null;
+  let xp = Number(user.xpTotal);
+  if(!Number.isFinite(xp)){
+    xp = 0;
+  }
+  return {
+    username:String(user.username),
+    password:typeof user.password === "string" ? user.password : "",
+    xpTotal:Math.max(0,Math.floor(xp)),
+    createdAt:user.createdAt || new Date().toISOString()
+  };
+}
+/* =========================================================
+   LOAD DATA
+   ========================================================= */
+function loadData(){
+  users = loadJSON(STORAGE_USERS,[])
+    .map(normalizeUser)
+    .filter(Boolean);
+  orders = loadJSON(STORAGE_ORDERS,[]);
+  settings = loadJSON(STORAGE_SETTINGS,{
+    announcement:""
+  });
+  if(!settings || typeof settings !== "object"){
+    settings = {announcement:""};
+  }
+  const savedUsername = localStorage.getItem(STORAGE_CURRENT);
+  if(savedUsername){
+    currentUser = users.find(
+      u => u.username.toLowerCase() === savedUsername.toLowerCase()
+    ) || null;
+  }
+  saveAll();
+}
+/* =========================================================
+   TOAST
+   ========================================================= */
+function toast(message){
+  const container = document.getElementById("toastContainer");
+  const item = document.createElement("div");
+  item.className = "toast";
+  item.textContent = message;
+  container.appendChild(item);
+  setTimeout(()=>{
+    item.style.opacity = "0";
+    item.style.transform = "translateX(20px)";
+    setTimeout(()=>item.remove(),250);
+  },3000);
+}
+/* =========================================================
+   LOGIN
+   ========================================================= */
+function openLogin(){
+  document.getElementById("loginModal").classList.add("open");
+  setTimeout(()=>{
+    document.getElementById("loginUsername").focus();
+  },100);
+}
+function closeLogin(){
+  document.getElementById("loginModal").classList.remove("open");
+}
+function login(){
+  const usernameInput = document
+    .getElementById("loginUsername")
+    .value.trim();
+  const passwordInput = document
+    .getElementById("loginPassword")
+    .value;
+  if(!usernameInput){
+    toast("Enter your Discord username.");
+    return;
+  }
+  if(usernameInput.length < 2){
+    toast("Username is too short.");
+    return;
+  }
+  if(!passwordInput){
+    toast("Enter a password.");
+    return;
+  }
+  let user = users.find(
+    u => u.username.toLowerCase() === usernameInput.toLowerCase()
+  );
+  if(user){
+    if(user.password && user.password !== passwordInput){
+      toast("Wrong password.");
+      return;
+    }
+    if(!user.password){
+      user.password = passwordInput;
+      saveAll();
+    }
+    currentUser = user;
+    localStorage.setItem(
+      STORAGE_CURRENT,
+      user.username
+    );
+    closeLogin();
+    document.getElementById("loginPassword").value = "";
+    toast("Welcome back, " + user.username + "!");
+    refreshUI();
+    return;
+  }
+  user = {
+    username:usernameInput,
+    password:passwordInput,
+    xpTotal:0,
+    createdAt:new Date().toISOString()
+  };
+  users.push(user);
+  currentUser = user;
+  localStorage.setItem(
+    STORAGE_CURRENT,
+    user.username
+  );
+  saveAll();
+  closeLogin();
+  document.getElementById("loginUsername").value = "";
+  document.getElementById("loginPassword").value = "";
+  toast("Account creation successful");
+  refreshUI();
+}
+function logout(){
+  currentUser = null;
+  localStorage.removeItem(STORAGE_CURRENT);
+  if(adminLoggedIn){
+    adminLoggedIn = false;
+  }
+  navigate("store");
+  toast("Logged out.");
+  refreshUI();
+}
+/* =========================================================
+   ADMIN LOGIN
+   ========================================================= */
+function openAdminLogin(){
+  if(adminLoggedIn){
+    navigate("admin");
+    return;
+  }
+  document.getElementById("adminLoginModal").classList.add("open");
+  document.getElementById("adminUsername").focus();
+}
+function closeAdminLogin(){
+  document.getElementById("adminLoginModal").classList.remove("open");
+}
+function adminLogin(){
+  const username =
+    document.getElementById("adminUsername").value.trim();
+  const password =
+    document.getElementById("adminPassword").value;
+  if(
+    username === ADMIN_USERNAME &&
+    password === ADMIN_PASSWORD
+  ){
+    adminLoggedIn = true;
+    closeAdminLogin();
+    document.getElementById("adminUsername").value = "";
+    document.getElementById("adminPassword").value = "";
+    toast("Admin login successful.");
+    navigate("admin");
+    refreshUI();
+    return;
+  }
+  toast("Invalid admin credentials.");
+}
+/* =========================================================
    NAVIGATION
-================================ */
-const viewTitles={
+   ========================================================= */
+const pageNames = {
   store:"Store",
   buy:"Buy BGLs",
   orders:"Order History",
@@ -1562,1481 +1341,981 @@ const viewTitles={
   profile:"Profile",
   admin:"Admin Panel"
 };
-document.querySelectorAll(".nav-btn").forEach(
-  button=>{
-    button.addEventListener(
-      "click",
-      function(){
-        showView(
-          button.getAttribute("data-view")
-        );
-        closeDrawer();
-      }
-    );
-  }
-);
-function showView(view){
-  if(
-    view==="admin" &&
-    sessionStorage.getItem("jpp_admin")!=="true"
-  ){
+function navigate(view){
+  if(view === "admin" && !adminLoggedIn){
     openAdminLogin();
     return;
   }
-  document.querySelectorAll(".view")
-    .forEach(
-      v=>v.classList.remove("active")
+  document.querySelectorAll(".view").forEach(el=>{
+    el.classList.remove("active");
+  });
+  const target = document.getElementById("view-" + view);
+  if(!target) return;
+  target.classList.add("active");
+  document.querySelectorAll(".nav button[data-view]").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.dataset.view === view
     );
-  const target=document.getElementById(
-    "view-"+view
-  );
-  if(target){
-    target.classList.add("active");
-  }
-  document.querySelectorAll(".nav-btn")
-    .forEach(
-      b=>{
-        b.classList.toggle(
-          "active",
-          b.getAttribute("data-view")===view
-        );
-      }
-    );
-  document.getElementById(
-    "pageTitle"
-  ).textContent=viewTitles[view] || "Store";
-  if(view==="orders") renderOrders();
-  if(view==="rank") renderRank();
-  if(view==="leaderboard") renderLeaderboard();
-  if(view==="profile") renderProfile();
-  if(view==="admin") renderAdmin();
-  window.scrollTo(0,0);
+  });
+  document.getElementById("pageTitle").textContent =
+    pageNames[view] || "Store";
+  closeMobileMenu();
+  if(view === "orders") renderOrders();
+  if(view === "rank") renderRank();
+  if(view === "leaderboard") renderLeaderboard();
+  if(view === "profile") renderProfile();
+  if(view === "admin") renderAdmin();
+  if(view === "store") renderAnnouncement();
 }
-function toggleDrawer(){
-  document.getElementById(
-    "sidebar"
-  ).classList.toggle("open");
-  document.getElementById(
-    "overlay"
-  ).classList.toggle("show");
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+function toggleMobileMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("open");
 }
-function closeDrawer(){
-  document.getElementById(
-    "sidebar"
-  ).classList.remove("open");
-  document.getElementById(
-    "overlay"
-  ).classList.remove("show");
+function closeMobileMenu(){
+  document.getElementById("sidebar")
+    .classList.remove("open");
+  document.getElementById("overlay")
+    .classList.remove("open");
 }
-/* ================================
-   LOGIN
-================================ */
-function openLogin(){
-  document.getElementById(
-    "loginModal"
-  ).classList.add("show");
-  setTimeout(
-    ()=>{
-      document.getElementById(
-        "loginUsername"
-      ).focus();
-    },
-    100
-  );
-}
-function closeLogin(){
-  document.getElementById(
-    "loginModal"
-  ).classList.remove("show");
-}
-function togglePassword(){
-  const input=document.getElementById(
-    "loginPassword"
-  );
-  const button=document.querySelector(
-    ".show-pass"
-  );
-  if(input.type==="password"){
-    input.type="text";
-    button.textContent="Hide";
-  }else{
-    input.type="password";
-    button.textContent="Show";
-  }
-}
-function loginOrCreate(){
-  const username=document.getElementById(
-    "loginUsername"
-  ).value.trim();
-  const password=document.getElementById(
-    "loginPassword"
-  ).value;
-  if(username.length<2){
-    toast(
-      "Enter a valid username.",
-      "bad"
-    );
-    return;
-  }
-  if(!password){
-    toast(
-      "Password is required.",
-      "bad"
-    );
-    return;
-  }
-  let users=getUsers();
-  let user=users.find(
-    u=>
-      u.username.toLowerCase()===
-      username.toLowerCase()
-  );
-  if(user){
-    if(!user.password){
-      user.password=password;
-      saveUsers(users);
-      localStorage.setItem(
-        "jpp_current_user",
-        user.username
-      );
-      closeLogin();
-      toast(
-        "Account password created.",
-        "good"
-      );
-      refreshEverything();
-      return;
-    }
-    if(user.password!==password){
-      toast(
-        "Wrong password.",
-        "bad"
-      );
-      return;
-    }
-    localStorage.setItem(
-      "jpp_current_user",
-      user.username
-    );
-    closeLogin();
-    toast(
-      "Login successful.",
-      "good"
-    );
-  }else{
-    user={
-      username:username,
-      password:password,
-      xpTotal:0,
-      createdAt:new Date().toISOString()
-    };
-    users.push(user);
-    saveUsers(users);
-    localStorage.setItem(
-      "jpp_current_user",
-      username
-    );
-    closeLogin();
-    toast(
-      "Account creation successful",
-      "good"
-    );
-  }
-  refreshEverything();
-}
-function logout(){
-  localStorage.removeItem(
-    "jpp_current_user"
-  );
-  refreshEverything();
-  showView("store");
-  toast(
-    "Signed out.",
-    "good"
-  );
-}
-/* ================================
-   ADMIN LOGIN
-================================ */
-function openAdminLogin(){
-  document.getElementById(
-    "adminLoginModal"
-  ).classList.add("show");
-}
-function closeAdminLogin(){
-  document.getElementById(
-    "adminLoginModal"
-  ).classList.remove("show");
-}
-function adminLogin(){
-  const username=document.getElementById(
-    "adminUsername"
-  ).value.trim();
-  const password=document.getElementById(
-    "adminPassword"
-  ).value;
-  if(
-    username===ADMIN_USERNAME &&
-    password===ADMIN_PASSWORD
-  ){
-    sessionStorage.setItem(
-      "jpp_admin",
-      "true"
-    );
-    closeAdminLogin();
-    refreshAdminVisibility();
-    toast(
-      "Admin access granted.",
-      "good"
-    );
-    showView("admin");
-  }else{
-    toast(
-      "Invalid admin credentials.",
-      "bad"
-    );
-  }
-}
-/* ================================
+/* =========================================================
    BUY
-================================ */
-let selectedAmount=1;
-function setAmount(amount){
-  amount=Math.floor(
-    Number(amount)||1
-  );
-  selectedAmount=Math.max(
-    1,
-    amount
-  );
-  updateBuyUI();
+   ========================================================= */
+function getAmount(){
+  const input = document.getElementById("amountInput");
+  let amount = parseInt(input.value,10);
+  if(!Number.isFinite(amount) || amount < 1){
+    amount = 1;
+  }
+  amount = Math.floor(amount);
+  input.value = amount;
+  return amount;
+}
+function updateBuyTotal(){
+  const amount = getAmount();
+  document.getElementById("buyTotal").textContent =
+    money(amount * PRICE_PER_BGL);
+  document.querySelectorAll(".preset").forEach(btn=>{
+    btn.classList.toggle(
+      "selected",
+      Number(btn.dataset.amount) === amount
+    );
+  });
 }
 function changeAmount(delta){
-  setAmount(
-    selectedAmount+delta
-  );
+  const amount = getAmount();
+  document.getElementById("amountInput").value =
+    Math.max(1,amount + delta);
+  updateBuyTotal();
 }
-function syncAmount(){
-  let amount=Math.floor(
-    Number(
-      document.getElementById(
-        "amountInput"
-      ).value
-    ) || 1
-  );
-  selectedAmount=Math.max(
-    1,
-    amount
-  );
-  updateBuyUI();
-}
-function updateBuyUI(){
-  document.getElementById(
-    "amountDisplay"
-  ).textContent=selectedAmount;
-  document.getElementById(
-    "amountInput"
-  ).value=selectedAmount;
-  const total=
-    selectedAmount*PRICE_PER_BGL;
-  document.getElementById(
-    "totalPrice"
-  ).textContent=
-    "€"+total.toFixed(2);
+function setAmount(amount){
+  document.getElementById("amountInput").value =
+    Math.max(1,Math.floor(Number(amount) || 1));
+  updateBuyTotal();
 }
 function createOrder(){
-  const user=currentUser();
-  if(!user){
-    toast(
-      "Login before creating an order.",
-      "bad"
-    );
+  if(!currentUser){
+    toast("Login first.");
     openLogin();
     return;
   }
-  if(selectedAmount<1){
-    toast(
-      "Choose at least 1 BGL.",
-      "bad"
-    );
+  const amount = getAmount();
+  if(amount < 1){
+    toast("Invalid amount.");
     return;
   }
-  const orders=getOrders();
-  const order={
-    id:
-      "ORD-"+
-      Date.now()
-        .toString(36)
-        .toUpperCase(),
-    username:user.username,
-    amount:selectedAmount,
-    total:Number(
-      (selectedAmount*PRICE_PER_BGL)
-        .toFixed(2)
-    ),
+  const order = {
+    id:makeId("ORD"),
+    username:currentUser.username,
+    amount:amount,
+    total:Number((amount * PRICE_PER_BGL).toFixed(2)),
     status:"pending",
-    createdAt:
-      new Date().toISOString(),
-    xpAwarded:false,
-    xpAwardedAmount:0
+    createdAt:new Date().toISOString(),
+    approvedAt:null,
+    completedAt:null,
+    xpAwarded:0
   };
   orders.unshift(order);
-  saveOrders(orders);
+  saveAll();
   toast(
-    "Order created successfully.",
-    "good"
+    "Order created: " +
+    amount +
+    " BGL · " +
+    (amount * XP_PER_BGL) +
+    " XP when completed."
   );
-  showView("orders");
-  renderOrders();
-  refreshDashboard();
+  navigate("orders");
 }
-/* ================================
-   ORDERS
-================================ */
+/* =========================================================
+   ORDER HISTORY
+   ========================================================= */
 function formatDate(date){
   try{
-    return new Date(date)
-      .toLocaleString(
-        "fi-FI",
-        {
-          day:"2-digit",
-          month:"2-digit",
-          year:"numeric",
-          hour:"2-digit",
-          minute:"2-digit"
-        }
-      );
-  }catch(e){
-    return "—";
+    return new Date(date).toLocaleString("fi-FI",{
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+  }catch{
+    return "-";
   }
-}
-function statusHTML(status){
-  return `
-    <span class="status ${status}">
-      ${escapeHTML(status)}
-    </span>
-  `;
 }
 function renderOrders(){
-  const container=document.getElementById(
-    "ordersTable"
+  const body = document.getElementById("ordersBody");
+  if(!currentUser){
+    body.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;color:#777f92">
+          Login to see your orders.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+  const mine = orders.filter(
+    order =>
+      String(order.username).toLowerCase() ===
+      currentUser.username.toLowerCase()
   );
-  const user=currentUser();
-  if(!user){
-    container.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon">◌</div>
-        <div>Login to view your orders.</div>
-        <button
-          class="primary-btn"
-          style="margin-top:15px"
-          onclick="openLogin()"
-        >
-          Login
+  if(!mine.length){
+    body.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;color:#777f92;padding:30px">
+          No orders yet.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+  body.innerHTML = mine.map(order=>`
+    <tr>
+      <td>
+        <strong>${escapeHTML(order.id)}</strong>
+      </td>
+      <td>
+        ${Number(order.amount)} BGL
+      </td>
+      <td>
+        ${money(order.total)}
+      </td>
+      <td>
+        <span class="status ${escapeHTML(order.status)}">
+          ${escapeHTML(order.status)}
+        </span>
+      </td>
+      <td>
+        ${Number(order.xpAwarded || 0)} XP
+      </td>
+      <td>
+        ${formatDate(order.createdAt)}
+      </td>
+    </tr>
+  `).join("");
+}
+/* =========================================================
+   RANK
+   ========================================================= */
+function renderRank(){
+  const xp = currentUser
+    ? Number(currentUser.xpTotal || 0)
+    : 0;
+  const info = getRankInfo(xp);
+  document.getElementById("rankName").textContent =
+    info.current.name;
+  document.getElementById("rankXP").textContent =
+    xp + " XP";
+  document.getElementById("rankProgressBar").style.width =
+    info.percent + "%";
+  document.getElementById("rankCurrentXP").textContent =
+    xp + " XP";
+  document.getElementById("rankNext").textContent =
+    info.next
+      ? info.next.name + " · " + info.next.threshold + " XP"
+      : "MAX RANK";
+  document.getElementById("rankCardCurrent").textContent =
+    info.current.name;
+  document.getElementById("rankCardXP").textContent =
+    xp;
+  document.getElementById("rankCardNeeded").textContent =
+    info.next ? info.needed : 0;
+}
+/* =========================================================
+   LEADERBOARD
+   ========================================================= */
+function renderLeaderboard(){
+  const container =
+    document.getElementById("leaderboardList");
+  const sorted = [...users].sort(
+    (a,b) => Number(b.xpTotal) - Number(a.xpTotal)
+  );
+  if(!sorted.length){
+    container.innerHTML = `
+      <div style="padding:35px;text-align:center;color:#777f92">
+        No users yet.
+      </div>
+    `;
+    return;
+  }
+  container.innerHTML = sorted.map((user,index)=>{
+    const info = getRankInfo(user.xpTotal);
+    return `
+      <div class="leader-row">
+        <div class="leader-rank">
+          #${index + 1}
+        </div>
+        <div>
+          <div class="leader-name">
+            ${escapeHTML(user.username)}
+          </div>
+          <div class="rank-tag">
+            ${escapeHTML(info.current.name)}
+          </div>
+        </div>
+        <div class="leader-xp">
+          ${Number(user.xpTotal)} XP
+        </div>
+        <div class="rank-col" style="color:#777f92;font-size:11px">
+          ${info.next ? info.next.name : "MAX"}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+/* =========================================================
+   PROFILE
+   ========================================================= */
+function renderProfile(){
+  if(!currentUser){
+    document.getElementById("profileUsername").textContent =
+      "Not logged in";
+    document.getElementById("profileRank").textContent =
+      "Unranked";
+    document.getElementById("profileXP").textContent =
+      "0";
+    document.getElementById("profileOrders").textContent =
+      "0";
+    document.getElementById("profileAvatar").textContent =
+      "?";
+    return;
+  }
+  const info = getRankInfo(currentUser.xpTotal);
+  const count = orders.filter(
+    o => o.username.toLowerCase() ===
+    currentUser.username.toLowerCase()
+  ).length;
+  document.getElementById("profileUsername").textContent =
+    currentUser.username;
+  document.getElementById("profileRank").textContent =
+    info.current.name;
+  document.getElementById("profileXP").textContent =
+    currentUser.xpTotal;
+  document.getElementById("profileOrders").textContent =
+    count;
+  document.getElementById("profileAvatar").textContent =
+    currentUser.username.charAt(0).toUpperCase();
+}
+/* =========================================================
+   SIDEBAR USER
+   ========================================================= */
+function updateSidebarUser(){
+  const avatar =
+    document.getElementById("sideAvatar");
+  const username =
+    document.getElementById("sideUsername");
+  const rank =
+    document.getElementById("sideRank");
+  if(!currentUser){
+    avatar.textContent = "?";
+    username.textContent = "Not logged in";
+    rank.textContent = "Unranked · 0 XP";
+    return;
+  }
+  const info = getRankInfo(currentUser.xpTotal);
+  avatar.textContent =
+    currentUser.username.charAt(0).toUpperCase();
+  username.textContent =
+    currentUser.username;
+  rank.textContent =
+    info.current.name +
+    " · " +
+    currentUser.xpTotal +
+    " XP";
+}
+/* =========================================================
+   ANNOUNCEMENT
+   ========================================================= */
+function renderAnnouncement(){
+  const box =
+    document.getElementById("announcementStore");
+  if(!settings.announcement){
+    box.innerHTML = "";
+    return;
+  }
+  box.innerHTML = `
+    <div class="card">
+      <div style="font-size:11px;color:#9b85ff;font-weight:900;margin-bottom:6px">
+        STORE ANNOUNCEMENT
+      </div>
+      <div style="font-size:13px;line-height:1.6">
+        ${escapeHTML(settings.announcement)}
+      </div>
+    </div>
+  `;
+}
+/* =========================================================
+   ADMIN
+   ========================================================= */
+function renderAdmin(){
+  if(!adminLoggedIn){
+    document.getElementById("adminContent").innerHTML = "";
+    return;
+  }
+  const pending =
+    orders.filter(o=>o.status === "pending").length;
+  const approved =
+    orders.filter(o=>o.status === "approved").length;
+  const completed =
+    orders.filter(o=>o.status === "completed").length;
+  const totalXP =
+    users.reduce(
+      (sum,user)=>sum + Number(user.xpTotal || 0),
+      0
+    );
+  document.getElementById("adminContent").innerHTML = `
+    <div class="grid grid-3">
+      <div class="card stat">
+        <div class="stat-label">USERS</div>
+        <div class="stat-value">${users.length}</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-label">PENDING ORDERS</div>
+        <div class="stat-value">${pending}</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-label">TOTAL XP</div>
+        <div class="stat-value">${totalXP}</div>
+      </div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="grid grid-2">
+      <div class="card stat">
+        <div class="stat-label">APPROVED</div>
+        <div class="stat-value">${approved}</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-label">COMPLETED</div>
+        <div class="stat-value">${completed}</div>
+      </div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="card">
+      <div class="card-title">Order Management</div>
+      <div class="card-sub">
+        Approve first, then complete. Completing an order awards
+        exactly 10 XP per BGL.
+      </div>
+      <div style="height:18px"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User</th>
+              <th>BGL</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>XP</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              orders.length
+              ? orders.map(order=>adminOrderRow(order)).join("")
+              : `
+                <tr>
+                  <td colspan="7" style="text-align:center;color:#777f92;padding:30px">
+                    No orders.
+                  </td>
+                </tr>
+              `
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="card">
+      <div class="card-title">Users</div>
+      <div class="card-sub">
+        Manage XP and rank progression.
+      </div>
+      <div style="height:18px"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Rank</th>
+              <th>XP</th>
+              <th>Orders</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              users.length
+              ? users.map(user=>adminUserRow(user)).join("")
+              : `
+                <tr>
+                  <td colspan="5" style="text-align:center;color:#777f92;padding:30px">
+                    No users.
+                  </td>
+                </tr>
+              `
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="card">
+      <div class="card-title">Store Settings</div>
+      <div class="card-sub">
+        XP rate is locked to 10 XP per BGL.
+      </div>
+      <div style="height:20px"></div>
+      <div class="grid grid-2">
+        <div>
+          <label class="label">
+            XP PER BGL
+          </label>
+          <input
+            class="input"
+            value="10 XP per BGL"
+            disabled
+          >
+        </div>
+        <div>
+          <label class="label">
+            BGL PRICE
+          </label>
+          <input
+            class="input"
+            value="€2.30 per BGL"
+            disabled
+          >
+        </div>
+      </div>
+      <div style="height:15px"></div>
+      <label class="label">
+        Store Announcement
+      </label>
+      <textarea
+        id="announcementInput"
+        placeholder="Write an announcement..."
+      >${escapeHTML(settings.announcement)}</textarea>
+      <div style="height:10px"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="save-announcement">
+          Save Announcement
+        </button>
+        <button class="btn btn-danger" data-action="clear-announcement">
+          Clear
+        </button>
+        <button class="btn" data-action="export-data">
+          Export JSON
         </button>
       </div>
-    `;
-    return;
-  }
-  const orders=getOrders().filter(
-    o=>o.username===user.username
-  );
-  if(!orders.length){
-    container.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon">▤</div>
-        <div>No orders yet.</div>
-      </div>
-    `;
-    return;
-  }
-  container.innerHTML=`
-    <table>
-      <thead>
-        <tr>
-          <th>Order</th>
-          <th>BGL</th>
-          <th>Total</th>
-          <th>XP</th>
-          <th>Status</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${orders.map(
-          o=>`
-          <tr>
-            <td>
-              <b>${escapeHTML(o.id)}</b>
-            </td>
-            <td>
-              ${Number(o.amount)} BGL
-            </td>
-            <td>
-              €${Number(o.total).toFixed(2)}
-            </td>
-            <td>
-              ${
-                o.xpAwarded
-                  ? "+"+(o.xpAwardedAmount||0)
-                  : "—"
-              }
-            </td>
-            <td>
-              ${statusHTML(o.status)}
-            </td>
-            <td>
-              ${formatDate(o.createdAt)}
-            </td>
-          </tr>
-        `
-        ).join("")}
-      </tbody>
-    </table>
+    </div>
   `;
 }
-/* ================================
-   ADMIN ORDERS
-================================ */
-function approveOrder(orderId){
-  const orders=getOrders();
-  const order=orders.find(
-    o=>o.id===orderId
-  );
-  if(!order) return;
-  if(order.status!=="pending"){
-    toast(
-      "This order is not pending.",
-      "bad"
-    );
-    return;
-  }
-  order.status="approved";
-  order.approvedAt=
-    new Date().toISOString();
-  saveOrders(orders);
-  renderAdmin();
-  renderOrders();
-  toast(
-    "Order approved. Ready to complete.",
-    "good"
-  );
-}
-function completeOrder(orderId){
-  const orders=getOrders();
-  const order=orders.find(
-    o=>o.id===orderId
-  );
-  if(!order){
-    toast(
-      "Order not found.",
-      "bad"
-    );
-    return;
-  }
-  if(order.status!=="approved"){
-    toast(
-      "Approve the order first.",
-      "bad"
-    );
-    return;
-  }
-  if(order.xpAwarded){
-    toast(
-      "XP has already been awarded.",
-      "bad"
-    );
-    return;
-  }
-  const users=getUsers();
-  const user=users.find(
-    u=>u.username===order.username
-  );
-  if(!user){
-    toast(
-      "User account not found.",
-      "bad"
-    );
-    return;
-  }
-  const settings=getSettings();
-  /*
-     IMPORTANT:
-     XP = BGL amount × XP per BGL
-     Example:
-     1 BGL  = 10 XP
-     10 BGL = 100 XP
-     50 BGL = 500 XP
-  */
-  const xpReward=
-    Number(order.amount)*
-    Number(settings.xpPerBgl);
-  const oldInfo=
-    getRankInfo(user.xpTotal);
-  user.xpTotal=
-    Number(user.xpTotal||0)+
-    xpReward;
-  order.status="completed";
-  order.completedAt=
-    new Date().toISOString();
-  order.xpAwarded=true;
-  order.xpAwardedAmount=xpReward;
-  saveUsers(users);
-  saveOrders(orders);
-  const newInfo=
-    getRankInfo(user.xpTotal);
-  renderAdmin();
-  refreshEverything();
-  if(newInfo.index>oldInfo.index){
-    toast(
-      `${user.username} ranked up: ${oldInfo.name} → ${newInfo.name}! +${xpReward} XP`,
-      "good"
-    );
+function adminOrderRow(order){
+  const status = order.status;
+  let buttons = "";
+  if(status === "pending"){
+    buttons = `
+      <button
+        class="btn btn-small btn-success"
+        data-action="admin-approve"
+        data-id="${escapeHTML(order.id)}">
+        Approve
+      </button>
+      <button
+        class="btn btn-small btn-danger"
+        data-action="admin-reject"
+        data-id="${escapeHTML(order.id)}">
+        Reject
+      </button>
+    `;
+  }else if(status === "approved"){
+    buttons = `
+      <button
+        class="btn btn-small btn-primary"
+        data-action="admin-complete"
+        data-id="${escapeHTML(order.id)}">
+        Complete
+      </button>
+      <button
+        class="btn btn-small btn-danger"
+        data-action="admin-reject"
+        data-id="${escapeHTML(order.id)}">
+        Reject
+      </button>
+    `;
+  }else if(status === "completed"){
+    buttons = `
+      <button
+        class="btn btn-small btn-danger"
+        data-action="admin-delete-order"
+        data-id="${escapeHTML(order.id)}">
+        Delete
+      </button>
+    `;
   }else{
-    toast(
-      `Order completed! ${order.amount} BGL = +${xpReward} XP`,
-      "good"
-    );
+    buttons = `
+      <button
+        class="btn btn-small btn-danger"
+        data-action="admin-delete-order"
+        data-id="${escapeHTML(order.id)}">
+        Delete
+      </button>
+    `;
   }
-}
-function rejectOrder(orderId){
-  const orders=getOrders();
-  const order=orders.find(
-    o=>o.id===orderId
-  );
-  if(!order) return;
-  order.status="rejected";
-  order.rejectedAt=
-    new Date().toISOString();
-  saveOrders(orders);
-  renderAdmin();
-  renderOrders();
-  toast(
-    "Order rejected.",
-    "good"
-  );
-}
-function deleteOrder(orderId){
-  if(
-    !confirm(
-      "Delete this order permanently?"
-    )
-  ){
-    return;
-  }
-  const orders=getOrders().filter(
-    o=>o.id!==orderId
-  );
-  saveOrders(orders);
-  renderAdmin();
-  renderOrders();
-  toast(
-    "Order deleted.",
-    "good"
-  );
-}
-/* ================================
-   RANK VIEW
-================================ */
-function renderRank(){
-  const user=currentUser();
-  if(!user){
-    document.getElementById(
-      "rankBig"
-    ).textContent="Unranked";
-    document.getElementById(
-      "rankDescription"
-    ).textContent=
-      "Login to start earning XP.";
-    document.getElementById(
-      "rankProgressBar"
-    ).style.width="0%";
-    document.getElementById(
-      "rankProgressText"
-    ).textContent="0%";
-    document.getElementById(
-      "rankNextText"
-    ).textContent=
-      "100 XP to Rookie";
-  }else{
-    const info=
-      getRankInfo(user.xpTotal);
-    document.getElementById(
-      "rankBig"
-    ).textContent=info.name;
-    document.getElementById(
-      "rankDescription"
-    ).textContent=
-      info.next
-        ? `${info.xpToNext} XP until ${info.next.name}.`
-        : "Maximum rank reached.";
-    document.getElementById(
-      "rankProgressBar"
-    ).style.width=
-      info.progress+"%";
-    document.getElementById(
-      "rankProgressText"
-    ).textContent=
-      `${info.progress}% · ${user.xpTotal} XP total`;
-    document.getElementById(
-      "rankNextText"
-    ).textContent=
-      info.next
-        ? `${info.xpToNext} XP to ${info.next.name}`
-        : "MAX RANK";
-  }
-  const activeIndex=
-    user
-      ? getRankInfo(user.xpTotal).index
-      : -1;
-  document.getElementById(
-    "rankGrid"
-  ).innerHTML=
-    RANKS.map(
-      (rank,index)=>`
-      <div class="rank-pill ${
-        activeIndex===index
-          ? "active"
-          : ""
-      }">
-        <b>${rank.name}</b>
-        <span>
-          ${rank.min} XP
+  return `
+    <tr>
+      <td>
+        <strong>${escapeHTML(order.id)}</strong>
+      </td>
+      <td>
+        ${escapeHTML(order.username)}
+      </td>
+      <td>
+        ${Number(order.amount)} BGL
+      </td>
+      <td>
+        ${money(order.total)}
+      </td>
+      <td>
+        <span class="status ${escapeHTML(status)}">
+          ${escapeHTML(status)}
         </span>
-      </div>
-    `
-    ).join("");
-}
-/* ================================
-   LEADERBOARD
-================================ */
-function renderLeaderboard(){
-  const container=
-    document.getElementById(
-      "leaderboardTable"
-    );
-  const users=getUsers()
-    .map(
-      u=>({
-        ...u,
-        info:getRankInfo(u.xpTotal)
-      })
-    )
-    .sort(
-      (a,b)=>b.xpTotal-a.xpTotal
-    );
-  if(!users.length){
-    container.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon">♛</div>
-        <div>No users yet.</div>
-      </div>
-    `;
-    return;
-  }
-  const orders=getOrders();
-  container.innerHTML=`
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>User</th>
-          <th>Rank</th>
-          <th>XP</th>
-          <th>Completed</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${users.map(
-          (u,index)=>{
-            const completed=
-              orders.filter(
-                o=>
-                  o.username===u.username &&
-                  o.status==="completed"
-              ).length;
-            return `
-              <tr>
-                <td>
-                  <b>${index+1}</b>
-                </td>
-                <td>
-                  ${escapeHTML(u.username)}
-                </td>
-                <td>
-                  ${u.info.name}
-                </td>
-                <td>
-                  ${u.xpTotal}
-                </td>
-                <td>
-                  ${completed}
-                </td>
-              </tr>
-            `;
-          }
-        ).join("")}
-      </tbody>
-    </table>
+      </td>
+      <td>
+        ${Number(order.xpAwarded || 0)} XP
+      </td>
+      <td>
+        <div class="actions">
+          ${buttons}
+        </div>
+      </td>
+    </tr>
   `;
 }
-/* ================================
-   PROFILE
-================================ */
-function renderProfile(){
-  const user=currentUser();
+function adminUserRow(user){
+  const info = getRankInfo(user.xpTotal);
+  const orderCount =
+    orders.filter(
+      o => o.username.toLowerCase() ===
+      user.username.toLowerCase()
+    ).length;
+  return `
+    <tr>
+      <td>
+        <strong>${escapeHTML(user.username)}</strong>
+      </td>
+      <td>
+        ${escapeHTML(info.current.name)}
+      </td>
+      <td>
+        ${Number(user.xpTotal)} XP
+      </td>
+      <td>
+        ${orderCount}
+      </td>
+      <td>
+        <div class="actions">
+          <button
+            class="btn btn-small btn-success"
+            data-action="admin-add-xp"
+            data-user="${escapeHTML(user.username)}">
+            + XP
+          </button>
+          <button
+            class="btn btn-small btn-danger"
+            data-action="admin-remove-xp"
+            data-user="${escapeHTML(user.username)}">
+            − XP
+          </button>
+          <button
+            class="btn btn-small"
+            data-action="admin-reset-user"
+            data-user="${escapeHTML(user.username)}">
+            Reset
+          </button>
+        </div>
+      </td>
+    </tr>
+  `;
+}
+/* =========================================================
+   ADMIN ACTIONS
+   ========================================================= */
+function findOrder(id){
+  return orders.find(o=>o.id === id);
+}
+function approveOrder(id){
+  if(!adminLoggedIn) return;
+  const order = findOrder(id);
+  if(!order) return;
+  if(order.status !== "pending"){
+    toast("Order is not pending.");
+    return;
+  }
+  order.status = "approved";
+  order.approvedAt = new Date().toISOString();
+  saveAll();
+  renderAdmin();
+  toast("Order approved.");
+}
+function rejectOrder(id){
+  if(!adminLoggedIn) return;
+  const order = findOrder(id);
+  if(!order) return;
+  if(order.status === "completed"){
+    toast("Completed orders cannot be rejected.");
+    return;
+  }
+  order.status = "rejected";
+  saveAll();
+  renderAdmin();
+  toast("Order rejected.");
+}
+function completeOrder(id){
+  if(!adminLoggedIn) return;
+  const order = findOrder(id);
+  if(!order) return;
+  if(order.status !== "approved"){
+    toast("Only approved orders can be completed.");
+    return;
+  }
+  const user = users.find(
+    u =>
+      u.username.toLowerCase() ===
+      String(order.username).toLowerCase()
+  );
   if(!user){
-    document.getElementById(
-      "profileAvatar"
-    ).textContent="?";
-    document.getElementById(
-      "profileName"
-    ).textContent="Not logged in";
-    document.getElementById(
-      "profileRank"
-    ).textContent=
-      "Unranked · 0 XP";
-    document.getElementById(
-      "profileXP"
-    ).textContent="0";
-    document.getElementById(
-      "profileRank2"
-    ).textContent="Unranked";
-    document.getElementById(
-      "profileOrders"
-    ).textContent="0";
-    document.getElementById(
-      "profileCompleted"
-    ).textContent="0";
-    document.getElementById(
-      "profileSince"
-    ).textContent="—";
+    toast("User account not found.");
     return;
   }
-  const info=
-    getRankInfo(user.xpTotal);
-  const orders=
-    getOrders().filter(
-      o=>o.username===user.username
-    );
-  const completed=
-    orders.filter(
-      o=>o.status==="completed"
-    );
-  document.getElementById(
-    "profileAvatar"
-  ).textContent=
-    user.username.charAt(0).toUpperCase();
-  document.getElementById(
-    "profileName"
-  ).textContent=
-    user.username;
-  document.getElementById(
-    "profileRank"
-  ).textContent=
-    `${info.name} · ${user.xpTotal} XP`;
-  document.getElementById(
-    "profileXP"
-  ).textContent=
-    user.xpTotal;
-  document.getElementById(
-    "profileRank2"
-  ).textContent=
-    info.name;
-  document.getElementById(
-    "profileOrders"
-  ).textContent=
-    orders.length;
-  document.getElementById(
-    "profileCompleted"
-  ).textContent=
-    completed.length;
-  document.getElementById(
-    "profileSince"
-  ).textContent=
-    formatDate(user.createdAt);
-}
-/* ================================
-   ADMIN
-================================ */
-function renderAdmin(){
+  /*
+    IMPORTANT:
+    1 BGL = 10 XP
+    10 BGL = 100 XP
+    42 BGL = 420 XP
+  */
+  const xp = Math.floor(Number(order.amount) * XP_PER_BGL);
+  order.status = "completed";
+  order.completedAt = new Date().toISOString();
+  order.xpAwarded = xp;
+  user.xpTotal =
+    Math.max(0,Number(user.xpTotal || 0)) + xp;
+  saveAll();
+  renderAdmin();
   if(
-    sessionStorage.getItem("jpp_admin")!=="true"
+    currentUser &&
+    currentUser.username.toLowerCase() ===
+    user.username.toLowerCase()
   ){
-    return;
+    currentUser = user;
   }
-  const users=getUsers();
-  const orders=getOrders();
-  document.getElementById(
-    "adminUsers"
-  ).textContent=
-    users.length;
-  document.getElementById(
-    "adminPending"
-  ).textContent=
-    orders.filter(
-      o=>o.status==="pending"
-    ).length;
-  document.getElementById(
-    "adminApproved"
-  ).textContent=
-    orders.filter(
-      o=>o.status==="approved"
-    ).length;
-  document.getElementById(
-    "adminCompleted"
-  ).textContent=
-    orders.filter(
-      o=>o.status==="completed"
-    ).length;
-  const settings=
-    getSettings();
-  document.getElementById(
-    "xpPerBglInput"
-  ).value=
-    settings.xpPerBgl;
-  document.getElementById(
-    "announcementInput"
-  ).value=
-    settings.announcement;
-  renderAdminOrders();
-  renderAdminUsers();
+  refreshUI();
+  toast(
+    "Order completed! +" +
+    xp +
+    " XP"
+  );
 }
-/* ================================
-   ADMIN ORDER TABLE
-================================ */
-function renderAdminOrders(){
-  const container=
-    document.getElementById(
-      "adminOrdersTable"
-    );
-  const orders=getOrders();
-  if(!orders.length){
-    container.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon">▤</div>
-        <div>No orders have been created.</div>
-      </div>
-    `;
-    return;
-  }
-  container.innerHTML=`
-    <table>
-      <thead>
-        <tr>
-          <th>Order</th>
-          <th>User</th>
-          <th>BGL</th>
-          <th>Total</th>
-          <th>Status</th>
-          <th>XP</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${orders.map(
-          order=>{
-            let actions="";
-            if(order.status==="pending"){
-              actions=`
-                <button
-                  class="small-btn"
-                  onclick="approveOrder('${order.id}')"
-                >
-                  Approve
-                </button>
-                <button
-                  class="small-btn"
-                  onclick="rejectOrder('${order.id}')"
-                >
-                  Reject
-                </button>
-              `;
-            }
-            else if(order.status==="approved"){
-              actions=`
-                <button
-                  class="success-btn small-btn"
-                  onclick="completeOrder('${order.id}')"
-                >
-                  Complete +${Number(order.amount)*Number(getSettings().xpPerBgl)} XP
-                </button>
-                <button
-                  class="small-btn"
-                  onclick="rejectOrder('${order.id}')"
-                >
-                  Reject
-                </button>
-              `;
-            }
-            else{
-              actions=`
-                <button
-                  class="small-btn"
-                  onclick="deleteOrder('${order.id}')"
-                >
-                  Delete
-                </button>
-              `;
-            }
-            return `
-              <tr>
-                <td>
-                  <b>
-                    ${escapeHTML(order.id)}
-                  </b>
-                </td>
-                <td>
-                  ${escapeHTML(order.username)}
-                </td>
-                <td>
-                  ${Number(order.amount)} BGL
-                </td>
-                <td>
-                  €${Number(order.total).toFixed(2)}
-                </td>
-                <td>
-                  ${statusHTML(order.status)}
-                </td>
-                <td>
-                  ${
-                    order.xpAwarded
-                      ? "+"+Number(order.xpAwardedAmount)
-                      : (
-                        Number(order.amount)*
-                        Number(getSettings().xpPerBgl)
-                      )
-                  }
-                </td>
-                <td>
-                  <div class="actions">
-                    ${actions}
-                  </div>
-                </td>
-              </tr>
-            `;
-          }
-        ).join("")}
-      </tbody>
-    </table>
-  `;
+function deleteOrder(id){
+  if(!adminLoggedIn) return;
+  const index =
+    orders.findIndex(o=>o.id === id);
+  if(index === -1) return;
+  orders.splice(index,1);
+  saveAll();
+  renderAdmin();
+  toast("Order deleted.");
 }
-/* ================================
-   ADMIN USER TABLE
-================================ */
-function renderAdminUsers(){
-  const container=
-    document.getElementById(
-      "adminUsersTable"
-    );
-  const users=getUsers();
-  if(!users.length){
-    container.innerHTML=`
-      <div class="empty">
-        <div class="empty-icon">●</div>
-        <div>No users yet.</div>
-      </div>
-    `;
-    return;
-  }
-  const orders=getOrders();
-  container.innerHTML=`
-    <table>
-      <thead>
-        <tr>
-          <th>User</th>
-          <th>Rank</th>
-          <th>XP</th>
-          <th>Completed</th>
-          <th>Manage</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${users.map(
-          user=>{
-            const info=
-              getRankInfo(user.xpTotal);
-            const completed=
-              orders.filter(
-                o=>
-                  o.username===user.username &&
-                  o.status==="completed"
-              ).length;
-            const encoded=
-              encodeURIComponent(
-                user.username
-              );
-            return `
-              <tr>
-                <td>
-                  <b>
-                    ${escapeHTML(user.username)}
-                  </b>
-                </td>
-                <td>
-                  ${info.name}
-                </td>
-                <td>
-                  ${user.xpTotal}
-                </td>
-                <td>
-                  ${completed}
-                </td>
-                <td>
-                  <div class="actions">
-                    <button
-                      class="small-btn"
-                      onclick="changeUserXP('${encoded}',25)"
-                    >
-                      +25 XP
-                    </button>
-                    <button
-                      class="small-btn"
-                      onclick="changeUserXP('${encoded}',-25)"
-                    >
-                      −25 XP
-                    </button>
-                    <button
-                      class="small-btn"
-                      onclick="customUserXP('${encoded}')"
-                    >
-                      Custom XP
-                    </button>
-                    <button
-                      class="small-btn"
-                      onclick="resetUser('${encoded}')"
-                    >
-                      Reset
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            `;
-          }
-        ).join("")}
-      </tbody>
-    </table>
-  `;
-}
-/* ================================
-   ADMIN USER CONTROLS
-================================ */
-function changeUserXP(
-  encodedUsername,
-  amount
-){
-  const username=
-    decodeURIComponent(
-      encodedUsername
-    );
-  const users=getUsers();
-  const user=users.find(
-    u=>u.username===username
+function addXP(username){
+  if(!adminLoggedIn) return;
+  const user = users.find(
+    u => u.username.toLowerCase() ===
+    username.toLowerCase()
   );
   if(!user) return;
-  const oldInfo=
-    getRankInfo(user.xpTotal);
-  user.xpTotal=
+  const value = prompt(
+    "How much XP do you want to add?"
+  );
+  if(value === null) return;
+  const amount = parseInt(value,10);
+  if(!Number.isFinite(amount) || amount <= 0){
+    toast("Invalid XP amount.");
+    return;
+  }
+  user.xpTotal =
+    Math.max(0,Number(user.xpTotal || 0)) + amount;
+  saveAll();
+  if(
+    currentUser &&
+    currentUser.username.toLowerCase() ===
+    username.toLowerCase()
+  ){
+    currentUser = user;
+  }
+  renderAdmin();
+  refreshUI();
+  toast("Added " + amount + " XP.");
+}
+function removeXP(username){
+  if(!adminLoggedIn) return;
+  const user = users.find(
+    u => u.username.toLowerCase() ===
+    username.toLowerCase()
+  );
+  if(!user) return;
+  const value = prompt(
+    "How much XP do you want to remove?"
+  );
+  if(value === null) return;
+  const amount = parseInt(value,10);
+  if(!Number.isFinite(amount) || amount <= 0){
+    toast("Invalid XP amount.");
+    return;
+  }
+  user.xpTotal =
     Math.max(
       0,
-      Number(user.xpTotal||0)+amount
+      Number(user.xpTotal || 0) - amount
     );
-  saveUsers(users);
-  const newInfo=
-    getRankInfo(user.xpTotal);
+  saveAll();
+  if(
+    currentUser &&
+    currentUser.username.toLowerCase() ===
+    username.toLowerCase()
+  ){
+    currentUser = user;
+  }
   renderAdmin();
-  refreshEverything();
-  if(
-    oldInfo.index!==newInfo.index
-  ){
-    toast(
-      `${username}: ${oldInfo.name} → ${newInfo.name}`,
-      "good"
-    );
-  }else{
-    toast(
-      `${amount>0?"+":""}${amount} XP applied.`,
-      "good"
-    );
-  }
+  refreshUI();
+  toast("Removed " + amount + " XP.");
 }
-function customUserXP(
-  encodedUsername
-){
-  const username=
-    decodeURIComponent(
-      encodedUsername
-    );
-  const value=prompt(
-    `Set total XP for ${username}:`
-  );
-  if(value===null) return;
-  const xp=Number(value);
-  if(
-    !Number.isFinite(xp) ||
-    xp<0
-  ){
-    toast(
-      "Invalid XP amount.",
-      "bad"
-    );
-    return;
-  }
-  const users=getUsers();
-  const user=users.find(
-    u=>u.username===username
+function resetUser(username){
+  if(!adminLoggedIn) return;
+  const user = users.find(
+    u => u.username.toLowerCase() ===
+    username.toLowerCase()
   );
   if(!user) return;
-  const oldInfo=
-    getRankInfo(user.xpTotal);
-  user.xpTotal=
-    Math.floor(xp);
-  saveUsers(users);
-  const newInfo=
-    getRankInfo(user.xpTotal);
-  renderAdmin();
-  refreshEverything();
+  user.xpTotal = 0;
+  saveAll();
   if(
-    oldInfo.index!==newInfo.index
+    currentUser &&
+    currentUser.username.toLowerCase() ===
+    username.toLowerCase()
   ){
-    toast(
-      `${username}: ${oldInfo.name} → ${newInfo.name}`,
-      "good"
-    );
-  }else{
-    toast(
-      `${username} now has ${user.xpTotal} XP.`,
-      "good"
-    );
+    currentUser = user;
   }
-}
-function resetUser(
-  encodedUsername
-){
-  const username=
-    decodeURIComponent(
-      encodedUsername
-    );
-  if(
-    !confirm(
-      `Reset ${username}'s XP and rank?`
-    )
-  ){
-    return;
-  }
-  const users=getUsers();
-  const user=users.find(
-    u=>u.username===username
-  );
-  if(!user) return;
-  user.xpTotal=0;
-  saveUsers(users);
   renderAdmin();
-  refreshEverything();
-  toast(
-    `${username} reset to Unranked.`,
-    "good"
-  );
+  refreshUI();
+  toast("User progress reset.");
 }
-/* ================================
+/* =========================================================
    ADMIN SETTINGS
-================================ */
-function saveXPSettings(){
-  const value=Math.floor(
-    Number(
-      document.getElementById(
-        "xpPerBglInput"
-      ).value
-    ) || 0
-  );
-  const settings=getSettings();
-  settings.xpPerBgl=
-    Math.max(0,value);
-  saveSettings(settings);
-  renderAdmin();
-  toast(
-    `XP rate changed to ${settings.xpPerBgl} XP per BGL.`,
-    "good"
-  );
-}
+   ========================================================= */
 function saveAnnouncement(){
-  const text=
-    document.getElementById(
-      "announcementInput"
-    ).value.trim();
-  const settings=getSettings();
-  settings.announcement=text;
-  saveSettings(settings);
+  if(!adminLoggedIn) return;
+  const value =
+    document.getElementById("announcementInput").value.trim();
+  settings.announcement = value;
+  saveAll();
   renderAnnouncement();
-  toast(
-    "Announcement saved.",
-    "good"
-  );
+  toast("Announcement saved.");
 }
 function clearAnnouncement(){
-  const settings=getSettings();
-  settings.announcement="";
-  saveSettings(settings);
-  document.getElementById(
-    "announcementInput"
-  ).value="";
+  if(!adminLoggedIn) return;
+  settings.announcement = "";
+  saveAll();
+  renderAdmin();
   renderAnnouncement();
-  toast(
-    "Announcement cleared.",
-    "good"
-  );
+  toast("Announcement cleared.");
 }
-/* ================================
-   EXPORT
-================================ */
 function exportData(){
-  const data={
-    exportedAt:
-      new Date().toISOString(),
-    users:
-      getUsers().map(
-        user=>({
-          username:user.username,
-          xpTotal:user.xpTotal,
-          createdAt:user.createdAt
-        })
-      ),
-    orders:getOrders(),
-    settings:getSettings()
+  if(!adminLoggedIn) return;
+  const data = {
+    exportedAt:new Date().toISOString(),
+    users,
+    orders,
+    settings
   };
-  const blob=
-    new Blob(
-      [JSON.stringify(data,null,2)],
-      {type:"application/json"}
-    );
-  const url=
-    URL.createObjectURL(blob);
-  const link=
-    document.createElement("a");
-  link.href=url;
-  link.download=
-    "jimppaz-store-backup.json";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
+  const blob = new Blob(
+    [JSON.stringify(data,null,2)],
+    {type:"application/json"}
+  );
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download =
+    "j1mppaz-bgl-store-backup.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
   URL.revokeObjectURL(url);
-  toast(
-    "Backup exported.",
-    "good"
-  );
+  toast("Data exported.");
 }
-/* ================================
-   DASHBOARD
-================================ */
-function refreshDashboard(){
-  const user=currentUser();
-  if(!user){
-    document.getElementById(
-      "dashRank"
-    ).textContent="Unranked";
-    document.getElementById(
-      "dashRankSmall"
-    ).textContent=
-      "Login to start";
-    document.getElementById(
-      "dashXP"
-    ).textContent="0";
-    document.getElementById(
-      "dashOrders"
-    ).textContent="0";
-    document.getElementById(
-      "dashCompleted"
-    ).textContent="0";
-    return;
+/* =========================================================
+   EVENT HANDLING
+   ========================================================= */
+document.addEventListener("click",function(event){
+  const button =
+    event.target.closest("[data-action]");
+  if(!button) return;
+  const action = button.dataset.action;
+  switch(action){
+    case "navigate":
+      navigate(button.dataset.view);
+      break;
+    case "toggle-menu":
+      toggleMobileMenu();
+      break;
+    case "open-login":
+      openLogin();
+      break;
+    case "close-login":
+      closeLogin();
+      break;
+    case "login":
+      login();
+      break;
+    case "logout":
+      logout();
+      break;
+    case "amount-minus":
+      changeAmount(-1);
+      break;
+    case "amount-plus":
+      changeAmount(1);
+      break;
+    case "preset":
+      setAmount(button.dataset.amount);
+      break;
+    case "create-order":
+      createOrder();
+      break;
+    case "admin-login":
+      adminLogin();
+      break;
+    case "close-admin-login":
+      closeAdminLogin();
+      break;
+    case "admin-approve":
+      approveOrder(button.dataset.id);
+      break;
+    case "admin-reject":
+      rejectOrder(button.dataset.id);
+      break;
+    case "admin-complete":
+      completeOrder(button.dataset.id);
+      break;
+    case "admin-delete-order":
+      deleteOrder(button.dataset.id);
+      break;
+    case "admin-add-xp":
+      addXP(button.dataset.user);
+      break;
+    case "admin-remove-xp":
+      removeXP(button.dataset.user);
+      break;
+    case "admin-reset-user":
+      resetUser(button.dataset.user);
+      break;
+    case "save-announcement":
+      saveAnnouncement();
+      break;
+    case "clear-announcement":
+      clearAnnouncement();
+      break;
+    case "export-data":
+      exportData();
+      break;
   }
-  const info=
-    getRankInfo(user.xpTotal);
-  const orders=
-    getOrders().filter(
-      o=>o.username===user.username
-    );
-  document.getElementById(
-    "dashRank"
-  ).textContent=info.name;
-  document.getElementById(
-    "dashRankSmall"
-  ).textContent=
-    `${info.progress}% progress`;
-  document.getElementById(
-    "dashXP"
-  ).textContent=
-    user.xpTotal;
-  document.getElementById(
-    "dashOrders"
-  ).textContent=
-    orders.length;
-  document.getElementById(
-    "dashCompleted"
-  ).textContent=
-    orders.filter(
-      o=>o.status==="completed"
-    ).length;
-}
-/* ================================
-   TOP USER
-================================ */
-function refreshTopUser(){
-  const user=currentUser();
-  const miniAvatar=
-    document.getElementById(
-      "miniAvatar"
-    );
-  const miniName=
-    document.getElementById(
-      "miniName"
-    );
-  const miniRank=
-    document.getElementById(
-      "miniRank"
-    );
-  const loginButton=
-    document.getElementById(
-      "loginTopBtn"
-    );
-  if(user){
-    const info=
-      getRankInfo(user.xpTotal);
-    miniAvatar.textContent=
-      user.username
-        .charAt(0)
-        .toUpperCase();
-    miniName.textContent=
-      user.username;
-    miniRank.textContent=
-      `${info.name} · ${user.xpTotal} XP`;
-    loginButton.textContent=
-      "Logged in";
-  }else{
-    miniAvatar.textContent="?";
-    miniName.textContent=
-      "Not logged in";
-    miniRank.textContent=
-      "Unranked";
-    loginButton.textContent=
-      "Continue";
-  }
-}
-/* ================================
-   ADMIN VISIBILITY
-================================ */
-function refreshAdminVisibility(){
-  const isAdmin=
-    sessionStorage.getItem(
-      "jpp_admin"
-    )==="true";
-  document.querySelectorAll(
-    ".admin-nav"
-  ).forEach(
-    element=>{
-      element.style.display=
-        isAdmin
-          ? (
-              element.classList.contains(
-                "nav-title"
-              )
-              ? "block"
-              : "flex"
-            )
-          : "none";
-    }
-  );
-}
-/* ================================
-   ANNOUNCEMENT
-================================ */
-function renderAnnouncement(){
-  const element=
-    document.getElementById(
-      "announcement"
-    );
-  const settings=
-    getSettings();
-  if(settings.announcement){
-    element.style.display=
-      "block";
-    element.textContent=
-      "📢 "+settings.announcement;
-  }else{
-    element.style.display=
-      "none";
-  }
-}
-/* ================================
-   EVERYTHING
-================================ */
-function refreshEverything(){
-  refreshTopUser();
-  refreshDashboard();
-  renderAnnouncement();
-  refreshAdminVisibility();
-  updateBuyUI();
+});
+document.getElementById("overlay")
+  .addEventListener("click",closeMobileMenu);
+document.getElementById("amountInput")
+  .addEventListener("input",updateBuyTotal);
+document.getElementById("amountInput")
+  .addEventListener("change",updateBuyTotal);
+/* ENTER KEY LOGIN */
+document.getElementById("loginUsername")
+  .addEventListener("keydown",e=>{
+    if(e.key === "Enter") login();
+  });
+document.getElementById("loginPassword")
+  .addEventListener("keydown",e=>{
+    if(e.key === "Enter") login();
+  });
+document.getElementById("adminUsername")
+  .addEventListener("keydown",e=>{
+    if(e.key === "Enter") adminLogin();
+  });
+document.getElementById("adminPassword")
+  .addEventListener("keydown",e=>{
+    if(e.key === "Enter") adminLogin();
+  });
+/* ESC */
+document.addEventListener("keydown",e=>{
+  if(e.key !== "Escape") return;
+  closeLogin();
+  closeAdminLogin();
+  closeMobileMenu();
+});
+/* =========================================================
+   REFRESH
+   ========================================================= */
+function refreshUI(){
+  updateSidebarUser();
   renderOrders();
   renderRank();
   renderLeaderboard();
   renderProfile();
-  if(
-    sessionStorage.getItem(
-      "jpp_admin"
-    )==="true"
-  ){
-    renderAdmin();
+  renderAnnouncement();
+  const adminNav =
+    document.getElementById("adminNav");
+  const adminButton =
+    document.getElementById("adminButton");
+  if(adminLoggedIn){
+    adminNav.classList.add("visible");
+    adminButton.classList.add("visible");
+  }else{
+    adminNav.classList.remove("visible");
+    adminButton.classList.remove("visible");
   }
+  updateBuyTotal();
 }
-/* ================================
-   UTILITY
-================================ */
-function escapeHTML(value){
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-let toastTimer=null;
-function toast(
-  message,
-  type=""
-){
-  const element=
-    document.getElementById(
-      "toast"
-    );
-  element.textContent=
-    message;
-  element.className=
-    "toast show "+type;
-  clearTimeout(
-    toastTimer
-  );
-  toastTimer=
-    setTimeout(
-      ()=>{
-        element.classList.remove(
-          "show"
-        );
-      },
-      3200
-    );
-}
-/* ================================
-   INIT
-================================ */
-if(!localStorage.getItem(
-  "jpp_store_settings"
-)){
-  saveSettings({
-    xpPerBgl:DEFAULT_XP_PER_BGL,
-    announcement:""
-  });
-}
-updateBuyUI();
-refreshEverything();
+/* =========================================================
+   START
+   ========================================================= */
+cleanInstall();
+loadData();
+refreshUI();
+updateBuyTotal();
 </script>
 </body>
 </html>
