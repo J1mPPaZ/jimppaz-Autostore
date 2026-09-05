@@ -4,1566 +4,1458 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>J1mPPaZ BGL Autostore</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
---bg:#05080d;
---panel:#0b1119;
---panel2:#0f1722;
---border:rgba(255,255,255,.075);
---text:#f4f7fb;
---muted:#7e8a9b;
---blue:#258cff;
---cyan:#00d5ff;
---green:#38d99b;
---red:#ff5c6c;
+:root {
+  --bg: #07080d;
+  --panel: #0d1018;
+  --panel2: #111522;
+  --line: #202636;
+  --text: #f5f7fb;
+  --muted: #8b93a7;
+  --accent: #8b5cf6;
+  --accent2: #22d3ee;
+  --green: #34d399;
 }
-html{scroll-behavior:smooth}
-body{
-font-family:Inter,Arial,sans-serif;
-background:
-radial-gradient(circle at 80% 0%,rgba(37,140,255,.14),transparent 30%),
-radial-gradient(circle at 15% 75%,rgba(0,213,255,.055),transparent 27%),
-var(--bg);
-color:var(--text);
-min-height:100vh;
+
+* {
+  box-sizing: border-box;
 }
-button,input{font:inherit}
-button{cursor:pointer}
-.app{min-height:100vh}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 75% 0%, #19142f 0%, transparent 35%),
+    radial-gradient(circle at 10% 90%, #10182a 0%, transparent 30%),
+    #07080d;
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+}
+
 /* SIDEBAR */
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-bottom:0;
-width:245px;
-padding:22px 15px;
-background:rgba(5,8,13,.91);
-border-right:1px solid var(--border);
-backdrop-filter:blur(20px);
-z-index:20;
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 245px;
+  padding: 22px 15px;
+  background: rgba(7, 9, 15, 0.92);
+  border-right: 1px solid var(--line);
+  backdrop-filter: blur(20px);
+  z-index: 20;
 }
-.brand{
-display:flex;
-align-items:center;
-gap:11px;
-padding:6px 10px 30px;
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 5px 10px 30px;
 }
-.logo{
-width:42px;
-height:42px;
-border-radius:13px;
-display:grid;
-place-items:center;
-background:linear-gradient(135deg,var(--blue),var(--cyan));
-font-size:18px;
-font-weight:950;
-box-shadow:0 12px 35px rgba(37,140,255,.25);
+
+.logo-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 18px;
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
 }
-.brand strong{font-size:15px}
-.brand small{
-display:block;
-color:var(--muted);
-font-size:10px;
-margin-top:3px;
+
+.logo-text strong {
+  display: block;
+  font-size: 15px;
 }
-.nav-title{
-color:#4f5b6b;
-font-size:9px;
-font-weight:800;
-letter-spacing:1.5px;
-padding:0 10px 9px;
+
+.logo-text span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .12em;
+  margin-top: 2px;
 }
-.nav{
-display:grid;
-gap:5px;
+
+.nav {
+  display: grid;
+  gap: 6px;
 }
-.nav button{
-width:100%;
-border:0;
-background:transparent;
-color:#7e8999;
-text-align:left;
-padding:12px 13px;
-border-radius:10px;
-transition:.2s;
+
+.nav button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #8f97aa;
+  text-align: left;
+  padding: 12px 13px;
+  border-radius: 11px;
+  cursor: pointer;
+  font-weight: 650;
+  transition: .2s;
 }
-.nav button:hover{
-background:rgba(255,255,255,.035);
-color:white;
+
+.nav button:hover {
+  color: white;
+  background: #121722;
 }
-.nav button.active{
-background:linear-gradient(90deg,rgba(37,140,255,.15),rgba(37,140,255,.025));
-color:white;
-box-shadow:inset 3px 0 var(--blue);
+
+.nav button.active {
+  color: white;
+  background: #171b29;
+  box-shadow: inset 2px 0 var(--accent);
 }
-.side-bottom{
-position:absolute;
-left:15px;
-right:15px;
-bottom:20px;
-}
-.stock-mini{
-background:linear-gradient(145deg,#0d1722,#080d14);
-border:1px solid var(--border);
-border-radius:14px;
-padding:15px;
-}
-.stock-mini-label{
-color:var(--muted);
-font-size:10px;
-}
-.stock-mini-value{
-font-size:23px;
-font-weight:900;
-margin-top:5px;
-}
-.online{
-display:flex;
-align-items:center;
-gap:6px;
-color:var(--green);
-font-size:10px;
-margin-top:8px;
-}
-.online-dot{
-width:6px;
-height:6px;
-border-radius:50%;
-background:var(--green);
-}
+
 /* MAIN */
-.main{
-margin-left:245px;
-width:calc(100% - 245px);
-padding:30px;
+
+.main {
+  margin-left: 245px;
+  padding: 28px;
+  max-width: 1500px;
 }
-.page{
-display:none;
-max-width:1250px;
-margin:auto;
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
 }
-.page.active{display:block}
-/* TOP */
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:22px;
+
+.eyebrow {
+  color: #8f96aa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
 }
-.top h1{
-font-size:24px;
-letter-spacing:-.7px;
+
+.page-title {
+  margin: 5px 0 0;
+  font-size: 28px;
+  letter-spacing: -.03em;
 }
-.top p{
-color:var(--muted);
-font-size:12px;
-margin-top:4px;
+
+.discord-btn {
+  border: 1px solid #30384c;
+  background: #111624;
+  color: white;
+  padding: 11px 17px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 750;
+  transition: .2s;
 }
-.user{
-display:flex;
-align-items:center;
-gap:8px;
-padding:8px 11px;
-background:#0b1119;
-border:1px solid var(--border);
-border-radius:10px;
-color:#aab5c3;
-font-size:11px;
+
+.discord-btn:hover {
+  background: #5865f2;
+  border-color: #5865f2;
 }
-.avatar{
-width:27px;
-height:27px;
-border-radius:8px;
-display:grid;
-place-items:center;
-background:#152438;
-color:#79bdff;
-font-weight:900;
+
+/* VIEWS */
+
+.view {
+  display: none;
 }
+
+.view.active {
+  display: block;
+}
+
 /* HERO */
-.hero{
-position:relative;
-overflow:hidden;
-min-height:420px;
-border:1px solid var(--border);
-border-radius:25px;
-padding:48px;
-display:grid;
-grid-template-columns:1.1fr .9fr;
-align-items:center;
-background:
-linear-gradient(125deg,#0e1825,#080d14);
+
+.hero {
+  min-height: 420px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  border: 1px solid var(--line);
+  border-radius: 25px;
+  overflow: hidden;
+  position: relative;
+  background:
+    linear-gradient(
+      120deg,
+      rgba(17, 20, 31, .98),
+      rgba(9, 11, 18, .85)
+    );
 }
-.hero:before{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-border-radius:50%;
-right:-330px;
-top:-300px;
-background:rgba(37,140,255,.08);
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  right: -160px;
+  top: -180px;
+  background: rgba(139, 92, 246, .15);
+  filter: blur(90px);
+  border-radius: 50%;
 }
-.hero-content{
-position:relative;
-z-index:2;
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 55px;
 }
-.tag{
-display:inline-flex;
-padding:7px 10px;
-border-radius:8px;
-background:rgba(37,140,255,.08);
-border:1px solid rgba(37,140,255,.2);
-color:#7ec4ff;
-font-size:9px;
-font-weight:900;
-letter-spacing:1.5px;
+
+.hero-content h2 {
+  font-size: 55px;
+  line-height: 1;
+  letter-spacing: -.055em;
+  margin: 12px 0 20px;
 }
-.hero h2{
-font-size:clamp(43px,6vw,72px);
-line-height:.92;
-letter-spacing:-4px;
-margin-top:18px;
+
+.hero-content p {
+  max-width: 570px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 15px;
 }
-.hero h2 span{color:var(--cyan)}
-.hero p{
-max-width:500px;
-color:#8490a0;
-font-size:13px;
-line-height:1.65;
-margin-top:18px;
+
+.tags {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 25px 0;
 }
-.hero-buttons{
-display:flex;
-gap:9px;
-margin-top:25px;
+
+.tag {
+  padding: 8px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #0d111b;
+  color: #b8bfd0;
+  font-size: 11px;
 }
-.btn{
-border:0;
-border-radius:10px;
-padding:12px 17px;
-font-weight:850;
-transition:.2s;
+
+.primary-btn {
+  border: 0;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    #6749e8
+  );
+  padding: 13px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  transition: .2s;
 }
-.primary{
-color:white;
-background:linear-gradient(135deg,var(--blue),var(--cyan));
-box-shadow:0 12px 30px rgba(37,140,255,.18);
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(139,92,246,.25);
 }
-.primary:hover{transform:translateY(-1px)}
-.secondary{
-color:white;
-background:#101822;
-border:1px solid var(--border);
+
+.hero-image {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 30px;
 }
-.hero-visual{
-position:relative;
-z-index:2;
-display:grid;
-place-items:center;
-min-height:300px;
+
+.bgl-image {
+  width: min(390px, 90%);
+  max-height: 340px;
+  object-fit: contain;
+
+  /* makes the transparent PNG look clean */
+  filter: drop-shadow(0 30px 45px rgba(0,0,0,.65));
+
+  image-rendering: auto;
 }
-.bgl{
-width:275px;
-height:275px;
-object-fit:contain;
-image-rendering:pixelated;
-filter:drop-shadow(0 30px 35px rgba(0,0,0,.5));
-}
+
 /* STATS */
-.stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-top:16px;
-}
-.stat{
-background:var(--panel);
-border:1px solid var(--border);
-border-radius:15px;
-padding:17px;
-}
-.stat span{
-color:var(--muted);
-font-size:10px;
-}
-.stat strong{
-display:block;
-font-size:21px;
-margin-top:5px;
-}
-/* STORE */
-.section{
-margin-top:27px;
-}
-.section-head{
-display:flex;
-justify-content:space-between;
-align-items:end;
-margin-bottom:13px;
-}
-.section-head h2{
-font-size:19px;
-}
-.section-head span{
-color:var(--muted);
-font-size:11px;
-}
-.store-grid{
-display:grid;
-grid-template-columns:minmax(0,1fr) 310px;
-gap:16px;
-}
-.product{
-background:linear-gradient(145deg,#0d151f,#090f17);
-border:1px solid var(--border);
-border-radius:20px;
-padding:23px;
-}
-.product-main{
-display:grid;
-grid-template-columns:190px 1fr;
-gap:24px;
-align-items:center;
-}
-.product-img{
-height:190px;
-border-radius:16px;
-background:#080e16;
-border:1px solid var(--border);
-display:grid;
-place-items:center;
-}
-.product-img img{
-width:145px;
-height:145px;
-object-fit:contain;
-image-rendering:pixelated;
-}
-.product-label{
-color:#42b7ff;
-font-size:9px;
-font-weight:900;
-letter-spacing:1.4px;
-}
-.product h3{
-font-size:27px;
-margin-top:6px;
-}
-.price{
-font-size:26px;
-font-weight:950;
-margin-top:9px;
-}
-.price small{
-font-size:11px;
-color:var(--muted);
-font-weight:500;
-}
-.description{
-font-size:12px;
-color:var(--muted);
-line-height:1.55;
-margin-top:9px;
-}
-/* PURCHASE */
-.purchase{
-margin-top:20px;
-padding-top:20px;
-border-top:1px solid var(--border);
-}
-.purchase-title{
-font-size:12px;
-font-weight:850;
-margin-bottom:12px;
-}
-.amount{
-display:flex;
-align-items:center;
-gap:8px;
-}
-.amount button{
-width:37px;
-height:37px;
-border-radius:9px;
-border:1px solid var(--border);
-background:#111a25;
-color:white;
-font-size:18px;
-}
-.amount-display{
-min-width:80px;
-text-align:center;
-}
-.amount-display strong{font-size:19px}
-.amount-display span{
-color:var(--muted);
-font-size:10px;
-}
-.quick{
-display:flex;
-gap:6px;
-margin-top:9px;
-flex-wrap:wrap;
-}
-.quick button{
-border:1px solid var(--border);
-background:#0c131c;
-color:#8e9aaa;
-border-radius:7px;
-padding:6px 9px;
-font-size:10px;
-}
-.quick button:hover{
-border-color:rgba(37,140,255,.4);
-color:white;
-}
-.buy{
-width:100%;
-margin-top:13px;
-padding:13px;
-border:0;
-border-radius:10px;
-color:white;
-font-weight:900;
-background:linear-gradient(135deg,var(--blue),var(--cyan));
-}
-/* INFO */
-.info{
-background:var(--panel);
-border:1px solid var(--border);
-border-radius:17px;
-padding:19px;
-}
-.info + .info{margin-top:12px}
-.info-label{
-color:var(--muted);
-font-size:9px;
-text-transform:uppercase;
-letter-spacing:1px;
-}
-.rate{
-font-size:30px;
-font-weight:950;
-margin-top:5px;
-}
-.info-list{
-list-style:none;
-display:grid;
-gap:9px;
-margin-top:13px;
-}
-.info-list li{
-font-size:11px;
-color:#aab4c1;
-}
-.info-list li:before{
-content:"✓";
-color:var(--green);
-font-weight:900;
-margin-right:7px;
-}
-/* PURCHASE MODAL */
-.modal{
-position:fixed;
-inset:0;
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-background:rgba(0,0,0,.76);
-backdrop-filter:blur(8px);
-z-index:100;
-}
-.modal.show{display:flex}
-.purchase-box{
-width:100%;
-max-width:520px;
-max-height:90vh;
-overflow:auto;
-background:#0c131d;
-border:1px solid var(--border);
-border-radius:21px;
-padding:25px;
-box-shadow:0 35px 100px rgba(0,0,0,.55);
-}
-.modal-head{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-}
-.modal-head small{
-display:block;
-color:#43b8ff;
-font-size:9px;
-font-weight:900;
-letter-spacing:1.4px;
-}
-.modal-head h2{
-font-size:23px;
-margin-top:5px;
-}
-.modal-head p{
-color:var(--muted);
-font-size:11px;
-margin-top:4px;
-}
-.close{
-border:0;
-background:transparent;
-color:#758092;
-font-size:24px;
-}
-.form-section{
-margin-top:20px;
-}
-.form-section>label{
-display:block;
-color:#aeb8c5;
-font-size:10px;
-font-weight:800;
-margin-bottom:8px;
-}
-.form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:9px;
-}
-.input{
-background:#080e16;
-border:1px solid var(--border);
-border-radius:10px;
-padding:11px;
-}
-.input label{
-display:block;
-font-size:9px;
-color:#687587;
-margin-bottom:5px;
-}
-.input input{
-width:100%;
-background:transparent;
-border:0;
-outline:0;
-color:white;
-font-size:12px;
-}
-.payment-list{
-display:grid;
-gap:7px;
-}
-.payment{
-width:100%;
-display:flex;
-align-items:center;
-gap:10px;
-padding:12px;
-border-radius:11px;
-border:1px solid var(--border);
-background:#090f17;
-color:white;
-text-align:left;
-}
-.payment.selected{
-border-color:rgba(37,140,255,.55);
-background:rgba(37,140,255,.07);
-}
-.payment-icon{
-width:31px;
-height:31px;
-border-radius:8px;
-display:grid;
-place-items:center;
-background:#132033;
-color:#61b9ff;
-font-weight:900;
-}
-.payment-info strong{
-display:block;
-font-size:11px;
-}
-.payment-info span{
-display:block;
-font-size:9px;
-color:var(--muted);
-margin-top:2px;
-}
-.payment-check{
-margin-left:auto;
-opacity:0;
-color:var(--cyan);
-font-weight:900;
-}
-.payment.selected .payment-check{opacity:1}
-.checkout-summary{
-margin-top:19px;
-padding:14px;
-border-radius:11px;
-background:#080e16;
-border:1px solid var(--border);
-}
-.summary-line{
-display:flex;
-justify-content:space-between;
-font-size:11px;
-color:#8995a5;
-padding:4px 0;
-}
-.summary-line.total{
-border-top:1px solid var(--border);
-margin-top:7px;
-padding-top:12px;
-color:white;
-font-size:16px;
-font-weight:900;
-}
-.confirm{
-width:100%;
-margin-top:13px;
-padding:13px;
-border:0;
-border-radius:10px;
-background:linear-gradient(135deg,var(--blue),var(--cyan));
-color:white;
-font-weight:900;
-}
-/* ORDERS */
-.orders{
-display:grid;
-gap:9px;
-}
-.order{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:17px;
-background:var(--panel);
-border:1px solid var(--border);
-border-radius:14px;
-}
-.order-id{
-font-weight:850;
-font-size:12px;
-}
-.order-meta{
-color:var(--muted);
-font-size:10px;
-margin-top:5px;
-}
-.status{
-padding:6px 9px;
-border-radius:7px;
-background:rgba(56,217,155,.08);
-color:var(--green);
-font-size:9px;
-font-weight:900;
-}
-.empty{
-padding:65px 20px;
-border:1px dashed var(--border);
-border-radius:17px;
-text-align:center;
-}
-.empty-icon{font-size:32px}
-.empty h3{
-font-size:17px;
-margin-top:9px;
-}
-.empty p{
-font-size:11px;
-color:var(--muted);
-margin-top:5px;
-}
-/* PROFILE */
-.profile-card,
-.admin-card{
-max-width:650px;
-background:var(--panel);
-border:1px solid var(--border);
-border-radius:18px;
-padding:23px;
-}
-.field{margin-bottom:14px}
-.field label{
-display:block;
-font-size:10px;
-color:#9ba6b4;
-margin-bottom:6px;
-}
-.field input{
-width:100%;
-padding:12px;
-border-radius:9px;
-border:1px solid var(--border);
-background:#080e16;
-color:white;
-outline:0;
-}
-.field input:focus{
-border-color:rgba(37,140,255,.5);
-}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 13px;
+  margin-top: 14px;
+}
+
+.stat {
+  border: 1px solid var(--line);
+  background: rgba(13,16,24,.82);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.stat small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.stat strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 21px;
+}
+
+/* CARDS */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 30px 0 14px;
+}
+
+.section-head h3 {
+  margin: 4px 0 0;
+  font-size: 20px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  background: rgba(13,16,24,.85);
+  border-radius: 17px;
+  padding: 20px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #1c2130,
+    #111522
+  );
+  border: 1px solid #2c3447;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.feature b {
+  display: block;
+}
+
+.feature span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* RANKS */
+
+.rank-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+}
+
+.rank-card {
+  padding: 17px;
+  border: 1px solid var(--line);
+  background: #0d1018;
+  border-radius: 15px;
+  transition: .2s;
+}
+
+.rank-card:hover {
+  transform: translateY(-2px);
+  border-color: #343d55;
+}
+
+.rank-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.rank-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    #1c2130,
+    #111522
+  );
+  border: 1px solid #2d3548;
+  font-weight: 900;
+}
+
+.rank-name {
+  font-weight: 800;
+}
+
+.rank-description {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.current {
+  margin-left: auto;
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.progress {
+  height: 7px;
+  background: #191e2b;
+  border-radius: 20px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 68%;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent2)
+  );
+}
+
+/* TABLE */
+
+.table-card {
+  border: 1px solid var(--line);
+  background: #0d1018;
+  border-radius: 17px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 15px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+td {
+  font-size: 13px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: #171d2a;
+  color: #c8cede;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* LOGIN */
+
+.login-wrapper {
+  max-width: 600px;
+  margin: 70px auto;
+}
+
+.login-card {
+  text-align: center;
+  padding: 45px;
+  border: 1px solid var(--line);
+  background: #0d1018;
+  border-radius: 22px;
+}
+
+.discord-logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 22px;
+  background: #5865f2;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.login-card h2 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.login-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 /* ADMIN */
-.admin-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:17px;
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
 }
-.admin-stat{
-background:#080e16;
-border:1px solid var(--border);
-border-radius:12px;
-padding:16px;
+
+.admin-warning {
+  margin-top: 15px;
+  padding: 16px;
+  border-radius: 13px;
+  border: 1px dashed #394258;
+  color: var(--muted);
+  background: #0b0e15;
+  font-size: 12px;
+  line-height: 1.6;
 }
-.admin-stat span{
-color:var(--muted);
-font-size:9px;
+
+/* EMPTY */
+
+.empty {
+  padding: 45px;
+  text-align: center;
 }
-.admin-stat strong{
-display:block;
-font-size:23px;
-margin-top:5px;
+
+.empty-icon {
+  font-size: 35px;
+  margin-bottom: 10px;
 }
-.admin-tools{
-display:flex;
-gap:8px;
-margin-top:17px;
-flex-wrap:wrap;
+
+.empty h3 {
+  margin: 0 0 7px;
 }
-.admin-tools input{
-width:150px;
-padding:11px;
-border-radius:9px;
-border:1px solid var(--border);
-background:#080e16;
-color:white;
-outline:0;
+
+.empty p {
+  color: var(--muted);
+  margin: 0;
 }
-.admin-orders{
-margin-top:22px;
+
+/* MOBILE NAV */
+
+.mobile-nav {
+  display: none;
 }
-/* TOAST */
-.toast{
-position:fixed;
-right:20px;
-bottom:20px;
-z-index:200;
-background:#111a25;
-border:1px solid var(--border);
-padding:12px 15px;
-border-radius:10px;
-font-size:11px;
-transform:translateY(100px);
-opacity:0;
-transition:.25s;
-}
-.toast.show{
-transform:translateY(0);
-opacity:1;
-}
+
 /* MOBILE */
-@media(max-width:900px){
-.sidebar{
-width:205px;
+
+@media(max-width: 900px) {
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 17px 15px 90px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    padding: 32px 25px 15px;
+  }
+
+  .hero-content h2 {
+    font-size: 40px;
+  }
+
+  .hero-image {
+    padding: 15px 20px 35px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-grid,
+  .rank-grid,
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    z-index: 50;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 7px;
+    gap: 5px;
+    background: rgba(12,15,23,.95);
+    border: 1px solid var(--line);
+    border-radius: 17px;
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-nav button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: #858da2;
+    padding: 8px 3px;
+    font-size: 10px;
+    border-radius: 10px;
+  }
+
+  .mobile-nav button.active {
+    color: white;
+    background: #191e2c;
+  }
 }
-.main{
-margin-left:205px;
-width:calc(100% - 205px);
-padding:20px;
-}
-.hero{
-grid-template-columns:1fr;
-padding:32px;
-}
-.store-grid{
-grid-template-columns:1fr;
-}
-}
-@media(max-width:650px){
-.sidebar{
-position:relative;
-width:100%;
-height:auto;
-padding:14px;
-border-right:0;
-border-bottom:1px solid var(--border);
-}
-.brand{
-padding-bottom:15px;
-}
-.side-bottom{display:none}
-.nav{
-display:flex;
-overflow-x:auto;
-}
-.nav button{
-min-width:max-content;
-}
-.main{
-margin-left:0;
-width:100%;
-padding:14px;
-}
-.hero{
-padding:25px;
-min-height:auto;
-}
-.hero h2{
-font-size:46px;
-}
-.hero-visual{
-min-height:220px;
-}
-.bgl{
-width:210px;
-height:210px;
-}
-.stats{
-grid-template-columns:1fr;
-}
-.product-main{
-grid-template-columns:1fr;
-}
-.product-img{
-height:220px;
-}
-.form-grid{
-grid-template-columns:1fr;
-}
-.admin-grid{
-grid-template-columns:1fr;
-}
-.top{
-align-items:flex-start;
-}
-.user{
-display:none;
-}
+
+@media(max-width: 560px) {
+
+  .topbar {
+    margin-bottom: 20px;
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+
+  .discord-btn {
+    padding: 9px 11px;
+    font-size: 11px;
+  }
+
+  .hero-content h2 {
+    font-size: 36px;
+  }
+
+  .stats,
+  .card-grid,
+  .rank-grid,
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 12px;
+  }
 }
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <!-- SIDEBAR -->
+
 <aside class="sidebar">
-<div class="brand">
-<div class="logo">J</div>
-<div>
-<strong>J1mPPaZ</strong>
-<small>BGL Autostore</small>
-</div>
-</div>
-<div class="nav-title">STORE</div>
-<nav class="nav">
-<button class="active" onclick="showPage('store',this)">
-Store
-</button>
-<button onclick="showPage('orders',this)">
-My Orders
-</button>
-<button onclick="showPage('profile',this)">
-Profile
-</button>
-<button onclick="showPage('admin',this)">
-Admin Panel
-</button>
-</nav>
-<div class="side-bottom">
-<div class="stock-mini">
-<div class="stock-mini-label">
-Current stock
-</div>
-<div class="stock-mini-value">
-<span id="sideStock">100</span> BGL
-</div>
-<div class="online">
-<span class="online-dot"></span>
-Store online
-</div>
-</div>
-</div>
+
+  <div class="logo">
+
+    <div class="logo-box">
+      J
+    </div>
+
+    <div class="logo-text">
+      <strong>J1mPPaZ</strong>
+      <span>BGL AUTOSTORE</span>
+    </div>
+
+  </div>
+
+  <nav class="nav">
+
+    <button class="active" data-view="store">
+      ⌂ &nbsp; Store
+    </button>
+
+    <button data-view="orders">
+      ▣ &nbsp; Order History
+    </button>
+
+    <button data-view="ranks">
+      ✦ &nbsp; Rank Progress
+    </button>
+
+    <button data-view="leaderboard">
+      ♛ &nbsp; Leaderboard
+    </button>
+
+    <button data-view="profile">
+      ● &nbsp; Profile
+    </button>
+
+    <button data-view="admin">
+      ⚙ &nbsp; Admin Panel
+    </button>
+
+  </nav>
+
 </aside>
+
+
 <!-- MAIN -->
+
 <main class="main">
-<!-- STORE -->
-<section id="store" class="page active">
-<div class="top">
-<div>
-<h1>Store</h1>
-<p>Blue Gem Locks · J1mPPaZ</p>
-</div>
-<div class="user">
-<div class="avatar">J</div>
-Guest
-</div>
-</div>
-<div class="hero">
-<div class="hero-content">
-<div class="tag">
-BGL AUTOSTORE
-</div>
-<h2>
-Buy your<br>
-<span>BGL.</span>
-</h2>
-<p>
-Choose your amount, enter your delivery details
-and place your order. Everything you need is in one place.
-</p>
-<div class="hero-buttons">
-<button class="btn primary"
-onclick="document.getElementById('products').scrollIntoView()">
-Buy BGL
-</button>
-<button class="btn secondary"
-onclick="showPage('orders',document.querySelectorAll('.nav button')[1])">
-My Orders
-</button>
-</div>
-</div>
-<div class="hero-visual">
-<img
-class="bgl"
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
-alt="BGL"
->
-</div>
-</div>
-<div class="stats">
-<div class="stat">
-<span>PRICE</span>
-<strong>2.30€ / BGL</strong>
-</div>
-<div class="stat">
-<span>AVAILABLE</span>
-<strong id="statStock">100 BGL</strong>
-</div>
-<div class="stat">
-<span>STATUS</span>
-<strong style="color:var(--green)">Online</strong>
-</div>
-</div>
-<div class="section" id="products">
-<div class="section-head">
-<h2>Available product</h2>
-<span>1 product</span>
-</div>
-<div class="store-grid">
-<div class="product">
-<div class="product-main">
-<div class="product-img">
-<img
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQsBBttTDfdxm7KjASjifOj9LLWNpltR10A3wv-xUE-A&s=10"
-alt="Blue Gem Lock"
->
-</div>
-<div>
-<div class="product-label">
-GROWtopia CURRENCY
-</div>
-<h3>Blue Gem Lock</h3>
-<div class="price">
-2.30€ <small>/ BGL</small>
-</div>
-<p class="description">
-Select the amount you need and continue to purchase.
-</p>
-<div class="purchase">
-<div class="purchase-title">
-Amount
-</div>
-<div class="amount">
-<button onclick="changeAmount(-1)">−</button>
-<div class="amount-display">
-<strong id="amount">1</strong>
-<span>BGL</span>
-</div>
-<button onclick="changeAmount(1)">+</button>
-</div>
-<div class="quick">
-<button onclick="setAmount(1)">1 BGL</button>
-<button onclick="setAmount(5)">5 BGL</button>
-<button onclick="setAmount(10)">10 BGL</button>
-<button onclick="setAmount(25)">25 BGL</button>
-</div>
-<button class="buy" onclick="openPurchase()">
-Purchase
-</button>
-</div>
-</div>
-</div>
-</div>
-<div>
-<div class="info">
-<div class="info-label">
-Current rate
-</div>
-<div class="rate">
-2.30€
-</div>
-<div style="color:var(--muted);font-size:10px;margin-top:3px">
-per BGL
-</div>
-</div>
-<div class="info">
-<div class="info-label">
-Before ordering
-</div>
-<ul class="info-list">
-<li>Check your amount</li>
-<li>Enter correct GrowID</li>
-<li>Check your Discord</li>
-<li>Keep your order ID</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<!-- ORDERS -->
-<section id="orders" class="page">
-<div class="top">
-<div>
-<h1>My Orders</h1>
-<p>Your previous orders</p>
-</div>
-</div>
-<div id="ordersList"></div>
-</section>
-<!-- PROFILE -->
-<section id="profile" class="page">
-<div class="top">
-<div>
-<h1>Profile</h1>
-<p>Manage your delivery information</p>
-</div>
-</div>
-<div class="profile-card">
-<div class="field">
-<label>GrowID</label>
-<input
-id="profileGrowID"
-placeholder="Your GrowID"
->
-</div>
-<div class="field">
-<label>Discord</label>
-<input
-id="profileDiscord"
-placeholder="Your Discord username"
->
-</div>
-<button class="btn primary" onclick="saveProfile()">
-Save profile
-</button>
-</div>
-</section>
-<!-- ADMIN -->
-<section id="admin" class="page">
-<div class="top">
-<div>
-<h1>Admin Panel</h1>
-<p>Private store management</p>
-</div>
-</div>
-<div id="adminContent"></div>
-</section>
+
+  <header class="topbar">
+
+    <div>
+
+      <div class="eyebrow">
+        J1mPPaZ / AUTOSTORE
+      </div>
+
+      <h1 class="page-title" id="pageTitle">
+        Store
+      </h1>
+
+    </div>
+
+    <button
+      class="discord-btn"
+      onclick="loginDiscord()"
+    >
+      Login with Discord
+    </button>
+
+  </header>
+
+
+  <!-- STORE -->
+
+  <section
+    id="store"
+    class="view active"
+  >
+
+    <div class="hero">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          BGL STORE • ONLINE
+        </div>
+
+        <h2>
+          Your BGL.<br>
+          Your way.
+        </h2>
+
+        <p>
+          Welcome to the J1mPPaZ BGL Autostore.
+          Track your account, check your rank,
+          view your order history and follow the
+          monthly leaderboard from one clean dashboard.
+        </p>
+
+        <div class="tags">
+
+          <span class="tag">
+            ⚡ Fast dashboard
+          </span>
+
+          <span class="tag">
+            ◈ Discord Login
+          </span>
+
+          <span class="tag">
+            ✦ Rank System
+          </span>
+
+          <span class="tag">
+            ♛ Leaderboard
+          </span>
+
+        </div>
+
+        <button
+          class="primary-btn"
+          onclick="showView('ranks')"
+        >
+          View Rank Progress
+        </button>
+
+      </div>
+
+
+      <div class="hero-image">
+
+        <img
+          class="bgl-image"
+          src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+          alt="J1mPPaZ BGL"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="stat">
+        <small>Store Status</small>
+        <strong>
+          <span style="color:#34d399">●</span>
+          Online
+        </strong>
+      </div>
+
+      <div class="stat">
+        <small>Current Rank</small>
+        <strong id="currentRank">
+          Rookie
+        </strong>
+      </div>
+
+      <div class="stat">
+        <small>Rank Progress</small>
+        <strong>
+          68%
+        </strong>
+      </div>
+
+      <div class="stat">
+        <small>Account</small>
+        <strong id="accountName">
+          Guest
+        </strong>
+      </div>
+
+    </div>
+
+
+    <!-- FEATURES -->
+
+    <div class="section-head">
+
+      <div>
+        <div class="eyebrow">
+          FEATURES
+        </div>
+
+        <h3>
+          Everything in one place
+        </h3>
+      </div>
+
+    </div>
+
+
+    <div class="card-grid">
+
+      <div class="card">
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            ▣
+          </div>
+
+          <div>
+            <b>
+              Order History
+            </b>
+
+            <span>
+              Keep your previous orders organized.
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            D
+          </div>
+
+          <div>
+            <b>
+              Discord Login
+            </b>
+
+            <span>
+              Connect your Discord account.
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            ♛
+          </div>
+
+          <div>
+            <b>
+              Monthly Leaderboard
+            </b>
+
+            <span>
+              See the community ranking.
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ORDERS -->
+
+  <section
+    id="orders"
+    class="view"
+  >
+
+    <div class="table-card">
+
+      <div class="section-head" style="padding:0 20px">
+
+        <div>
+          <div class="eyebrow">
+            ACCOUNT
+          </div>
+
+          <h3>
+            Order History
+          </h3>
+        </div>
+
+        <span class="badge">
+          0 ORDERS
+        </span>
+
+      </div>
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          ▣
+        </div>
+
+        <h3>
+          No orders yet
+        </h3>
+
+        <p>
+          Your order history will appear here
+          after your account is connected.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RANKS -->
+
+  <section
+    id="ranks"
+    class="view"
+  >
+
+    <div class="section-head">
+
+      <div>
+        <div class="eyebrow">
+          PROGRESSION
+        </div>
+
+        <h3>
+          Rank Progress
+        </h3>
+      </div>
+
+      <span class="badge">
+        ROOKIE
+      </span>
+
+    </div>
+
+    <div
+      class="rank-grid"
+      id="rankGrid"
+    ></div>
+
+  </section>
+
+
+  <!-- LEADERBOARD -->
+
+  <section
+    id="leaderboard"
+    class="view"
+  >
+
+    <div class="table-card">
+
+      <div class="section-head" style="padding:0 20px">
+
+        <div>
+          <div class="eyebrow">
+            MONTHLY
+          </div>
+
+          <h3>
+            Leaderboard
+          </h3>
+        </div>
+
+        <span class="badge">
+          SEPTEMBER 2026
+        </span>
+
+      </div>
+
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>#</th>
+            <th>Member</th>
+            <th>Rank</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>1</td>
+            <td>J1mPPaZ</td>
+            <td>
+              <span class="badge">
+                Apex
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>Community Member</td>
+            <td>
+              <span class="badge">
+                Champion
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>Community Member</td>
+            <td>
+              <span class="badge">
+                Elite
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>4</td>
+            <td>Community Member</td>
+            <td>
+              <span class="badge">
+                Diamond
+              </span>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+
+  <section
+    id="profile"
+    class="view"
+  >
+
+    <div class="login-wrapper">
+
+      <div class="login-card">
+
+        <div class="discord-logo">
+          D
+        </div>
+
+        <h2>
+          Login with Discord
+        </h2>
+
+        <p>
+          Connect your Discord account to access
+          your profile, order history and rank progression.
+        </p>
+
+        <button
+          class="primary-btn"
+          onclick="loginDiscord()"
+        >
+          Continue with Discord
+        </button>
+
+        <p style="font-size:11px;margin-top:20px">
+          Secure Discord OAuth requires a backend.
+          This page will not pretend a login succeeded
+          without real authentication.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMIN -->
+
+  <section
+    id="admin"
+    class="view"
+  >
+
+    <div class="card">
+
+      <div class="section-head">
+
+        <div>
+          <div class="eyebrow">
+            PRIVATE AREA
+          </div>
+
+          <h3>
+            Admin Panel
+          </h3>
+        </div>
+
+        <span class="badge">
+          OWNER
+        </span>
+
+      </div>
+
+
+      <div class="admin-grid">
+
+        <div class="stat">
+          <small>Store</small>
+          <strong>
+            Online
+          </strong>
+        </div>
+
+        <div class="stat">
+          <small>Accounts</small>
+          <strong>
+            —
+          </strong>
+        </div>
+
+        <div class="stat">
+          <small>Orders</small>
+          <strong>
+            —
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="admin-warning">
+
+        Admin authentication should be handled
+        server-side before using this publicly.
+        A password stored only inside index.html
+        is visible to anyone who downloads the page.
+
+      </div>
+
+    </div>
+
+  </section>
+
 </main>
+
 </div>
-<!-- PURCHASE MODAL -->
-<div class="modal" id="purchaseModal">
-<div class="purchase-box">
-<div class="modal-head">
-<div>
-<small>PURCHASE</small>
-<h2>Buy BGL</h2>
-<p>Complete your order details.</p>
+
+
+<!-- MOBILE NAV -->
+
+<div class="mobile-nav">
+
+  <button
+    class="active"
+    data-view="store"
+  >
+    ⌂<br>
+    Store
+  </button>
+
+  <button
+    data-view="orders"
+  >
+    ▣<br>
+    Orders
+  </button>
+
+  <button
+    data-view="ranks"
+  >
+    ✦<br>
+    Ranks
+  </button>
+
+  <button
+    data-view="leaderboard"
+  >
+    ♛<br>
+    Top
+  </button>
+
+  <button
+    data-view="profile"
+  >
+    ●<br>
+    Profile
+  </button>
+
 </div>
-<button class="close"
-onclick="closePurchase()">
-×
-</button>
-</div>
-<div class="form-section">
-<label>Amount</label>
-<div class="amount">
-<button onclick="changeAmount(-1)">−</button>
-<div class="amount-display">
-<strong id="modalAmount">1</strong>
-<span>BGL</span>
-</div>
-<button onclick="changeAmount(1)">+</button>
-</div>
-</div>
-<div class="form-section">
-<label>Delivery details</label>
-<div class="form-grid">
-<div class="input">
-<label>GrowID</label>
-<input
-id="purchaseGrowID"
-placeholder="Your GrowID"
->
-</div>
-<div class="input">
-<label>Discord</label>
-<input
-id="purchaseDiscord"
-placeholder="username"
->
-</div>
-</div>
-</div>
-<div class="form-section">
-<label>Payment method</label>
-<div class="payment-list">
-<button
-class="payment selected"
-onclick="selectPayment(this,'Manual Payment')"
->
-<div class="payment-icon">€</div>
-<div class="payment-info">
-<strong>Manual Payment</strong>
-<span>Payment instructions after order</span>
-</div>
-<div class="payment-check">✓</div>
-</button>
-<button
-class="payment"
-onclick="selectPayment(this,'Discord Payment')"
->
-<div class="payment-icon">D</div>
-<div class="payment-info">
-<strong>Discord Payment</strong>
-<span>Payment instructions through Discord</span>
-</div>
-<div class="payment-check">✓</div>
-</button>
-</div>
-</div>
-<div class="checkout-summary">
-<div class="summary-line">
-<span>BGL amount</span>
-<strong id="summaryAmount">
-1
-</strong>
-</div>
-<div class="summary-line">
-<span>Rate</span>
-<strong>2.30€ / BGL</strong>
-</div>
-<div class="summary-line total">
-<span>Total</span>
-<strong id="summaryTotal">
-2.30€
-</strong>
-</div>
-</div>
-<button class="confirm" onclick="placeOrder()">
-Continue to order →
-</button>
-</div>
-</div>
-<div class="toast" id="toast"></div>
+
+
 <script>
-const PRICE = 2.30;
-const ADMIN_USER = "JimpanAdmini";
-const ADMIN_PASS = "JimppaFortniteAdmin";
-let amount = 1;
-let selectedPayment = "Manual Payment";
-let state = JSON.parse(
-localStorage.getItem("j1mppaz_bgl_store")
-) || {
-stock:100,
-orders:[],
-profile:{
-growID:"",
-discord:""
-},
-adminLogged:false
+
+const titles = {
+  store: "Store",
+  orders: "Order History",
+  ranks: "Rank Progress",
+  leaderboard: "Leaderboard",
+  profile: "Profile",
+  admin: "Admin Panel"
 };
-function save(){
-localStorage.setItem(
-"j1mppaz_bgl_store",
-JSON.stringify(state)
-);
-updateStock();
+
+
+const rankNames = [
+  "Rookie",
+  "Bronze",
+  "Silver",
+  "Gold",
+  "Platinum",
+  "Diamond",
+  "Elite",
+  "Champion",
+  "Apex"
+];
+
+
+const rankDescriptions = [
+  "Starting rank",
+  "Getting started",
+  "Growing member",
+  "Experienced member",
+  "High tier member",
+  "Top tier member",
+  "Elite member",
+  "Champion tier",
+  "Highest rank"
+];
+
+
+function showView(id) {
+
+  document
+    .querySelectorAll(".view")
+    .forEach(view => {
+      view.classList.remove("active");
+    });
+
+  const selected =
+    document.getElementById(id);
+
+  if (selected) {
+    selected.classList.add("active");
+  }
+
+
+  document
+    .querySelectorAll("[data-view]")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.view === id
+      );
+
+    });
+
+
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    titles[id] || "Store";
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
 }
-function updateStock(){
-document.getElementById("sideStock").textContent =
-state.stock;
-document.getElementById("statStock").textContent =
-state.stock + " BGL";
+
+
+document
+  .querySelectorAll("[data-view]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => showView(button.dataset.view)
+    );
+
+  });
+
+
+function loginDiscord() {
+
+  alert(
+    "Discord OAuth needs a backend connection. " +
+    "The frontend is ready for the Discord login UI."
+  );
+
 }
-function showPage(id,btn){
-document
-.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
-document
-.getElementById(id)
-.classList.add("active");
-document
-.querySelectorAll(".nav button")
-.forEach(b=>b.classList.remove("active"));
-if(btn) btn.classList.add("active");
-if(id==="orders") renderOrders();
-if(id==="profile") loadProfile();
-if(id==="admin") renderAdmin();
-window.scrollTo({
-top:0,
-behavior:"smooth"
+
+
+/* RANKS */
+
+const rankGrid =
+  document.getElementById("rankGrid");
+
+
+rankNames.forEach((rank, index) => {
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "rank-card";
+
+
+  card.innerHTML = `
+
+    <div class="rank-top">
+
+      <div class="rank-icon">
+        ${index + 1}
+      </div>
+
+      <div>
+
+        <div class="rank-name">
+          ${rank}
+        </div>
+
+        <div class="rank-description">
+          ${rankDescriptions[index]}
+        </div>
+
+      </div>
+
+      ${
+        index === 0
+          ? `<div class="current">Current</div>`
+          : ""
+      }
+
+    </div>
+
+    ${
+      index === 0
+        ? `
+          <div class="progress">
+            <div class="progress-bar"></div>
+          </div>
+        `
+        : ""
+    }
+
+  `;
+
+
+  rankGrid.appendChild(card);
+
 });
-}
-function changeAmount(change){
-amount += change;
-if(amount < 1)
-amount = 1;
-if(amount > state.stock)
-amount = state.stock;
-updatePurchaseDisplay();
-}
-function setAmount(value){
-amount = Math.min(value,state.stock);
-if(amount < 1)
-amount = 1;
-updatePurchaseDisplay();
-}
-function updatePurchaseDisplay(){
-document.getElementById("amount").textContent =
-amount;
-document.getElementById("modalAmount").textContent =
-amount;
-document.getElementById("summaryAmount").textContent =
-amount;
-document.getElementById("summaryTotal").textContent =
-(amount * PRICE).toFixed(2) + "€";
-}
-function openPurchase(){
-if(state.stock <= 0){
-showToast("Out of stock");
-return;
-}
-document.getElementById("purchaseGrowID").value =
-state.profile.growID || "";
-document.getElementById("purchaseDiscord").value =
-state.profile.discord || "";
-updatePurchaseDisplay();
-document
-.getElementById("purchaseModal")
-.classList.add("show");
-}
-function closePurchase(){
-document
-.getElementById("purchaseModal")
-.classList.remove("show");
-}
-function selectPayment(button,name){
-selectedPayment = name;
-document
-.querySelectorAll(".payment")
-.forEach(p=>p.classList.remove("selected"));
-button.classList.add("selected");
-}
-function placeOrder(){
-const growID =
-document.getElementById("purchaseGrowID")
-.value.trim();
-const discord =
-document.getElementById("purchaseDiscord")
-.value.trim();
-if(!growID){
-showToast("Enter your GrowID");
-return;
-}
-if(!discord){
-showToast("Enter your Discord");
-return;
-}
-if(amount > state.stock){
-showToast("Not enough stock");
-return;
-}
-const order = {
-id:
-"BGL-" +
-Math.random()
-.toString(36)
-.substring(2,8)
-.toUpperCase(),
-amount:amount,
-total:Number(
-(amount * PRICE).toFixed(2)
-),
-growID:growID,
-discord:discord,
-payment:selectedPayment,
-status:"Pending",
-date:new Date().toLocaleString("fi-FI")
-};
-state.orders.unshift(order);
-state.stock -= amount;
-state.profile.growID = growID;
-state.profile.discord = discord;
-save();
-closePurchase();
-amount = 1;
-updatePurchaseDisplay();
-showToast("Order placed!");
-showPage(
-"orders",
-document.querySelectorAll(".nav button")[1]
-);
-}
-function renderOrders(){
-const box =
-document.getElementById("ordersList");
-if(!state.orders.length){
-box.innerHTML = `
-<div class="empty">
-<div class="empty-icon">📦</div>
-<h3>No orders yet</h3>
-<p>Your orders will appear here.</p>
-</div>
-`;
-return;
-}
-box.innerHTML = `
-<div class="orders">
-${
-state.orders.map(order=>`
-<div class="order">
-<div>
-<div class="order-id">
-${escapeHTML(order.id)}
-</div>
-<div class="order-meta">
-${escapeHTML(order.amount)} BGL
-·
-${escapeHTML(order.total)}€
-·
-${escapeHTML(order.date)}
-</div>
-</div>
-<div class="status">
-${escapeHTML(order.status)}
-</div>
-</div>
-`).join("")
-}
-</div>
-`;
-}
-function loadProfile(){
-document.getElementById("profileGrowID").value =
-state.profile.growID || "";
-document.getElementById("profileDiscord").value =
-state.profile.discord || "";
-}
-function saveProfile(){
-state.profile.growID =
-document.getElementById("profileGrowID")
-.value.trim();
-state.profile.discord =
-document.getElementById("profileDiscord")
-.value.trim();
-save();
-showToast("Profile saved");
-}
-function renderAdmin(){
-const box =
-document.getElementById("adminContent");
-if(!state.adminLogged){
-box.innerHTML = `
-<div class="admin-card">
-<h3>Admin login</h3>
-<p style="
-color:var(--muted);
-font-size:11px;
-margin-top:5px;
-margin-bottom:18px;
-">
-Private store management area.
-</p>
-<div class="field">
-<label>Username</label>
-<input
-id="adminUser"
-autocomplete="off"
->
-</div>
-<div class="field">
-<label>Password</label>
-<input
-id="adminPass"
-type="password"
->
-</div>
-<button
-class="btn primary"
-onclick="adminLogin()"
->
-Login
-</button>
-</div>
-`;
-return;
-}
-const revenue =
-state.orders.reduce(
-(sum,o)=>sum+Number(o.total),
-0
-);
-box.innerHTML = `
-<div class="admin-card">
-<h3>Store Dashboard</h3>
-<div class="admin-grid">
-<div class="admin-stat">
-<span>ORDERS</span>
-<strong>
-${state.orders.length}
-</strong>
-</div>
-<div class="admin-stat">
-<span>STOCK</span>
-<strong>
-${state.stock}
-</strong>
-</div>
-<div class="admin-stat">
-<span>REVENUE</span>
-<strong>
-${revenue.toFixed(2)}€
-</strong>
-</div>
-</div>
-<div class="admin-tools">
-<input
-id="stockInput"
-type="number"
-min="0"
-value="${state.stock}"
->
-<button
-class="btn primary"
-onclick="updateAdminStock()"
->
-Update Stock
-</button>
-<button
-class="btn secondary"
-onclick="adminLogout()"
->
-Logout
-</button>
-</div>
-<div class="admin-orders">
-<h3 style="font-size:14px;margin-bottom:10px">
-Recent Orders
-</h3>
-${
-state.orders.length
-?
-state.orders.slice(0,10).map(order=>`
-<div class="order">
-<div>
-<div class="order-id">
-${escapeHTML(order.id)}
-</div>
-<div class="order-meta">
-${escapeHTML(order.growID)}
-·
-${escapeHTML(order.amount)} BGL
-·
-${escapeHTML(order.total)}€
-·
-${escapeHTML(order.payment)}
-</div>
-</div>
-<div class="status">
-${escapeHTML(order.status)}
-</div>
-</div>
-`).join("")
-:
-`
-<div class="empty">
-<div class="empty-icon">📦</div>
-<h3>No orders</h3>
-<p>Orders will appear here.</p>
-</div>
-`
-}
-</div>
-</div>
-`;
-}
-function adminLogin(){
-const username =
-document.getElementById("adminUser").value;
-const password =
-document.getElementById("adminPass").value;
-if(
-username === ADMIN_USER &&
-password === ADMIN_PASS
-){
-state.adminLogged = true;
-save();
-renderAdmin();
-showToast("Admin login successful");
-}else{
-showToast("Wrong login");
-}
-}
-function adminLogout(){
-state.adminLogged = false;
-save();
-renderAdmin();
-showToast("Logged out");
-}
-function updateAdminStock(){
-const input =
-document.getElementById("stockInput");
-const value =
-Number(input.value);
-if(!Number.isFinite(value) || value < 0){
-showToast("Invalid stock");
-return;
-}
-state.stock = Math.floor(value);
-save();
-renderAdmin();
-showToast("Stock updated");
-}
-function showToast(message){
-const toast =
-document.getElementById("toast");
-toast.textContent = message;
-toast.classList.add("show");
-setTimeout(
-()=>toast.classList.remove("show"),
-2200
-);
-}
-function escapeHTML(value){
-return String(value)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-}
-document
-.getElementById("purchaseModal")
-.addEventListener("click",function(e){
-if(e.target === this)
-closePurchase();
-});
-updateStock();
-updatePurchaseDisplay();
+
 </script>
+
 </body>
 </html>
