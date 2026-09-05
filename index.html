@@ -1,1669 +1,2079 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>J1mPPaZ BGL Autostore</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-:root{
-  --bg:#07090d;
-  --panel:#0d1118;
-  --panel2:#111722;
-  --border:rgba(255,255,255,.08);
-  --text:#f4f7fb;
-  --muted:#8993a4;
-  --blue:#5aa7ff;
-  --blue2:#286cff;
-  --cyan:#68dfff;
-  --green:#54e6a7;
-  --red:#ff5e72;
-}
-body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 70% 10%,rgba(50,110,255,.12),transparent 30%),
-    radial-gradient(circle at 10% 90%,rgba(0,190,255,.07),transparent 28%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,Arial,sans-serif;
-  overflow-x:hidden;
-}
-button,input{
-  font:inherit;
-}
-button{
-  cursor:pointer;
-}
-/* ================= SIDEBAR ================= */
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  width:250px;
-  height:100vh;
-  padding:24px 16px;
-  background:rgba(7,9,13,.88);
-  backdrop-filter:blur(24px);
-  border-right:1px solid var(--border);
-  z-index:100;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:4px 10px 28px;
-}
-.logo-mark{
-  width:38px;
-  height:38px;
-  border-radius:11px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#62c7ff,#286cff);
-  box-shadow:0 0 30px rgba(60,140,255,.45);
-  overflow:hidden;
-}
-.logo-mark img{
-  width:30px;
-  height:30px;
-  object-fit:contain;
-}
-.logo-text{
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:-.6px;
-}
-.nav-title{
-  padding:10px 12px 8px;
-  font-size:10px;
-  color:#5e6878;
-  font-weight:800;
-  letter-spacing:1.5px;
-}
-.nav{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-}
-.nav button{
-  width:100%;
-  border:1px solid transparent;
-  background:transparent;
-  color:#8993a4;
-  padding:13px 14px;
-  border-radius:12px;
-  text-align:left;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  transition:.25s;
-  font-weight:600;
-}
-.nav button:hover{
-  color:white;
-  background:rgba(255,255,255,.045);
-}
-.nav button.active{
-  color:white;
-  background:linear-gradient(90deg,rgba(56,116,255,.18),rgba(56,116,255,.05));
-  border-color:rgba(80,140,255,.16);
-  box-shadow:inset 3px 0 #4f91ff;
-}
-.nav-icon{
-  width:22px;
-  text-align:center;
-  font-size:17px;
-}
-.admin-nav{
-  margin-top:8px;
-  color:#ffcf70!important;
-  border-color:rgba(255,190,70,.12)!important;
-  background:rgba(255,180,40,.035)!important;
-}
-.admin-nav:hover{
-  background:rgba(255,180,40,.08)!important;
-}
-.admin-badge{
-  margin-left:auto;
-  font-size:8px;
-  padding:3px 6px;
-  border-radius:5px;
-  background:rgba(255,193,70,.14);
-  color:#ffc957;
-  letter-spacing:.7px;
-  font-weight:900;
-}
-/* ================= MAIN ================= */
-.main{
-  margin-left:250px;
-  min-height:100vh;
-}
-.topbar{
-  height:76px;
-  padding:0 38px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:rgba(7,9,13,.55);
-  backdrop-filter:blur(18px);
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-.page-title{
-  font-size:18px;
-  font-weight:800;
-}
-.user-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.user-name{
-  color:#b8c1ce;
-  font-size:13px;
-  font-weight:600;
-}
-.avatar{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#477cff,#6bdcff);
-  font-weight:900;
-}
-/* ================= VIEWS ================= */
-.view{
-  display:none;
-  padding:38px;
-  animation:viewIn .35s ease;
-}
-.view.active{
-  display:block;
-}
-@keyframes viewIn{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-/* ================= HERO ================= */
-.hero{
-  min-height:390px;
-  position:relative;
-  overflow:hidden;
-  border:1px solid var(--border);
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 75% 50%,rgba(42,113,255,.20),transparent 34%),
-    linear-gradient(135deg,#0d121b,#090c12);
-  display:flex;
-  align-items:center;
-  padding:55px;
-}
-.hero:before{
-  content:"";
-  position:absolute;
-  inset:-100%;
-  background:linear-gradient(
-    120deg,
-    transparent 42%,
-    rgba(255,255,255,.045) 50%,
-    transparent 58%
-  );
-  animation:shine 7s linear infinite;
-}
-@keyframes shine{
-  from{transform:translateX(-20%) rotate(15deg)}
-  to{transform:translateX(40%) rotate(15deg)}
-}
-.hero-content{
-  position:relative;
-  z-index:3;
-  max-width:570px;
-}
-.eyebrow{
-  color:#68b7ff;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:2px;
-  margin-bottom:14px;
-}
-.hero h1{
-  font-size:clamp(38px,5vw,67px);
-  line-height:.95;
-  letter-spacing:-4px;
-  font-weight:900;
-}
-.hero h1 span{
-  background:linear-gradient(90deg,#fff,#73c9ff);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-.hero p{
-  margin-top:22px;
-  color:#8e99aa;
-  line-height:1.7;
-  max-width:490px;
-}
-.hero-btn{
-  margin-top:28px;
-  border:0;
-  border-radius:12px;
-  padding:14px 22px;
-  color:white;
-  background:linear-gradient(135deg,#347aff,#54bfff);
-  font-weight:800;
-  box-shadow:0 10px 40px rgba(48,121,255,.3);
-  transition:.25s;
-}
-.hero-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 16px 55px rgba(48,121,255,.45);
-}
-/* ================= FLOATING BGLS ================= */
-.bgl-scene{
-  position:absolute;
-  right:0;
-  top:0;
-  width:48%;
-  height:100%;
-  pointer-events:none;
-}
-.float-bgl{
-  position:absolute;
-  width:95px;
-  height:95px;
-  object-fit:contain;
-  filter:
-    drop-shadow(0 0 15px rgba(75,175,255,.5))
-    drop-shadow(0 0 45px rgba(55,110,255,.2));
-  animation:float 5s ease-in-out infinite;
-}
-.float-bgl:nth-child(1){
-  top:15%;
-  right:25%;
-}
-.float-bgl:nth-child(2){
-  width:65px;
-  height:65px;
-  top:55%;
-  right:45%;
-  animation-delay:-1.7s;
-}
-.float-bgl:nth-child(3){
-  width:52px;
-  height:52px;
-  top:28%;
-  right:8%;
-  animation-delay:-3s;
-}
-.float-bgl:nth-child(4){
-  width:44px;
-  height:44px;
-  top:70%;
-  right:15%;
-  animation-delay:-4s;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0) rotate(-5deg)}
-  50%{transform:translateY(-24px) rotate(8deg)}
-}
-/* ================= BUY PAGE ================= */
-.buy-wrapper{
-  max-width:1050px;
-  margin:0 auto;
-}
-.buy-header{
-  text-align:center;
-  margin-bottom:26px;
-}
-.buy-header .eyebrow{
-  margin-bottom:8px;
-}
-.buy-header h2{
-  font-size:38px;
-  letter-spacing:-2px;
-}
-.buy-header p{
-  color:var(--muted);
-  margin-top:8px;
-}
-/* ONE BIG BOX */
-.buy-box{
-  position:relative;
-  overflow:hidden;
-  min-height:570px;
-  border:1px solid rgba(86,151,255,.18);
-  border-radius:30px;
-  background:
-    radial-gradient(circle at 20% 30%,rgba(55,120,255,.13),transparent 27%),
-    radial-gradient(circle at 85% 65%,rgba(80,220,255,.08),transparent 25%),
-    linear-gradient(145deg,#101722,#090d13);
-  box-shadow:
-    0 30px 100px rgba(0,0,0,.4),
-    inset 0 1px rgba(255,255,255,.04);
-}
-.buy-box:before{
-  content:"";
-  position:absolute;
-  width:400px;
-  height:400px;
-  border-radius:50%;
-  background:rgba(54,120,255,.09);
-  filter:blur(80px);
-  left:-170px;
-  top:-180px;
-  animation:pulseGlow 5s ease-in-out infinite;
-}
-@keyframes pulseGlow{
-  50%{transform:scale(1.35);opacity:.6}
-}
-.buy-inner{
-  position:relative;
-  z-index:2;
-  padding:48px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:50px;
-  align-items:center;
-}
-/* BGL VISUAL */
-.bgl-display{
-  min-height:390px;
-  position:relative;
-  display:grid;
-  place-items:center;
-}
-.orbit{
-  position:absolute;
-  width:310px;
-  height:310px;
-  border:1px solid rgba(88,158,255,.13);
-  border-radius:50%;
-  animation:spin 16s linear infinite;
-}
-.orbit:before,
-.orbit:after{
-  content:"";
-  position:absolute;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#6bcaff;
-  box-shadow:0 0 20px #5bbcff;
-}
-.orbit:before{
-  top:5px;
-  left:50%;
-}
-.orbit:after{
-  bottom:35px;
-  right:18px;
-}
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-.main-bgl{
-  width:210px;
-  height:210px;
-  object-fit:contain;
-  position:relative;
-  z-index:3;
-  filter:
-    drop-shadow(0 0 15px rgba(72,180,255,.75))
-    drop-shadow(0 0 65px rgba(49,108,255,.5));
-  animation:mainBgl 4s ease-in-out infinite;
-}
-@keyframes mainBgl{
-  0%,100%{
-    transform:translateY(0) rotate(-3deg) scale(1);
-  }
-  50%{
-    transform:translateY(-17px) rotate(3deg) scale(1.045);
-  }
-}
-.visual-label{
-  position:absolute;
-  bottom:4px;
-  text-align:center;
-  color:#667286;
-  font-size:10px;
-  letter-spacing:2px;
-  font-weight:800;
-}
-/* CONTROLS */
-.buy-controls{
-  padding:4px;
-}
-.buy-controls h3{
-  font-size:28px;
-  letter-spacing:-1px;
-}
-.rate{
-  margin-top:7px;
-  color:#7e8a9d;
-  font-size:13px;
-}
-.rate strong{
-  color:#62c7ff;
-}
-.amount-label{
-  display:block;
-  margin-top:30px;
-  margin-bottom:9px;
-  color:#798496;
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-.amount-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.step-btn{
-  width:52px;
-  height:52px;
-  border-radius:13px;
-  border:1px solid rgba(255,255,255,.09);
-  background:#151c27;
-  color:white;
-  font-size:25px;
-  transition:.2s;
-}
-.step-btn:hover{
-  border-color:#4b91ff;
-  background:#192a45;
-  transform:scale(1.04);
-}
-.amount-input{
-  flex:1;
-  height:52px;
-  border-radius:13px;
-  border:1px solid rgba(93,151,255,.2);
-  outline:none;
-  text-align:center;
-  background:#080c12;
-  color:white;
-  font-size:20px;
-  font-weight:900;
-}
-.amount-input:focus{
-  border-color:#5799ff;
-  box-shadow:0 0 0 4px rgba(65,130,255,.08);
-}
-.presets{
-  display:flex;
-  gap:8px;
-  margin-top:12px;
-}
-.preset{
-  flex:1;
-  padding:9px 5px;
-  border-radius:9px;
-  border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.025);
-  color:#8d98aa;
-  font-size:11px;
-  font-weight:800;
-  transition:.2s;
-}
-.preset:hover,
-.preset.selected{
-  color:white;
-  border-color:rgba(75,145,255,.4);
-  background:rgba(65,130,255,.12);
-}
-.total{
-  margin-top:28px;
-  padding:20px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:15px;
-  background:rgba(0,0,0,.18);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.total span{
-  color:#7c8798;
-  font-size:12px;
-}
-.total strong{
-  font-size:29px;
-  letter-spacing:-1px;
-}
-.order-btn{
-  width:100%;
-  margin-top:12px;
-  padding:16px;
-  border:0;
-  border-radius:14px;
-  color:white;
-  font-weight:900;
-  background:linear-gradient(100deg,#286cff,#53c9ff,#286cff);
-  background-size:200% 100%;
-  box-shadow:0 15px 40px rgba(42,111,255,.25);
-  animation:buttonGradient 4s linear infinite;
-  transition:.25s;
-}
-@keyframes buttonGradient{
-  0%{background-position:0%}
-  100%{background-position:200%}
-}
-.order-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 20px 55px rgba(42,111,255,.4);
-}
-/* ================= GENERAL CARDS ================= */
-.section-title{
-  margin-bottom:20px;
-}
-.section-title h2{
-  font-size:30px;
-  letter-spacing:-1.5px;
-}
-.section-title p{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:13px;
-}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
-.stat{
-  border:1px solid var(--border);
-  background:rgba(14,18,25,.75);
-  border-radius:18px;
-  padding:22px;
-}
-.stat small{
-  color:#778295;
-  font-size:11px;
-}
-.stat strong{
-  display:block;
-  font-size:29px;
-  margin-top:7px;
-}
-/* ================= ADMIN ================= */
-.admin-login{
-  max-width:480px;
-  margin:70px auto;
-  padding:40px;
-  border:1px solid rgba(255,191,75,.18);
-  border-radius:24px;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(255,183,55,.07),transparent 40%),
-    #0d1118;
-  text-align:center;
-}
-.admin-login h2{
-  font-size:27px;
-}
-.admin-login p{
-  color:#788396;
-  margin:9px 0 25px;
-  font-size:13px;
-}
-.field{
-  width:100%;
-  padding:14px;
-  margin-bottom:10px;
-  border-radius:11px;
-  border:1px solid rgba(255,255,255,.08);
-  background:#080b10;
-  color:white;
-  outline:none;
-}
-.admin-submit{
-  width:100%;
-  padding:14px;
-  border:0;
-  border-radius:11px;
-  background:linear-gradient(135deg,#e8a52d,#ffd15b);
-  color:#161108;
-  font-weight:900;
-}
-.admin-dashboard{
-  display:none;
-}
-.admin-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
-}
-.logout-admin{
-  padding:10px 15px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:9px;
-  background:#111720;
-  color:#aaa;
-}
-.orders-box{
-  margin-top:20px;
-  border:1px solid var(--border);
-  border-radius:20px;
-  overflow:hidden;
-  background:#0d1118;
-}
-.orders-head{
-  padding:20px;
-  border-bottom:1px solid var(--border);
-  font-weight:800;
-}
-.order-row{
-  padding:18px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.order-row:last-child{
-  border-bottom:0;
-}
-.order-info strong{
-  display:block;
-}
-.order-info span{
-  color:#7e899a;
-  font-size:11px;
-}
-.order-actions{
-  display:flex;
-  gap:7px;
-}
-.approve,
-.reject{
-  border:0;
-  border-radius:8px;
-  padding:8px 12px;
-  font-size:11px;
-  font-weight:800;
-}
-.approve{
-  background:rgba(60,220,155,.12);
-  color:#59e5aa;
-}
-.reject{
-  background:rgba(255,80,100,.1);
-  color:#ff7180;
-}
-.empty{
-  padding:45px 20px;
-  text-align:center;
-  color:#697587;
-}
-/* ================= RANK ================= */
-.rank-box{
-  max-width:700px;
-  margin:20px auto;
-  padding:35px;
-  border:1px solid var(--border);
-  border-radius:22px;
-  background:#0d1118;
-}
-.rank-name{
-  font-size:38px;
-  font-weight:900;
-  letter-spacing:-2px;
-}
-.rank-sub{
-  color:#788496;
-  margin-top:5px;
-}
-.progress{
-  height:11px;
-  border-radius:20px;
-  background:#171d27;
-  overflow:hidden;
-  margin-top:30px;
-}
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#3c83ff,#63d8ff);
-  box-shadow:0 0 20px rgba(65,160,255,.5);
-  transition:width .7s ease;
-}
-/* ================= TABLE / PROFILE ================= */
-.simple-box{
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:25px;
-  background:#0d1118;
-}
-.profile-name{
-  font-size:30px;
-  font-weight:900;
-}
-.muted{
-  color:#7d889a;
-}
-.order-history{
-  margin-top:15px;
-}
-.history-item{
-  padding:15px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-  display:flex;
-  justify-content:space-between;
-}
-.status{
-  color:#59e5aa;
-}
-/* ================= MODAL ================= */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(12px);
-  display:none;
-  place-items:center;
-  z-index:500;
-}
-.modal.show{
-  display:grid;
-}
-.login-card{
-  width:min(420px,calc(100% - 30px));
-  padding:38px;
-  border:1px solid rgba(87,153,255,.22);
-  border-radius:25px;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(70,130,255,.13),transparent 45%),
-    #0d121a;
-  box-shadow:0 30px 100px rgba(0,0,0,.65);
-  animation:modalIn .4s cubic-bezier(.2,.8,.2,1);
-  text-align:center;
-}
-@keyframes modalIn{
-  from{
-    opacity:0;
-    transform:translateY(25px) scale(.94);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-.discord-icon{
-  width:68px;
-  height:68px;
-  margin:0 auto 18px;
-  border-radius:20px;
-  display:grid;
-  place-items:center;
-  font-size:31px;
-  background:#5865f2;
-  box-shadow:0 0 40px rgba(88,101,242,.35);
-  animation:discordPulse 2s ease-in-out infinite;
-}
-@keyframes discordPulse{
-  50%{transform:translateY(-5px);box-shadow:0 0 60px rgba(88,101,242,.5)}
-}
-.login-card h2{
-  font-size:25px;
-}
-.login-card p{
-  color:#7f8a9c;
-  font-size:13px;
-  margin:8px 0 22px;
-}
-.login-card input{
-  width:100%;
-  padding:14px;
-  border-radius:11px;
-  border:1px solid rgba(255,255,255,.08);
-  background:#080b10;
-  color:white;
-  outline:none;
-}
-.login-btn{
-  width:100%;
-  margin-top:10px;
-  padding:14px;
-  border:0;
-  border-radius:11px;
-  background:#5865f2;
-  color:white;
-  font-weight:900;
-}
-.close-modal{
-  margin-top:14px;
-  border:0;
-  background:none;
-  color:#687486;
-}
-/* ================= TOAST ================= */
-.toast{
-  position:fixed;
-  right:25px;
-  bottom:25px;
-  z-index:700;
-  padding:15px 20px;
-  border:1px solid rgba(82,227,167,.25);
-  border-radius:13px;
-  background:#0d1715;
-  color:#6aefb1;
-  box-shadow:0 20px 60px rgba(0,0,0,.4);
-  transform:translateY(120px);
-  opacity:0;
-  transition:.35s;
-  font-weight:800;
-  font-size:13px;
-}
-.toast.show{
-  transform:none;
-  opacity:1;
-}
-/* ================= MOBILE ================= */
-@media(max-width:900px){
-  .sidebar{
-    width:78px;
-    padding:18px 9px;
-  }
-  .logo-text,
-  .nav button span:not(.nav-icon),
-  .admin-badge,
-  .nav-title{
-    display:none;
-  }
-  .logo{
-    justify-content:center;
-  }
-  .nav button{
-    justify-content:center;
-    padding:13px;
-  }
-  .main{
-    margin-left:78px;
-  }
-  .buy-inner{
-    grid-template-columns:1fr;
-  }
-  .bgl-display{
-    min-height:300px;
-  }
-  .hero{
-    padding:35px;
-  }
-  .bgl-scene{
-    opacity:.35;
-    width:100%;
-  }
-}
-@media(max-width:600px){
-  .view{
-    padding:20px;
-  }
-  .topbar{
-    padding:0 20px;
-  }
-  .user-name{
-    display:none;
-  }
-  .hero h1{
-    font-size:42px;
-  }
-  .hero{
-    min-height:430px;
-  }
-  .buy-inner{
-    padding:25px;
-  }
-  .stats{
-    grid-template-columns:1fr;
-  }
-  .main-bgl{
-    width:160px;
-    height:160px;
-  }
-  .orbit{
-    width:240px;
-    height:240px;
-  }
-}
-</style>
-</head>
-<body>
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="logo">
-    <div class="logo-mark">
-      <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-    </div>
-    <div class="logo-text">J1mPPaZ</div>
-  </div>
-  <div class="nav-title">MENU</div>
-  <nav class="nav">
-    <button class="active" data-view="store">
-      <span class="nav-icon">⌂</span>
-      <span>Store</span>
-    </button>
-    <button data-view="buy">
-      <span class="nav-icon">◈</span>
-      <span>Buy BGLs</span>
-    </button>
-    <button data-view="history">
-      <span class="nav-icon">◷</span>
-      <span>Order History</span>
-    </button>
-    <button data-view="rank">
-      <span class="nav-icon">◆</span>
-      <span>Rank Progress</span>
-    </button>
-    <button data-view="leaderboard">
-      <span class="nav-icon">♛</span>
-      <span>Leaderboard</span>
-    </button>
-    <button data-view="profile">
-      <span class="nav-icon">●</span>
-      <span>Profile</span>
-    </button>
-    <button class="admin-nav" data-view="admin">
-      <span class="nav-icon">⚙</span>
-      <span>Admin Panel</span>
-      <span class="admin-badge">ADMIN</span>
-    </button>
-  </nav>
-</aside>
-<main class="main">
-<header class="topbar">
-  <div class="page-title" id="pageTitle">Store</div>
-  <div class="user-area">
-    <span class="user-name" id="topUser">Not logged in</span>
-    <div class="avatar" id="avatar">?</div>
-  </div>
-</header>
-<!-- STORE -->
-<section class="view active" id="store">
-  <div class="hero">
-    <div class="hero-content">
-      <div class="eyebrow">J1MPPaz BGL AUTOSTORE</div>
-      <h1>
-        BGLs.<br>
-        <span>Simple.</span> Fast.
-      </h1>
-      <p>
-        Purchase BGLs through a clean, fast storefront.
-        Choose exactly how many you want and create your order in seconds.
-      </p>
-      <button class="hero-btn" onclick="showView('buy')">
-        Buy BGLs →
-      </button>
-    </div>
-    <div class="bgl-scene">
-      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-    </div>
-  </div>
-</section>
-<!-- BUY -->
-<section class="view" id="buy">
-  <div class="buy-wrapper">
-    <div class="buy-header">
-      <div class="eyebrow">BGL EXCHANGE</div>
-      <h2>Choose your amount</h2>
-      <p>Set the exact amount yourself.</p>
-    </div>
-    <div class="buy-box">
-      <div class="buy-inner">
-        <div class="bgl-display">
-          <div class="orbit"></div>
-          <img
-            class="main-bgl"
-            src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-          >
-          <div class="visual-label">
-            J1MPPaz BGL
-          </div>
-        </div>
-        <div class="buy-controls">
-          <h3>Buy BGLs</h3>
-          <div class="rate">
-            Current rate:
-            <strong>2.30€ / BGL</strong>
-          </div>
-          <label class="amount-label">
-            BGL Amount
-          </label>
-          <div class="amount-row">
-            <button class="step-btn" onclick="changeAmount(-1)">
-              −
-            </button>
-            <input
-              id="bglAmount"
-              class="amount-input"
-              type="number"
-              min="1"
-              value="1"
-              oninput="updateBuy()"
-            >
-            <button class="step-btn" onclick="changeAmount(1)">
-              +
-            </button>
-          </div>
-          <div class="presets">
-            <button class="preset selected" onclick="setAmount(1,this)">
-              1 BGL
-            </button>
-            <button class="preset" onclick="setAmount(5,this)">
-              5 BGL
-            </button>
-            <button class="preset" onclick="setAmount(10,this)">
-              10 BGL
-            </button>
-            <button class="preset" onclick="setAmount(25,this)">
-              25 BGL
-            </button>
-          </div>
-          <div class="total">
-            <span>Total</span>
-            <strong id="totalPrice">
-              2.30€
-            </strong>
-          </div>
-          <button class="order-btn" onclick="createOrder()">
-            Create Order
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- HISTORY -->
-<section class="view" id="history">
-  <div class="section-title">
-    <h2>Order History</h2>
-    <p>Your previous orders.</p>
-  </div>
-  <div class="simple-box">
-    <div id="historyList"></div>
-  </div>
-</section>
-<!-- RANK -->
-<section class="view" id="rank">
-  <div class="section-title">
-    <h2>Rank Progress</h2>
-    <p>Your rank increases when orders are approved.</p>
-  </div>
-  <div class="rank-box">
-    <div class="rank-name" id="rankName">
-      Unranked
-    </div>
-    <div class="rank-sub" id="rankPercent">
-      0%
-    </div>
-    <div class="progress">
-      <div class="progress-bar" id="rankBar"></div>
-    </div>
-  </div>
-</section>
-<!-- LEADERBOARD -->
-<section class="view" id="leaderboard">
-  <div class="section-title">
-    <h2>Monthly Leaderboard</h2>
-    <p>Only real registered users appear here.</p>
-  </div>
-  <div class="simple-box">
-    <div id="leaderboardList"></div>
-  </div>
-</section>
-<!-- PROFILE -->
-<section class="view" id="profile">
-  <div class="section-title">
-    <h2>Profile</h2>
-  </div>
-  <div class="simple-box">
-    <div class="profile-name" id="profileName">
-      Guest
-    </div>
-    <p class="muted" id="profileRank">
-      Unranked · 0%
-    </p>
-    <div style="margin-top:25px">
-      <p class="muted">
-        Approved orders:
-        <strong id="approvedCount">0</strong>
-      </p>
-    </div>
-  </div>
-</section>
-<!-- ADMIN -->
-<section class="view" id="admin">
-  <!-- LOGIN -->
-  <div class="admin-login" id="adminLogin">
-    <div style="font-size:38px;margin-bottom:15px">⚙</div>
-    <h2>Admin Panel</h2>
-    <p>
-      Administrator access required.
-    </p>
-    <input
-      id="adminUsername"
-      class="field"
-      placeholder="Username"
-    >
-    <input
-      id="adminPassword"
-      class="field"
-      type="password"
-      placeholder="Password"
-    >
-    <button class="admin-submit" onclick="adminLogin()">
-      Login to Admin Panel
-    </button>
-  </div>
-  <!-- DASHBOARD -->
-  <div class="admin-dashboard" id="adminDashboard">
-    <div class="admin-top">
-      <div>
-        <div class="eyebrow">CONTROL CENTER</div>
-        <h2>Admin Panel</h2>
-      </div>
-      <button class="logout-admin" onclick="adminLogout()">
-        Logout
-      </button>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <small>USERS</small>
-        <strong id="adminUsers">0</strong>
-      </div>
-      <div class="stat">
-        <small>PENDING ORDERS</small>
-        <strong id="adminPending">0</strong>
-      </div>
-      <div class="stat">
-        <small>APPROVED ORDERS</small>
-        <strong id="adminApproved">0</strong>
-      </div>
-    </div>
-    <div class="orders-box">
-      <div class="orders-head">
-        Pending Orders
-      </div>
-      <div id="pendingOrders"></div>
-    </div>
-  </div>
-</section>
-</main>
-<!-- DISCORD LOGIN -->
-<div class="modal" id="loginModal">
-  <div class="login-card">
-    <div class="discord-icon">◉</div>
-    <h2>Continue with Discord</h2>
-    <p>
-      Enter your Discord username to create your account.
-    </p>
-    <input
-      id="discordUsername"
-      placeholder="Discord username"
-    >
-    <button class="login-btn" onclick="createAccount()">
-      Continue
-    </button>
-    <button class="close-modal" onclick="closeLogin()">
-      Cancel
-    </button>
-  </div>
-</div>
-<div class="toast" id="toast">
-  Account creation successful
-</div>
-<script>
-const BGL_PRICE = 2.30;
-const RANKS = [
-  "Unranked",
-  "Rookie",
-  "Bronze",
-  "Silver",
-  "Gold",
-  "Platinum",
-  "Diamond",
-  "Elite",
-  "Champion",
-  "Apex"
-];
-let currentUser =
-  JSON.parse(localStorage.getItem("jpp_user")) || null;
-/* ================= NAVIGATION ================= */
-const titles = {
-  store:"Store",
-  buy:"Buy BGLs",
-  history:"Order History",
-  rank:"Rank Progress",
-  leaderboard:"Monthly Leaderboard",
-  profile:"Profile",
-  admin:"Admin Panel"
-};
-document.querySelectorAll(".nav button").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    showView(btn.dataset.view);
-  });
-});
-function showView(id){
-  document.querySelectorAll(".view").forEach(v=>{
-    v.classList.remove("active");
-  });
-  document.getElementById(id).classList.add("active");
-  document.querySelectorAll(".nav button").forEach(b=>{
-    b.classList.toggle(
-      "active",
-      b.dataset.view===id
-    );
-  });
-  document.getElementById("pageTitle").textContent =
-    titles[id];
-  if(id==="history") renderHistory();
-  if(id==="rank") renderRank();
-  if(id==="leaderboard") renderLeaderboard();
-  if(id==="profile") renderProfile();
-  if(id==="admin") renderAdmin();
-}
-/* ================= BUY ================= */
-function getAmount(){
-  let amount =
-    parseInt(
-      document.getElementById("bglAmount").value
-    );
-  if(isNaN(amount) || amount<1){
-    amount=1;
-  }
-  if(amount>999999){
-    amount=999999;
-  }
-  return amount;
-}
-function updateBuy(){
-  const amount=getAmount();
-  document.getElementById("bglAmount").value=amount;
-  const total=amount*BGL_PRICE;
-  document.getElementById("totalPrice").textContent =
-    total.toFixed(2)+"€";
-}
-function changeAmount(value){
-  const input=document.getElementById("bglAmount");
-  let amount=getAmount();
-  amount+=value;
-  if(amount<1) amount=1;
-  input.value=amount;
-  updateBuy();
-}
-function setAmount(amount,button){
-  document.getElementById("bglAmount").value=amount;
-  document.querySelectorAll(".preset")
-    .forEach(x=>x.classList.remove("selected"));
-  button.classList.add("selected");
-  updateBuy();
-}
-/* ================= USER ================= */
-function openLogin(){
-  document.getElementById("loginModal")
-    .classList.add("show");
-}
-function closeLogin(){
-  document.getElementById("loginModal")
-    .classList.remove("show");
-}
-function createAccount(){
-  const username =
-    document.getElementById("discordUsername")
-      .value.trim();
-  if(!username){
-    return;
-  }
-  currentUser={
-    username,
-    rankIndex:0,
-    progress:0,
-    orders:[]
-  };
-  localStorage.setItem(
-    "jpp_user",
-    JSON.stringify(currentUser)
-  );
-  closeLogin();
-  showToast("Account creation successful");
-  updateUserUI();
-}
-function updateUserUI(){
-  if(!currentUser){
-    document.getElementById("topUser")
-      .textContent="Not logged in";
-    document.getElementById("avatar")
-      .textContent="?";
-    return;
-  }
-  document.getElementById("topUser")
-    .textContent=currentUser.username;
-  document.getElementById("avatar")
-    .textContent=
-      currentUser.username
-        .charAt(0)
-        .toUpperCase();
-}
-/* ================= ORDERS ================= */
-function getOrders(){
-  return JSON.parse(
-    localStorage.getItem("jpp_orders") || "[]"
-  );
-}
-function saveOrders(orders){
-  localStorage.setItem(
-    "jpp_orders",
-    JSON.stringify(orders)
-  );
-}
-function createOrder(){
-  if(!currentUser){
-    openLogin();
-    return;
-  }
-  const amount=getAmount();
-  const orders=getOrders();
-  const order={
-    id:"ORD-"+Date.now(),
-    username:currentUser.username,
-    amount,
-    total:(amount*BGL_PRICE).toFixed(2),
-    status:"pending",
-    created:new Date().toLocaleString()
-  };
-  orders.push(order);
-  saveOrders(orders);
-  currentUser.orders =
-    currentUser.orders || [];
-  currentUser.orders.push(order.id);
-  localStorage.setItem(
-    "jpp_user",
-    JSON.stringify(currentUser)
-  );
-  showToast("Order created");
-  showView("history");
-  renderHistory();
-}
-/* ================= HISTORY ================= */
-function renderHistory(){
-  const box=
-    document.getElementById("historyList");
-  if(!currentUser){
-    box.innerHTML=`
-      <div class="empty">
-        Login to see your order history.
-      </div>
-    `;
-    return;
-  }
-  const orders=getOrders()
-    .filter(o=>o.username===currentUser.username);
-  if(!orders.length){
-    box.innerHTML=`
-      <div class="empty">
-        No orders yet.
-      </div>
-    `;
-    return;
-  }
-  box.innerHTML=orders
-    .reverse()
-    .map(o=>`
-      <div class="history-item">
-        <div>
-          <strong>${o.amount} BGL</strong>
-          <div class="muted">
-            ${o.created}
-          </div>
-        </div>
-        <div class="status">
-          ${o.status}
-        </div>
-      </div>
-    `)
-    .join("");
-}
-/* ================= RANK ================= */
-function renderRank(){
-  if(!currentUser){
-    document.getElementById("rankName")
-      .textContent="Unranked";
-    document.getElementById("rankPercent")
-      .textContent="0%";
-    document.getElementById("rankBar")
-      .style.width="0%";
-    return;
-  }
-  const index=currentUser.rankIndex || 0;
-  const progress=currentUser.progress || 0;
-  document.getElementById("rankName")
-    .textContent=RANKS[index];
-  document.getElementById("rankPercent")
-    .textContent=progress+"%";
-  document.getElementById("rankBar")
-    .style.width=progress+"%";
-}
-/* ================= PROFILE ================= */
-function renderProfile(){
-  if(!currentUser){
-    document.getElementById("profileName")
-      .textContent="Guest";
-    document.getElementById("profileRank")
-      .textContent="Unranked · 0%";
-    document.getElementById("approvedCount")
-      .textContent="0";
-    return;
-  }
-  const orders=getOrders();
-  const approved=orders.filter(
-    o=>
-      o.username===currentUser.username &&
-      o.status==="approved"
-  ).length;
-  document.getElementById("profileName")
-    .textContent=currentUser.username;
-  document.getElementById("profileRank")
-    .textContent=
-      RANKS[currentUser.rankIndex || 0]
-      +" · "
-      +(currentUser.progress || 0)
-      +"%";
-  document.getElementById("approvedCount")
-    .textContent=approved;
-}
-/* ================= LEADERBOARD ================= */
-function renderLeaderboard(){
-  const box=
-    document.getElementById("leaderboardList");
-  if(!currentUser){
-    box.innerHTML=`
-      <div class="empty">
-        No registered users yet.
-      </div>
-    `;
-    return;
-  }
-  box.innerHTML=`
-    <div class="history-item">
-      <div>
-        <strong>${currentUser.username}</strong>
-        <div class="muted">
-          ${RANKS[currentUser.rankIndex || 0]}
-        </div>
-      </div>
-      <strong>
-        ${currentUser.progress || 0}%
-      </strong>
-    </div>
-  `;
-}
-/* ================= ADMIN ================= */
-function adminLogin(){
-  const username=
-    document.getElementById("adminUsername").value;
-  const password=
-    document.getElementById("adminPassword").value;
-  if(
-    username==="JimpanAdmini" &&
-    password==="JimppaFortniteAdmin"
-  ){
-    sessionStorage.setItem(
-      "jpp_admin",
-      "true"
-    );
-    renderAdmin();
-    showToast("Admin login successful");
-  }else{
-    showToast("Invalid admin credentials");
-  }
-}
-function adminLogout(){
-  sessionStorage.removeItem("jpp_admin");
-  renderAdmin();
-}
-function renderAdmin(){
-  const logged=
-    sessionStorage.getItem("jpp_admin")==="true";
-  document.getElementById("adminLogin")
-    .style.display=
-      logged ? "none":"block";
-  document.getElementById("adminDashboard")
-    .style.display=
-      logged ? "block":"none";
-  if(!logged) return;
-  const orders=getOrders();
-  const pending=
-    orders.filter(o=>o.status==="pending");
-  const approved=
-    orders.filter(o=>o.status==="approved");
-  document.getElementById("adminUsers")
-    .textContent=
-      currentUser ? "1":"0";
-  document.getElementById("adminPending")
-    .textContent=pending.length;
-  document.getElementById("adminApproved")
-    .textContent=approved.length;
-  const box=
-    document.getElementById("pendingOrders");
-  if(!pending.length){
-    box.innerHTML=`
-      <div class="empty">
-        No pending orders.
-      </div>
-    `;
-    return;
-  }
-  box.innerHTML=pending.map(o=>`
-    <div class="order-row">
-      <div class="order-info">
-        <strong>
-          ${o.username} · ${o.amount} BGL
-        </strong>
-        <span>
-          ${o.id} · ${o.created} · ${o.total}€
-        </span>
-      </div>
-      <div class="order-actions">
-        <button
-          class="approve"
-          onclick="approveOrder('${o.id}')">
-          Approve
-        </button>
-        <button
-          class="reject"
-          onclick="rejectOrder('${o.id}')">
-          Reject
-        </button>
-      </div>
-    </div>
-  `).join("");
-}
-/* ================= APPROVAL ================= */
-function approveOrder(id){
-  const orders=getOrders();
-  const order=orders.find(o=>o.id===id);
-  if(!order) return;
-  order.status="approved";
-  saveOrders(orders);
-  /*
-    Each approved order gives 25% progress.
-    When 100% is reached, rank advances.
-  */
-  if(
-    currentUser &&
-    currentUser.username===order.username
-  ){
-    currentUser.progress =
-      (currentUser.progress || 0)+25;
-    if(currentUser.progress>=100){
-      if(
-        currentUser.rankIndex <
-        RANKS.length-1
-      ){
-        currentUser.rankIndex++;
-        currentUser.progress=0;
-      }else{
-        currentUser.progress=100;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08090d">
+  <title>J1mPPaZ BGL Autostore</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg: #07080c;
+      --panel: #0d0f15;
+      --panel2: #11141c;
+      --border: rgba(255,255,255,.08);
+      --text: #f5f7fb;
+      --muted: #858b9b;
+      --accent: #8b5cf6;
+      --accent2: #6d28d9;
+      --green: #35e58b;
+      --red: #ff4d67;
+      --gold: #f5c451;
+    }
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    body {
+      min-height: 100dvh;
+    }
+    button,
+    input {
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    /* ---------- SIDEBAR ---------- */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 250px;
+      z-index: 100;
+      padding: 24px 16px;
+      background:
+        linear-gradient(180deg, rgba(17,19,27,.98), rgba(7,8,12,.98));
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 8px 28px;
+    }
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      object-fit: contain;
+      background: #090a0f;
+      border: 1px solid rgba(139,92,246,.35);
+      box-shadow: 0 0 30px rgba(139,92,246,.2);
+    }
+    .brand-text strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: -.2px;
+    }
+    .brand-text span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .nav button {
+      width: 100%;
+      min-height: 46px;
+      border: 0;
+      border-radius: 12px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #aeb4c4;
+      background: transparent;
+      text-align: left;
+      transition: .2s ease;
+    }
+    .nav button:hover {
+      color: white;
+      background: rgba(255,255,255,.05);
+      transform: translateX(2px);
+    }
+    .nav button.active {
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(139,92,246,.2), rgba(139,92,246,.05));
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    .nav-icon {
+      width: 22px;
+      text-align: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .nav-label {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .sidebar-bottom {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 20px;
+    }
+    .user-mini {
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+    }
+    .user-mini-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .user-mini-rank {
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    /* ---------- TOPBAR ---------- */
+    .main {
+      margin-left: 250px;
+      min-height: 100dvh;
+    }
+    .topbar {
+      height: 72px;
+      padding: 0 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,8,12,.78);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 80;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .page-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: #9298a8;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(53,229,139,.8);
+    }
+    .login-top {
+      border: 1px solid rgba(139,92,246,.4);
+      color: white;
+      background: rgba(139,92,246,.12);
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .hamburger {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      color: white;
+      background: rgba(255,255,255,.04);
+      font-size: 20px;
+    }
+    /* ---------- CONTENT ---------- */
+    .content {
+      padding: 30px;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    .view {
+      display: none;
+      animation: fadeUp .25s ease;
+    }
+    .view.active {
+      display: block;
+    }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
-    localStorage.setItem(
-      "jpp_user",
-      JSON.stringify(currentUser)
-    );
-  }
-  showToast("Order approved");
-  renderAdmin();
-  renderRank();
-  renderProfile();
-  renderHistory();
-}
-/* ================= REJECT ================= */
-function rejectOrder(id){
-  const orders=getOrders();
-  const order=orders.find(o=>o.id===id);
-  if(!order) return;
-  order.status="rejected";
-  saveOrders(orders);
-  showToast("Order rejected");
-  renderAdmin();
-  renderHistory();
-}
-/* ================= TOAST ================= */
-let toastTimer;
-function showToast(message){
-  const toast=
-    document.getElementById("toast");
-  toast.textContent=message;
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{
-    toast.classList.remove("show");
-  },2800);
-}
-/* ================= INIT ================= */
-updateUserUI();
-updateBuy();
-renderRank();
-renderHistory();
-renderLeaderboard();
-renderProfile();
-</script>
+    /* ---------- HERO ---------- */
+    .hero {
+      min-height: 350px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 46px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,.22), transparent 35%),
+        radial-gradient(circle at 20% 100%, rgba(79,70,229,.11), transparent 40%),
+        linear-gradient(135deg, #11131b, #090a0e);
+    }
+    .hero:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 610px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 7px 10px;
+      border: 1px solid rgba(139,92,246,.3);
+      border-radius: 999px;
+      background: rgba(139,92,246,.08);
+      color: #bba4ff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      margin-top: 17px;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: .98;
+      letter-spacing: -2.8px;
+    }
+    .hero h1 span {
+      color: #a78bfa;
+    }
+    .hero p {
+      margin-top: 18px;
+      max-width: 500px;
+      color: #979dad;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 26px;
+    }
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .success-btn {
+      min-height: 44px;
+      padding: 0 17px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 800;
+      transition: .2s ease;
+    }
+    .primary-btn {
+      color: white;
+      border-color: rgba(139,92,246,.45);
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      box-shadow: 0 10px 30px rgba(109,40,217,.25);
+    }
+    .secondary-btn {
+      color: #d6d9e1;
+      background: rgba(255,255,255,.045);
+    }
+    .danger-btn {
+      color: #ff8091;
+      background: rgba(255,77,103,.08);
+      border-color: rgba(255,77,103,.2);
+    }
+    .success-btn {
+      color: #70efaa;
+      background: rgba(53,229,139,.08);
+      border-color: rgba(53,229,139,.2);
+    }
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+    /* ---------- FLOATING COINS ---------- */
+    .coin {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 30px rgba(0,0,0,.5));
+      animation: float 5s ease-in-out infinite;
+      opacity: .9;
+    }
+    .coin.one {
+      right: 16%;
+      top: 55px;
+      width: 125px;
+    }
+    .coin.two {
+      right: 5%;
+      bottom: 28px;
+      width: 90px;
+      animation-delay: -2s;
+    }
+    .coin.three {
+      right: 32%;
+      bottom: 5px;
+      width: 65px;
+      animation-delay: -1s;
+      opacity: .65;
+    }
+    @keyframes float {
+      0%,100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+      50% {
+        transform: translateY(-15px) rotate(4deg);
+      }
+    }
+    /* ---------- CARDS ---------- */
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+    .section-head h2 {
+      font-size: 24px;
+      letter-spacing: -.7px;
+    }
+    .section-head p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+    }
+    .card-title {
+      font-size: 12px;
+      color: #9298a8;
+      font-weight: 700;
+    }
+    .card-value {
+      margin-top: 9px;
+      font-size: 27px;
+      font-weight: 850;
+      letter-spacing: -.8px;
+    }
+    .card-small {
+      margin-top: 5px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    /* ---------- BUY ---------- */
+    .buy-shell {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      min-height: 480px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(135deg, #0d0f15, #090a0e);
+    }
+    .buy-visual {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle, rgba(139,92,246,.16), transparent 55%);
+    }
+    .orbit {
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      border: 1px solid rgba(139,92,246,.15);
+      border-radius: 50%;
+      animation: spin 18s linear infinite;
+    }
+    .orbit:before,
+    .orbit:after {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: #a78bfa;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #8b5cf6;
+    }
+    .orbit:before {
+      top: 15px;
+      left: 70px;
+    }
+    .orbit:after {
+      right: 30px;
+      bottom: 70px;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .big-coin {
+      position: relative;
+      z-index: 2;
+      width: 210px;
+      height: 210px;
+      object-fit: contain;
+      filter:
+        drop-shadow(0 0 35px rgba(139,92,246,.25))
+        drop-shadow(0 25px 30px rgba(0,0,0,.55));
+      animation: float 4s ease-in-out infinite;
+    }
+    .buy-info {
+      padding: 42px;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .buy-info h2 {
+      font-size: 31px;
+      letter-spacing: -1.2px;
+    }
+    .buy-info > p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 8px;
+      max-width: 450px;
+    }
+    .price-row {
+      margin-top: 25px;
+      padding: 13px 15px;
+      border-radius: 13px;
+      border: 1px solid rgba(139,92,246,.2);
+      background: rgba(139,92,246,.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .price-row span:first-child {
+      color: #9ca1b0;
+      font-size: 11px;
+    }
+    .price-row strong {
+      font-size: 18px;
+    }
+    .amount-box {
+      margin-top: 16px;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255,255,255,.025);
+    }
+    .amount-label {
+      display: flex;
+      justify-content: space-between;
+      color: #9ca1b0;
+      font-size: 11px;
+      margin-bottom: 11px;
+    }
+    .amount-control {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .step-btn {
+      width: 43px;
+      height: 43px;
+      flex: 0 0 43px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255,255,255,.04);
+      color: white;
+      font-size: 18px;
+    }
+    .amount-control input {
+      width: 100%;
+      min-width: 0;
+      height: 43px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      background: #090a0f;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .presets {
+      display: flex;
+      gap: 7px;
+      margin-top: 11px;
+      flex-wrap: wrap;
+    }
+    .preset {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,.035);
+      color: #aab0bf;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+    }
+    .total span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .total strong {
+      font-size: 27px;
+      letter-spacing: -.7px;
+    }
+    .create-order {
+      width: 100%;
+      margin-top: 16px;
+    }
+    /* ---------- TABLE ---------- */
+    .table-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.02);
+    }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+    th,
+    td {
+      padding: 16px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+    }
+    th {
+      color: #777d8d;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    td {
+      color: #cbd0db;
+    }
+    tr:last-child td {
+      border-bottom: 0;
+    }
+    .empty {
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .badge {
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+    }
+    .badge.pending {
+      color: #f5c451;
+      background: rgba(245,196,81,.1);
+    }
+    .badge.approved {
+      color: #63e99d;
+      background: rgba(53,229,139,.1);
+    }
+    .badge.rejected {
+      color: #ff7185;
+      background: rgba(255,77,103,.1);
+    }
+    /* ---------- RANK ---------- */
+    .rank-card {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(139,92,246,.13), transparent 35%),
+        #0d0f15;
+    }
+    .rank-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .rank-name {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+    .rank-percent {
+      font-size: 18px;
+      color: #a78bfa;
+      font-weight: 800;
+    }
+    .progress {
+      margin-top: 22px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #6d28d9, #a78bfa);
+      box-shadow: 0 0 20px rgba(139,92,246,.45);
+      transition: width .5s ease;
+    }
+    .rank-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 25px;
+    }
+    .rank-step {
+      padding: 12px 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-align: center;
+      color: #6f7584;
+      font-size: 9px;
+      font-weight: 800;
+    }
+    .rank-step.current {
+      color: white;
+      border-color: rgba(139,92,246,.45);
+      background: rgba(139,92,246,.1);
+    }
+    .rank-step.done {
+      color: #a78bfa;
+    }
+    /* ---------- PROFILE ---------- */
+    .profile-card {
+      max-width: 720px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      background: #0d0f15;
+    }
+    .profile-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      object-fit: contain;
+      border: 1px solid rgba(139,92,246,.3);
+      background: #090a0f;
+    }
+    .profile-name {
+      margin-top: 16px;
+      font-size: 25px;
+      font-weight: 900;
+    }
+    .profile-rank {
+      margin-top: 5px;
+      color: #a78bfa;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+    /* ---------- ADMIN ---------- */
+    .admin-login {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      border: 1px solid rgba(139,92,246,.2);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at top, rgba(139,92,246,.09), transparent 45%),
+        #0d0f15;
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+    }
+    .admin-login h2 {
+      font-size: 25px;
+    }
+    .admin-login p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .field {
+      margin-top: 16px;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: #9ca1b0;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .field input {
+      width: 100%;
+      height: 45px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      padding: 0 13px;
+      background: #08090d;
+      color: white;
+    }
+    .field input:focus {
+      border-color: rgba(139,92,246,.5);
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .admin-orders {
+      margin-top: 18px;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 7px;
+    }
+    /* ---------- MODAL ---------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(12px);
+    }
+    .modal-overlay.show {
+      display: flex;
+      animation: fadeIn .2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal {
+      width: min(450px, 100%);
+      padding: 30px;
+      border: 1px solid rgba(139,92,246,.25);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top, rgba(139,92,246,.13), transparent 45%),
+        #0d0f15;
+      box-shadow: 0 30px 100px rgba(0,0,0,.6);
+      animation: modalIn .25s ease;
+    }
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    .discord-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      background: #5865f2;
+      font-size: 27px;
+      box-shadow: 0 10px 30px rgba(88,101,242,.25);
+    }
+    .modal h2 {
+      margin-top: 18px;
+      font-size: 25px;
+    }
+    .modal p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    .modal-close {
+      float: right;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: rgba(255,255,255,.04);
+      color: #aaa;
+    }
+    /* ---------- TOAST ---------- */
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 1000;
+      max-width: min(360px, calc(100vw - 44px));
+      padding: 13px 16px;
+      border: 1px solid rgba(53,229,139,.2);
+      border-radius: 12px;
+      color: #d9ffe9;
+      background: rgba(9,18,14,.95);
+      box-shadow: 0 15px 50px rgba(0,0,0,.4);
+      font-size: 11px;
+      font-weight: 700;
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    /* ---------- MOBILE OVERLAY ---------- */
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: none;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(3px);
+    }
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1050px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .buy-shell {
+        grid-template-columns: 1fr;
+      }
+      .buy-visual {
+        min-height: 360px;
+      }
+      .buy-info {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+      }
+    }
+    @media (max-width: 700px) {
+      .sidebar {
+        width: min(280px, 86vw);
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        box-shadow: 20px 0 70px rgba(0,0,0,.5);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .mobile-overlay.show {
+        display: block;
+      }
+      .main {
+        margin-left: 0;
+        width: 100%;
+      }
+      .topbar {
+        height: 64px;
+        padding:
+          0
+          14px
+          0
+          max(14px, env(safe-area-inset-left));
+      }
+      .hamburger {
+        display: block;
+      }
+      .page-title {
+        display: none;
+      }
+      .status {
+        font-size: 10px;
+      }
+      .login-top {
+        padding: 8px 10px;
+        font-size: 10px;
+      }
+      .content {
+        padding:
+          18px
+          max(18px, env(safe-area-inset-right))
+          calc(24px + env(safe-area-inset-bottom))
+          max(18px, env(safe-area-inset-left));
+      }
+      .hero {
+        min-height: 480px;
+        padding: 27px 22px;
+        border-radius: 19px;
+      }
+      .hero h1 {
+        font-size: 42px;
+        letter-spacing: -2px;
+      }
+      .hero p {
+        font-size: 12px;
+      }
+      .hero-actions {
+        flex-direction: column;
+      }
+      .hero-actions button {
+        width: 100%;
+      }
+      .coin.one {
+        right: 13%;
+        top: auto;
+        bottom: 95px;
+        width: 105px;
+      }
+      .coin.two {
+        right: 1%;
+        bottom: 25px;
+        width: 70px;
+      }
+      .coin.three {
+        right: 42%;
+        bottom: 30px;
+        width: 52px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .buy-shell {
+        border-radius: 19px;
+      }
+      .buy-visual {
+        min-height: 300px;
+      }
+      .big-coin {
+        width: 155px;
+        height: 155px;
+      }
+      .orbit {
+        width: 225px;
+        height: 225px;
+      }
+      .buy-info {
+        padding: 23px 18px;
+      }
+      .buy-info h2 {
+        font-size: 26px;
+      }
+      .amount-control {
+        gap: 7px;
+      }
+      .step-btn {
+        width: 46px;
+        flex-basis: 46px;
+      }
+      .rank-card {
+        padding: 20px;
+      }
+      .rank-name {
+        font-size: 27px;
+      }
+      .rank-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .profile-stats {
+        grid-template-columns: 1fr;
+      }
+      .admin-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .admin-login {
+        margin: 20px auto;
+        padding: 22px;
+      }
+      .modal-overlay {
+        align-items: flex-end;
+        padding: 10px;
+      }
+      .modal {
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: max(0px, env(safe-area-inset-bottom));
+      }
+      .toast {
+        right: 14px;
+        bottom: calc(14px + env(safe-area-inset-bottom));
+        left: 14px;
+        max-width: none;
+      }
+    }
+    @media (max-width: 400px) {
+      .content {
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+      .hero {
+        padding: 23px 18px;
+      }
+      .hero h1 {
+        font-size: 36px;
+      }
+      .buy-info {
+        padding: 20px 15px;
+      }
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <img
+        class="brand-logo"
+        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+        alt="BGL"
+      >
+      <div class="brand-text">
+        <strong>J1mPPaZ</strong>
+        <span>BGL AUTOSTORE</span>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="active" data-view="store" onclick="showView('store')">
+        <span class="nav-icon">⌂</span>
+        <span class="nav-label">Store</span>
+      </button>
+      <button data-view="buy" onclick="showView('buy')">
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">Buy BGLs</span>
+      </button>
+      <button data-view="history" onclick="showView('history')">
+        <span class="nav-icon">◷</span>
+        <span class="nav-label">Order History</span>
+      </button>
+      <button data-view="rank" onclick="showView('rank')">
+        <span class="nav-icon">◆</span>
+        <span class="nav-label">Rank Progress</span>
+      </button>
+      <button data-view="leaderboard" onclick="showView('leaderboard')">
+        <span class="nav-icon">♛</span>
+        <span class="nav-label">Leaderboard</span>
+      </button>
+      <button data-view="profile" onclick="showView('profile')">
+        <span class="nav-icon">●</span>
+        <span class="nav-label">Profile</span>
+      </button>
+      <button data-view="admin" onclick="showView('admin')">
+        <span class="nav-icon">⚙</span>
+        <span class="nav-label">Admin Panel</span>
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="user-mini">
+        <div class="user-mini-name" id="miniUsername">Guest</div>
+        <div class="user-mini-rank" id="miniRank">Not signed in</div>
+      </div>
+    </div>
+  </aside>
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+        <div class="page-title" id="pageTitle">Store</div>
+        <div class="status">
+          <span class="status-dot"></span>
+          Store Online
+        </div>
+      </div>
+      <button class="login-top" id="topLogin" onclick="openDiscordModal()">
+        Sign in with Discord
+      </button>
+    </header>
+    <div class="content">
+      <!-- STORE -->
+      <section class="view active" id="view-store">
+        <div class="hero">
+          <div class="hero-content">
+            <span class="eyebrow">J1mPPaZ BGL AUTOSTORE</span>
+            <h1>
+              Fast.<br>
+              Clean.<br>
+              <span>Reliable.</span>
+            </h1>
+            <p>
+              Welcome to the J1mPPaZ BGL Autostore.
+              Manage your orders, track your rank and view your progress
+              from one clean dashboard.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-btn" onclick="showView('buy')">
+                Buy BGLs →
+              </button>
+              <button class="secondary-btn" onclick="showView('rank')">
+                View Rank
+              </button>
+            </div>
+          </div>
+          <img class="coin one"
+            src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+            alt="BGL">
+          <img class="coin two"
+            src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+            alt="BGL">
+          <img class="coin three"
+            src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+            alt="BGL">
+        </div>
+        <div style="height:24px"></div>
+        <div class="section-head">
+          <div>
+            <h2>Dashboard</h2>
+            <p>Your current account overview.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">Current Rank</div>
+            <div class="card-value" id="dashRank">Unranked</div>
+            <div class="card-small" id="dashProgress">0% progress</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Orders</div>
+            <div class="card-value" id="dashOrders">0</div>
+            <div class="card-small">Your total orders</div>
+          </div>
+          <div class="card">
+            <div class="card-title">BGL Purchased</div>
+            <div class="card-value" id="dashBgl">0</div>
+            <div class="card-small">Approved orders only</div>
+          </div>
+        </div>
+      </section>
+      <!-- BUY -->
+      <section class="view" id="view-buy">
+        <div class="section-head">
+          <div>
+            <h2>Buy BGLs</h2>
+            <p>Select the amount you want to order.</p>
+          </div>
+        </div>
+        <div class="buy-shell">
+          <div class="buy-visual">
+            <div class="orbit"></div>
+            <img
+              class="big-coin"
+              src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+              alt="BGL"
+            >
+          </div>
+          <div class="buy-info">
+            <h2>Build your order.</h2>
+            <p>
+              Choose your BGL amount below. Orders are added to your account
+              history and can be reviewed by the store admin.
+            </p>
+            <div class="price-row">
+              <span>Current BGL price</span>
+              <strong>€2.30 / BGL</strong>
+            </div>
+            <div class="amount-box">
+              <div class="amount-label">
+                <span>BGL Amount</span>
+                <span>1–1000</span>
+              </div>
+              <div class="amount-control">
+                <button class="step-btn" onclick="changeAmount(-1)">−</button>
+                <input
+                  id="bglAmount"
+                  type="number"
+                  min="1"
+                  max="1000"
+                  value="1"
+                  oninput="updateTotal()"
+                >
+                <button class="step-btn" onclick="changeAmount(1)">+</button>
+              </div>
+              <div class="presets">
+                <button class="preset" onclick="setAmount(1)">1</button>
+                <button class="preset" onclick="setAmount(5)">5</button>
+                <button class="preset" onclick="setAmount(10)">10</button>
+                <button class="preset" onclick="setAmount(25)">25</button>
+                <button class="preset" onclick="setAmount(50)">50</button>
+                <button class="preset" onclick="setAmount(100)">100</button>
+              </div>
+            </div>
+            <div class="total">
+              <span>Total</span>
+              <strong id="totalPrice">€2.30</strong>
+            </div>
+            <button class="primary-btn create-order" onclick="createOrder()">
+              Create Order
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- HISTORY -->
+      <section class="view" id="view-history">
+        <div class="section-head">
+          <div>
+            <h2>Order History</h2>
+            <p>All orders connected to your account.</p>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>BGL</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- RANK -->
+      <section class="view" id="view-rank">
+        <div class="section-head">
+          <div>
+            <h2>Rank Progress</h2>
+            <p>Your rank increases when approved orders are completed.</p>
+          </div>
+        </div>
+        <div class="rank-card">
+          <div class="rank-top">
+            <div>
+              <div style="color:#858b9b;font-size:10px;font-weight:700;">
+                CURRENT RANK
+              </div>
+              <div class="rank-name" id="rankName">Unranked</div>
+            </div>
+            <div class="rank-percent" id="rankPercent">0%</div>
+          </div>
+          <div class="progress">
+            <div class="progress-fill" id="rankFill"></div>
+          </div>
+          <div class="rank-list" id="rankList"></div>
+        </div>
+      </section>
+      <!-- LEADERBOARD -->
+      <section class="view" id="view-leaderboard">
+        <div class="section-head">
+          <div>
+            <h2>Monthly Leaderboard</h2>
+            <p>Only real accounts created on this store are shown.</p>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>User</th>
+                  <th>Rank</th>
+                  <th>Progress</th>
+                  <th>Approved BGL</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- PROFILE -->
+      <section class="view" id="view-profile">
+        <div class="section-head">
+          <div>
+            <h2>Profile</h2>
+            <p>Your store account.</p>
+          </div>
+        </div>
+        <div class="profile-card">
+          <img
+            class="profile-avatar"
+            src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+            alt="Profile"
+          >
+          <div class="profile-name" id="profileUsername">Guest</div>
+          <div class="profile-rank" id="profileRank">Not signed in</div>
+          <div class="profile-stats">
+            <div class="card">
+              <div class="card-title">Orders</div>
+              <div class="card-value" id="profileOrders">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Approved BGL</div>
+              <div class="card-value" id="profileBgl">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Rank Progress</div>
+              <div class="card-value" id="profileProgress">0%</div>
+            </div>
+          </div>
+          <button
+            class="secondary-btn"
+            style="margin-top:18px"
+            onclick="logout()"
+            id="logoutBtn"
+          >
+            Sign out
+          </button>
+        </div>
+      </section>
+      <!-- ADMIN -->
+      <section class="view" id="view-admin">
+        <div id="adminLoginView">
+          <div class="admin-login">
+            <div style="font-size:30px;">⚙️</div>
+            <h2>Admin Panel</h2>
+            <p>
+              Enter the administrator credentials to manage orders and
+              approve rank progress.
+            </p>
+            <div class="field">
+              <label>USERNAME</label>
+              <input id="adminUsername" autocomplete="off">
+            </div>
+            <div class="field">
+              <label>PASSWORD</label>
+              <input id="adminPassword" type="password">
+            </div>
+            <button
+              class="primary-btn"
+              style="width:100%;margin-top:18px"
+              onclick="adminLogin()"
+            >
+              Enter Admin Panel
+            </button>
+          </div>
+        </div>
+        <div id="adminDashboard" style="display:none">
+          <div class="section-head">
+            <div>
+              <h2>Admin Panel</h2>
+              <p>Manage orders and user rank progress.</p>
+            </div>
+            <button class="danger-btn" onclick="adminLogout()">
+              Logout
+            </button>
+          </div>
+          <div class="admin-grid">
+            <div class="card">
+              <div class="card-title">Users</div>
+              <div class="card-value" id="adminUsers">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Pending Orders</div>
+              <div class="card-value" id="adminPending">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Approved Orders</div>
+              <div class="card-value" id="adminApproved">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Total BGL</div>
+              <div class="card-value" id="adminBgl">0</div>
+            </div>
+          </div>
+          <div class="table-card admin-orders">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>User</th>
+                    <th>BGL</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="adminOrdersBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- DISCORD MODAL -->
+  <div class="modal-overlay" id="discordModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeDiscordModal()">×</button>
+      <div class="discord-icon">☁</div>
+      <h2>Continue with Discord</h2>
+      <p>
+        Enter a username to create your J1mPPaZ store account.
+      </p>
+      <div class="field">
+        <label>DISCORD USERNAME</label>
+        <input
+          id="discordUsername"
+          placeholder="Your username"
+          autocomplete="off"
+        >
+      </div>
+      <button
+        class="primary-btn"
+        style="width:100%;margin-top:18px"
+        onclick="createAccount()"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+  <script>
+    const PRICE = 2.30;
+    const RANKS = [
+      "Unranked",
+      "Rookie",
+      "Bronze",
+      "Silver",
+      "Gold",
+      "Platinum",
+      "Diamond",
+      "Elite",
+      "Champion",
+      "Apex"
+    ];
+    const ADMIN_USERNAME = "JimpanAdmini";
+    const ADMIN_PASSWORD = "JimppaFortniteAdmin";
+    /* ---------------- STORAGE ---------------- */
+    function getUsers() {
+      try {
+        return JSON.parse(localStorage.getItem("jpp_users") || "{}");
+      } catch {
+        return {};
+      }
+    }
+    function saveUsers(users) {
+      localStorage.setItem("jpp_users", JSON.stringify(users));
+    }
+    function getOrders() {
+      try {
+        return JSON.parse(localStorage.getItem("jpp_orders") || "[]");
+      } catch {
+        return [];
+      }
+    }
+    function saveOrders(orders) {
+      localStorage.setItem("jpp_orders", JSON.stringify(orders));
+    }
+    function getCurrentUsername() {
+      return localStorage.getItem("jpp_current_user");
+    }
+    function getCurrentUser() {
+      const username = getCurrentUsername();
+      if (!username) return null;
+      const users = getUsers();
+      return users[username] || null;
+    }
+    function saveCurrentUser(user) {
+      if (!user) return;
+      const users = getUsers();
+      users[user.username] = user;
+      saveUsers(users);
+    }
+    /* ---------------- SIDEBAR ---------------- */
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+      document.getElementById("mobileOverlay").classList.toggle("show");
+    }
+    function closeSidebar() {
+      document.getElementById("sidebar").classList.remove("open");
+      document.getElementById("mobileOverlay").classList.remove("show");
+    }
+    /* ---------------- VIEWS ---------------- */
+    function showView(view) {
+      document.querySelectorAll(".view").forEach(v => {
+        v.classList.remove("active");
+      });
+      document.querySelectorAll(".nav button").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      const target = document.getElementById("view-" + view);
+      if (!target) return;
+      target.classList.add("active");
+      const navButton = document.querySelector(
+        '.nav button[data-view="' + view + '"]'
+      );
+      if (navButton) {
+        navButton.classList.add("active");
+      }
+      const titles = {
+        store: "Store",
+        buy: "Buy BGLs",
+        history: "Order History",
+        rank: "Rank Progress",
+        leaderboard: "Monthly Leaderboard",
+        profile: "Profile",
+        admin: "Admin Panel"
+      };
+      document.getElementById("pageTitle").textContent =
+        titles[view] || "Store";
+      closeSidebar();
+      if (view === "history") renderHistory();
+      if (view === "rank") renderRank();
+      if (view === "leaderboard") renderLeaderboard();
+      if (view === "profile") renderProfile();
+      if (view === "admin") renderAdmin();
+      if (view === "store") renderDashboard();
+    }
+    /* ---------------- ACCOUNT ---------------- */
+    function openDiscordModal() {
+      document.getElementById("discordModal").classList.add("show");
+      setTimeout(() => {
+        document.getElementById("discordUsername").focus();
+      }, 100);
+    }
+    function closeDiscordModal() {
+      document.getElementById("discordModal").classList.remove("show");
+    }
+    function createAccount() {
+      const input = document.getElementById("discordUsername");
+      const username = input.value.trim();
+      if (!username) {
+        showToast("Enter your Discord username.");
+        return;
+      }
+      if (username.length < 2) {
+        showToast("Username is too short.");
+        return;
+      }
+      const users = getUsers();
+      if (!users[username]) {
+        users[username] = {
+          username,
+          rankIndex: 0,
+          progress: 0
+        };
+        saveUsers(users);
+      }
+      localStorage.setItem("jpp_current_user", username);
+      closeDiscordModal();
+      input.value = "";
+      updateUserUI();
+      showToast("Account creation successful");
+      showView("store");
+    }
+    function logout() {
+      localStorage.removeItem("jpp_current_user");
+      updateUserUI();
+      showToast("Signed out.");
+      showView("store");
+    }
+    function updateUserUI() {
+      const user = getCurrentUser();
+      const miniUsername = document.getElementById("miniUsername");
+      const miniRank = document.getElementById("miniRank");
+      const topLogin = document.getElementById("topLogin");
+      if (!user) {
+        miniUsername.textContent = "Guest";
+        miniRank.textContent = "Not signed in";
+        topLogin.textContent = "Sign in with Discord";
+      } else {
+        miniUsername.textContent = user.username;
+        miniRank.textContent =
+          RANKS[user.rankIndex] + " • " + user.progress + "%";
+        topLogin.textContent = user.username;
+      }
+      renderDashboard();
+      renderProfile();
+    }
+    /* ---------------- BUY ---------------- */
+    function getAmount() {
+      const input = document.getElementById("bglAmount");
+      let amount = parseInt(input.value, 10);
+      if (isNaN(amount)) amount = 1;
+      amount = Math.max(1, Math.min(1000, amount));
+      input.value = amount;
+      return amount;
+    }
+    function updateTotal() {
+      const amount = getAmount();
+      document.getElementById("totalPrice").textContent =
+        "€" + (amount * PRICE).toFixed(2);
+    }
+    function changeAmount(change) {
+      const input = document.getElementById("bglAmount");
+      let amount = parseInt(input.value, 10) || 1;
+      amount += change;
+      amount = Math.max(1, Math.min(1000, amount));
+      input.value = amount;
+      updateTotal();
+    }
+    function setAmount(amount) {
+      document.getElementById("bglAmount").value = amount;
+      updateTotal();
+    }
+    function createOrder() {
+      const user = getCurrentUser();
+      if (!user) {
+        openDiscordModal();
+        return;
+      }
+      const amount = getAmount();
+      const orders = getOrders();
+      const order = {
+        id: "BGL-" + Date.now().toString().slice(-8),
+        username: user.username,
+        amount,
+        total: Number((amount * PRICE).toFixed(2)),
+        status: "pending",
+        date: new Date().toLocaleString("fi-FI")
+      };
+      orders.unshift(order);
+      saveOrders(orders);
+      showToast("Order created successfully.");
+      showView("history");
+    }
+    /* ---------------- HISTORY ---------------- */
+    function renderHistory() {
+      const body = document.getElementById("historyBody");
+      if (!body) return;
+      const user = getCurrentUser();
+      if (!user) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="5">
+              <div class="empty">
+                Sign in with Discord to view your order history.
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      const orders = getOrders()
+        .filter(order => order.username === user.username);
+      if (!orders.length) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="5">
+              <div class="empty">
+                You don't have any orders yet.
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      body.innerHTML = orders.map(order => {
+        const statusClass =
+          order.status === "approved"
+            ? "approved"
+            : order.status === "rejected"
+            ? "rejected"
+            : "pending";
+        return `
+          <tr>
+            <td><strong>${escapeHTML(order.id)}</strong></td>
+            <td>${order.amount}</td>
+            <td>€${Number(order.total).toFixed(2)}</td>
+            <td>
+              <span class="badge ${statusClass}">
+                ${escapeHTML(order.status)}
+              </span>
+            </td>
+            <td>${escapeHTML(order.date)}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+    /* ---------------- RANK ---------------- */
+    function renderRank() {
+      const user = getCurrentUser();
+      const name = document.getElementById("rankName");
+      const percent = document.getElementById("rankPercent");
+      const fill = document.getElementById("rankFill");
+      const list = document.getElementById("rankList");
+      if (!user) {
+        name.textContent = "Unranked";
+        percent.textContent = "0%";
+        fill.style.width = "0%";
+      } else {
+        name.textContent = RANKS[user.rankIndex];
+        percent.textContent = user.progress + "%";
+        fill.style.width = user.progress + "%";
+      }
+      list.innerHTML = RANKS.map((rank, index) => {
+        let className = "rank-step";
+        if (user && index < user.rankIndex) {
+          className += " done";
+        }
+        if (user && index === user.rankIndex) {
+          className += " current";
+        }
+        return `
+          <div class="${className}">
+            ${rank}
+          </div>
+        `;
+      }).join("");
+    }
+    /* ---------------- LEADERBOARD ---------------- */
+    function renderLeaderboard() {
+      const body = document.getElementById("leaderboardBody");
+      const users = Object.values(getUsers());
+      users.sort((a, b) => {
+        if (b.rankIndex !== a.rankIndex) {
+          return b.rankIndex - a.rankIndex;
+        }
+        return b.progress - a.progress;
+      });
+      if (!users.length) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="5">
+              <div class="empty">
+                No users yet.
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      const orders = getOrders();
+      body.innerHTML = users.map((user, index) => {
+        const approvedBgl = orders
+          .filter(o =>
+            o.username === user.username &&
+            o.status === "approved"
+          )
+          .reduce((sum, o) => sum + Number(o.amount), 0);
+        return `
+          <tr>
+            <td><strong>#${index + 1}</strong></td>
+            <td>${escapeHTML(user.username)}</td>
+            <td>${RANKS[user.rankIndex]}</td>
+            <td>${user.progress}%</td>
+            <td>${approvedBgl}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+    /* ---------------- PROFILE ---------------- */
+    function renderProfile() {
+      const user = getCurrentUser();
+      if (!user) {
+        document.getElementById("profileUsername").textContent = "Guest";
+        document.getElementById("profileRank").textContent =
+          "Not signed in";
+        document.getElementById("profileOrders").textContent = "0";
+        document.getElementById("profileBgl").textContent = "0";
+        document.getElementById("profileProgress").textContent = "0%";
+        return;
+      }
+      const orders = getOrders()
+        .filter(order => order.username === user.username);
+      const approvedBgl = orders
+        .filter(order => order.status === "approved")
+        .reduce((sum, order) => sum + Number(order.amount), 0);
+      document.getElementById("profileUsername").textContent =
+        user.username;
+      document.getElementById("profileRank").textContent =
+        RANKS[user.rankIndex];
+      document.getElementById("profileOrders").textContent =
+        orders.length;
+      document.getElementById("profileBgl").textContent =
+        approvedBgl;
+      document.getElementById("profileProgress").textContent =
+        user.progress + "%";
+    }
+    /* ---------------- DASHBOARD ---------------- */
+    function renderDashboard() {
+      const user = getCurrentUser();
+      if (!user) {
+        document.getElementById("dashRank").textContent = "Unranked";
+        document.getElementById("dashProgress").textContent =
+          "Sign in to start";
+        document.getElementById("dashOrders").textContent = "0";
+        document.getElementById("dashBgl").textContent = "0";
+        return;
+      }
+      const orders = getOrders()
+        .filter(order => order.username === user.username);
+      const approvedBgl = orders
+        .filter(order => order.status === "approved")
+        .reduce((sum, order) => sum + Number(order.amount), 0);
+      document.getElementById("dashRank").textContent =
+        RANKS[user.rankIndex];
+      document.getElementById("dashProgress").textContent =
+        user.progress + "% progress";
+      document.getElementById("dashOrders").textContent =
+        orders.length;
+      document.getElementById("dashBgl").textContent =
+        approvedBgl;
+    }
+    /* ---------------- ADMIN ---------------- */
+    function adminLogin() {
+      const username =
+        document.getElementById("adminUsername").value.trim();
+      const password =
+        document.getElementById("adminPassword").value;
+      if (
+        username === ADMIN_USERNAME &&
+        password === ADMIN_PASSWORD
+      ) {
+        sessionStorage.setItem("jpp_admin", "true");
+        document.getElementById("adminUsername").value = "";
+        document.getElementById("adminPassword").value = "";
+        showToast("Admin login successful.");
+        renderAdmin();
+      } else {
+        showToast("Invalid admin credentials.");
+      }
+    }
+    function adminLogout() {
+      sessionStorage.removeItem("jpp_admin");
+      renderAdmin();
+      showToast("Admin logged out.");
+    }
+    function renderAdmin() {
+      const loggedIn =
+        sessionStorage.getItem("jpp_admin") === "true";
+      document.getElementById("adminLoginView").style.display =
+        loggedIn ? "none" : "block";
+      document.getElementById("adminDashboard").style.display =
+        loggedIn ? "block" : "none";
+      if (!loggedIn) return;
+      const users = getUsers();
+      const orders = getOrders();
+      const pending = orders.filter(o => o.status === "pending");
+      const approved = orders.filter(o => o.status === "approved");
+      const approvedBgl = approved.reduce(
+        (sum, order) => sum + Number(order.amount),
+        0
+      );
+      document.getElementById("adminUsers").textContent =
+        Object.keys(users).length;
+      document.getElementById("adminPending").textContent =
+        pending.length;
+      document.getElementById("adminApproved").textContent =
+        approved.length;
+      document.getElementById("adminBgl").textContent =
+        approvedBgl;
+      const body = document.getElementById("adminOrdersBody");
+      if (!orders.length) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="6">
+              <div class="empty">
+                No orders yet.
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      body.innerHTML = orders.map(order => {
+        let actions = "—";
+        if (order.status === "pending") {
+          actions = `
+            <div class="admin-actions">
+              <button
+                class="success-btn"
+                onclick="approveOrder('${order.id}')"
+              >
+                Approve
+              </button>
+              <button
+                class="danger-btn"
+                onclick="rejectOrder('${order.id}')"
+              >
+                Reject
+              </button>
+            </div>
+          `;
+        }
+        const statusClass =
+          order.status === "approved"
+            ? "approved"
+            : order.status === "rejected"
+            ? "rejected"
+            : "pending";
+        return `
+          <tr>
+            <td><strong>${escapeHTML(order.id)}</strong></td>
+            <td>${escapeHTML(order.username)}</td>
+            <td>${order.amount}</td>
+            <td>€${Number(order.total).toFixed(2)}</td>
+            <td>
+              <span class="badge ${statusClass}">
+                ${escapeHTML(order.status)}
+              </span>
+            </td>
+            <td>${actions}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+    function approveOrder(orderId) {
+      if (sessionStorage.getItem("jpp_admin") !== "true") {
+        return;
+      }
+      const orders = getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (!order || order.status !== "pending") {
+        return;
+      }
+      order.status = "approved";
+      saveOrders(orders);
+      const users = getUsers();
+      const user = users[order.username];
+      if (user) {
+        user.progress += 25;
+        while (
+          user.progress >= 100 &&
+          user.rankIndex < RANKS.length - 1
+        ) {
+          user.progress -= 100;
+          user.rankIndex++;
+        }
+        if (user.rankIndex === RANKS.length - 1) {
+          user.progress = 100;
+        }
+        users[user.username] = user;
+        saveUsers(users);
+      }
+      renderAdmin();
+      updateUserUI();
+      renderHistory();
+      renderLeaderboard();
+      renderRank();
+      showToast("Order approved. Rank progress updated.");
+    }
+    function rejectOrder(orderId) {
+      if (sessionStorage.getItem("jpp_admin") !== "true") {
+        return;
+      }
+      const orders = getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (!order || order.status !== "pending") {
+        return;
+      }
+      order.status = "rejected";
+      saveOrders(orders);
+      renderAdmin();
+      renderHistory();
+      showToast("Order rejected.");
+    }
+    /* ---------------- HELPERS ---------------- */
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
+    }
+    /* ---------------- INIT ---------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      updateTotal();
+      updateUserUI();
+      renderHistory();
+      renderRank();
+      renderLeaderboard();
+      renderProfile();
+      renderAdmin();
+      document
+        .getElementById("discordUsername")
+        .addEventListener("keydown", event => {
+          if (event.key === "Enter") {
+            createAccount();
+          }
+        });
+      document
+        .getElementById("adminPassword")
+        .addEventListener("keydown", event => {
+          if (event.key === "Enter") {
+            adminLogin();
+          }
+        });
+      document
+        .getElementById("discordModal")
+        .addEventListener("click", event => {
+          if (event.target.id === "discordModal") {
+            closeDiscordModal();
+          }
+        });
+    });
+  </script>
 </body>
 </html>
