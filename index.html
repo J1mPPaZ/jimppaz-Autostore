@@ -3,681 +3,816 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J1mPPaZ BGL Autostore</title>
+<title>J1mPPaZ BGL Store</title>
 
 <style>
-:root {
-  --bg: #07080d;
-  --panel: #0d1018;
-  --panel2: #111522;
-  --line: #202636;
-  --text: #f5f7fb;
-  --muted: #8b93a7;
-  --accent: #8b5cf6;
-  --accent2: #22d3ee;
-  --green: #34d399;
+:root{
+  --bg:#07080c;
+  --panel:#0d1017;
+  --panel2:#11151e;
+  --panel3:#151a25;
+  --line:#202633;
+  --text:#f5f7fb;
+  --muted:#858da0;
+  --purple:#8b5cf6;
+  --purple2:#a78bfa;
+  --cyan:#22d3ee;
+  --green:#34d399;
+  --red:#fb7185;
 }
 
-* {
-  box-sizing: border-box;
-}
+*{box-sizing:border-box}
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
   background:
-    radial-gradient(circle at 75% 0%, #19142f 0%, transparent 35%),
-    radial-gradient(circle at 10% 90%, #10182a 0%, transparent 30%),
-    #07080d;
-  color: var(--text);
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    radial-gradient(circle at 80% -10%,rgba(139,92,246,.17),transparent 32%),
+    radial-gradient(circle at -10% 100%,rgba(34,211,238,.08),transparent 30%),
+    var(--bg);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-button {
-  font: inherit;
+button{
+  font:inherit;
 }
 
-.app {
-  min-height: 100vh;
+button:focus{
+  outline:none;
+}
+
+.app{
+  min-height:100vh;
 }
 
 /* SIDEBAR */
 
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 245px;
-  padding: 22px 15px;
-  background: rgba(7, 9, 15, 0.92);
-  border-right: 1px solid var(--line);
-  backdrop-filter: blur(20px);
-  z-index: 20;
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:250px;
+  padding:22px 15px;
+  background:rgba(7,9,14,.94);
+  border-right:1px solid var(--line);
+  backdrop-filter:blur(25px);
+  z-index:20;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 5px 10px 30px;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:4px 10px 30px;
 }
 
-.logo-box {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-weight: 900;
-  font-size: 18px;
-  background: linear-gradient(
-    135deg,
-    var(--accent),
-    var(--accent2)
-  );
+.logo-box{
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  font-weight:950;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  box-shadow:0 10px 35px rgba(139,92,246,.25);
 }
 
-.logo-text strong {
-  display: block;
-  font-size: 15px;
+.logo strong{
+  display:block;
+  font-size:15px;
 }
 
-.logo-text span {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: .12em;
-  margin-top: 2px;
+.logo span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.16em;
 }
 
-.nav {
-  display: grid;
-  gap: 6px;
+.nav{
+  display:grid;
+  gap:5px;
 }
 
-.nav button {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  color: #8f97aa;
-  text-align: left;
-  padding: 12px 13px;
-  border-radius: 11px;
-  cursor: pointer;
-  font-weight: 650;
-  transition: .2s;
+.nav button{
+  width:100%;
+  padding:12px 13px;
+  border:0;
+  border-radius:11px;
+  background:transparent;
+  color:#858da0;
+  text-align:left;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+  transition:.2s;
 }
 
-.nav button:hover {
-  color: white;
-  background: #121722;
+.nav button:hover{
+  color:white;
+  background:#121722;
 }
 
-.nav button.active {
-  color: white;
-  background: #171b29;
-  box-shadow: inset 2px 0 var(--accent);
+.nav button.active{
+  color:white;
+  background:linear-gradient(90deg,#181c29,#12151d);
+  box-shadow:inset 2px 0 var(--purple);
 }
 
 /* MAIN */
 
-.main {
-  margin-left: 245px;
-  padding: 28px;
-  max-width: 1500px;
+.main{
+  margin-left:250px;
+  padding:28px;
+  max-width:1550px;
 }
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:28px;
 }
 
-.eyebrow {
-  color: #8f96aa;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .16em;
-  text-transform: uppercase;
+.eyebrow{
+  color:#7f8799;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.17em;
+  text-transform:uppercase;
 }
 
-.page-title {
-  margin: 5px 0 0;
-  font-size: 28px;
-  letter-spacing: -.03em;
+.page-title{
+  margin:5px 0 0;
+  font-size:29px;
+  letter-spacing:-.04em;
 }
 
-.discord-btn {
-  border: 1px solid #30384c;
-  background: #111624;
-  color: white;
-  padding: 11px 17px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 750;
-  transition: .2s;
+.discord-btn{
+  padding:11px 16px;
+  border:1px solid #30384b;
+  border-radius:12px;
+  background:#111622;
+  color:white;
+  cursor:pointer;
+  font-weight:800;
+  transition:.2s;
 }
 
-.discord-btn:hover {
-  background: #5865f2;
-  border-color: #5865f2;
+.discord-btn:hover{
+  background:#5865f2;
+  border-color:#5865f2;
 }
 
 /* VIEWS */
 
-.view {
-  display: none;
+.view{
+  display:none;
 }
 
-.view.active {
-  display: block;
+.view.active{
+  display:block;
 }
 
 /* HERO */
 
-.hero {
-  min-height: 420px;
-  display: grid;
-  grid-template-columns: 1.1fr .9fr;
-  border: 1px solid var(--line);
-  border-radius: 25px;
-  overflow: hidden;
-  position: relative;
+.hero{
+  min-height:470px;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  border:1px solid var(--line);
+  border-radius:27px;
   background:
-    linear-gradient(
-      120deg,
-      rgba(17, 20, 31, .98),
-      rgba(9, 11, 18, .85)
-    );
+    linear-gradient(135deg,rgba(18,21,31,.98),rgba(8,10,15,.95));
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  right: -160px;
-  top: -180px;
-  background: rgba(139, 92, 246, .15);
-  filter: blur(90px);
-  border-radius: 50%;
+.hero:before{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  right:-150px;
+  top:-230px;
+  border-radius:50%;
+  background:rgba(139,92,246,.15);
+  filter:blur(90px);
 }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  padding: 55px;
+.hero-content{
+  position:relative;
+  z-index:2;
+  padding:60px;
 }
 
-.hero-content h2 {
-  font-size: 55px;
-  line-height: 1;
-  letter-spacing: -.055em;
-  margin: 12px 0 20px;
+.hero h2{
+  margin:13px 0 20px;
+  font-size:63px;
+  line-height:.94;
+  letter-spacing:-.065em;
 }
 
-.hero-content p {
-  max-width: 570px;
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 15px;
+.hero p{
+  max-width:580px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
 }
 
-.tags {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap;
-  margin: 25px 0;
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:25px 0;
 }
 
-.tag {
-  padding: 8px 11px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: #0d111b;
-  color: #b8bfd0;
-  font-size: 11px;
+.tag{
+  padding:8px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#0c1018;
+  color:#b9c0cf;
+  font-size:10px;
+  font-weight:700;
 }
 
-.primary-btn {
-  border: 0;
-  color: white;
-  background: linear-gradient(
-    135deg,
-    var(--accent),
-    #6749e8
-  );
-  padding: 13px 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 800;
-  transition: .2s;
+.primary{
+  padding:13px 18px;
+  border:0;
+  border-radius:12px;
+  color:white;
+  background:linear-gradient(135deg,var(--purple),#6948e8);
+  cursor:pointer;
+  font-weight:850;
+  box-shadow:0 10px 35px rgba(139,92,246,.16);
+  transition:.2s;
 }
 
-.primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(139,92,246,.25);
+.primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 15px 40px rgba(139,92,246,.27);
 }
 
-.hero-image {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  padding: 30px;
+.hero-image{
+  position:relative;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  padding:35px;
 }
 
-.bgl-image {
-  width: min(390px, 90%);
-  max-height: 340px;
-  object-fit: contain;
-
-  /* makes the transparent PNG look clean */
-  filter: drop-shadow(0 30px 45px rgba(0,0,0,.65));
-
-  image-rendering: auto;
+.bgl-image{
+  width:min(420px,90%);
+  max-height:370px;
+  object-fit:contain;
+  filter:drop-shadow(0 35px 55px rgba(0,0,0,.7));
 }
 
 /* STATS */
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 13px;
-  margin-top: 14px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:14px;
 }
 
-.stat {
-  border: 1px solid var(--line);
-  background: rgba(13,16,24,.82);
-  border-radius: 16px;
-  padding: 18px;
+.stat{
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(13,16,23,.86);
 }
 
-.stat small {
-  color: var(--muted);
-  font-size: 11px;
+.stat small{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:700;
 }
 
-.stat strong {
-  display: block;
-  margin-top: 7px;
-  font-size: 21px;
+.stat strong{
+  display:block;
+  margin-top:7px;
+  font-size:20px;
 }
 
 /* CARDS */
 
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  margin: 30px 0 14px;
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin:31px 0 14px;
 }
 
-.section-head h3 {
-  margin: 4px 0 0;
-  font-size: 20px;
+.section-head h3{
+  margin:4px 0 0;
+  font-size:20px;
 }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
 }
 
-.card {
-  border: 1px solid var(--line);
-  background: rgba(13,16,24,.85);
-  border-radius: 17px;
-  padding: 20px;
+.card{
+  padding:20px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:rgba(13,16,23,.86);
 }
 
-.feature {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.feature{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-.feature-icon {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    #1c2130,
-    #111522
-  );
-  border: 1px solid #2c3447;
-  display: grid;
-  place-items: center;
-  font-weight: 900;
+.feature-icon{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  border-radius:14px;
+  border:1px solid #2b3344;
+  background:linear-gradient(135deg,#1b2030,#11151e);
+  font-weight:900;
+  font-size:18px;
 }
 
-.feature b {
-  display: block;
+.feature b{
+  display:block;
 }
 
-.feature span {
-  display: block;
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 12px;
+.feature span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* STORE */
+
+.store-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.product{
+  position:relative;
+  overflow:hidden;
+  padding:23px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(145deg,#11151e,#0b0e14);
+}
+
+.product:hover{
+  border-color:#353d51;
+}
+
+.product-image{
+  height:130px;
+  display:grid;
+  place-items:center;
+}
+
+.product-image img{
+  width:120px;
+  max-height:115px;
+  object-fit:contain;
+  filter:drop-shadow(0 15px 20px rgba(0,0,0,.55));
+}
+
+.product h3{
+  margin:14px 0 5px;
+  font-size:18px;
+}
+
+.product p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.price{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin-top:20px;
+}
+
+.price strong{
+  font-size:23px;
+}
+
+.price span{
+  color:var(--muted);
+  font-size:10px;
 }
 
 /* RANKS */
 
-.rank-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 13px;
+.rank-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
 }
 
-.rank-card {
-  padding: 17px;
-  border: 1px solid var(--line);
-  background: #0d1018;
-  border-radius: 15px;
-  transition: .2s;
+.rank-card{
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#0d1017;
 }
 
-.rank-card:hover {
-  transform: translateY(-2px);
-  border-color: #343d55;
+.rank-top{
+  display:flex;
+  align-items:center;
+  gap:13px;
 }
 
-.rank-top {
-  display: flex;
-  align-items: center;
-  gap: 13px;
+.rank-icon{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  border:1px solid #2c3446;
+  background:linear-gradient(135deg,#1b2030,#11151e);
+  font-weight:950;
 }
 
-.rank-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 13px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(
-    135deg,
-    #1c2130,
-    #111522
-  );
-  border: 1px solid #2d3548;
-  font-weight: 900;
+.rank-name{
+  font-weight:850;
 }
 
-.rank-name {
-  font-weight: 800;
+.rank-desc{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
 }
 
-.rank-description {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 4px;
+.current{
+  margin-left:auto;
+  color:var(--purple2);
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
 }
 
-.current {
-  margin-left: auto;
-  color: #a78bfa;
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
+.progress{
+  height:7px;
+  margin-top:15px;
+  overflow:hidden;
+  border-radius:20px;
+  background:#191e29;
 }
 
-.progress {
-  height: 7px;
-  background: #191e2b;
-  border-radius: 20px;
-  margin-top: 14px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 68%;
-  border-radius: 20px;
-  background: linear-gradient(
-    90deg,
-    var(--accent),
-    var(--accent2)
-  );
+.progress-bar{
+  width:0%;
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,var(--purple),var(--cyan));
+  transition:.5s;
 }
 
 /* TABLE */
 
-.table-card {
-  border: 1px solid var(--line);
-  background: #0d1018;
-  border-radius: 17px;
-  overflow: hidden;
+.table-card{
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#0d1017;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+table{
+  width:100%;
+  border-collapse:collapse;
 }
 
-th,
-td {
-  padding: 15px 18px;
-  text-align: left;
-  border-bottom: 1px solid var(--line);
+th,td{
+  padding:15px 18px;
+  text-align:left;
+  border-bottom:1px solid var(--line);
 }
 
-th {
-  color: var(--muted);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .12em;
+th{
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
 }
 
-td {
-  font-size: 13px;
+td{
+  font-size:12px;
 }
 
-.badge {
-  display: inline-flex;
-  padding: 5px 8px;
-  border-radius: 7px;
-  background: #171d2a;
-  color: #c8cede;
-  font-size: 10px;
-  font-weight: 800;
+.badge{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:7px;
+  background:#171c28;
+  color:#c8cede;
+  font-size:9px;
+  font-weight:850;
+}
+
+/* PROFILE */
+
+.profile{
+  max-width:700px;
+}
+
+.profile-card{
+  padding:30px;
+  border:1px solid var(--line);
+  border-radius:21px;
+  background:#0d1017;
+}
+
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding-bottom:25px;
+  border-bottom:1px solid var(--line);
+}
+
+.avatar{
+  width:70px;
+  height:70px;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  background:linear-gradient(135deg,#5865f2,#7289da);
+  font-size:25px;
+  font-weight:950;
+}
+
+.profile-name{
+  font-size:21px;
+  font-weight:900;
+}
+
+.profile-sub{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.profile-info{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:22px;
+}
+
+.info{
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#0a0d13;
+}
+
+.info small{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.info strong{
+  display:block;
+  margin-top:5px;
 }
 
 /* LOGIN */
 
-.login-wrapper {
-  max-width: 600px;
-  margin: 70px auto;
+.login-box{
+  max-width:520px;
+  margin:70px auto;
+  padding:45px;
+  text-align:center;
+  border:1px solid var(--line);
+  border-radius:23px;
+  background:#0d1017;
 }
 
-.login-card {
-  text-align: center;
-  padding: 45px;
-  border: 1px solid var(--line);
-  background: #0d1018;
-  border-radius: 22px;
+.discord-logo{
+  width:75px;
+  height:75px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 20px;
+  border-radius:23px;
+  background:#5865f2;
+  font-size:30px;
+  font-weight:950;
+  box-shadow:0 15px 40px rgba(88,101,242,.22);
 }
 
-.discord-logo {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 20px;
-  border-radius: 22px;
-  background: #5865f2;
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  font-weight: 900;
+.login-box h2{
+  margin:0 0 8px;
 }
 
-.login-card h2 {
-  margin: 0 0 8px;
-  font-size: 30px;
-}
-
-.login-card p {
-  color: var(--muted);
-  line-height: 1.6;
+.login-box p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:12px;
 }
 
 /* ADMIN */
 
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
 }
 
-.admin-warning {
-  margin-top: 15px;
-  padding: 16px;
-  border-radius: 13px;
-  border: 1px dashed #394258;
-  color: var(--muted);
-  background: #0b0e15;
-  font-size: 12px;
-  line-height: 1.6;
+.admin-login{
+  max-width:450px;
+  margin:70px auto;
+  padding:32px;
+  border:1px solid var(--line);
+  border-radius:21px;
+  background:#0d1017;
+}
+
+.input{
+  width:100%;
+  margin-top:12px;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  outline:none;
+  background:#090c12;
+  color:white;
+}
+
+.input:focus{
+  border-color:var(--purple);
+}
+
+.admin-login button{
+  width:100%;
+  margin-top:14px;
+}
+
+.admin-content{
+  display:none;
+}
+
+.admin-content.show{
+  display:block;
+}
+
+.warning{
+  margin-top:14px;
+  padding:14px;
+  border:1px dashed #343d50;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
 }
 
 /* EMPTY */
 
-.empty {
-  padding: 45px;
-  text-align: center;
+.empty{
+  padding:60px 20px;
+  text-align:center;
 }
 
-.empty-icon {
-  font-size: 35px;
-  margin-bottom: 10px;
+.empty-icon{
+  margin-bottom:10px;
+  font-size:32px;
 }
 
-.empty h3 {
-  margin: 0 0 7px;
+.empty h3{
+  margin:0 0 7px;
 }
 
-.empty p {
-  color: var(--muted);
-  margin: 0;
-}
-
-/* MOBILE NAV */
-
-.mobile-nav {
-  display: none;
+.empty p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
 }
 
 /* MOBILE */
 
-@media(max-width: 900px) {
+.mobile-nav{
+  display:none;
+}
 
-  .sidebar {
-    display: none;
+@media(max-width:900px){
+
+  .sidebar{
+    display:none;
   }
 
-  .main {
-    margin-left: 0;
-    padding: 17px 15px 90px;
+  .main{
+    margin-left:0;
+    padding:17px 15px 95px;
   }
 
-  .hero {
-    grid-template-columns: 1fr;
+  .hero{
+    grid-template-columns:1fr;
   }
 
-  .hero-content {
-    padding: 32px 25px 15px;
+  .hero-content{
+    padding:35px 25px 15px;
   }
 
-  .hero-content h2 {
-    font-size: 40px;
+  .hero h2{
+    font-size:43px;
   }
 
-  .hero-image {
-    padding: 15px 20px 35px;
+  .hero-image{
+    padding:10px 20px 35px;
   }
 
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
+  .stats{
+    grid-template-columns:repeat(2,1fr);
   }
 
   .card-grid,
+  .store-grid,
   .rank-grid,
-  .admin-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .admin-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .mobile-nav {
-    display: flex;
-    position: fixed;
-    z-index: 50;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    padding: 7px;
-    gap: 5px;
-    background: rgba(12,15,23,.95);
-    border: 1px solid var(--line);
-    border-radius: 17px;
-    backdrop-filter: blur(18px);
+  .mobile-nav{
+    display:flex;
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:50;
+    gap:5px;
+    padding:7px;
+    border:1px solid var(--line);
+    border-radius:17px;
+    background:rgba(12,15,23,.96);
+    backdrop-filter:blur(18px);
   }
 
-  .mobile-nav button {
-    flex: 1;
-    border: 0;
-    background: transparent;
-    color: #858da2;
-    padding: 8px 3px;
-    font-size: 10px;
-    border-radius: 10px;
+  .mobile-nav button{
+    flex:1;
+    padding:8px 2px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    color:#858da0;
+    font-size:9px;
   }
 
-  .mobile-nav button.active {
-    color: white;
-    background: #191e2c;
+  .mobile-nav button.active{
+    color:white;
+    background:#191e2c;
   }
 }
 
-@media(max-width: 560px) {
+@media(max-width:560px){
 
-  .topbar {
-    margin-bottom: 20px;
+  .topbar{
+    margin-bottom:20px;
   }
 
-  .page-title {
-    font-size: 22px;
+  .page-title{
+    font-size:22px;
   }
 
-  .discord-btn {
-    padding: 9px 11px;
-    font-size: 11px;
+  .discord-btn{
+    padding:9px 10px;
+    font-size:10px;
   }
 
-  .hero-content h2 {
-    font-size: 36px;
+  .hero h2{
+    font-size:37px;
   }
 
   .stats,
   .card-grid,
+  .store-grid,
   .rank-grid,
-  .admin-grid {
-    grid-template-columns: 1fr;
+  .admin-grid,
+  .profile-info{
+    grid-template-columns:1fr;
   }
 
-  .table {
-    font-size: 12px;
-  }
-
-  th,
-  td {
-    padding: 12px;
+  .login-box{
+    margin:35px auto;
+    padding:30px 20px;
   }
 }
 </style>
@@ -687,691 +822,671 @@ td {
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
   <div class="logo">
+    <div class="logo-box">J</div>
 
-    <div class="logo-box">
-      J
-    </div>
-
-    <div class="logo-text">
+    <div>
       <strong>J1mPPaZ</strong>
       <span>BGL AUTOSTORE</span>
     </div>
-
   </div>
 
   <nav class="nav">
 
-    <button class="active" data-view="store">
-      ⌂ &nbsp; Store
-    </button>
-
-    <button data-view="orders">
-      ▣ &nbsp; Order History
-    </button>
-
-    <button data-view="ranks">
-      ✦ &nbsp; Rank Progress
-    </button>
-
-    <button data-view="leaderboard">
-      ♛ &nbsp; Leaderboard
-    </button>
-
-    <button data-view="profile">
-      ● &nbsp; Profile
-    </button>
-
-    <button data-view="admin">
-      ⚙ &nbsp; Admin Panel
-    </button>
+    <button class="active" data-view="store">⌂ &nbsp; Store</button>
+    <button data-view="buy">▣ &nbsp; Buy BGLs</button>
+    <button data-view="orders">▤ &nbsp; Order History</button>
+    <button data-view="ranks">✦ &nbsp; Rank Progress</button>
+    <button data-view="leaderboard">♛ &nbsp; Leaderboard</button>
+    <button data-view="profile">● &nbsp; Profile</button>
+    <button data-view="admin">⚙ &nbsp; Admin Panel</button>
 
   </nav>
 
 </aside>
 
-
-<!-- MAIN -->
-
 <main class="main">
 
-  <header class="topbar">
+<header class="topbar">
 
-    <div>
+  <div>
+    <div class="eyebrow">J1mPPaZ / BGL AUTOSTORE</div>
+    <h1 class="page-title" id="pageTitle">Store</h1>
+  </div>
+
+  <button class="discord-btn" onclick="discordLogin()">
+    <span id="loginButtonText">Login with Discord</span>
+  </button>
+
+</header>
+
+
+<!-- STORE -->
+
+<section id="store" class="view active">
+
+  <div class="hero">
+
+    <div class="hero-content">
 
       <div class="eyebrow">
-        J1mPPaZ / AUTOSTORE
+        BGL STORE • ONLINE
       </div>
 
-      <h1 class="page-title" id="pageTitle">
-        Store
-      </h1>
+      <h2>
+        Your BGL.<br>
+        Your way.
+      </h2>
+
+      <p>
+        Welcome to J1mPPaZ BGL Autostore.
+        Manage your account, track orders, view your
+        rank progression and see the monthly leaderboard
+        from one clean dashboard.
+      </p>
+
+      <div class="tags">
+        <span class="tag">⚡ Fast</span>
+        <span class="tag">◈ Discord Account</span>
+        <span class="tag">✦ Rank System</span>
+        <span class="tag">♛ Leaderboard</span>
+      </div>
+
+      <button class="primary" onclick="showView('buy')">
+        Browse BGLs
+      </button>
 
     </div>
 
-    <button
-      class="discord-btn"
-      onclick="loginDiscord()"
-    >
-      Login with Discord
-    </button>
+    <div class="hero-image">
 
-  </header>
+      <img
+        class="bgl-image"
+        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+        alt="J1mPPaZ BGL"
+      >
 
+    </div>
 
-  <!-- STORE -->
+  </div>
 
-  <section
-    id="store"
-    class="view active"
-  >
+  <div class="stats">
 
-    <div class="hero">
+    <div class="stat">
+      <small>Store Status</small>
+      <strong>
+        <span style="color:var(--green)">●</span>
+        Online
+      </strong>
+    </div>
 
-      <div class="hero-content">
+    <div class="stat">
+      <small>Your Rank</small>
+      <strong id="homeRank">Unranked</strong>
+    </div>
 
-        <div class="eyebrow">
-          BGL STORE • ONLINE
+    <div class="stat">
+      <small>Progress</small>
+      <strong id="homeProgress">0%</strong>
+    </div>
+
+    <div class="stat">
+      <small>Account</small>
+      <strong id="homeAccount">Guest</strong>
+    </div>
+
+  </div>
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">DASHBOARD</div>
+      <h3>Everything in one place</h3>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="feature">
+        <div class="feature-icon">▣</div>
+        <div>
+          <b>Buy BGLs</b>
+          <span>Browse the available BGL store.</span>
         </div>
+      </div>
+    </div>
 
-        <h2>
-          Your BGL.<br>
-          Your way.
-        </h2>
-
-        <p>
-          Welcome to the J1mPPaZ BGL Autostore.
-          Track your account, check your rank,
-          view your order history and follow the
-          monthly leaderboard from one clean dashboard.
-        </p>
-
-        <div class="tags">
-
-          <span class="tag">
-            ⚡ Fast dashboard
-          </span>
-
-          <span class="tag">
-            ◈ Discord Login
-          </span>
-
-          <span class="tag">
-            ✦ Rank System
-          </span>
-
-          <span class="tag">
-            ♛ Leaderboard
-          </span>
-
+    <div class="card">
+      <div class="feature">
+        <div class="feature-icon">✦</div>
+        <div>
+          <b>Rank Progress</b>
+          <span>Start at Unranked and progress through ranks.</span>
         </div>
+      </div>
+    </div>
 
-        <button
-          class="primary-btn"
-          onclick="showView('ranks')"
-        >
-          View Rank Progress
-        </button>
+    <div class="card">
+      <div class="feature">
+        <div class="feature-icon">D</div>
+        <div>
+          <b>Discord Account</b>
+          <span>Use the demo Discord login for your profile.</span>
+        </div>
+      </div>
+    </div>
 
+  </div>
+
+</section>
+
+
+<!-- BUY -->
+
+<section id="buy" class="view">
+
+  <div class="section-head">
+
+    <div>
+      <div class="eyebrow">STORE</div>
+      <h3>Buy BGLs</h3>
+    </div>
+
+    <span class="badge">2.30€ / BGL</span>
+
+  </div>
+
+  <div class="store-grid">
+
+    <div class="product">
+
+      <div class="product-image">
+        <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
       </div>
 
+      <h3>1 BGL</h3>
 
-      <div class="hero-image">
+      <p>
+        BGL store item.
+      </p>
 
-        <img
-          class="bgl-image"
-          src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-          alt="J1mPPaZ BGL"
-        >
-
+      <div class="price">
+        <strong>2.30€</strong>
+        <span>1 BGL</span>
       </div>
+
+      <button class="primary" style="width:100%;margin-top:17px" onclick="demoOrder()">
+        Select
+      </button>
 
     </div>
 
 
-    <!-- STATS -->
+    <div class="product">
 
-    <div class="stats">
-
-      <div class="stat">
-        <small>Store Status</small>
-        <strong>
-          <span style="color:#34d399">●</span>
-          Online
-        </strong>
+      <div class="product-image">
+        <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
       </div>
 
-      <div class="stat">
-        <small>Current Rank</small>
-        <strong id="currentRank">
-          Rookie
-        </strong>
+      <h3>5 BGL</h3>
+
+      <p>
+        BGL store item.
+      </p>
+
+      <div class="price">
+        <strong>11.50€</strong>
+        <span>5 BGL</span>
       </div>
 
-      <div class="stat">
-        <small>Rank Progress</small>
-        <strong>
-          68%
-        </strong>
-      </div>
-
-      <div class="stat">
-        <small>Account</small>
-        <strong id="accountName">
-          Guest
-        </strong>
-      </div>
+      <button class="primary" style="width:100%;margin-top:17px" onclick="demoOrder()">
+        Select
+      </button>
 
     </div>
 
 
-    <!-- FEATURES -->
+    <div class="product">
 
-    <div class="section-head">
+      <div class="product-image">
+        <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      </div>
+
+      <h3>10 BGL</h3>
+
+      <p>
+        BGL store item.
+      </p>
+
+      <div class="price">
+        <strong>23.00€</strong>
+        <span>10 BGL</span>
+      </div>
+
+      <button class="primary" style="width:100%;margin-top:17px" onclick="demoOrder()">
+        Select
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section id="orders" class="view">
+
+  <div class="table-card">
+
+    <div class="section-head" style="padding:0 20px">
 
       <div>
-        <div class="eyebrow">
-          FEATURES
-        </div>
-
-        <h3>
-          Everything in one place
-        </h3>
+        <div class="eyebrow">ACCOUNT</div>
+        <h3>Order History</h3>
       </div>
+
+      <span class="badge" id="orderCount">0 ORDERS</span>
 
     </div>
 
+    <div class="empty" id="ordersEmpty">
 
-    <div class="card-grid">
+      <div class="empty-icon">▣</div>
 
-      <div class="card">
+      <h3>No orders yet</h3>
 
-        <div class="feature">
-
-          <div class="feature-icon">
-            ▣
-          </div>
-
-          <div>
-            <b>
-              Order History
-            </b>
-
-            <span>
-              Keep your previous orders organized.
-            </span>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="feature">
-
-          <div class="feature-icon">
-            D
-          </div>
-
-          <div>
-            <b>
-              Discord Login
-            </b>
-
-            <span>
-              Connect your Discord account.
-            </span>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="feature">
-
-          <div class="feature-icon">
-            ♛
-          </div>
-
-          <div>
-            <b>
-              Monthly Leaderboard
-            </b>
-
-            <span>
-              See the community ranking.
-            </span>
-          </div>
-
-        </div>
-
-      </div>
+      <p>
+        Your orders will appear here after they are created.
+      </p>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
-  <!-- ORDERS -->
+<!-- RANKS -->
 
-  <section
-    id="orders"
-    class="view"
-  >
+<section id="ranks" class="view">
 
-    <div class="table-card">
+  <div class="section-head">
 
-      <div class="section-head" style="padding:0 20px">
-
-        <div>
-          <div class="eyebrow">
-            ACCOUNT
-          </div>
-
-          <h3>
-            Order History
-          </h3>
-        </div>
-
-        <span class="badge">
-          0 ORDERS
-        </span>
-
-      </div>
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          ▣
-        </div>
-
-        <h3>
-          No orders yet
-        </h3>
-
-        <p>
-          Your order history will appear here
-          after your account is connected.
-        </p>
-
-      </div>
-
+    <div>
+      <div class="eyebrow">PROGRESSION</div>
+      <h3>Rank Progress</h3>
     </div>
 
-  </section>
+    <span class="badge" id="rankBadge">
+      UNRANKED
+    </span>
+
+  </div>
+
+  <div class="rank-grid" id="rankGrid"></div>
+
+</section>
 
 
-  <!-- RANKS -->
+<!-- LEADERBOARD -->
 
-  <section
-    id="ranks"
-    class="view"
-  >
+<section id="leaderboard" class="view">
 
-    <div class="section-head">
+  <div class="table-card">
+
+    <div class="section-head" style="padding:0 20px">
 
       <div>
-        <div class="eyebrow">
-          PROGRESSION
-        </div>
-
-        <h3>
-          Rank Progress
-        </h3>
+        <div class="eyebrow">MONTHLY</div>
+        <h3>Leaderboard</h3>
       </div>
 
-      <span class="badge">
-        ROOKIE
-      </span>
+      <span class="badge">SEPTEMBER 2026</span>
 
     </div>
 
-    <div
-      class="rank-grid"
-      id="rankGrid"
-    ></div>
+    <div class="empty" id="leaderboardEmpty">
 
-  </section>
+      <div class="empty-icon">♛</div>
 
+      <h3>No players yet</h3>
 
-  <!-- LEADERBOARD -->
-
-  <section
-    id="leaderboard"
-    class="view"
-  >
-
-    <div class="table-card">
-
-      <div class="section-head" style="padding:0 20px">
-
-        <div>
-          <div class="eyebrow">
-            MONTHLY
-          </div>
-
-          <h3>
-            Leaderboard
-          </h3>
-        </div>
-
-        <span class="badge">
-          SEPTEMBER 2026
-        </span>
-
-      </div>
-
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>#</th>
-            <th>Member</th>
-            <th>Rank</th>
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td>1</td>
-            <td>J1mPPaZ</td>
-            <td>
-              <span class="badge">
-                Apex
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>2</td>
-            <td>Community Member</td>
-            <td>
-              <span class="badge">
-                Champion
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>3</td>
-            <td>Community Member</td>
-            <td>
-              <span class="badge">
-                Elite
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>4</td>
-            <td>Community Member</td>
-            <td>
-              <span class="badge">
-                Diamond
-              </span>
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
+      <p>
+        The leaderboard will appear once real users have joined.
+      </p>
 
     </div>
 
-  </section>
+    <table id="leaderboardTable" style="display:none">
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Member</th>
+          <th>Rank</th>
+          <th>Progress</th>
+        </tr>
+      </thead>
+
+      <tbody id="leaderboardBody"></tbody>
+
+    </table>
+
+  </div>
+
+</section>
 
 
-  <!-- PROFILE -->
+<!-- PROFILE -->
 
-  <section
-    id="profile"
-    class="view"
-  >
+<section id="profile" class="view">
 
-    <div class="login-wrapper">
+  <div class="profile">
 
-      <div class="login-card">
+    <div class="profile-card" id="loggedOutProfile">
 
-        <div class="discord-logo">
-          D
-        </div>
+      <div class="login-box" style="margin:0;padding:15px 0;border:0;background:none">
 
-        <h2>
-          Login with Discord
-        </h2>
+        <div class="discord-logo">D</div>
+
+        <h2>Connect Discord</h2>
 
         <p>
-          Connect your Discord account to access
-          your profile, order history and rank progression.
+          Sign in with the demo Discord button to create
+          your local profile.
         </p>
 
-        <button
-          class="primary-btn"
-          onclick="loginDiscord()"
-        >
+        <button class="primary" onclick="discordLogin()">
           Continue with Discord
         </button>
 
-        <p style="font-size:11px;margin-top:20px">
-          Secure Discord OAuth requires a backend.
-          This page will not pretend a login succeeded
-          without real authentication.
+        <p style="font-size:10px;margin-top:18px">
+          Demo login only — no real Discord OAuth is used.
         </p>
 
       </div>
 
     </div>
 
-  </section>
 
+    <div class="profile-card" id="loggedInProfile" style="display:none">
 
-  <!-- ADMIN -->
+      <div class="profile-head">
 
-  <section
-    id="admin"
-    class="view"
-  >
-
-    <div class="card">
-
-      <div class="section-head">
+        <div class="avatar" id="profileAvatar">D</div>
 
         <div>
-          <div class="eyebrow">
-            PRIVATE AREA
-          </div>
-
-          <h3>
-            Admin Panel
-          </h3>
+          <div class="profile-name" id="profileName">Discord User</div>
+          <div class="profile-sub">Discord connected • Demo account</div>
         </div>
-
-        <span class="badge">
-          OWNER
-        </span>
 
       </div>
 
+      <div class="profile-info">
 
-      <div class="admin-grid">
-
-        <div class="stat">
-          <small>Store</small>
-          <strong>
-            Online
-          </strong>
+        <div class="info">
+          <small>Rank</small>
+          <strong id="profileRank">Unranked</strong>
         </div>
 
-        <div class="stat">
-          <small>Accounts</small>
-          <strong>
-            —
-          </strong>
+        <div class="info">
+          <small>Progress</small>
+          <strong id="profileProgress">0%</strong>
         </div>
 
-        <div class="stat">
+        <div class="info">
           <small>Orders</small>
-          <strong>
-            —
-          </strong>
+          <strong id="profileOrders">0</strong>
+        </div>
+
+        <div class="info">
+          <small>Status</small>
+          <strong style="color:var(--green)">Connected</strong>
         </div>
 
       </div>
 
+      <button
+        class="primary"
+        style="margin-top:20px"
+        onclick="logout()"
+      >
+        Log out
+      </button>
 
-      <div class="admin-warning">
+    </div>
 
-        Admin authentication should be handled
-        server-side before using this publicly.
-        A password stored only inside index.html
-        is visible to anyone who downloads the page.
+  </div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="admin" class="view">
+
+  <div id="adminLogin" class="admin-login">
+
+    <div class="eyebrow">PRIVATE AREA</div>
+
+    <h2 style="margin:7px 0 4px">
+      Admin Panel
+    </h2>
+
+    <p style="color:var(--muted);font-size:11px">
+      Enter your admin credentials.
+    </p>
+
+    <input
+      class="input"
+      id="adminUser"
+      placeholder="Username"
+      autocomplete="off"
+    >
+
+    <input
+      class="input"
+      id="adminPass"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button class="primary" onclick="adminLogin()">
+      Enter Admin Panel
+    </button>
+
+    <div class="warning">
+      This is a frontend demo login. It is not secure
+      against someone inspecting the page source.
+    </div>
+
+  </div>
+
+
+  <div id="adminContent" class="admin-content">
+
+    <div class="section-head">
+
+      <div>
+        <div class="eyebrow">OWNER</div>
+        <h3>Admin Dashboard</h3>
+      </div>
+
+      <button class="badge" onclick="adminLogout()">
+        LOG OUT
+      </button>
+
+    </div>
+
+    <div class="admin-grid">
+
+      <div class="stat">
+        <small>Registered Users</small>
+        <strong id="adminUsers">0</strong>
+      </div>
+
+      <div class="stat">
+        <small>Pending Orders</small>
+        <strong id="adminOrders">0</strong>
+      </div>
+
+      <div class="stat">
+        <small>Store Status</small>
+        <strong style="color:var(--green)">Online</strong>
+      </div>
+
+    </div>
+
+    <div class="table-card" style="margin-top:15px">
+
+      <div class="section-head" style="padding:0 20px">
+
+        <div>
+          <div class="eyebrow">ORDERS</div>
+          <h3>Pending Orders</h3>
+        </div>
+
+      </div>
+
+      <div class="empty" id="adminEmpty">
+
+        <div class="empty-icon">▣</div>
+
+        <h3>No pending orders</h3>
+
+        <p>
+          Real orders will appear here when connected to a backend.
+        </p>
 
       </div>
 
     </div>
 
-  </section>
+    <div class="warning">
+      Rank progression should only be updated after an order
+      is actually verified by the server. This frontend demo
+      does not provide secure order verification.
+    </div>
+
+  </div>
+
+</section>
 
 </main>
-
-</div>
 
 
 <!-- MOBILE NAV -->
 
 <div class="mobile-nav">
 
-  <button
-    class="active"
-    data-view="store"
-  >
-    ⌂<br>
-    Store
+  <button class="active" data-view="store">
+    ⌂<br>Store
   </button>
 
-  <button
-    data-view="orders"
-  >
-    ▣<br>
-    Orders
+  <button data-view="buy">
+    ▣<br>Buy
   </button>
 
-  <button
-    data-view="ranks"
-  >
-    ✦<br>
-    Ranks
+  <button data-view="orders">
+    ▤<br>Orders
   </button>
 
-  <button
-    data-view="leaderboard"
-  >
-    ♛<br>
-    Top
+  <button data-view="ranks">
+    ✦<br>Ranks
   </button>
 
-  <button
-    data-view="profile"
-  >
-    ●<br>
-    Profile
+  <button data-view="profile">
+    ●<br>Profile
   </button>
+
+</div>
 
 </div>
 
 
 <script>
 
+/* -------------------------
+   APP DATA
+------------------------- */
+
 const titles = {
-  store: "Store",
-  orders: "Order History",
-  ranks: "Rank Progress",
-  leaderboard: "Leaderboard",
-  profile: "Profile",
-  admin: "Admin Panel"
+  store:"Store",
+  buy:"Buy BGLs",
+  orders:"Order History",
+  ranks:"Rank Progress",
+  leaderboard:"Leaderboard",
+  profile:"Profile",
+  admin:"Admin Panel"
 };
 
-
-const rankNames = [
-  "Rookie",
-  "Bronze",
-  "Silver",
-  "Gold",
-  "Platinum",
-  "Diamond",
-  "Elite",
-  "Champion",
-  "Apex"
+const ranks = [
+  ["Unranked","No approved orders yet."],
+  ["Rookie","First progression tier."],
+  ["Bronze","Getting started."],
+  ["Silver","Growing member."],
+  ["Gold","Experienced member."],
+  ["Platinum","High tier member."],
+  ["Diamond","Top tier member."],
+  ["Elite","Elite member."],
+  ["Champion","Champion tier."],
+  ["Apex","Highest rank."]
 ];
 
+let user = JSON.parse(
+  localStorage.getItem("j1mppaz_user") || "null"
+);
 
-const rankDescriptions = [
-  "Starting rank",
-  "Getting started",
-  "Growing member",
-  "Experienced member",
-  "High tier member",
-  "Top tier member",
-  "Elite member",
-  "Champion tier",
-  "Highest rank"
-];
+let adminLoggedIn =
+  localStorage.getItem("j1mppaz_admin") === "true";
 
 
-function showView(id) {
+/* -------------------------
+   VIEW SYSTEM
+------------------------- */
+
+function showView(id){
 
   document
     .querySelectorAll(".view")
-    .forEach(view => {
-      view.classList.remove("active");
-    });
+    .forEach(v => v.classList.remove("active"));
 
-  const selected =
-    document.getElementById(id);
+  const view = document.getElementById(id);
 
-  if (selected) {
-    selected.classList.add("active");
+  if(view){
+    view.classList.add("active");
   }
-
 
   document
     .querySelectorAll("[data-view]")
-    .forEach(button => {
-
-      button.classList.toggle(
+    .forEach(btn => {
+      btn.classList.toggle(
         "active",
-        button.dataset.view === id
+        btn.dataset.view === id
       );
-
     });
 
-
-  document.getElementById(
-    "pageTitle"
-  ).textContent =
+  document.getElementById("pageTitle").textContent =
     titles[id] || "Store";
 
-
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 
+  if(id === "admin"){
+    updateAdmin();
+  }
 }
 
+
+/* -------------------------
+   NAVIGATION
+------------------------- */
 
 document
   .querySelectorAll("[data-view]")
@@ -1385,75 +1500,367 @@ document
   });
 
 
-function loginDiscord() {
+/* -------------------------
+   DEMO DISCORD LOGIN
+------------------------- */
+
+function discordLogin(){
+
+  if(user){
+    showView("profile");
+    return;
+  }
+
+  const username =
+    prompt("Demo Discord username:");
+
+  if(!username){
+    return;
+  }
+
+  user = {
+    id:"demo_" + Date.now(),
+    username:username,
+    avatar:username.charAt(0).toUpperCase(),
+    rank:0,
+    progress:0,
+    orders:[]
+  };
+
+  localStorage.setItem(
+    "j1mppaz_user",
+    JSON.stringify(user)
+  );
+
+  updateUI();
 
   alert(
-    "Discord OAuth needs a backend connection. " +
-    "The frontend is ready for the Discord login UI."
+    "Demo Discord login successful."
+  );
+
+  showView("profile");
+}
+
+
+/* -------------------------
+   LOGOUT
+------------------------- */
+
+function logout(){
+
+  localStorage.removeItem("j1mppaz_user");
+
+  user = null;
+
+  updateUI();
+
+  showView("profile");
+}
+
+
+/* -------------------------
+   UI UPDATE
+------------------------- */
+
+function updateUI(){
+
+  const loggedIn =
+    !!user;
+
+  document.getElementById(
+    "loggedOutProfile"
+  ).style.display =
+    loggedIn ? "none" : "block";
+
+  document.getElementById(
+    "loggedInProfile"
+  ).style.display =
+    loggedIn ? "block" : "none";
+
+  document.getElementById(
+    "loginButtonText"
+  ).textContent =
+    loggedIn
+      ? user.username
+      : "Login with Discord";
+
+  document.getElementById(
+    "homeAccount"
+  ).textContent =
+    loggedIn
+      ? user.username
+      : "Guest";
+
+  const rank =
+    ranks[user?.rank || 0][0];
+
+  const progress =
+    user?.progress || 0;
+
+  document.getElementById(
+    "homeRank"
+  ).textContent =
+    rank;
+
+  document.getElementById(
+    "homeProgress"
+  ).textContent =
+    progress + "%";
+
+  if(loggedIn){
+
+    document.getElementById(
+      "profileAvatar"
+    ).textContent =
+      user.avatar;
+
+    document.getElementById(
+      "profileName"
+    ).textContent =
+      user.username;
+
+    document.getElementById(
+      "profileRank"
+    ).textContent =
+      rank;
+
+    document.getElementById(
+      "profileProgress"
+    ).textContent =
+      progress + "%";
+
+    document.getElementById(
+      "profileOrders"
+    ).textContent =
+      user.orders.length;
+
+  }
+
+  renderRanks();
+  renderOrders();
+}
+
+
+/* -------------------------
+   RANK SYSTEM
+------------------------- */
+
+function renderRanks(){
+
+  const grid =
+    document.getElementById("rankGrid");
+
+  grid.innerHTML = "";
+
+  const currentRank =
+    user?.rank || 0;
+
+  const currentProgress =
+    user?.progress || 0;
+
+  ranks.forEach((r,index)=>{
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "rank-card";
+
+    const isCurrent =
+      index === currentRank;
+
+    card.innerHTML = `
+
+      <div class="rank-top">
+
+        <div class="rank-icon">
+          ${index}
+        </div>
+
+        <div>
+
+          <div class="rank-name">
+            ${r[0]}
+          </div>
+
+          <div class="rank-desc">
+            ${r[1]}
+          </div>
+
+        </div>
+
+        ${
+          isCurrent
+            ? `<div class="current">Current</div>`
+            : ""
+        }
+
+      </div>
+
+      ${
+        isCurrent
+          ? `
+            <div class="progress">
+              <div
+                class="progress-bar"
+                style="width:${currentProgress}%"
+              ></div>
+            </div>
+          `
+          : ""
+      }
+
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+  document.getElementById(
+    "rankBadge"
+  ).textContent =
+    ranks[currentRank][0].toUpperCase();
+
+}
+
+
+/* -------------------------
+   ORDERS
+------------------------- */
+
+function renderOrders(){
+
+  const count =
+    user?.orders?.length || 0;
+
+  document.getElementById(
+    "orderCount"
+  ).textContent =
+    count + (count === 1 ? " ORDER" : " ORDERS");
+
+  document.getElementById(
+    "ordersEmpty"
+  ).style.display =
+    count === 0 ? "block" : "none";
+}
+
+
+/* -------------------------
+   DEMO ORDER
+------------------------- */
+
+function demoOrder(){
+
+  if(!user){
+
+    alert(
+      "Please login with Discord first."
+    );
+
+    showView("profile");
+
+    return;
+  }
+
+  alert(
+    "Store selection saved as a demo. " +
+    "A real order/payment system requires a secure backend."
   );
 
 }
 
 
-/* RANKS */
+/* -------------------------
+   ADMIN
+------------------------- */
 
-const rankGrid =
-  document.getElementById("rankGrid");
+function adminLogin(){
 
+  const username =
+    document.getElementById("adminUser").value;
 
-rankNames.forEach((rank, index) => {
+  const password =
+    document.getElementById("adminPass").value;
 
-  const card =
-    document.createElement("div");
+  if(
+    username === "JimpanAdmini" &&
+    password === "JimppaFortniteAdmin"
+  ){
 
-  card.className =
-    "rank-card";
+    adminLoggedIn = true;
 
+    localStorage.setItem(
+      "j1mppaz_admin",
+      "true"
+    );
 
-  card.innerHTML = `
+    updateAdmin();
 
-    <div class="rank-top">
+    alert("Admin login successful.");
 
-      <div class="rank-icon">
-        ${index + 1}
-      </div>
+  }else{
 
-      <div>
+    alert(
+      "Invalid admin credentials."
+    );
 
-        <div class="rank-name">
-          ${rank}
-        </div>
+  }
 
-        <div class="rank-description">
-          ${rankDescriptions[index]}
-        </div>
-
-      </div>
-
-      ${
-        index === 0
-          ? `<div class="current">Current</div>`
-          : ""
-      }
-
-    </div>
-
-    ${
-      index === 0
-        ? `
-          <div class="progress">
-            <div class="progress-bar"></div>
-          </div>
-        `
-        : ""
-    }
-
-  `;
+}
 
 
-  rankGrid.appendChild(card);
+function adminLogout(){
 
-});
+  adminLoggedIn = false;
+
+  localStorage.removeItem(
+    "j1mppaz_admin"
+  );
+
+  updateAdmin();
+
+}
+
+
+function updateAdmin(){
+
+  const login =
+    document.getElementById("adminLogin");
+
+  const content =
+    document.getElementById("adminContent");
+
+  if(adminLoggedIn){
+
+    login.style.display = "none";
+    content.classList.add("show");
+
+  }else{
+
+    login.style.display = "block";
+    content.classList.remove("show");
+
+  }
+
+  document.getElementById(
+    "adminUsers"
+  ).textContent =
+    user ? "1" : "0";
+
+  document.getElementById(
+    "adminOrders"
+  ).textContent =
+    user?.orders?.length || "0";
+
+}
+
+
+/* -------------------------
+   START
+------------------------- */
+
+updateUI();
+updateAdmin();
 
 </script>
 
