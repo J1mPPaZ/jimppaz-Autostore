@@ -114,11 +114,15 @@ button{
   padding:18px 13px 7px;
   text-transform:uppercase;
 }
+/* ADMIN IS NOW ALWAYS VISIBLE */
 .admin-nav{
-  display:none;
-}
-.admin-nav.visible{
   display:block;
+}
+.admin-button{
+  border:1px solid rgba(124,92,255,.12) !important;
+}
+.admin-button:hover{
+  border-color:rgba(124,92,255,.35) !important;
 }
 .sidebar-bottom{
   position:absolute;
@@ -384,11 +388,25 @@ textarea{
 .step{
   width:48px;
   height:48px;
+  min-width:48px;
   border-radius:12px;
   background:#181c27;
   color:white;
   font-size:22px;
   border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+.step:hover{
+  background:#222735;
+  border-color:rgba(124,92,255,.45);
+}
+.step:active{
+  transform:scale(.94);
 }
 .amount-input{
   flex:1;
@@ -396,6 +414,7 @@ textarea{
   text-align:center;
   font-size:20px;
   font-weight:900;
+  min-width:0;
 }
 .presets{
   display:flex;
@@ -424,6 +443,7 @@ textarea{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:15px;
 }
 .total{
   font-size:28px;
@@ -721,6 +741,7 @@ td strong{
   }
   .step{
     width:43px;
+    min-width:43px;
   }
   .toast-container{
     left:12px;
@@ -744,31 +765,37 @@ td strong{
       </div>
     </div>
     <nav class="nav">
-      <button data-action="navigate" data-view="store" class="active">
+      <button type="button" data-action="navigate" data-view="store" class="active">
         🏠 Store
       </button>
-      <button data-action="navigate" data-view="buy">
+      <button type="button" data-action="navigate" data-view="buy">
         💎 Buy BGLs
       </button>
-      <button data-action="navigate" data-view="orders">
+      <button type="button" data-action="navigate" data-view="orders">
         📦 Order History
       </button>
-      <button data-action="navigate" data-view="rank">
+      <button type="button" data-action="navigate" data-view="rank">
         ⚡ Rank Progress
       </button>
-      <button data-action="navigate" data-view="leaderboard">
+      <button type="button" data-action="navigate" data-view="leaderboard">
         🏆 Leaderboard
       </button>
-      <button data-action="navigate" data-view="profile">
+      <button type="button" data-action="navigate" data-view="profile">
         👤 Profile
       </button>
+      <!-- ADMIN ALWAYS VISIBLE -->
       <div class="nav-section admin-nav" id="adminNav">
         ADMIN
       </div>
-      <button data-action="navigate" data-view="admin" class="admin-nav" id="adminButton">
-        🛠️ Admin Panel
+      <button
+        type="button"
+        data-action="navigate"
+        data-view="admin"
+        class="admin-nav admin-button"
+        id="adminButton">
+        🔐 Admin Panel
       </button>
-      <button data-action="logout">
+      <button type="button" data-action="logout">
         🚪 Logout
       </button>
     </nav>
@@ -776,8 +803,12 @@ td strong{
       <div class="user-mini">
         <div class="avatar" id="sideAvatar">?</div>
         <div>
-          <div class="user-mini-name" id="sideUsername">Not logged in</div>
-          <div class="user-mini-rank" id="sideRank">Unranked · 0 XP</div>
+          <div class="user-mini-name" id="sideUsername">
+            Not logged in
+          </div>
+          <div class="user-mini-rank" id="sideRank">
+            Unranked · 0 XP
+          </div>
         </div>
       </div>
     </div>
@@ -785,12 +816,26 @@ td strong{
   <div class="overlay" id="overlay"></div>
   <main class="main">
     <header class="topbar">
-      <button class="mobile-menu" data-action="toggle-menu">☰</button>
+      <button
+        type="button"
+        class="mobile-menu"
+        data-action="toggle-menu">
+        ☰
+      </button>
       <div>
-        <div class="page-title" id="pageTitle">Store</div>
-        <div class="page-sub">J1mPPaZ BGL Autostore</div>
+        <div class="page-title" id="pageTitle">
+          Store
+        </div>
+        <div class="page-sub">
+          J1mPPaZ BGL Autostore
+        </div>
       </div>
-      <button class="btn btn-primary" data-action="open-login">
+      <!-- DISCORD LOGIN HIDES AFTER LOGIN -->
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="authButton"
+        data-action="open-login">
         Discord Login
       </button>
     </header>
@@ -799,7 +844,9 @@ td strong{
       <section class="view active" id="view-store">
         <div class="hero">
           <div class="hero-content">
-            <div class="pill">● STORE ONLINE</div>
+            <div class="pill">
+              ● STORE ONLINE
+            </div>
             <h1>
               Welcome to<br>
               <span>J1mPPaZ</span> BGL Store
@@ -809,10 +856,18 @@ td strong{
               built around your completed orders.
             </p>
             <div style="display:flex;gap:9px;margin-top:22px;flex-wrap:wrap">
-              <button class="btn btn-primary" data-action="navigate" data-view="buy">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-action="navigate"
+                data-view="buy">
                 Buy BGLs
               </button>
-              <button class="btn" data-action="navigate" data-view="leaderboard">
+              <button
+                type="button"
+                class="btn"
+                data-action="navigate"
+                data-view="leaderboard">
                 View Leaderboard
               </button>
             </div>
@@ -820,8 +875,7 @@ td strong{
           <img
             class="hero-img"
             src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-            alt="BGL"
-          >
+            alt="BGL">
         </div>
         <div style="height:18px"></div>
         <div id="announcementStore"></div>
@@ -848,37 +902,73 @@ td strong{
       <section class="view" id="view-buy">
         <div class="buy-layout">
           <div class="card buy-card">
-            <div class="card-title">Buy BGLs</div>
+            <div class="card-title">
+              Buy BGLs
+            </div>
             <div class="card-sub">
               Select how many BGLs you want to order.
             </div>
             <div class="amount-area">
-              <button class="step" data-action="amount-minus">−</button>
+              <!-- FIXED PLUS/MINUS -->
+              <button
+                type="button"
+                class="step"
+                data-action="amount-minus"
+                aria-label="Decrease BGL amount">
+                −
+              </button>
               <input
                 id="amountInput"
                 class="input amount-input"
                 type="number"
                 min="1"
                 step="1"
-                value="1"
-              >
-              <button class="step" data-action="amount-plus">+</button>
+                inputmode="numeric"
+                value="1">
+              <button
+                type="button"
+                class="step"
+                data-action="amount-plus"
+                aria-label="Increase BGL amount">
+                +
+              </button>
             </div>
-            <div class="label">Quick select</div>
+            <div class="label">
+              Quick select
+            </div>
             <div class="presets">
-              <button class="preset" data-action="preset" data-amount="1">1 BGL</button>
-              <button class="preset" data-action="preset" data-amount="5">5 BGL</button>
-              <button class="preset" data-action="preset" data-amount="10">10 BGL</button>
-              <button class="preset" data-action="preset" data-amount="25">25 BGL</button>
-              <button class="preset" data-action="preset" data-amount="50">50 BGL</button>
-              <button class="preset" data-action="preset" data-amount="100">100 BGL</button>
+              <button type="button" class="preset" data-action="preset" data-amount="1">
+                1 BGL
+              </button>
+              <button type="button" class="preset" data-action="preset" data-amount="5">
+                5 BGL
+              </button>
+              <button type="button" class="preset" data-action="preset" data-amount="10">
+                10 BGL
+              </button>
+              <button type="button" class="preset" data-action="preset" data-amount="25">
+                25 BGL
+              </button>
+              <button type="button" class="preset" data-action="preset" data-amount="50">
+                50 BGL
+              </button>
+              <button type="button" class="preset" data-action="preset" data-amount="100">
+                100 BGL
+              </button>
             </div>
             <div class="price-box">
               <div>
-                <div class="stat-label">TOTAL</div>
-                <div class="total" id="buyTotal">€2.30</div>
+                <div class="stat-label">
+                  TOTAL
+                </div>
+                <div class="total" id="buyTotal">
+                  €2.30
+                </div>
               </div>
-              <button class="btn btn-primary" data-action="create-order">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-action="create-order">
                 Create Order
               </button>
             </div>
@@ -886,15 +976,16 @@ td strong{
           <div class="card buy-visual">
             <img
               src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-              alt="BGL"
-            >
+              alt="BGL">
           </div>
         </div>
       </section>
       <!-- ORDERS -->
       <section class="view" id="view-orders">
         <div class="card">
-          <div class="card-title">Order History</div>
+          <div class="card-title">
+            Order History
+          </div>
           <div class="card-sub">
             Your previous BGL orders and awarded XP.
           </div>
@@ -919,30 +1010,57 @@ td strong{
       <!-- RANK -->
       <section class="view" id="view-rank">
         <div class="card rank-box">
-          <div class="card-sub">YOUR CURRENT RANK</div>
-          <div class="rank-name" id="rankName">Unranked</div>
+          <div class="card-sub">
+            YOUR CURRENT RANK
+          </div>
+          <div class="rank-name" id="rankName">
+            Unranked
+          </div>
           <div class="xp-number" id="rankXP">
             0 XP
           </div>
           <div class="progress">
-            <div class="progress-bar" id="rankProgressBar" style="width:0%"></div>
+            <div
+              class="progress-bar"
+              id="rankProgressBar"
+              style="width:0%">
+            </div>
           </div>
           <div class="progress-meta">
-            <span id="rankCurrentXP">0 XP</span>
-            <span id="rankNext">Rookie · 100 XP</span>
+            <span id="rankCurrentXP">
+              0 XP
+            </span>
+            <span id="rankNext">
+              Rookie · 100 XP
+            </span>
           </div>
           <div style="margin-top:30px" class="grid grid-3">
             <div class="card stat">
               <div class="stat-label">CURRENT RANK</div>
-              <div class="stat-value" style="font-size:20px" id="rankCardCurrent">Unranked</div>
+              <div
+                class="stat-value"
+                style="font-size:20px"
+                id="rankCardCurrent">
+                Unranked
+              </div>
             </div>
             <div class="card stat">
               <div class="stat-label">TOTAL XP</div>
-              <div class="stat-value" style="font-size:20px" id="rankCardXP">0</div>
+              <div
+                class="stat-value"
+                style="font-size:20px"
+                id="rankCardXP">
+                0
+              </div>
             </div>
             <div class="card stat">
               <div class="stat-label">XP TO NEXT</div>
-              <div class="stat-value" style="font-size:20px" id="rankCardNeeded">100</div>
+              <div
+                class="stat-value"
+                style="font-size:20px"
+                id="rankCardNeeded">
+                100
+              </div>
             </div>
           </div>
         </div>
@@ -950,7 +1068,9 @@ td strong{
       <!-- LEADERBOARD -->
       <section class="view" id="view-leaderboard">
         <div class="card">
-          <div class="card-title">Monthly Leaderboard</div>
+          <div class="card-title">
+            Monthly Leaderboard
+          </div>
           <div class="card-sub">
             Real accounts only. No placeholder users.
           </div>
@@ -962,18 +1082,29 @@ td strong{
       <section class="view" id="view-profile">
         <div class="grid grid-2">
           <div class="card">
-            <div class="card-title">Profile</div>
-            <div class="card-sub">Your store account</div>
+            <div class="card-title">
+              Profile
+            </div>
+            <div class="card-sub">
+              Your store account
+            </div>
             <div style="height:22px"></div>
             <div style="display:flex;align-items:center;gap:14px">
-              <div class="avatar" style="width:55px;height:55px;font-size:20px" id="profileAvatar">
+              <div
+                class="avatar"
+                style="width:55px;height:55px;font-size:20px"
+                id="profileAvatar">
                 ?
               </div>
               <div>
-                <div style="font-size:18px;font-weight:900" id="profileUsername">
+                <div
+                  style="font-size:18px;font-weight:900"
+                  id="profileUsername">
                   Not logged in
                 </div>
-                <div style="color:#858da1;font-size:12px" id="profileRank">
+                <div
+                  style="color:#858da1;font-size:12px"
+                  id="profileRank">
                   Unranked
                 </div>
               </div>
@@ -982,15 +1113,28 @@ td strong{
             <div class="grid grid-2">
               <div class="card stat">
                 <div class="stat-label">XP</div>
-                <div class="stat-value" style="font-size:22px" id="profileXP">0</div>
+                <div
+                  class="stat-value"
+                  style="font-size:22px"
+                  id="profileXP">
+                  0
+                </div>
               </div>
               <div class="card stat">
                 <div class="stat-label">ORDERS</div>
-                <div class="stat-value" style="font-size:22px" id="profileOrders">0</div>
+                <div
+                  class="stat-value"
+                  style="font-size:22px"
+                  id="profileOrders">
+                  0
+                </div>
               </div>
             </div>
             <div style="height:15px"></div>
-            <button class="btn btn-danger" data-action="logout">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-action="logout">
               Logout
             </button>
           </div>
@@ -1006,23 +1150,45 @@ td strong{
 <!-- LOGIN MODAL -->
 <div class="modal-backdrop" id="loginModal">
   <div class="modal">
-    <h2>Discord Login</h2>
+    <h2>
+      Discord Login
+    </h2>
     <p>
       Sign in or create your store account.
     </p>
     <div class="form-group">
-      <label class="label">Discord Username</label>
-      <input id="loginUsername" class="input" type="text" maxlength="32" placeholder="Your username">
+      <label class="label">
+        Discord Username
+      </label>
+      <input
+        id="loginUsername"
+        class="input"
+        type="text"
+        maxlength="32"
+        placeholder="Your username">
     </div>
     <div class="form-group">
-      <label class="label">Password</label>
-      <input id="loginPassword" class="input" type="password" maxlength="64" placeholder="Password">
+      <label class="label">
+        Password
+      </label>
+      <input
+        id="loginPassword"
+        class="input"
+        type="password"
+        maxlength="64"
+        placeholder="Password">
     </div>
     <div class="modal-actions">
-      <button class="btn" data-action="close-login">
+      <button
+        type="button"
+        class="btn"
+        data-action="close-login">
         Cancel
       </button>
-      <button class="btn btn-primary" data-action="login">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-action="login">
         Continue
       </button>
     </div>
@@ -1031,23 +1197,41 @@ td strong{
 <!-- ADMIN LOGIN MODAL -->
 <div class="modal-backdrop" id="adminLoginModal">
   <div class="modal">
-    <h2>Admin Panel</h2>
+    <h2>
+      Admin Panel
+    </h2>
     <p>
       Enter administrator credentials.
     </p>
     <div class="form-group">
-      <label class="label">Username</label>
-      <input id="adminUsername" class="input" type="text">
+      <label class="label">
+        Username
+      </label>
+      <input
+        id="adminUsername"
+        class="input"
+        type="text">
     </div>
     <div class="form-group">
-      <label class="label">Password</label>
-      <input id="adminPassword" class="input" type="password">
+      <label class="label">
+        Password
+      </label>
+      <input
+        id="adminPassword"
+        class="input"
+        type="password">
     </div>
     <div class="modal-actions">
-      <button class="btn" data-action="close-admin-login">
+      <button
+        type="button"
+        class="btn"
+        data-action="close-admin-login">
         Cancel
       </button>
-      <button class="btn btn-primary" data-action="admin-login">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-action="admin-login">
         Login
       </button>
     </div>
@@ -1101,18 +1285,49 @@ function money(value){
   return "€" + Number(value || 0).toFixed(2);
 }
 function makeId(prefix){
-  return prefix + "-" + Date.now().toString(36) + "-" +
+  return prefix + "-" +
+    Date.now().toString(36) + "-" +
     Math.random().toString(36).slice(2,7).toUpperCase();
 }
-function saveAll(){
-  localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
-  localStorage.setItem(STORAGE_ORDERS, JSON.stringify(orders));
-  localStorage.setItem(STORAGE_SETTINGS, JSON.stringify(settings));
+/*
+  Username key.
+  This makes:
+  J1mPPaZ
+  j1mppaz
+  J1MPPaz
+  count as the SAME username.
+*/
+function usernameKey(username){
+  return String(username || "")
+    .trim()
+    .replace(/\s+/g," ")
+    .toLocaleLowerCase();
 }
-function loadJSON(key, fallback){
+function normalizeUsername(username){
+  return String(username || "")
+    .trim()
+    .replace(/\s+/g," ");
+}
+function saveAll(){
+  localStorage.setItem(
+    STORAGE_USERS,
+    JSON.stringify(users)
+  );
+  localStorage.setItem(
+    STORAGE_ORDERS,
+    JSON.stringify(orders)
+  );
+  localStorage.setItem(
+    STORAGE_SETTINGS,
+    JSON.stringify(settings)
+  );
+}
+function loadJSON(key,fallback){
   try{
     const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
+    return raw
+      ? JSON.parse(raw)
+      : fallback;
   }catch{
     return fallback;
   }
@@ -1121,22 +1336,30 @@ function loadJSON(key, fallback){
    CLEAN INSTALL
    ========================================================= */
 function cleanInstall(){
-  if(localStorage.getItem(STORAGE_RESET) !== "done"){
+  if(
+    localStorage.getItem(STORAGE_RESET) !== "done"
+  ){
     localStorage.removeItem(STORAGE_USERS);
     localStorage.removeItem(STORAGE_ORDERS);
     localStorage.removeItem(STORAGE_CURRENT);
     localStorage.removeItem(STORAGE_SETTINGS);
-    localStorage.setItem(STORAGE_RESET,"done");
+    localStorage.setItem(
+      STORAGE_RESET,
+      "done"
+    );
   }
 }
 /* =========================================================
    RANK SYSTEM
    ========================================================= */
 function getRankInfo(xp){
-  xp = Math.max(0,Number(xp) || 0);
+  xp = Math.max(
+    0,
+    Number(xp) || 0
+  );
   let current = ranks[0];
   let next = null;
-  for(let i=0;i<ranks.length;i++){
+  for(let i = 0; i < ranks.length; i++){
     if(xp >= ranks[i].threshold){
       current = ranks[i];
     }
@@ -1153,47 +1376,112 @@ function getRankInfo(xp){
       needed:0
     };
   }
-  const range = next.threshold - current.threshold;
-  const progress = xp - current.threshold;
+  const range =
+    next.threshold -
+    current.threshold;
+  const progress =
+    xp -
+    current.threshold;
   return {
     current,
     next,
-    percent:Math.min(100,Math.max(0,(progress / range) * 100)),
-    needed:next.threshold - xp
+    percent:
+      Math.min(
+        100,
+        Math.max(
+          0,
+          (progress / range) * 100
+        )
+      ),
+    needed:
+      next.threshold - xp
   };
 }
 function normalizeUser(user){
-  if(!user || !user.username) return null;
-  let xp = Number(user.xpTotal);
+  if(
+    !user ||
+    !user.username
+  ){
+    return null;
+  }
+  let xp =
+    Number(user.xpTotal);
   if(!Number.isFinite(xp)){
     xp = 0;
   }
   return {
-    username:String(user.username),
-    password:typeof user.password === "string" ? user.password : "",
-    xpTotal:Math.max(0,Math.floor(xp)),
-    createdAt:user.createdAt || new Date().toISOString()
+    username:
+      normalizeUsername(user.username),
+    password:
+      typeof user.password === "string"
+        ? user.password
+        : "",
+    xpTotal:
+      Math.max(
+        0,
+        Math.floor(xp)
+      ),
+    createdAt:
+      user.createdAt ||
+      new Date().toISOString()
   };
 }
 /* =========================================================
    LOAD DATA
    ========================================================= */
 function loadData(){
-  users = loadJSON(STORAGE_USERS,[])
+  const loadedUsers =
+    loadJSON(
+      STORAGE_USERS,
+      []
+    )
     .map(normalizeUser)
     .filter(Boolean);
-  orders = loadJSON(STORAGE_ORDERS,[]);
-  settings = loadJSON(STORAGE_SETTINGS,{
-    announcement:""
+  /*
+    Remove duplicate usernames that may already
+    exist in old localStorage.
+  */
+  const seenUsernames = new Set();
+  users = loadedUsers.filter(user => {
+    const key =
+      usernameKey(user.username);
+    if(seenUsernames.has(key)){
+      return false;
+    }
+    seenUsernames.add(key);
+    return true;
   });
-  if(!settings || typeof settings !== "object"){
-    settings = {announcement:""};
+  orders =
+    loadJSON(
+      STORAGE_ORDERS,
+      []
+    );
+  settings =
+    loadJSON(
+      STORAGE_SETTINGS,
+      {
+        announcement:""
+      }
+    );
+  if(
+    !settings ||
+    typeof settings !== "object"
+  ){
+    settings = {
+      announcement:""
+    };
   }
-  const savedUsername = localStorage.getItem(STORAGE_CURRENT);
+  const savedUsername =
+    localStorage.getItem(
+      STORAGE_CURRENT
+    );
   if(savedUsername){
-    currentUser = users.find(
-      u => u.username.toLowerCase() === savedUsername.toLowerCase()
-    ) || null;
+    currentUser =
+      users.find(
+        user =>
+          usernameKey(user.username) ===
+          usernameKey(savedUsername)
+      ) || null;
   }
   saveAll();
 }
@@ -1201,76 +1489,148 @@ function loadData(){
    TOAST
    ========================================================= */
 function toast(message){
-  const container = document.getElementById("toastContainer");
-  const item = document.createElement("div");
+  const container =
+    document.getElementById(
+      "toastContainer"
+    );
+  const item =
+    document.createElement("div");
   item.className = "toast";
   item.textContent = message;
   container.appendChild(item);
-  setTimeout(()=>{
+  setTimeout(() => {
     item.style.opacity = "0";
-    item.style.transform = "translateX(20px)";
-    setTimeout(()=>item.remove(),250);
+    item.style.transform =
+      "translateX(20px)";
+    setTimeout(
+      () => item.remove(),
+      250
+    );
   },3000);
 }
 /* =========================================================
    LOGIN
    ========================================================= */
 function openLogin(){
-  document.getElementById("loginModal").classList.add("open");
-  setTimeout(()=>{
-    document.getElementById("loginUsername").focus();
+  document
+    .getElementById("loginModal")
+    .classList.add("open");
+  setTimeout(() => {
+    document
+      .getElementById("loginUsername")
+      .focus();
   },100);
 }
 function closeLogin(){
-  document.getElementById("loginModal").classList.remove("open");
+  document
+    .getElementById("loginModal")
+    .classList.remove("open");
 }
+/*
+  LOGIN / ACCOUNT CREATION
+  Existing username:
+    correct password = login
+    wrong password = reject
+  New username:
+    create account
+  This prevents duplicate usernames.
+*/
 function login(){
-  const usernameInput = document
-    .getElementById("loginUsername")
-    .value.trim();
-  const passwordInput = document
-    .getElementById("loginPassword")
-    .value;
-  if(!usernameInput){
-    toast("Enter your Discord username.");
+  const rawUsername =
+    document
+      .getElementById("loginUsername")
+      .value;
+  const username =
+    normalizeUsername(
+      rawUsername
+    );
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+  if(!username){
+    toast(
+      "Enter your Discord username."
+    );
     return;
   }
-  if(usernameInput.length < 2){
-    toast("Username is too short.");
+  if(username.length < 2){
+    toast(
+      "Username is too short."
+    );
     return;
   }
-  if(!passwordInput){
-    toast("Enter a password.");
+  if(!password){
+    toast(
+      "Enter a password."
+    );
     return;
   }
-  let user = users.find(
-    u => u.username.toLowerCase() === usernameInput.toLowerCase()
-  );
-  if(user){
-    if(user.password && user.password !== passwordInput){
-      toast("Wrong password.");
+  const key =
+    usernameKey(username);
+  /*
+    Find existing account
+    case-insensitively.
+  */
+  const existingUser =
+    users.find(
+      user =>
+        usernameKey(user.username) === key
+    );
+  /* EXISTING USER */
+  if(existingUser){
+    if(
+      existingUser.password !==
+      password
+    ){
+      toast(
+        "Wrong password."
+      );
       return;
     }
-    if(!user.password){
-      user.password = passwordInput;
-      saveAll();
-    }
-    currentUser = user;
+    currentUser =
+      existingUser;
     localStorage.setItem(
       STORAGE_CURRENT,
-      user.username
+      existingUser.username
     );
     closeLogin();
-    document.getElementById("loginPassword").value = "";
-    toast("Welcome back, " + user.username + "!");
+    document.getElementById(
+      "loginUsername"
+    ).value = "";
+    document.getElementById(
+      "loginPassword"
+    ).value = "";
+    toast(
+      "Welcome back, " +
+      existingUser.username +
+      "!"
+    );
     refreshUI();
     return;
   }
-  user = {
-    username:usernameInput,
-    password:passwordInput,
+  /*
+    NEW USER
+    Extra duplicate check before
+    pushing into the array.
+  */
+  const duplicate =
+    users.some(
+      user =>
+        usernameKey(user.username) === key
+    );
+  if(duplicate){
+    toast(
+      "That username is already taken."
+    );
+    return;
+  }
+  const user = {
+    username,
+    password,
     xpTotal:0,
-    createdAt:new Date().toISOString()
+    createdAt:
+      new Date().toISOString()
   };
   users.push(user);
   currentUser = user;
@@ -1280,14 +1640,22 @@ function login(){
   );
   saveAll();
   closeLogin();
-  document.getElementById("loginUsername").value = "";
-  document.getElementById("loginPassword").value = "";
-  toast("Account creation successful");
+  document.getElementById(
+    "loginUsername"
+  ).value = "";
+  document.getElementById(
+    "loginPassword"
+  ).value = "";
+  toast(
+    "Account creation successful"
+  );
   refreshUI();
 }
 function logout(){
   currentUser = null;
-  localStorage.removeItem(STORAGE_CURRENT);
+  localStorage.removeItem(
+    STORAGE_CURRENT
+  );
   if(adminLoggedIn){
     adminLoggedIn = false;
   }
@@ -1303,31 +1671,52 @@ function openAdminLogin(){
     navigate("admin");
     return;
   }
-  document.getElementById("adminLoginModal").classList.add("open");
-  document.getElementById("adminUsername").focus();
+  document
+    .getElementById("adminLoginModal")
+    .classList.add("open");
+  setTimeout(() => {
+    document
+      .getElementById("adminUsername")
+      .focus();
+  },100);
 }
 function closeAdminLogin(){
-  document.getElementById("adminLoginModal").classList.remove("open");
+  document
+    .getElementById("adminLoginModal")
+    .classList.remove("open");
 }
 function adminLogin(){
   const username =
-    document.getElementById("adminUsername").value.trim();
+    document
+      .getElementById("adminUsername")
+      .value
+      .trim();
   const password =
-    document.getElementById("adminPassword").value;
+    document
+      .getElementById("adminPassword")
+      .value;
   if(
     username === ADMIN_USERNAME &&
     password === ADMIN_PASSWORD
   ){
     adminLoggedIn = true;
     closeAdminLogin();
-    document.getElementById("adminUsername").value = "";
-    document.getElementById("adminPassword").value = "";
-    toast("Admin login successful.");
+    document.getElementById(
+      "adminUsername"
+    ).value = "";
+    document.getElementById(
+      "adminPassword"
+    ).value = "";
+    toast(
+      "Admin login successful."
+    );
     navigate("admin");
     refreshUI();
     return;
   }
-  toast("Invalid admin credentials.");
+  toast(
+    "Invalid admin credentials."
+  );
 }
 /* =========================================================
    NAVIGATION
@@ -1342,100 +1731,255 @@ const pageNames = {
   admin:"Admin Panel"
 };
 function navigate(view){
-  if(view === "admin" && !adminLoggedIn){
+  /*
+    Admin Panel is always visible,
+    but requires admin login.
+  */
+  if(
+    view === "admin" &&
+    !adminLoggedIn
+  ){
     openAdminLogin();
     return;
   }
-  document.querySelectorAll(".view").forEach(el=>{
-    el.classList.remove("active");
-  });
-  const target = document.getElementById("view-" + view);
-  if(!target) return;
-  target.classList.add("active");
-  document.querySelectorAll(".nav button[data-view]").forEach(btn=>{
-    btn.classList.toggle(
-      "active",
-      btn.dataset.view === view
+  document
+    .querySelectorAll(".view")
+    .forEach(el => {
+      el.classList.remove(
+        "active"
+      );
+    });
+  const target =
+    document.getElementById(
+      "view-" + view
     );
-  });
-  document.getElementById("pageTitle").textContent =
-    pageNames[view] || "Store";
+  if(!target){
+    return;
+  }
+  target.classList.add(
+    "active"
+  );
+  document
+    .querySelectorAll(
+      ".nav button[data-view]"
+    )
+    .forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.view === view
+      );
+    });
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    pageNames[view] ||
+    "Store";
   closeMobileMenu();
-  if(view === "orders") renderOrders();
-  if(view === "rank") renderRank();
-  if(view === "leaderboard") renderLeaderboard();
-  if(view === "profile") renderProfile();
-  if(view === "admin") renderAdmin();
-  if(view === "store") renderAnnouncement();
+  if(view === "orders"){
+    renderOrders();
+  }
+  if(view === "rank"){
+    renderRank();
+  }
+  if(view === "leaderboard"){
+    renderLeaderboard();
+  }
+  if(view === "profile"){
+    renderProfile();
+  }
+  if(view === "admin"){
+    renderAdmin();
+  }
+  if(view === "store"){
+    renderAnnouncement();
+  }
 }
 /* =========================================================
    MOBILE MENU
    ========================================================= */
 function toggleMobileMenu(){
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  sidebar.classList.toggle("open");
-  overlay.classList.toggle("open");
+  const sidebar =
+    document.getElementById(
+      "sidebar"
+    );
+  const overlay =
+    document.getElementById(
+      "overlay"
+    );
+  sidebar.classList.toggle(
+    "open"
+  );
+  overlay.classList.toggle(
+    "open"
+  );
 }
 function closeMobileMenu(){
-  document.getElementById("sidebar")
+  document
+    .getElementById("sidebar")
     .classList.remove("open");
-  document.getElementById("overlay")
+  document
+    .getElementById("overlay")
     .classList.remove("open");
 }
 /* =========================================================
    BUY
    ========================================================= */
 function getAmount(){
-  const input = document.getElementById("amountInput");
-  let amount = parseInt(input.value,10);
-  if(!Number.isFinite(amount) || amount < 1){
+  const input =
+    document.getElementById(
+      "amountInput"
+    );
+  let amount =
+    Number.parseInt(
+      input.value,
+      10
+    );
+  if(
+    !Number.isFinite(amount) ||
+    amount < 1
+  ){
     amount = 1;
   }
-  amount = Math.floor(amount);
-  input.value = amount;
+  amount =
+    Math.floor(amount);
+  input.value =
+    String(amount);
   return amount;
 }
 function updateBuyTotal(){
-  const amount = getAmount();
-  document.getElementById("buyTotal").textContent =
-    money(amount * PRICE_PER_BGL);
-  document.querySelectorAll(".preset").forEach(btn=>{
-    btn.classList.toggle(
-      "selected",
-      Number(btn.dataset.amount) === amount
+  const input =
+    document.getElementById(
+      "amountInput"
     );
-  });
+  if(!input){
+    return;
+  }
+  let amount =
+    Number.parseInt(
+      input.value,
+      10
+    );
+  if(
+    !Number.isFinite(amount) ||
+    amount < 1
+  ){
+    amount = 1;
+  }
+  amount =
+    Math.floor(amount);
+  input.value =
+    String(amount);
+  const total =
+    amount *
+    PRICE_PER_BGL;
+  document.getElementById(
+    "buyTotal"
+  ).textContent =
+    money(total);
+  document
+    .querySelectorAll(".preset")
+    .forEach(btn => {
+      btn.classList.toggle(
+        "selected",
+        Number(
+          btn.dataset.amount
+        ) === amount
+      );
+    });
 }
+/*
+  FIXED STEPPER
+  Minus:
+    1 -> 1
+  Plus:
+    1 -> 2
+    2 -> 3
+*/
 function changeAmount(delta){
-  const amount = getAmount();
-  document.getElementById("amountInput").value =
-    Math.max(1,amount + delta);
+  const input =
+    document.getElementById(
+      "amountInput"
+    );
+  let current =
+    Number.parseInt(
+      input.value,
+      10
+    );
+  if(
+    !Number.isFinite(current)
+  ){
+    current = 1;
+  }
+  current =
+    Math.floor(current);
+  const next =
+    Math.max(
+      1,
+      current + Number(delta)
+    );
+  input.value =
+    String(next);
   updateBuyTotal();
 }
 function setAmount(amount){
-  document.getElementById("amountInput").value =
-    Math.max(1,Math.floor(Number(amount) || 1));
+  let value =
+    Number.parseInt(
+      amount,
+      10
+    );
+  if(
+    !Number.isFinite(value) ||
+    value < 1
+  ){
+    value = 1;
+  }
+  document.getElementById(
+    "amountInput"
+  ).value =
+    String(value);
   updateBuyTotal();
 }
+/* =========================================================
+   CREATE ORDER
+   ========================================================= */
 function createOrder(){
+  /*
+    IMPORTANT:
+    User must be logged in.
+  */
   if(!currentUser){
-    toast("Login first.");
+    toast(
+      "You need to login first."
+    );
     openLogin();
     return;
   }
-  const amount = getAmount();
-  if(amount < 1){
-    toast("Invalid amount.");
+  const amount =
+    getAmount();
+  if(
+    !Number.isFinite(amount) ||
+    amount < 1
+  ){
+    toast(
+      "Invalid amount."
+    );
     return;
   }
   const order = {
     id:makeId("ORD"),
-    username:currentUser.username,
-    amount:amount,
-    total:Number((amount * PRICE_PER_BGL).toFixed(2)),
+    username:
+      currentUser.username,
+    amount,
+    total:
+      Number(
+        (
+          amount *
+          PRICE_PER_BGL
+        ).toFixed(2)
+      ),
     status:"pending",
-    createdAt:new Date().toISOString(),
+    createdAt:
+      new Date().toISOString(),
     approvedAt:null,
     completedAt:null,
     xpAwarded:0
@@ -1456,190 +2000,289 @@ function createOrder(){
    ========================================================= */
 function formatDate(date){
   try{
-    return new Date(date).toLocaleString("fi-FI",{
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric",
-      hour:"2-digit",
-      minute:"2-digit"
-    });
+    return new Date(date)
+      .toLocaleString(
+        "fi-FI",
+        {
+          day:"2-digit",
+          month:"2-digit",
+          year:"numeric",
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      );
   }catch{
     return "-";
   }
 }
 function renderOrders(){
-  const body = document.getElementById("ordersBody");
+  const body =
+    document.getElementById(
+      "ordersBody"
+    );
   if(!currentUser){
     body.innerHTML = `
       <tr>
-        <td colspan="6" style="text-align:center;color:#777f92">
+        <td
+          colspan="6"
+          style="text-align:center;color:#777f92">
           Login to see your orders.
         </td>
       </tr>
     `;
     return;
   }
-  const mine = orders.filter(
-    order =>
-      String(order.username).toLowerCase() ===
-      currentUser.username.toLowerCase()
-  );
+  const mine =
+    orders.filter(
+      order =>
+        usernameKey(order.username) ===
+        usernameKey(currentUser.username)
+    );
   if(!mine.length){
     body.innerHTML = `
       <tr>
-        <td colspan="6" style="text-align:center;color:#777f92;padding:30px">
+        <td
+          colspan="6"
+          style="text-align:center;color:#777f92;padding:30px">
           No orders yet.
         </td>
       </tr>
     `;
     return;
   }
-  body.innerHTML = mine.map(order=>`
-    <tr>
-      <td>
-        <strong>${escapeHTML(order.id)}</strong>
-      </td>
-      <td>
-        ${Number(order.amount)} BGL
-      </td>
-      <td>
-        ${money(order.total)}
-      </td>
-      <td>
-        <span class="status ${escapeHTML(order.status)}">
-          ${escapeHTML(order.status)}
-        </span>
-      </td>
-      <td>
-        ${Number(order.xpAwarded || 0)} XP
-      </td>
-      <td>
-        ${formatDate(order.createdAt)}
-      </td>
-    </tr>
-  `).join("");
+  body.innerHTML =
+    mine.map(order => `
+      <tr>
+        <td>
+          <strong>
+            ${escapeHTML(order.id)}
+          </strong>
+        </td>
+        <td>
+          ${Number(order.amount)} BGL
+        </td>
+        <td>
+          ${money(order.total)}
+        </td>
+        <td>
+          <span
+            class="status ${escapeHTML(order.status)}">
+            ${escapeHTML(order.status)}
+          </span>
+        </td>
+        <td>
+          ${Number(order.xpAwarded || 0)} XP
+        </td>
+        <td>
+          ${formatDate(order.createdAt)}
+        </td>
+      </tr>
+    `).join("");
 }
 /* =========================================================
    RANK
    ========================================================= */
 function renderRank(){
-  const xp = currentUser
-    ? Number(currentUser.xpTotal || 0)
-    : 0;
-  const info = getRankInfo(xp);
-  document.getElementById("rankName").textContent =
+  const xp =
+    currentUser
+      ? Number(
+          currentUser.xpTotal || 0
+        )
+      : 0;
+  const info =
+    getRankInfo(xp);
+  document.getElementById(
+    "rankName"
+  ).textContent =
     info.current.name;
-  document.getElementById("rankXP").textContent =
+  document.getElementById(
+    "rankXP"
+  ).textContent =
     xp + " XP";
-  document.getElementById("rankProgressBar").style.width =
+  document.getElementById(
+    "rankProgressBar"
+  ).style.width =
     info.percent + "%";
-  document.getElementById("rankCurrentXP").textContent =
+  document.getElementById(
+    "rankCurrentXP"
+  ).textContent =
     xp + " XP";
-  document.getElementById("rankNext").textContent =
+  document.getElementById(
+    "rankNext"
+  ).textContent =
     info.next
-      ? info.next.name + " · " + info.next.threshold + " XP"
+      ? info.next.name +
+        " · " +
+        info.next.threshold +
+        " XP"
       : "MAX RANK";
-  document.getElementById("rankCardCurrent").textContent =
+  document.getElementById(
+    "rankCardCurrent"
+  ).textContent =
     info.current.name;
-  document.getElementById("rankCardXP").textContent =
+  document.getElementById(
+    "rankCardXP"
+  ).textContent =
     xp;
-  document.getElementById("rankCardNeeded").textContent =
-    info.next ? info.needed : 0;
+  document.getElementById(
+    "rankCardNeeded"
+  ).textContent =
+    info.next
+      ? info.needed
+      : 0;
 }
 /* =========================================================
    LEADERBOARD
    ========================================================= */
 function renderLeaderboard(){
   const container =
-    document.getElementById("leaderboardList");
-  const sorted = [...users].sort(
-    (a,b) => Number(b.xpTotal) - Number(a.xpTotal)
-  );
+    document.getElementById(
+      "leaderboardList"
+    );
+  const sorted =
+    [...users].sort(
+      (a,b) =>
+        Number(b.xpTotal) -
+        Number(a.xpTotal)
+    );
   if(!sorted.length){
     container.innerHTML = `
-      <div style="padding:35px;text-align:center;color:#777f92">
+      <div
+        style="padding:35px;text-align:center;color:#777f92">
         No users yet.
       </div>
     `;
     return;
   }
-  container.innerHTML = sorted.map((user,index)=>{
-    const info = getRankInfo(user.xpTotal);
-    return `
-      <div class="leader-row">
-        <div class="leader-rank">
-          #${index + 1}
-        </div>
-        <div>
-          <div class="leader-name">
-            ${escapeHTML(user.username)}
+  container.innerHTML =
+    sorted.map(
+      (user,index) => {
+        const info =
+          getRankInfo(
+            user.xpTotal
+          );
+        return `
+          <div class="leader-row">
+            <div class="leader-rank">
+              #${index + 1}
+            </div>
+            <div>
+              <div class="leader-name">
+                ${escapeHTML(user.username)}
+              </div>
+              <div class="rank-tag">
+                ${escapeHTML(info.current.name)}
+              </div>
+            </div>
+            <div class="leader-xp">
+              ${Number(user.xpTotal)} XP
+            </div>
+            <div
+              class="rank-col"
+              style="color:#777f92;font-size:11px">
+              ${
+                info.next
+                  ? info.next.name
+                  : "MAX"
+              }
+            </div>
           </div>
-          <div class="rank-tag">
-            ${escapeHTML(info.current.name)}
-          </div>
-        </div>
-        <div class="leader-xp">
-          ${Number(user.xpTotal)} XP
-        </div>
-        <div class="rank-col" style="color:#777f92;font-size:11px">
-          ${info.next ? info.next.name : "MAX"}
-        </div>
-      </div>
-    `;
-  }).join("");
+        `;
+      }
+    ).join("");
 }
 /* =========================================================
    PROFILE
    ========================================================= */
 function renderProfile(){
   if(!currentUser){
-    document.getElementById("profileUsername").textContent =
+    document.getElementById(
+      "profileUsername"
+    ).textContent =
       "Not logged in";
-    document.getElementById("profileRank").textContent =
+    document.getElementById(
+      "profileRank"
+    ).textContent =
       "Unranked";
-    document.getElementById("profileXP").textContent =
+    document.getElementById(
+      "profileXP"
+    ).textContent =
       "0";
-    document.getElementById("profileOrders").textContent =
+    document.getElementById(
+      "profileOrders"
+    ).textContent =
       "0";
-    document.getElementById("profileAvatar").textContent =
+    document.getElementById(
+      "profileAvatar"
+    ).textContent =
       "?";
     return;
   }
-  const info = getRankInfo(currentUser.xpTotal);
-  const count = orders.filter(
-    o => o.username.toLowerCase() ===
-    currentUser.username.toLowerCase()
-  ).length;
-  document.getElementById("profileUsername").textContent =
+  const info =
+    getRankInfo(
+      currentUser.xpTotal
+    );
+  const count =
+    orders.filter(
+      order =>
+        usernameKey(order.username) ===
+        usernameKey(currentUser.username)
+    ).length;
+  document.getElementById(
+    "profileUsername"
+  ).textContent =
     currentUser.username;
-  document.getElementById("profileRank").textContent =
+  document.getElementById(
+    "profileRank"
+  ).textContent =
     info.current.name;
-  document.getElementById("profileXP").textContent =
+  document.getElementById(
+    "profileXP"
+  ).textContent =
     currentUser.xpTotal;
-  document.getElementById("profileOrders").textContent =
+  document.getElementById(
+    "profileOrders"
+  ).textContent =
     count;
-  document.getElementById("profileAvatar").textContent =
-    currentUser.username.charAt(0).toUpperCase();
+  document.getElementById(
+    "profileAvatar"
+  ).textContent =
+    currentUser.username
+      .charAt(0)
+      .toUpperCase();
 }
 /* =========================================================
    SIDEBAR USER
    ========================================================= */
 function updateSidebarUser(){
   const avatar =
-    document.getElementById("sideAvatar");
+    document.getElementById(
+      "sideAvatar"
+    );
   const username =
-    document.getElementById("sideUsername");
+    document.getElementById(
+      "sideUsername"
+    );
   const rank =
-    document.getElementById("sideRank");
+    document.getElementById(
+      "sideRank"
+    );
   if(!currentUser){
     avatar.textContent = "?";
-    username.textContent = "Not logged in";
-    rank.textContent = "Unranked · 0 XP";
+    username.textContent =
+      "Not logged in";
+    rank.textContent =
+      "Unranked · 0 XP";
     return;
   }
-  const info = getRankInfo(currentUser.xpTotal);
+  const info =
+    getRankInfo(
+      currentUser.xpTotal
+    );
   avatar.textContent =
-    currentUser.username.charAt(0).toUpperCase();
+    currentUser.username
+      .charAt(0)
+      .toUpperCase();
   username.textContent =
     currentUser.username;
   rank.textContent =
@@ -1653,18 +2296,30 @@ function updateSidebarUser(){
    ========================================================= */
 function renderAnnouncement(){
   const box =
-    document.getElementById("announcementStore");
+    document.getElementById(
+      "announcementStore"
+    );
   if(!settings.announcement){
     box.innerHTML = "";
     return;
   }
   box.innerHTML = `
     <div class="card">
-      <div style="font-size:11px;color:#9b85ff;font-weight:900;margin-bottom:6px">
+      <div
+        style="
+          font-size:11px;
+          color:#9b85ff;
+          font-weight:900;
+          margin-bottom:6px">
         STORE ANNOUNCEMENT
       </div>
-      <div style="font-size:13px;line-height:1.6">
-        ${escapeHTML(settings.announcement)}
+      <div
+        style="
+          font-size:13px;
+          line-height:1.6">
+        ${escapeHTML(
+          settings.announcement
+        )}
       </div>
     </div>
   `;
@@ -1674,52 +2329,87 @@ function renderAnnouncement(){
    ========================================================= */
 function renderAdmin(){
   if(!adminLoggedIn){
-    document.getElementById("adminContent").innerHTML = "";
+    document.getElementById(
+      "adminContent"
+    ).innerHTML = "";
     return;
   }
   const pending =
-    orders.filter(o=>o.status === "pending").length;
+    orders.filter(
+      o => o.status === "pending"
+    ).length;
   const approved =
-    orders.filter(o=>o.status === "approved").length;
+    orders.filter(
+      o => o.status === "approved"
+    ).length;
   const completed =
-    orders.filter(o=>o.status === "completed").length;
+    orders.filter(
+      o => o.status === "completed"
+    ).length;
   const totalXP =
     users.reduce(
-      (sum,user)=>sum + Number(user.xpTotal || 0),
+      (sum,user) =>
+        sum +
+        Number(
+          user.xpTotal || 0
+        ),
       0
     );
-  document.getElementById("adminContent").innerHTML = `
+  document.getElementById(
+    "adminContent"
+  ).innerHTML = `
     <div class="grid grid-3">
       <div class="card stat">
         <div class="stat-label">USERS</div>
-        <div class="stat-value">${users.length}</div>
+        <div class="stat-value">
+          ${users.length}
+        </div>
       </div>
       <div class="card stat">
-        <div class="stat-label">PENDING ORDERS</div>
-        <div class="stat-value">${pending}</div>
+        <div class="stat-label">
+          PENDING ORDERS
+        </div>
+        <div class="stat-value">
+          ${pending}
+        </div>
       </div>
       <div class="card stat">
-        <div class="stat-label">TOTAL XP</div>
-        <div class="stat-value">${totalXP}</div>
+        <div class="stat-label">
+          TOTAL XP
+        </div>
+        <div class="stat-value">
+          ${totalXP}
+        </div>
       </div>
     </div>
     <div style="height:18px"></div>
     <div class="grid grid-2">
       <div class="card stat">
-        <div class="stat-label">APPROVED</div>
-        <div class="stat-value">${approved}</div>
+        <div class="stat-label">
+          APPROVED
+        </div>
+        <div class="stat-value">
+          ${approved}
+        </div>
       </div>
       <div class="card stat">
-        <div class="stat-label">COMPLETED</div>
-        <div class="stat-value">${completed}</div>
+        <div class="stat-label">
+          COMPLETED
+        </div>
+        <div class="stat-value">
+          ${completed}
+        </div>
       </div>
     </div>
     <div style="height:18px"></div>
     <div class="card">
-      <div class="card-title">Order Management</div>
+      <div class="card-title">
+        Order Management
+      </div>
       <div class="card-sub">
-        Approve first, then complete. Completing an order awards
-        exactly 10 XP per BGL.
+        Approve first, then complete.
+        Completing an order awards exactly
+        10 XP per BGL.
       </div>
       <div style="height:18px"></div>
       <div class="table-wrap">
@@ -1738,10 +2428,20 @@ function renderAdmin(){
           <tbody>
             ${
               orders.length
-              ? orders.map(order=>adminOrderRow(order)).join("")
+              ? orders
+                  .map(
+                    order =>
+                      adminOrderRow(order)
+                  )
+                  .join("")
               : `
                 <tr>
-                  <td colspan="7" style="text-align:center;color:#777f92;padding:30px">
+                  <td
+                    colspan="7"
+                    style="
+                      text-align:center;
+                      color:#777f92;
+                      padding:30px">
                     No orders.
                   </td>
                 </tr>
@@ -1753,7 +2453,9 @@ function renderAdmin(){
     </div>
     <div style="height:18px"></div>
     <div class="card">
-      <div class="card-title">Users</div>
+      <div class="card-title">
+        Users
+      </div>
       <div class="card-sub">
         Manage XP and rank progression.
       </div>
@@ -1772,10 +2474,20 @@ function renderAdmin(){
           <tbody>
             ${
               users.length
-              ? users.map(user=>adminUserRow(user)).join("")
+              ? users
+                  .map(
+                    user =>
+                      adminUserRow(user)
+                  )
+                  .join("")
               : `
                 <tr>
-                  <td colspan="5" style="text-align:center;color:#777f92;padding:30px">
+                  <td
+                    colspan="5"
+                    style="
+                      text-align:center;
+                      color:#777f92;
+                      padding:30px">
                     No users.
                   </td>
                 </tr>
@@ -1787,7 +2499,9 @@ function renderAdmin(){
     </div>
     <div style="height:18px"></div>
     <div class="card">
-      <div class="card-title">Store Settings</div>
+      <div class="card-title">
+        Store Settings
+      </div>
       <div class="card-sub">
         XP rate is locked to 10 XP per BGL.
       </div>
@@ -1800,8 +2514,7 @@ function renderAdmin(){
           <input
             class="input"
             value="10 XP per BGL"
-            disabled
-          >
+            disabled>
         </div>
         <div>
           <label class="label">
@@ -1810,8 +2523,7 @@ function renderAdmin(){
           <input
             class="input"
             value="€2.30 per BGL"
-            disabled
-          >
+            disabled>
         </div>
       </div>
       <div style="height:15px"></div>
@@ -1821,16 +2533,27 @@ function renderAdmin(){
       <textarea
         id="announcementInput"
         placeholder="Write an announcement..."
-      >${escapeHTML(settings.announcement)}</textarea>
+      >${escapeHTML(
+        settings.announcement
+      )}</textarea>
       <div style="height:10px"></div>
       <div class="actions">
-        <button class="btn btn-primary" data-action="save-announcement">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-action="save-announcement">
           Save Announcement
         </button>
-        <button class="btn btn-danger" data-action="clear-announcement">
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-action="clear-announcement">
           Clear
         </button>
-        <button class="btn" data-action="export-data">
+        <button
+          type="button"
+          class="btn"
+          data-action="export-data">
           Export JSON
         </button>
       </div>
@@ -1838,17 +2561,20 @@ function renderAdmin(){
   `;
 }
 function adminOrderRow(order){
-  const status = order.status;
+  const status =
+    order.status;
   let buttons = "";
   if(status === "pending"){
     buttons = `
       <button
+        type="button"
         class="btn btn-small btn-success"
         data-action="admin-approve"
         data-id="${escapeHTML(order.id)}">
         Approve
       </button>
       <button
+        type="button"
         class="btn btn-small btn-danger"
         data-action="admin-reject"
         data-id="${escapeHTML(order.id)}">
@@ -1858,30 +2584,24 @@ function adminOrderRow(order){
   }else if(status === "approved"){
     buttons = `
       <button
+        type="button"
         class="btn btn-small btn-primary"
         data-action="admin-complete"
         data-id="${escapeHTML(order.id)}">
         Complete
       </button>
       <button
+        type="button"
         class="btn btn-small btn-danger"
         data-action="admin-reject"
         data-id="${escapeHTML(order.id)}">
         Reject
       </button>
     `;
-  }else if(status === "completed"){
-    buttons = `
-      <button
-        class="btn btn-small btn-danger"
-        data-action="admin-delete-order"
-        data-id="${escapeHTML(order.id)}">
-        Delete
-      </button>
-    `;
   }else{
     buttons = `
       <button
+        type="button"
         class="btn btn-small btn-danger"
         data-action="admin-delete-order"
         data-id="${escapeHTML(order.id)}">
@@ -1892,7 +2612,9 @@ function adminOrderRow(order){
   return `
     <tr>
       <td>
-        <strong>${escapeHTML(order.id)}</strong>
+        <strong>
+          ${escapeHTML(order.id)}
+        </strong>
       </td>
       <td>
         ${escapeHTML(order.username)}
@@ -1904,7 +2626,8 @@ function adminOrderRow(order){
         ${money(order.total)}
       </td>
       <td>
-        <span class="status ${escapeHTML(status)}">
+        <span
+          class="status ${escapeHTML(status)}">
           ${escapeHTML(status)}
         </span>
       </td>
@@ -1920,16 +2643,22 @@ function adminOrderRow(order){
   `;
 }
 function adminUserRow(user){
-  const info = getRankInfo(user.xpTotal);
+  const info =
+    getRankInfo(
+      user.xpTotal
+    );
   const orderCount =
     orders.filter(
-      o => o.username.toLowerCase() ===
-      user.username.toLowerCase()
+      o =>
+        usernameKey(o.username) ===
+        usernameKey(user.username)
     ).length;
   return `
     <tr>
       <td>
-        <strong>${escapeHTML(user.username)}</strong>
+        <strong>
+          ${escapeHTML(user.username)}
+        </strong>
       </td>
       <td>
         ${escapeHTML(info.current.name)}
@@ -1943,18 +2672,21 @@ function adminUserRow(user){
       <td>
         <div class="actions">
           <button
+            type="button"
             class="btn btn-small btn-success"
             data-action="admin-add-xp"
             data-user="${escapeHTML(user.username)}">
             + XP
           </button>
           <button
+            type="button"
             class="btn btn-small btn-danger"
             data-action="admin-remove-xp"
             data-user="${escapeHTML(user.username)}">
             − XP
           </button>
           <button
+            type="button"
             class="btn btn-small"
             data-action="admin-reset-user"
             data-user="${escapeHTML(user.username)}">
@@ -1969,72 +2701,107 @@ function adminUserRow(user){
    ADMIN ACTIONS
    ========================================================= */
 function findOrder(id){
-  return orders.find(o=>o.id === id);
+  return orders.find(
+    o => o.id === id
+  );
 }
 function approveOrder(id){
   if(!adminLoggedIn) return;
-  const order = findOrder(id);
+  const order =
+    findOrder(id);
   if(!order) return;
   if(order.status !== "pending"){
-    toast("Order is not pending.");
+    toast(
+      "Order is not pending."
+    );
     return;
   }
-  order.status = "approved";
-  order.approvedAt = new Date().toISOString();
+  order.status =
+    "approved";
+  order.approvedAt =
+    new Date().toISOString();
   saveAll();
   renderAdmin();
-  toast("Order approved.");
+  toast(
+    "Order approved."
+  );
 }
 function rejectOrder(id){
   if(!adminLoggedIn) return;
-  const order = findOrder(id);
+  const order =
+    findOrder(id);
   if(!order) return;
   if(order.status === "completed"){
-    toast("Completed orders cannot be rejected.");
+    toast(
+      "Completed orders cannot be rejected."
+    );
     return;
   }
-  order.status = "rejected";
+  order.status =
+    "rejected";
   saveAll();
   renderAdmin();
-  toast("Order rejected.");
+  toast(
+    "Order rejected."
+  );
 }
 function completeOrder(id){
   if(!adminLoggedIn) return;
-  const order = findOrder(id);
+  const order =
+    findOrder(id);
   if(!order) return;
   if(order.status !== "approved"){
-    toast("Only approved orders can be completed.");
+    toast(
+      "Only approved orders can be completed."
+    );
     return;
   }
-  const user = users.find(
-    u =>
-      u.username.toLowerCase() ===
-      String(order.username).toLowerCase()
-  );
+  const user =
+    users.find(
+      u =>
+        usernameKey(u.username) ===
+        usernameKey(
+          String(order.username)
+        )
+    );
   if(!user){
-    toast("User account not found.");
+    toast(
+      "User account not found."
+    );
     return;
   }
   /*
-    IMPORTANT:
     1 BGL = 10 XP
-    10 BGL = 100 XP
-    42 BGL = 420 XP
   */
-  const xp = Math.floor(Number(order.amount) * XP_PER_BGL);
-  order.status = "completed";
-  order.completedAt = new Date().toISOString();
-  order.xpAwarded = xp;
+  const xp =
+    Math.floor(
+      Number(order.amount) *
+      XP_PER_BGL
+    );
+  order.status =
+    "completed";
+  order.completedAt =
+    new Date().toISOString();
+  order.xpAwarded =
+    xp;
   user.xpTotal =
-    Math.max(0,Number(user.xpTotal || 0)) + xp;
+    Math.max(
+      0,
+      Number(user.xpTotal || 0)
+    ) + xp;
   saveAll();
   renderAdmin();
   if(
     currentUser &&
-    currentUser.username.toLowerCase() ===
-    user.username.toLowerCase()
+    usernameKey(
+      currentUser.username
+    ) ===
+    usernameKey(
+      user.username
+    )
   ){
-    currentUser = user;
+    currentUser =
+      user;
   }
   refreshUI();
   toast(
@@ -2046,130 +2813,214 @@ function completeOrder(id){
 function deleteOrder(id){
   if(!adminLoggedIn) return;
   const index =
-    orders.findIndex(o=>o.id === id);
+    orders.findIndex(
+      o => o.id === id
+    );
   if(index === -1) return;
-  orders.splice(index,1);
+  orders.splice(
+    index,
+    1
+  );
   saveAll();
   renderAdmin();
-  toast("Order deleted.");
+  toast(
+    "Order deleted."
+  );
 }
 function addXP(username){
   if(!adminLoggedIn) return;
-  const user = users.find(
-    u => u.username.toLowerCase() ===
-    username.toLowerCase()
-  );
+  const user =
+    users.find(
+      u =>
+        usernameKey(u.username) ===
+        usernameKey(username)
+    );
   if(!user) return;
-  const value = prompt(
-    "How much XP do you want to add?"
-  );
+  const value =
+    prompt(
+      "How much XP do you want to add?"
+    );
   if(value === null) return;
-  const amount = parseInt(value,10);
-  if(!Number.isFinite(amount) || amount <= 0){
-    toast("Invalid XP amount.");
-    return;
-  }
-  user.xpTotal =
-    Math.max(0,Number(user.xpTotal || 0)) + amount;
-  saveAll();
+  const amount =
+    parseInt(
+      value,
+      10
+    );
   if(
-    currentUser &&
-    currentUser.username.toLowerCase() ===
-    username.toLowerCase()
+    !Number.isFinite(amount) ||
+    amount <= 0
   ){
-    currentUser = user;
-  }
-  renderAdmin();
-  refreshUI();
-  toast("Added " + amount + " XP.");
-}
-function removeXP(username){
-  if(!adminLoggedIn) return;
-  const user = users.find(
-    u => u.username.toLowerCase() ===
-    username.toLowerCase()
-  );
-  if(!user) return;
-  const value = prompt(
-    "How much XP do you want to remove?"
-  );
-  if(value === null) return;
-  const amount = parseInt(value,10);
-  if(!Number.isFinite(amount) || amount <= 0){
-    toast("Invalid XP amount.");
+    toast(
+      "Invalid XP amount."
+    );
     return;
   }
   user.xpTotal =
     Math.max(
       0,
-      Number(user.xpTotal || 0) - amount
+      Number(user.xpTotal || 0)
+    ) + amount;
+  saveAll();
+  if(
+    currentUser &&
+    usernameKey(
+      currentUser.username
+    ) ===
+    usernameKey(username)
+  ){
+    currentUser =
+      user;
+  }
+  renderAdmin();
+  refreshUI();
+  toast(
+    "Added " +
+    amount +
+    " XP."
+  );
+}
+function removeXP(username){
+  if(!adminLoggedIn) return;
+  const user =
+    users.find(
+      u =>
+        usernameKey(u.username) ===
+        usernameKey(username)
+    );
+  if(!user) return;
+  const value =
+    prompt(
+      "How much XP do you want to remove?"
+    );
+  if(value === null) return;
+  const amount =
+    parseInt(
+      value,
+      10
+    );
+  if(
+    !Number.isFinite(amount) ||
+    amount <= 0
+  ){
+    toast(
+      "Invalid XP amount."
+    );
+    return;
+  }
+  user.xpTotal =
+    Math.max(
+      0,
+      Number(user.xpTotal || 0) -
+      amount
     );
   saveAll();
   if(
     currentUser &&
-    currentUser.username.toLowerCase() ===
-    username.toLowerCase()
+    usernameKey(
+      currentUser.username
+    ) ===
+    usernameKey(username)
   ){
-    currentUser = user;
+    currentUser =
+      user;
   }
   renderAdmin();
   refreshUI();
-  toast("Removed " + amount + " XP.");
+  toast(
+    "Removed " +
+    amount +
+    " XP."
+  );
 }
 function resetUser(username){
   if(!adminLoggedIn) return;
-  const user = users.find(
-    u => u.username.toLowerCase() ===
-    username.toLowerCase()
-  );
+  const user =
+    users.find(
+      u =>
+        usernameKey(u.username) ===
+        usernameKey(username)
+    );
   if(!user) return;
   user.xpTotal = 0;
   saveAll();
   if(
     currentUser &&
-    currentUser.username.toLowerCase() ===
-    username.toLowerCase()
+    usernameKey(
+      currentUser.username
+    ) ===
+    usernameKey(username)
   ){
-    currentUser = user;
+    currentUser =
+      user;
   }
   renderAdmin();
   refreshUI();
-  toast("User progress reset.");
+  toast(
+    "User progress reset."
+  );
 }
 /* =========================================================
    ADMIN SETTINGS
    ========================================================= */
 function saveAnnouncement(){
   if(!adminLoggedIn) return;
+  const input =
+    document.getElementById(
+      "announcementInput"
+    );
   const value =
-    document.getElementById("announcementInput").value.trim();
-  settings.announcement = value;
+    input
+      ? input.value.trim()
+      : "";
+  settings.announcement =
+    value;
   saveAll();
   renderAnnouncement();
-  toast("Announcement saved.");
+  toast(
+    "Announcement saved."
+  );
 }
 function clearAnnouncement(){
   if(!adminLoggedIn) return;
-  settings.announcement = "";
+  settings.announcement =
+    "";
   saveAll();
   renderAdmin();
   renderAnnouncement();
-  toast("Announcement cleared.");
+  toast(
+    "Announcement cleared."
+  );
 }
 function exportData(){
   if(!adminLoggedIn) return;
   const data = {
-    exportedAt:new Date().toISOString(),
+    exportedAt:
+      new Date().toISOString(),
     users,
     orders,
     settings
   };
-  const blob = new Blob(
-    [JSON.stringify(data,null,2)],
-    {type:"application/json"}
-  );
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+  const a =
+    document.createElement(
+      "a"
+    );
   a.href = url;
   a.download =
     "j1mppaz-bgl-store-backup.json";
@@ -2177,117 +3028,186 @@ function exportData(){
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
-  toast("Data exported.");
+  toast(
+    "Data exported."
+  );
 }
 /* =========================================================
    EVENT HANDLING
    ========================================================= */
-document.addEventListener("click",function(event){
-  const button =
-    event.target.closest("[data-action]");
-  if(!button) return;
-  const action = button.dataset.action;
-  switch(action){
-    case "navigate":
-      navigate(button.dataset.view);
-      break;
-    case "toggle-menu":
-      toggleMobileMenu();
-      break;
-    case "open-login":
-      openLogin();
-      break;
-    case "close-login":
-      closeLogin();
-      break;
-    case "login":
-      login();
-      break;
-    case "logout":
-      logout();
-      break;
-    case "amount-minus":
-      changeAmount(-1);
-      break;
-    case "amount-plus":
-      changeAmount(1);
-      break;
-    case "preset":
-      setAmount(button.dataset.amount);
-      break;
-    case "create-order":
-      createOrder();
-      break;
-    case "admin-login":
-      adminLogin();
-      break;
-    case "close-admin-login":
-      closeAdminLogin();
-      break;
-    case "admin-approve":
-      approveOrder(button.dataset.id);
-      break;
-    case "admin-reject":
-      rejectOrder(button.dataset.id);
-      break;
-    case "admin-complete":
-      completeOrder(button.dataset.id);
-      break;
-    case "admin-delete-order":
-      deleteOrder(button.dataset.id);
-      break;
-    case "admin-add-xp":
-      addXP(button.dataset.user);
-      break;
-    case "admin-remove-xp":
-      removeXP(button.dataset.user);
-      break;
-    case "admin-reset-user":
-      resetUser(button.dataset.user);
-      break;
-    case "save-announcement":
-      saveAnnouncement();
-      break;
-    case "clear-announcement":
-      clearAnnouncement();
-      break;
-    case "export-data":
-      exportData();
-      break;
+document.addEventListener(
+  "click",
+  function(event){
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
+    if(!button) return;
+    event.preventDefault();
+    const action =
+      button.dataset.action;
+    switch(action){
+      case "navigate":
+        navigate(
+          button.dataset.view
+        );
+        break;
+      case "toggle-menu":
+        toggleMobileMenu();
+        break;
+      case "open-login":
+        openLogin();
+        break;
+      case "close-login":
+        closeLogin();
+        break;
+      case "login":
+        login();
+        break;
+      case "logout":
+        logout();
+        break;
+      case "amount-minus":
+        changeAmount(-1);
+        break;
+      case "amount-plus":
+        changeAmount(1);
+        break;
+      case "preset":
+        setAmount(
+          button.dataset.amount
+        );
+        break;
+      case "create-order":
+        createOrder();
+        break;
+      case "admin-login":
+        adminLogin();
+        break;
+      case "close-admin-login":
+        closeAdminLogin();
+        break;
+      case "admin-approve":
+        approveOrder(
+          button.dataset.id
+        );
+        break;
+      case "admin-reject":
+        rejectOrder(
+          button.dataset.id
+        );
+        break;
+      case "admin-complete":
+        completeOrder(
+          button.dataset.id
+        );
+        break;
+      case "admin-delete-order":
+        deleteOrder(
+          button.dataset.id
+        );
+        break;
+      case "admin-add-xp":
+        addXP(
+          button.dataset.user
+        );
+        break;
+      case "admin-remove-xp":
+        removeXP(
+          button.dataset.user
+        );
+        break;
+      case "admin-reset-user":
+        resetUser(
+          button.dataset.user
+        );
+        break;
+      case "save-announcement":
+        saveAnnouncement();
+        break;
+      case "clear-announcement":
+        clearAnnouncement();
+        break;
+      case "export-data":
+        exportData();
+        break;
+    }
   }
-});
-document.getElementById("overlay")
-  .addEventListener("click",closeMobileMenu);
-document.getElementById("amountInput")
-  .addEventListener("input",updateBuyTotal);
-document.getElementById("amountInput")
-  .addEventListener("change",updateBuyTotal);
-/* ENTER KEY LOGIN */
-document.getElementById("loginUsername")
-  .addEventListener("keydown",e=>{
-    if(e.key === "Enter") login();
-  });
-document.getElementById("loginPassword")
-  .addEventListener("keydown",e=>{
-    if(e.key === "Enter") login();
-  });
-document.getElementById("adminUsername")
-  .addEventListener("keydown",e=>{
-    if(e.key === "Enter") adminLogin();
-  });
-document.getElementById("adminPassword")
-  .addEventListener("keydown",e=>{
-    if(e.key === "Enter") adminLogin();
-  });
-/* ESC */
-document.addEventListener("keydown",e=>{
-  if(e.key !== "Escape") return;
-  closeLogin();
-  closeAdminLogin();
-  closeMobileMenu();
-});
+);
 /* =========================================================
-   REFRESH
+   OTHER EVENTS
+   ========================================================= */
+document
+  .getElementById("overlay")
+  .addEventListener(
+    "click",
+    closeMobileMenu
+  );
+document
+  .getElementById("amountInput")
+  .addEventListener(
+    "input",
+    updateBuyTotal
+  );
+document
+  .getElementById("amountInput")
+  .addEventListener(
+    "change",
+    updateBuyTotal
+  );
+/* ENTER KEY LOGIN */
+document
+  .getElementById("loginUsername")
+  .addEventListener(
+    "keydown",
+    e => {
+      if(e.key === "Enter"){
+        login();
+      }
+    }
+  );
+document
+  .getElementById("loginPassword")
+  .addEventListener(
+    "keydown",
+    e => {
+      if(e.key === "Enter"){
+        login();
+      }
+    }
+  );
+document
+  .getElementById("adminUsername")
+  .addEventListener(
+    "keydown",
+    e => {
+      if(e.key === "Enter"){
+        adminLogin();
+      }
+    }
+  );
+document
+  .getElementById("adminPassword")
+  .addEventListener(
+    "keydown",
+    e => {
+      if(e.key === "Enter"){
+        adminLogin();
+      }
+    }
+  );
+/* ESC */
+document.addEventListener(
+  "keydown",
+  e => {
+    if(e.key !== "Escape") return;
+    closeLogin();
+    closeAdminLogin();
+    closeMobileMenu();
+  }
+);
+/* =========================================================
+   REFRESH UI
    ========================================================= */
 function refreshUI(){
   updateSidebarUser();
@@ -2296,16 +3216,35 @@ function refreshUI(){
   renderLeaderboard();
   renderProfile();
   renderAnnouncement();
-  const adminNav =
-    document.getElementById("adminNav");
+  /*
+    ADMIN PANEL ALWAYS VISIBLE.
+    Text changes after successful admin login.
+  */
   const adminButton =
-    document.getElementById("adminButton");
+    document.getElementById(
+      "adminButton"
+    );
   if(adminLoggedIn){
-    adminNav.classList.add("visible");
-    adminButton.classList.add("visible");
+    adminButton.textContent =
+      "🛠️ Admin Panel";
   }else{
-    adminNav.classList.remove("visible");
-    adminButton.classList.remove("visible");
+    adminButton.textContent =
+      "🔐 Admin Panel";
+  }
+  /*
+    HIDE DISCORD LOGIN BUTTON
+    AFTER NORMAL USER LOGIN.
+  */
+  const authButton =
+    document.getElementById(
+      "authButton"
+    );
+  if(currentUser){
+    authButton.style.display =
+      "none";
+  }else{
+    authButton.style.display =
+      "inline-flex";
   }
   updateBuyTotal();
 }
