@@ -6,205 +6,184 @@
 <title>J1mPPaZ BGL Autostore</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-:root{
-  --bg:#05060a;
-  --bg2:#080a10;
-  --card:rgba(15,18,27,.72);
-  --card2:#111520;
-  --line:rgba(255,255,255,.075);
-  --text:#f7f8fc;
-  --muted:#858da1;
-  --purple:#8b5cf6;
-  --purple2:#a78bfa;
-  --cyan:#28d7ff;
-  --green:#35e0a0;
-  --discord:#5865f2;
-}
 *{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
-html{
-  scroll-behavior:smooth;
+:root{
+  --bg:#07090d;
+  --panel:#0d1118;
+  --panel2:#111722;
+  --border:rgba(255,255,255,.08);
+  --text:#f4f7fb;
+  --muted:#8993a4;
+  --blue:#5aa7ff;
+  --blue2:#286cff;
+  --cyan:#68dfff;
+  --green:#54e6a7;
+  --red:#ff5e72;
 }
 body{
-  margin:0;
   min-height:100vh;
-  color:var(--text);
   background:
-    radial-gradient(circle at 50% -15%,rgba(139,92,246,.18),transparent 35%),
-    radial-gradient(circle at 100% 40%,rgba(40,215,255,.07),transparent 28%),
-    #05060a;
-  font-family:Inter,system-ui,sans-serif;
+    radial-gradient(circle at 70% 10%,rgba(50,110,255,.12),transparent 30%),
+    radial-gradient(circle at 10% 90%,rgba(0,190,255,.07),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
   overflow-x:hidden;
 }
-/* =========================
-   BACKGROUND EFFECTS
-========================= */
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
-  background-size:50px 50px;
-  mask-image:linear-gradient(to bottom,black,transparent 80%);
+button,input{
+  font:inherit;
 }
-.noise{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.025;
-  z-index:100;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+button{
+  cursor:pointer;
 }
-/* =========================
-   SIDEBAR
-========================= */
+/* ================= SIDEBAR ================= */
 .sidebar{
   position:fixed;
   left:0;
   top:0;
-  bottom:0;
-  width:255px;
-  z-index:50;
-  padding:22px 14px;
-  background:rgba(5,7,11,.82);
-  border-right:1px solid var(--line);
-  backdrop-filter:blur(25px);
+  width:250px;
+  height:100vh;
+  padding:24px 16px;
+  background:rgba(7,9,13,.88);
+  backdrop-filter:blur(24px);
+  border-right:1px solid var(--border);
+  z-index:100;
 }
 .logo{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:5px 11px 32px;
+  padding:4px 10px 28px;
 }
-.logoIcon{
-  width:43px;
-  height:43px;
+.logo-mark{
+  width:38px;
+  height:38px;
+  border-radius:11px;
   display:grid;
   place-items:center;
-  border-radius:14px;
-  color:white;
+  background:linear-gradient(135deg,#62c7ff,#286cff);
+  box-shadow:0 0 30px rgba(60,140,255,.45);
+  overflow:hidden;
+}
+.logo-mark img{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+}
+.logo-text{
+  font-size:17px;
   font-weight:900;
-  background:linear-gradient(135deg,var(--purple),var(--cyan));
-  box-shadow:
-    0 0 25px rgba(139,92,246,.3),
-    inset 0 1px rgba(255,255,255,.25);
+  letter-spacing:-.6px;
 }
-.logoText b{
-  display:block;
-  font-size:15px;
-}
-.logoText span{
-  display:block;
-  margin-top:3px;
-  color:#70788b;
-  font-size:8px;
+.nav-title{
+  padding:10px 12px 8px;
+  font-size:10px;
+  color:#5e6878;
   font-weight:800;
-  letter-spacing:.18em;
+  letter-spacing:1.5px;
 }
 .nav{
-  display:grid;
+  display:flex;
+  flex-direction:column;
   gap:5px;
 }
 .nav button{
   width:100%;
-  position:relative;
-  padding:12px 14px;
-  border:0;
-  border-radius:12px;
-  color:#7f879a;
+  border:1px solid transparent;
   background:transparent;
+  color:#8993a4;
+  padding:13px 14px;
+  border-radius:12px;
   text-align:left;
-  cursor:pointer;
-  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:12px;
   transition:.25s;
-}
-.nav button:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:20%;
-  width:2px;
-  height:60%;
-  border-radius:4px;
-  background:var(--purple);
-  opacity:0;
-  transition:.25s;
+  font-weight:600;
 }
 .nav button:hover{
   color:white;
-  background:rgba(255,255,255,.035);
-  transform:translateX(2px);
+  background:rgba(255,255,255,.045);
 }
 .nav button.active{
   color:white;
-  background:linear-gradient(90deg,rgba(139,92,246,.13),rgba(255,255,255,.025));
+  background:linear-gradient(90deg,rgba(56,116,255,.18),rgba(56,116,255,.05));
+  border-color:rgba(80,140,255,.16);
+  box-shadow:inset 3px 0 #4f91ff;
 }
-.nav button.active:before{
-  opacity:1;
+.nav-icon{
+  width:22px;
+  text-align:center;
+  font-size:17px;
 }
-/* =========================
-   MAIN
-========================= */
+.admin-nav{
+  margin-top:8px;
+  color:#ffcf70!important;
+  border-color:rgba(255,190,70,.12)!important;
+  background:rgba(255,180,40,.035)!important;
+}
+.admin-nav:hover{
+  background:rgba(255,180,40,.08)!important;
+}
+.admin-badge{
+  margin-left:auto;
+  font-size:8px;
+  padding:3px 6px;
+  border-radius:5px;
+  background:rgba(255,193,70,.14);
+  color:#ffc957;
+  letter-spacing:.7px;
+  font-weight:900;
+}
+/* ================= MAIN ================= */
 .main{
-  margin-left:255px;
-  padding:27px;
-  max-width:1600px;
+  margin-left:250px;
+  min-height:100vh;
 }
 .topbar{
-  height:60px;
+  height:76px;
+  padding:0 38px;
+  border-bottom:1px solid var(--border);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:25px;
+  background:rgba(7,9,13,.55);
+  backdrop-filter:blur(18px);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
-.eyebrow{
-  color:#747d91;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.2em;
-  text-transform:uppercase;
+.page-title{
+  font-size:18px;
+  font-weight:800;
 }
-.pageTitle{
-  margin:4px 0 0;
-  font-size:28px;
-  letter-spacing:-.045em;
-}
-.discordTop{
+.user-area{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:10px 14px;
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:12px;
-  color:white;
-  background:#111522;
-  cursor:pointer;
-  font-size:11px;
-  font-weight:800;
-  transition:.25s;
+  gap:12px;
 }
-.discordTop:hover{
-  background:var(--discord);
-  border-color:var(--discord);
-  box-shadow:0 10px 35px rgba(88,101,242,.25);
-  transform:translateY(-2px);
+.user-name{
+  color:#b8c1ce;
+  font-size:13px;
+  font-weight:600;
 }
-.discordDot{
-  width:8px;
-  height:8px;
+.avatar{
+  width:36px;
+  height:36px;
   border-radius:50%;
-  background:#7289da;
-  box-shadow:0 0 12px #7289da;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#477cff,#6bdcff);
+  font-weight:900;
 }
-/* =========================
-   VIEWS
-========================= */
+/* ================= VIEWS ================= */
 .view{
   display:none;
+  padding:38px;
   animation:viewIn .35s ease;
 }
 .view.active{
@@ -220,1652 +199,1471 @@ body:before{
     transform:none;
   }
 }
-/* =========================
-   HERO
-========================= */
+/* ================= HERO ================= */
 .hero{
+  min-height:390px;
   position:relative;
-  min-height:465px;
   overflow:hidden;
-  display:grid;
-  grid-template-columns:1fr .9fr;
-  border:1px solid var(--line);
+  border:1px solid var(--border);
   border-radius:28px;
   background:
-    linear-gradient(135deg,rgba(17,20,31,.95),rgba(7,9,14,.91));
-  box-shadow:
-    0 30px 100px rgba(0,0,0,.25),
-    inset 0 1px rgba(255,255,255,.025);
+    radial-gradient(circle at 75% 50%,rgba(42,113,255,.20),transparent 34%),
+    linear-gradient(135deg,#0d121b,#090c12);
+  display:flex;
+  align-items:center;
+  padding:55px;
 }
 .hero:before{
   content:"";
   position:absolute;
-  width:550px;
-  height:550px;
-  right:-190px;
-  top:-250px;
-  border-radius:50%;
-  background:rgba(139,92,246,.18);
-  filter:blur(100px);
+  inset:-100%;
+  background:linear-gradient(
+    120deg,
+    transparent 42%,
+    rgba(255,255,255,.045) 50%,
+    transparent 58%
+  );
+  animation:shine 7s linear infinite;
 }
-.hero:after{
-  content:"";
-  position:absolute;
-  width:300px;
-  height:300px;
-  left:30%;
-  bottom:-230px;
-  border-radius:50%;
-  background:rgba(40,215,255,.08);
-  filter:blur(90px);
+@keyframes shine{
+  from{transform:translateX(-20%) rotate(15deg)}
+  to{transform:translateX(40%) rotate(15deg)}
 }
-.heroContent{
+.hero-content{
   position:relative;
   z-index:3;
-  padding:60px;
+  max-width:570px;
 }
-.status{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:7px 10px;
-  border:1px solid rgba(53,224,160,.15);
-  border-radius:999px;
-  color:#9af1cf;
-  background:rgba(53,224,160,.05);
-  font-size:9px;
+.eyebrow{
+  color:#68b7ff;
+  font-size:11px;
   font-weight:900;
-  letter-spacing:.08em;
+  letter-spacing:2px;
+  margin-bottom:14px;
 }
-.statusDot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 12px var(--green);
-  animation:pulse 1.8s infinite;
+.hero h1{
+  font-size:clamp(38px,5vw,67px);
+  line-height:.95;
+  letter-spacing:-4px;
+  font-weight:900;
 }
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.45;transform:scale(.75)}
-}
-.hero h2{
-  margin:20px 0 17px;
-  font-size:62px;
-  line-height:.92;
-  letter-spacing:-.07em;
-}
-.gradientText{
-  background:linear-gradient(100deg,#fff 10%,#b79cff 55%,#58dcff);
+.hero h1 span{
+  background:linear-gradient(90deg,#fff,#73c9ff);
   -webkit-background-clip:text;
-  background-clip:text;
   color:transparent;
 }
 .hero p{
-  max-width:560px;
-  color:#858da1;
-  font-size:13px;
-  line-height:1.8;
+  margin-top:22px;
+  color:#8e99aa;
+  line-height:1.7;
+  max-width:490px;
 }
-.tags{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:23px 0;
-}
-.tag{
-  padding:8px 10px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:rgba(255,255,255,.025);
-  color:#adb4c3;
-  font-size:9px;
-  font-weight:700;
-}
-.primary{
+.hero-btn{
+  margin-top:28px;
   border:0;
-  padding:13px 18px;
   border-radius:12px;
+  padding:14px 22px;
   color:white;
-  background:linear-gradient(135deg,var(--purple),#6948eb);
-  cursor:pointer;
-  font-weight:850;
-  box-shadow:0 10px 35px rgba(139,92,246,.18);
+  background:linear-gradient(135deg,#347aff,#54bfff);
+  font-weight:800;
+  box-shadow:0 10px 40px rgba(48,121,255,.3);
   transition:.25s;
 }
-.primary:hover{
+.hero-btn:hover{
   transform:translateY(-3px);
-  box-shadow:0 18px 45px rgba(139,92,246,.3);
+  box-shadow:0 16px 55px rgba(48,121,255,.45);
 }
-.heroVisual{
+/* ================= FLOATING BGLS ================= */
+.bgl-scene{
+  position:absolute;
+  right:0;
+  top:0;
+  width:48%;
+  height:100%;
+  pointer-events:none;
+}
+.float-bgl{
+  position:absolute;
+  width:95px;
+  height:95px;
+  object-fit:contain;
+  filter:
+    drop-shadow(0 0 15px rgba(75,175,255,.5))
+    drop-shadow(0 0 45px rgba(55,110,255,.2));
+  animation:float 5s ease-in-out infinite;
+}
+.float-bgl:nth-child(1){
+  top:15%;
+  right:25%;
+}
+.float-bgl:nth-child(2){
+  width:65px;
+  height:65px;
+  top:55%;
+  right:45%;
+  animation-delay:-1.7s;
+}
+.float-bgl:nth-child(3){
+  width:52px;
+  height:52px;
+  top:28%;
+  right:8%;
+  animation-delay:-3s;
+}
+.float-bgl:nth-child(4){
+  width:44px;
+  height:44px;
+  top:70%;
+  right:15%;
+  animation-delay:-4s;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(-5deg)}
+  50%{transform:translateY(-24px) rotate(8deg)}
+}
+/* ================= BUY PAGE ================= */
+.buy-wrapper{
+  max-width:1050px;
+  margin:0 auto;
+}
+.buy-header{
+  text-align:center;
+  margin-bottom:26px;
+}
+.buy-header .eyebrow{
+  margin-bottom:8px;
+}
+.buy-header h2{
+  font-size:38px;
+  letter-spacing:-2px;
+}
+.buy-header p{
+  color:var(--muted);
+  margin-top:8px;
+}
+/* ONE BIG BOX */
+.buy-box{
   position:relative;
-  z-index:3;
+  overflow:hidden;
+  min-height:570px;
+  border:1px solid rgba(86,151,255,.18);
+  border-radius:30px;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(55,120,255,.13),transparent 27%),
+    radial-gradient(circle at 85% 65%,rgba(80,220,255,.08),transparent 25%),
+    linear-gradient(145deg,#101722,#090d13);
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.4),
+    inset 0 1px rgba(255,255,255,.04);
+}
+.buy-box:before{
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  border-radius:50%;
+  background:rgba(54,120,255,.09);
+  filter:blur(80px);
+  left:-170px;
+  top:-180px;
+  animation:pulseGlow 5s ease-in-out infinite;
+}
+@keyframes pulseGlow{
+  50%{transform:scale(1.35);opacity:.6}
+}
+.buy-inner{
+  position:relative;
+  z-index:2;
+  padding:48px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  align-items:center;
+}
+/* BGL VISUAL */
+.bgl-display{
+  min-height:390px;
+  position:relative;
   display:grid;
   place-items:center;
 }
-.heroOrb{
+.orbit{
   position:absolute;
-  width:360px;
-  height:360px;
+  width:310px;
+  height:310px;
+  border:1px solid rgba(88,158,255,.13);
   border-radius:50%;
-  border:1px solid rgba(139,92,246,.15);
-  box-shadow:
-    0 0 100px rgba(139,92,246,.13),
-    inset 0 0 80px rgba(139,92,246,.06);
-  animation:orb 8s ease-in-out infinite;
+  animation:spin 16s linear infinite;
 }
-@keyframes orb{
-  0%,100%{transform:scale(1) rotate(0)}
-  50%{transform:scale(1.06) rotate(8deg)}
-}
-.heroBgl{
-  position:relative;
-  z-index:4;
-  width:min(390px,82%);
-  max-height:350px;
-  object-fit:contain;
-  filter:
-    drop-shadow(0 30px 45px rgba(0,0,0,.7))
-    drop-shadow(0 0 35px rgba(139,92,246,.13));
-  animation:float 4.5s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0) rotate(-1deg)}
-  50%{transform:translateY(-13px) rotate(1deg)}
-}
-/* floating coins */
-.floatBgl{
-  position:absolute;
-  width:42px;
-  opacity:.35;
-  pointer-events:none;
-  filter:drop-shadow(0 0 15px rgba(139,92,246,.35));
-}
-.f1{top:13%;right:13%;animation:f1 6s infinite ease-in-out}
-.f2{bottom:16%;left:9%;width:30px;animation:f2 7s infinite ease-in-out}
-.f3{top:28%;left:10%;width:25px;animation:f3 5s infinite ease-in-out}
-.f4{bottom:10%;right:19%;width:23px;animation:f4 8s infinite ease-in-out}
-@keyframes f1{
-  0%,100%{transform:translate(0,0) rotate(0)}
-  50%{transform:translate(-25px,20px) rotate(25deg)}
-}
-@keyframes f2{
-  0%,100%{transform:translate(0,0)}
-  50%{transform:translate(20px,-25px)}
-}
-@keyframes f3{
-  0%,100%{transform:translate(0,0)}
-  50%{transform:translate(18px,15px)}
-}
-@keyframes f4{
-  0%,100%{transform:translate(0,0) rotate(0)}
-  50%{transform:translate(-20px,-20px) rotate(-25deg)}
-}
-/* =========================
-   STATS
-========================= */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-top:13px;
-}
-.stat{
-  position:relative;
-  overflow:hidden;
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:rgba(12,15,22,.75);
-  transition:.25s;
-}
-.stat:hover{
-  transform:translateY(-3px);
-  border-color:rgba(139,92,246,.22);
-  background:#10131c;
-}
-.stat:after{
+.orbit:before,
+.orbit:after{
   content:"";
   position:absolute;
-  right:-30px;
-  bottom:-40px;
-  width:100px;
-  height:100px;
+  width:7px;
+  height:7px;
   border-radius:50%;
-  background:rgba(139,92,246,.08);
-  filter:blur(30px);
+  background:#6bcaff;
+  box-shadow:0 0 20px #5bbcff;
 }
-.stat small{
-  color:#717a8d;
-  font-size:9px;
-  font-weight:700;
+.orbit:before{
+  top:5px;
+  left:50%;
 }
-.stat strong{
-  display:block;
+.orbit:after{
+  bottom:35px;
+  right:18px;
+}
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+.main-bgl{
+  width:210px;
+  height:210px;
+  object-fit:contain;
+  position:relative;
+  z-index:3;
+  filter:
+    drop-shadow(0 0 15px rgba(72,180,255,.75))
+    drop-shadow(0 0 65px rgba(49,108,255,.5));
+  animation:mainBgl 4s ease-in-out infinite;
+}
+@keyframes mainBgl{
+  0%,100%{
+    transform:translateY(0) rotate(-3deg) scale(1);
+  }
+  50%{
+    transform:translateY(-17px) rotate(3deg) scale(1.045);
+  }
+}
+.visual-label{
+  position:absolute;
+  bottom:4px;
+  text-align:center;
+  color:#667286;
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+/* CONTROLS */
+.buy-controls{
+  padding:4px;
+}
+.buy-controls h3{
+  font-size:28px;
+  letter-spacing:-1px;
+}
+.rate{
   margin-top:7px;
-  font-size:19px;
+  color:#7e8a9d;
+  font-size:13px;
 }
-/* =========================
-   STORE
-========================= */
-.sectionHead{
+.rate strong{
+  color:#62c7ff;
+}
+.amount-label{
+  display:block;
+  margin-top:30px;
+  margin-bottom:9px;
+  color:#798496;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.amount-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.step-btn{
+  width:52px;
+  height:52px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.09);
+  background:#151c27;
+  color:white;
+  font-size:25px;
+  transition:.2s;
+}
+.step-btn:hover{
+  border-color:#4b91ff;
+  background:#192a45;
+  transform:scale(1.04);
+}
+.amount-input{
+  flex:1;
+  height:52px;
+  border-radius:13px;
+  border:1px solid rgba(93,151,255,.2);
+  outline:none;
+  text-align:center;
+  background:#080c12;
+  color:white;
+  font-size:20px;
+  font-weight:900;
+}
+.amount-input:focus{
+  border-color:#5799ff;
+  box-shadow:0 0 0 4px rgba(65,130,255,.08);
+}
+.presets{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+.preset{
+  flex:1;
+  padding:9px 5px;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.025);
+  color:#8d98aa;
+  font-size:11px;
+  font-weight:800;
+  transition:.2s;
+}
+.preset:hover,
+.preset.selected{
+  color:white;
+  border-color:rgba(75,145,255,.4);
+  background:rgba(65,130,255,.12);
+}
+.total{
+  margin-top:28px;
+  padding:20px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+  background:rgba(0,0,0,.18);
   display:flex;
   justify-content:space-between;
-  align-items:end;
-  margin:30px 0 14px;
+  align-items:center;
 }
-.sectionHead h3{
-  margin:4px 0 0;
-  font-size:21px;
-  letter-spacing:-.03em;
+.total span{
+  color:#7c8798;
+  font-size:12px;
 }
-.storeGrid{
+.total strong{
+  font-size:29px;
+  letter-spacing:-1px;
+}
+.order-btn{
+  width:100%;
+  margin-top:12px;
+  padding:16px;
+  border:0;
+  border-radius:14px;
+  color:white;
+  font-weight:900;
+  background:linear-gradient(100deg,#286cff,#53c9ff,#286cff);
+  background-size:200% 100%;
+  box-shadow:0 15px 40px rgba(42,111,255,.25);
+  animation:buttonGradient 4s linear infinite;
+  transition:.25s;
+}
+@keyframes buttonGradient{
+  0%{background-position:0%}
+  100%{background-position:200%}
+}
+.order-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 20px 55px rgba(42,111,255,.4);
+}
+/* ================= GENERAL CARDS ================= */
+.section-title{
+  margin-bottom:20px;
+}
+.section-title h2{
+  font-size:30px;
+  letter-spacing:-1.5px;
+}
+.section-title p{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:13px;
+}
+.stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:15px;
 }
-.product{
-  position:relative;
-  overflow:hidden;
+.stat{
+  border:1px solid var(--border);
+  background:rgba(14,18,25,.75);
+  border-radius:18px;
   padding:22px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(139,92,246,.08),transparent 45%),
-    rgba(12,15,22,.82);
-  transition:.3s;
 }
-.product:before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  opacity:0;
-  background:linear-gradient(120deg,transparent,rgba(167,139,250,.18),transparent);
-  transform:translateX(-100%);
-  transition:.7s;
-}
-.product:hover{
-  transform:translateY(-7px);
-  border-color:rgba(167,139,250,.28);
-  box-shadow:0 20px 60px rgba(0,0,0,.3);
-}
-.product:hover:before{
-  opacity:1;
-  transform:translateX(100%);
-}
-.productVisual{
-  height:145px;
-  position:relative;
-  display:grid;
-  place-items:center;
-}
-.productVisual:before{
-  content:"";
-  position:absolute;
-  width:115px;
-  height:115px;
-  border-radius:50%;
-  background:rgba(139,92,246,.1);
-  filter:blur(25px);
-}
-.productVisual img{
-  position:relative;
-  width:125px;
-  max-height:125px;
-  object-fit:contain;
-  filter:drop-shadow(0 18px 22px rgba(0,0,0,.55));
-  transition:.3s;
-}
-.product:hover img{
-  transform:translateY(-6px) scale(1.07) rotate(3deg);
-}
-.product h3{
-  margin:12px 0 5px;
-  font-size:18px;
-}
-.product p{
-  margin:0;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.6;
-}
-.productBottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:20px;
-}
-.price strong{
-  display:block;
-  font-size:22px;
-}
-.price span{
-  color:#6f7789;
-  font-size:9px;
-}
-.buyBtn{
-  padding:10px 13px;
-  border:1px solid rgba(139,92,246,.25);
-  border-radius:10px;
-  color:white;
-  background:rgba(139,92,246,.1);
-  cursor:pointer;
-  font-size:10px;
-  font-weight:800;
-  transition:.2s;
-}
-.buyBtn:hover{
-  background:var(--purple);
-  border-color:var(--purple);
-  box-shadow:0 8px 25px rgba(139,92,246,.25);
-}
-/* =========================
-   GENERIC CARDS
-========================= */
-.cardGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-.card{
-  padding:20px;
-  border:1px solid var(--line);
-  border-radius:17px;
-  background:rgba(12,15,22,.8);
-  transition:.25s;
-}
-.card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(255,255,255,.12);
-}
-.feature{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-.featureIcon{
-  width:47px;
-  height:47px;
-  display:grid;
-  place-items:center;
-  border:1px solid #2b3344;
-  border-radius:14px;
-  background:linear-gradient(135deg,#1b2030,#10131b);
-  font-weight:900;
-}
-/* =========================
-   RANKS
-========================= */
-.rankGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
-}
-.rankCard{
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:#0d1017;
-  transition:.25s;
-}
-.rankCard:hover{
-  transform:translateY(-4px);
-  border-color:rgba(139,92,246,.2);
-}
-.rankTop{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-.rankIcon{
-  width:47px;
-  height:47px;
-  display:grid;
-  place-items:center;
-  border:1px solid #2c3446;
-  border-radius:13px;
-  background:linear-gradient(135deg,#1b2030,#11151e);
-  font-weight:900;
-}
-.rankName{
-  font-weight:850;
-}
-.rankDesc{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:9px;
-}
-.current{
-  margin-left:auto;
-  color:var(--purple2);
-  font-size:8px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-.progress{
-  height:7px;
-  margin-top:15px;
-  overflow:hidden;
-  border-radius:20px;
-  background:#191e29;
-}
-.progressBar{
-  width:0;
-  height:100%;
-  border-radius:20px;
-  background:linear-gradient(90deg,var(--purple),var(--cyan));
-  box-shadow:0 0 12px rgba(139,92,246,.4);
-}
-/* =========================
-   EMPTY
-========================= */
-.empty{
-  padding:70px 20px;
-  text-align:center;
-}
-.emptyCircle{
-  width:65px;
-  height:65px;
-  display:grid;
-  place-items:center;
-  margin:0 auto 17px;
-  border:1px solid var(--line);
-  border-radius:50%;
-  color:#687084;
-  background:#0a0d13;
-  font-size:22px;
-}
-.empty h3{
-  margin:0 0 7px;
-}
-.empty p{
-  margin:0;
-  color:var(--muted);
+.stat small{
+  color:#778295;
   font-size:11px;
 }
-/* =========================
-   PROFILE
-========================= */
-.profileWrap{
-  max-width:720px;
-}
-.profileCard{
-  padding:30px;
-  border:1px solid var(--line);
-  border-radius:22px;
-  background:#0d1017;
-}
-.profileHead{
-  display:flex;
-  align-items:center;
-  gap:17px;
-}
-.avatar{
-  width:67px;
-  height:67px;
-  display:grid;
-  place-items:center;
-  border-radius:19px;
-  background:linear-gradient(135deg,#5865f2,#7289da);
-  font-size:23px;
-  font-weight:900;
-  box-shadow:0 15px 35px rgba(88,101,242,.2);
-}
-.profileName{
-  font-size:20px;
-  font-weight:900;
-}
-.profileSub{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:10px;
-}
-.profileInfo{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:11px;
-  margin-top:25px;
-}
-.info{
-  padding:15px;
-  border:1px solid var(--line);
-  border-radius:13px;
-  background:#0a0d13;
-}
-.info small{
-  color:#71798c;
-  font-size:9px;
-}
-.info strong{
+.stat strong{
   display:block;
+  font-size:29px;
+  margin-top:7px;
+}
+/* ================= ADMIN ================= */
+.admin-login{
+  max-width:480px;
+  margin:70px auto;
+  padding:40px;
+  border:1px solid rgba(255,191,75,.18);
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,183,55,.07),transparent 40%),
+    #0d1118;
+  text-align:center;
+}
+.admin-login h2{
+  font-size:27px;
+}
+.admin-login p{
+  color:#788396;
+  margin:9px 0 25px;
+  font-size:13px;
+}
+.field{
+  width:100%;
+  padding:14px;
+  margin-bottom:10px;
+  border-radius:11px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#080b10;
+  color:white;
+  outline:none;
+}
+.admin-submit{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:11px;
+  background:linear-gradient(135deg,#e8a52d,#ffd15b);
+  color:#161108;
+  font-weight:900;
+}
+.admin-dashboard{
+  display:none;
+}
+.admin-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+.logout-admin{
+  padding:10px 15px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#111720;
+  color:#aaa;
+}
+.orders-box{
+  margin-top:20px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  background:#0d1118;
+}
+.orders-head{
+  padding:20px;
+  border-bottom:1px solid var(--border);
+  font-weight:800;
+}
+.order-row{
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.order-row:last-child{
+  border-bottom:0;
+}
+.order-info strong{
+  display:block;
+}
+.order-info span{
+  color:#7e899a;
+  font-size:11px;
+}
+.order-actions{
+  display:flex;
+  gap:7px;
+}
+.approve,
+.reject{
+  border:0;
+  border-radius:8px;
+  padding:8px 12px;
+  font-size:11px;
+  font-weight:800;
+}
+.approve{
+  background:rgba(60,220,155,.12);
+  color:#59e5aa;
+}
+.reject{
+  background:rgba(255,80,100,.1);
+  color:#ff7180;
+}
+.empty{
+  padding:45px 20px;
+  text-align:center;
+  color:#697587;
+}
+/* ================= RANK ================= */
+.rank-box{
+  max-width:700px;
+  margin:20px auto;
+  padding:35px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:#0d1118;
+}
+.rank-name{
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-2px;
+}
+.rank-sub{
+  color:#788496;
   margin-top:5px;
 }
-/* =========================
-   DISCORD MODAL
-========================= */
+.progress{
+  height:11px;
+  border-radius:20px;
+  background:#171d27;
+  overflow:hidden;
+  margin-top:30px;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#3c83ff,#63d8ff);
+  box-shadow:0 0 20px rgba(65,160,255,.5);
+  transition:width .7s ease;
+}
+/* ================= TABLE / PROFILE ================= */
+.simple-box{
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:25px;
+  background:#0d1118;
+}
+.profile-name{
+  font-size:30px;
+  font-weight:900;
+}
+.muted{
+  color:#7d889a;
+}
+.order-history{
+  margin-top:15px;
+}
+.history-item{
+  padding:15px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;
+  justify-content:space-between;
+}
+.status{
+  color:#59e5aa;
+}
+/* ================= MODAL ================= */
 .modal{
   position:fixed;
   inset:0;
-  z-index:200;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(12px);
   display:none;
   place-items:center;
-  padding:20px;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(14px);
+  z-index:500;
 }
 .modal.show{
   display:grid;
-  animation:modalBg .25s ease;
 }
-@keyframes modalBg{
-  from{opacity:0}
-  to{opacity:1}
-}
-.discordModal{
-  width:min(440px,100%);
-  position:relative;
-  overflow:hidden;
-  padding:34px;
-  border:1px solid rgba(255,255,255,.1);
+.login-card{
+  width:min(420px,calc(100% - 30px));
+  padding:38px;
+  border:1px solid rgba(87,153,255,.22);
   border-radius:25px;
   background:
-    radial-gradient(circle at 50% -20%,rgba(88,101,242,.25),transparent 50%),
-    #0d1018;
-  box-shadow:0 35px 100px rgba(0,0,0,.6);
-  animation:modalIn .35s cubic-bezier(.2,.8,.2,1);
+    radial-gradient(circle at 50% 0%,rgba(70,130,255,.13),transparent 45%),
+    #0d121a;
+  box-shadow:0 30px 100px rgba(0,0,0,.65);
+  animation:modalIn .4s cubic-bezier(.2,.8,.2,1);
+  text-align:center;
 }
 @keyframes modalIn{
   from{
     opacity:0;
-    transform:translateY(25px) scale(.96);
+    transform:translateY(25px) scale(.94);
   }
   to{
     opacity:1;
     transform:none;
   }
 }
-.closeModal{
-  position:absolute;
-  top:15px;
-  right:15px;
-  width:30px;
-  height:30px;
-  border:0;
-  border-radius:9px;
-  color:#8991a4;
-  background:#151923;
-  cursor:pointer;
-}
-.discordBig{
-  width:70px;
-  height:70px;
+.discord-icon{
+  width:68px;
+  height:68px;
+  margin:0 auto 18px;
+  border-radius:20px;
   display:grid;
   place-items:center;
-  margin:0 auto 20px;
-  border-radius:22px;
-  color:white;
-  background:var(--discord);
-  font-size:27px;
-  font-weight:900;
-  box-shadow:
-    0 15px 45px rgba(88,101,242,.3),
-    0 0 0 8px rgba(88,101,242,.06);
-  animation:discordFloat 2.8s ease-in-out infinite;
+  font-size:31px;
+  background:#5865f2;
+  box-shadow:0 0 40px rgba(88,101,242,.35);
+  animation:discordPulse 2s ease-in-out infinite;
 }
-@keyframes discordFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-5px)}
+@keyframes discordPulse{
+  50%{transform:translateY(-5px);box-shadow:0 0 60px rgba(88,101,242,.5)}
 }
-.discordModal h2{
-  margin:0;
-  text-align:center;
+.login-card h2{
   font-size:25px;
-  letter-spacing:-.04em;
 }
-.discordModal p{
-  margin:9px auto 24px;
-  max-width:330px;
-  color:var(--muted);
-  text-align:center;
-  font-size:11px;
-  line-height:1.7;
+.login-card p{
+  color:#7f8a9c;
+  font-size:13px;
+  margin:8px 0 22px;
 }
-.loginInput{
+.login-card input{
   width:100%;
-  padding:13px;
-  border:1px solid var(--line);
+  padding:14px;
   border-radius:11px;
-  outline:none;
+  border:1px solid rgba(255,255,255,.08);
+  background:#080b10;
   color:white;
-  background:#080b11;
+  outline:none;
 }
-.loginInput:focus{
-  border-color:#5865f2;
-  box-shadow:0 0 0 3px rgba(88,101,242,.08);
-}
-.discordContinue{
+.login-btn{
   width:100%;
-  margin-top:11px;
-  padding:13px;
+  margin-top:10px;
+  padding:14px;
   border:0;
   border-radius:11px;
+  background:#5865f2;
   color:white;
-  background:var(--discord);
-  cursor:pointer;
-  font-weight:850;
-  transition:.2s;
+  font-weight:900;
 }
-.discordContinue:hover{
-  background:#6975ef;
-  transform:translateY(-2px);
+.close-modal{
+  margin-top:14px;
+  border:0;
+  background:none;
+  color:#687486;
 }
-/* =========================
-   TOAST
-========================= */
+/* ================= TOAST ================= */
 .toast{
   position:fixed;
   right:25px;
   bottom:25px;
-  z-index:300;
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:13px 16px;
-  border:1px solid rgba(53,224,160,.2);
+  z-index:700;
+  padding:15px 20px;
+  border:1px solid rgba(82,227,167,.25);
   border-radius:13px;
-  background:#0e1715;
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-  transform:translateY(30px);
+  background:#0d1715;
+  color:#6aefb1;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  transform:translateY(120px);
   opacity:0;
-  pointer-events:none;
   transition:.35s;
+  font-weight:800;
+  font-size:13px;
 }
 .toast.show{
-  opacity:1;
   transform:none;
+  opacity:1;
 }
-.toastIcon{
-  width:25px;
-  height:25px;
-  display:grid;
-  place-items:center;
-  border-radius:8px;
-  color:#07130e;
-  background:var(--green);
-  font-size:12px;
-  font-weight:900;
-}
-.toast b{
-  display:block;
-  font-size:11px;
-}
-.toast span{
-  display:block;
-  margin-top:2px;
-  color:#748082;
-  font-size:9px;
-}
-/* =========================
-   ADMIN
-========================= */
-.adminLogin{
-  max-width:430px;
-  margin:65px auto;
-  padding:32px;
-  border:1px solid var(--line);
-  border-radius:21px;
-  background:#0d1017;
-}
-.adminInput{
-  width:100%;
-  margin-top:10px;
-  padding:13px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  outline:none;
-  color:white;
-  background:#080b11;
-}
-.adminInput:focus{
-  border-color:var(--purple);
-}
-.adminContent{
-  display:none;
-}
-.adminContent.show{
-  display:block;
-}
-.adminGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
-}
-/* =========================
-   MOBILE
-========================= */
-.mobileNav{
-  display:none;
-}
-@media(max-width:950px){
+/* ================= MOBILE ================= */
+@media(max-width:900px){
   .sidebar{
+    width:78px;
+    padding:18px 9px;
+  }
+  .logo-text,
+  .nav button span:not(.nav-icon),
+  .admin-badge,
+  .nav-title{
     display:none;
   }
+  .logo{
+    justify-content:center;
+  }
+  .nav button{
+    justify-content:center;
+    padding:13px;
+  }
   .main{
-    margin-left:0;
-    padding:16px 15px 95px;
+    margin-left:78px;
+  }
+  .buy-inner{
+    grid-template-columns:1fr;
+  }
+  .bgl-display{
+    min-height:300px;
   }
   .hero{
-    grid-template-columns:1fr;
+    padding:35px;
   }
-  .heroContent{
-    padding:35px 25px 10px;
-  }
-  .hero h2{
-    font-size:45px;
-  }
-  .heroVisual{
-    min-height:320px;
-  }
-  .heroOrb{
-    width:270px;
-    height:270px;
-  }
-  .heroBgl{
-    width:300px;
-  }
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .storeGrid,
-  .cardGrid,
-  .rankGrid,
-  .adminGrid{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .mobileNav{
-    position:fixed;
-    left:9px;
-    right:9px;
-    bottom:9px;
-    z-index:100;
-    display:flex;
-    gap:4px;
-    padding:7px;
-    border:1px solid var(--line);
-    border-radius:17px;
-    background:rgba(10,13,20,.94);
-    backdrop-filter:blur(20px);
-  }
-  .mobileNav button{
-    flex:1;
-    padding:8px 2px;
-    border:0;
-    border-radius:10px;
-    color:#727b8e;
-    background:transparent;
-    font-size:9px;
-  }
-  .mobileNav button.active{
-    color:white;
-    background:#181d29;
+  .bgl-scene{
+    opacity:.35;
+    width:100%;
   }
 }
-@media(max-width:570px){
+@media(max-width:600px){
+  .view{
+    padding:20px;
+  }
   .topbar{
-    height:auto;
-    margin-bottom:20px;
+    padding:0 20px;
   }
-  .pageTitle{
-    font-size:22px;
+  .user-name{
+    display:none;
   }
-  .discordTop{
-    padding:9px;
-    font-size:0;
+  .hero h1{
+    font-size:42px;
   }
-  .discordDot{
-    margin:0 3px;
+  .hero{
+    min-height:430px;
   }
-  .hero h2{
-    font-size:38px;
+  .buy-inner{
+    padding:25px;
   }
-  .stats,
-  .storeGrid,
-  .cardGrid,
-  .rankGrid,
-  .adminGrid{
+  .stats{
     grid-template-columns:1fr;
   }
-  .heroVisual{
-    min-height:270px;
+  .main-bgl{
+    width:160px;
+    height:160px;
   }
-  .heroBgl{
-    width:250px;
-  }
-  .profileInfo{
-    grid-template-columns:1fr;
-  }
-  .discordModal{
-    padding:28px 20px;
-  }
-  .toast{
-    left:15px;
-    right:15px;
-    bottom:85px;
+  .orbit{
+    width:240px;
+    height:240px;
   }
 }
 </style>
 </head>
 <body>
-<div class="noise"></div>
-<!-- =========================
-     SIDEBAR
-========================= -->
+<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
-    <div class="logoIcon">J</div>
-    <div class="logoText">
-      <b>J1mPPaZ</b>
-      <span>BGL AUTOSTORE</span>
+    <div class="logo-mark">
+      <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
     </div>
+    <div class="logo-text">J1mPPaZ</div>
   </div>
+  <div class="nav-title">MENU</div>
   <nav class="nav">
     <button class="active" data-view="store">
-      ⌂ &nbsp; Store
+      <span class="nav-icon">⌂</span>
+      <span>Store</span>
     </button>
     <button data-view="buy">
-      ◈ &nbsp; Buy BGLs
+      <span class="nav-icon">◈</span>
+      <span>Buy BGLs</span>
     </button>
-    <button data-view="orders">
-      ▤ &nbsp; Order History
+    <button data-view="history">
+      <span class="nav-icon">◷</span>
+      <span>Order History</span>
     </button>
-    <button data-view="ranks">
-      ✦ &nbsp; Rank Progress
+    <button data-view="rank">
+      <span class="nav-icon">◆</span>
+      <span>Rank Progress</span>
     </button>
     <button data-view="leaderboard">
-      ♛ &nbsp; Leaderboard
+      <span class="nav-icon">♛</span>
+      <span>Leaderboard</span>
     </button>
     <button data-view="profile">
-      ● &nbsp; Profile
+      <span class="nav-icon">●</span>
+      <span>Profile</span>
     </button>
-    <button data-view="admin">
-      ⚙ &nbsp; Admin Panel
+    <button class="admin-nav" data-view="admin">
+      <span class="nav-icon">⚙</span>
+      <span>Admin Panel</span>
+      <span class="admin-badge">ADMIN</span>
     </button>
   </nav>
 </aside>
-<!-- =========================
-     MAIN
-========================= -->
 <main class="main">
 <header class="topbar">
-  <div>
-    <div class="eyebrow">J1mPPaZ / AUTOSTORE</div>
-    <h1 class="pageTitle" id="pageTitle">Store</h1>
+  <div class="page-title" id="pageTitle">Store</div>
+  <div class="user-area">
+    <span class="user-name" id="topUser">Not logged in</span>
+    <div class="avatar" id="avatar">?</div>
   </div>
-  <button class="discordTop" onclick="openDiscord()">
-    <span class="discordDot"></span>
-    <span id="topLoginText">Login with Discord</span>
-  </button>
 </header>
-<!-- =========================
-     STORE HOME
-========================= -->
+<!-- STORE -->
 <section class="view active" id="store">
   <div class="hero">
-    <div class="heroContent">
-      <div class="status">
-        <span class="statusDot"></span>
-        STORE ONLINE
-      </div>
-      <h2>
-        Your BGL.<br>
-        <span class="gradientText">Your way.</span>
-      </h2>
+    <div class="hero-content">
+      <div class="eyebrow">J1MPPaz BGL AUTOSTORE</div>
+      <h1>
+        BGLs.<br>
+        <span>Simple.</span> Fast.
+      </h1>
       <p>
-        Welcome to J1mPPaZ BGL Autostore.
-        Explore the store, manage your profile,
-        follow your rank progression and keep track
-        of your orders in one place.
+        Purchase BGLs through a clean, fast storefront.
+        Choose exactly how many you want and create your order in seconds.
       </p>
-      <div class="tags">
-        <span class="tag">⚡ FAST</span>
-        <span class="tag">◈ DISCORD</span>
-        <span class="tag">✦ RANKS</span>
-        <span class="tag">♛ LEADERBOARD</span>
-      </div>
-      <button class="primary" onclick="showView('buy')">
-        Explore Store →
+      <button class="hero-btn" onclick="showView('buy')">
+        Buy BGLs →
       </button>
     </div>
-    <div class="heroVisual">
-      <div class="heroOrb"></div>
-      <img
-        class="heroBgl"
-        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
-        alt="BGL"
-      >
-      <img class="floatBgl f1"
-        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      <img class="floatBgl f2"
-        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      <img class="floatBgl f3"
-        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      <img class="floatBgl f4"
-        src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-    </div>
-  </div>
-  <div class="stats">
-    <div class="stat">
-      <small>STORE STATUS</small>
-      <strong>
-        <span style="color:var(--green)">●</span>
-        Online
-      </strong>
-    </div>
-    <div class="stat">
-      <small>YOUR RANK</small>
-      <strong id="homeRank">Unranked</strong>
-    </div>
-    <div class="stat">
-      <small>PROGRESS</small>
-      <strong id="homeProgress">0%</strong>
-    </div>
-    <div class="stat">
-      <small>ACCOUNT</small>
-      <strong id="homeAccount">Guest</strong>
-    </div>
-  </div>
-  <div class="sectionHead">
-    <div>
-      <div class="eyebrow">FEATURES</div>
-      <h3>Built around your account</h3>
-    </div>
-  </div>
-  <div class="cardGrid">
-    <div class="card">
-      <div class="feature">
-        <div class="featureIcon">◈</div>
-        <div>
-          <b>Instant Account</b>
-          <span style="display:block;color:var(--muted);font-size:10px;margin-top:4px">
-            Create your profile through Discord.
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="feature">
-        <div class="featureIcon">✦</div>
-        <div>
-          <b>Rank Progression</b>
-          <span style="display:block;color:var(--muted);font-size:10px;margin-top:4px">
-            Everyone starts at Unranked 0%.
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="feature">
-        <div class="featureIcon">♛</div>
-        <div>
-          <b>Real Leaderboard</b>
-          <span style="display:block;color:var(--muted);font-size:10px;margin-top:4px">
-            No fake members or placeholder accounts.
-          </span>
-        </div>
-      </div>
+    <div class="bgl-scene">
+      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
+      <img class="float-bgl" src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
     </div>
   </div>
 </section>
-<!-- =========================
-     BUY
-========================= -->
+<!-- BUY -->
 <section class="view" id="buy">
-  <div class="sectionHead">
-    <div>
-      <div class="eyebrow">STORE / BGL</div>
-      <h3>Buy BGLs</h3>
+  <div class="buy-wrapper">
+    <div class="buy-header">
+      <div class="eyebrow">BGL EXCHANGE</div>
+      <h2>Choose your amount</h2>
+      <p>Set the exact amount yourself.</p>
     </div>
-    <span class="tag">2.30€ / BGL</span>
-  </div>
-  <div class="storeGrid">
-    <div class="product">
-      <div class="productVisual">
-        <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      </div>
-      <h3>1 BGL</h3>
-      <p>
-        Single BGL package.
-      </p>
-      <div class="productBottom">
-        <div class="price">
-          <strong>2.30€</strong>
-          <span>1 BGL</span>
+    <div class="buy-box">
+      <div class="buy-inner">
+        <div class="bgl-display">
+          <div class="orbit"></div>
+          <img
+            class="main-bgl"
+            src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png"
+          >
+          <div class="visual-label">
+            J1MPPaz BGL
+          </div>
         </div>
-        <button class="buyBtn" onclick="selectBgl(1)">
-          Select
-        </button>
-      </div>
-    </div>
-    <div class="product">
-      <div class="productVisual">
-        <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      </div>
-      <h3>5 BGL</h3>
-      <p>
-        Five BGL package.
-      </p>
-      <div class="productBottom">
-        <div class="price">
-          <strong>11.50€</strong>
-          <span>5 BGL</span>
+        <div class="buy-controls">
+          <h3>Buy BGLs</h3>
+          <div class="rate">
+            Current rate:
+            <strong>2.30€ / BGL</strong>
+          </div>
+          <label class="amount-label">
+            BGL Amount
+          </label>
+          <div class="amount-row">
+            <button class="step-btn" onclick="changeAmount(-1)">
+              −
+            </button>
+            <input
+              id="bglAmount"
+              class="amount-input"
+              type="number"
+              min="1"
+              value="1"
+              oninput="updateBuy()"
+            >
+            <button class="step-btn" onclick="changeAmount(1)">
+              +
+            </button>
+          </div>
+          <div class="presets">
+            <button class="preset selected" onclick="setAmount(1,this)">
+              1 BGL
+            </button>
+            <button class="preset" onclick="setAmount(5,this)">
+              5 BGL
+            </button>
+            <button class="preset" onclick="setAmount(10,this)">
+              10 BGL
+            </button>
+            <button class="preset" onclick="setAmount(25,this)">
+              25 BGL
+            </button>
+          </div>
+          <div class="total">
+            <span>Total</span>
+            <strong id="totalPrice">
+              2.30€
+            </strong>
+          </div>
+          <button class="order-btn" onclick="createOrder()">
+            Create Order
+          </button>
         </div>
-        <button class="buyBtn" onclick="selectBgl(5)">
-          Select
-        </button>
-      </div>
-    </div>
-    <div class="product">
-      <div class="productVisual">
-        <img src="https://raw.githubusercontent.com/J1mPPaZ/jimppaz-tournament/main/IMG_1812.png">
-      </div>
-      <h3>10 BGL</h3>
-      <p>
-        Ten BGL package.
-      </p>
-      <div class="productBottom">
-        <div class="price">
-          <strong>23.00€</strong>
-          <span>10 BGL</span>
-        </div>
-        <button class="buyBtn" onclick="selectBgl(10)">
-          Select
-        </button>
       </div>
     </div>
   </div>
 </section>
-<!-- =========================
-     ORDERS
-========================= -->
-<section class="view" id="orders">
-  <div class="table-card">
-    <div class="sectionHead" style="padding:0 20px">
-      <div>
-        <div class="eyebrow">ACCOUNT</div>
-        <h3>Order History</h3>
-      </div>
-      <span class="tag" id="orderCount">0 ORDERS</span>
+<!-- HISTORY -->
+<section class="view" id="history">
+  <div class="section-title">
+    <h2>Order History</h2>
+    <p>Your previous orders.</p>
+  </div>
+  <div class="simple-box">
+    <div id="historyList"></div>
+  </div>
+</section>
+<!-- RANK -->
+<section class="view" id="rank">
+  <div class="section-title">
+    <h2>Rank Progress</h2>
+    <p>Your rank increases when orders are approved.</p>
+  </div>
+  <div class="rank-box">
+    <div class="rank-name" id="rankName">
+      Unranked
     </div>
-    <div class="empty">
-      <div class="emptyCircle">▤</div>
-      <h3>No orders yet</h3>
-      <p>
-        Your approved orders will appear here.
-      </p>
+    <div class="rank-sub" id="rankPercent">
+      0%
+    </div>
+    <div class="progress">
+      <div class="progress-bar" id="rankBar"></div>
     </div>
   </div>
 </section>
-<!-- =========================
-     RANKS
-========================= -->
-<section class="view" id="ranks">
-  <div class="sectionHead">
-    <div>
-      <div class="eyebrow">PROGRESSION</div>
-      <h3>Rank Progress</h3>
-    </div>
-    <span class="tag" id="rankBadge">UNRANKED</span>
-  </div>
-  <div class="rankGrid" id="rankGrid"></div>
-</section>
-<!-- =========================
-     LEADERBOARD
-========================= -->
+<!-- LEADERBOARD -->
 <section class="view" id="leaderboard">
-  <div class="table-card">
-    <div class="sectionHead" style="padding:0 20px">
-      <div>
-        <div class="eyebrow">MONTHLY</div>
-        <h3>Leaderboard</h3>
-      </div>
-      <span class="tag">SEPTEMBER 2026</span>
+  <div class="section-title">
+    <h2>Monthly Leaderboard</h2>
+    <p>Only real registered users appear here.</p>
+  </div>
+  <div class="simple-box">
+    <div id="leaderboardList"></div>
+  </div>
+</section>
+<!-- PROFILE -->
+<section class="view" id="profile">
+  <div class="section-title">
+    <h2>Profile</h2>
+  </div>
+  <div class="simple-box">
+    <div class="profile-name" id="profileName">
+      Guest
     </div>
-    <div class="empty">
-      <div class="emptyCircle">♛</div>
-      <h3>No players yet</h3>
-      <p>
-        The leaderboard will populate with real registered users.
+    <p class="muted" id="profileRank">
+      Unranked · 0%
+    </p>
+    <div style="margin-top:25px">
+      <p class="muted">
+        Approved orders:
+        <strong id="approvedCount">0</strong>
       </p>
     </div>
   </div>
 </section>
-<!-- =========================
-     PROFILE
-========================= -->
-<section class="view" id="profile">
-  <div class="profileWrap">
-    <div class="profileCard" id="profileLoggedOut">
-      <div style="text-align:center;padding:25px">
-        <div class="discordBig">D</div>
-        <h2 style="margin:0">
-          Welcome to J1mPPaZ
-        </h2>
-        <p style="color:var(--muted);font-size:11px;line-height:1.7">
-          Connect your Discord account to create your profile.
-        </p>
-        <button class="primary" onclick="openDiscord()">
-          Continue with Discord
-        </button>
-      </div>
-    </div>
-    <div class="profileCard" id="profileLoggedIn" style="display:none">
-      <div class="profileHead">
-        <div class="avatar" id="profileAvatar">J</div>
-        <div>
-          <div class="profileName" id="profileName">User</div>
-          <div class="profileSub">Discord connected</div>
-        </div>
-      </div>
-      <div class="profileInfo">
-        <div class="info">
-          <small>RANK</small>
-          <strong id="profileRank">Unranked</strong>
-        </div>
-        <div class="info">
-          <small>PROGRESS</small>
-          <strong id="profileProgress">0%</strong>
-        </div>
-        <div class="info">
-          <small>ORDERS</small>
-          <strong id="profileOrders">0</strong>
-        </div>
-        <div class="info">
-          <small>STATUS</small>
-          <strong style="color:var(--green)">
-            Connected
-          </strong>
-        </div>
-      </div>
-      <button
-        class="buyBtn"
-        style="margin-top:20px"
-        onclick="logout()"
-      >
-        Log out
-      </button>
-    </div>
-  </div>
-</section>
-<!-- =========================
-     ADMIN
-========================= -->
+<!-- ADMIN -->
 <section class="view" id="admin">
-  <div id="adminLogin" class="adminLogin">
-    <div class="eyebrow">PRIVATE AREA</div>
-    <h2 style="margin:7px 0">
-      Admin Panel
-    </h2>
-    <p style="color:var(--muted);font-size:10px">
-      Sign in to manage the store.
+  <!-- LOGIN -->
+  <div class="admin-login" id="adminLogin">
+    <div style="font-size:38px;margin-bottom:15px">⚙</div>
+    <h2>Admin Panel</h2>
+    <p>
+      Administrator access required.
     </p>
     <input
-      id="adminUser"
-      class="adminInput"
+      id="adminUsername"
+      class="field"
       placeholder="Username"
     >
     <input
-      id="adminPass"
-      class="adminInput"
+      id="adminPassword"
+      class="field"
       type="password"
       placeholder="Password"
     >
-    <button
-      class="primary"
-      style="width:100%;margin-top:13px"
-      onclick="adminLogin()"
-    >
-      Continue
+    <button class="admin-submit" onclick="adminLogin()">
+      Login to Admin Panel
     </button>
   </div>
-  <div id="adminContent" class="adminContent">
-    <div class="sectionHead">
+  <!-- DASHBOARD -->
+  <div class="admin-dashboard" id="adminDashboard">
+    <div class="admin-top">
       <div>
-        <div class="eyebrow">OWNER</div>
-        <h3>Admin Dashboard</h3>
+        <div class="eyebrow">CONTROL CENTER</div>
+        <h2>Admin Panel</h2>
       </div>
-      <button class="buyBtn" onclick="adminLogout()">
-        Log out
+      <button class="logout-admin" onclick="adminLogout()">
+        Logout
       </button>
     </div>
-    <div class="adminGrid">
+    <div class="stats">
       <div class="stat">
-        <small>REGISTERED USERS</small>
+        <small>USERS</small>
         <strong id="adminUsers">0</strong>
       </div>
       <div class="stat">
         <small>PENDING ORDERS</small>
-        <strong>0</strong>
+        <strong id="adminPending">0</strong>
       </div>
       <div class="stat">
-        <small>STORE STATUS</small>
-        <strong style="color:var(--green)">
-          Online
-        </strong>
+        <small>APPROVED ORDERS</small>
+        <strong id="adminApproved">0</strong>
       </div>
     </div>
-    <div class="table-card" style="margin-top:15px">
-      <div class="empty">
-        <div class="emptyCircle">▤</div>
-        <h3>No pending orders</h3>
-        <p>
-          Verified orders will appear here when a backend is connected.
-        </p>
+    <div class="orders-box">
+      <div class="orders-head">
+        Pending Orders
       </div>
+      <div id="pendingOrders"></div>
     </div>
   </div>
 </section>
 </main>
-<!-- =========================
-     MOBILE NAV
-========================= -->
-<div class="mobileNav">
-  <button class="active" data-view="store">
-    ⌂<br>Store
-  </button>
-  <button data-view="buy">
-    ◈<br>Buy
-  </button>
-  <button data-view="orders">
-    ▤<br>Orders
-  </button>
-  <button data-view="ranks">
-    ✦<br>Ranks
-  </button>
-  <button data-view="profile">
-    ●<br>Profile
-  </button>
-</div>
-<!-- =========================
-     DISCORD MODAL
-========================= -->
-<div class="modal" id="discordModal">
-  <div class="discordModal">
-    <button class="closeModal" onclick="closeDiscord()">
-      ×
-    </button>
-    <div class="discordBig">D</div>
-    <h2>Connect Discord</h2>
+<!-- DISCORD LOGIN -->
+<div class="modal" id="loginModal">
+  <div class="login-card">
+    <div class="discord-icon">◉</div>
+    <h2>Continue with Discord</h2>
     <p>
-      Enter your Discord username to continue.
+      Enter your Discord username to create your account.
     </p>
     <input
       id="discordUsername"
-      class="loginInput"
       placeholder="Discord username"
-      autocomplete="off"
     >
-    <button
-      class="discordContinue"
-      onclick="createAccount()"
-    >
-      Continue with Discord
+    <button class="login-btn" onclick="createAccount()">
+      Continue
+    </button>
+    <button class="close-modal" onclick="closeLogin()">
+      Cancel
     </button>
   </div>
 </div>
-<!-- =========================
-     TOAST
-========================= -->
 <div class="toast" id="toast">
-  <div class="toastIcon">✓</div>
-  <div>
-    <b id="toastTitle">Account creation successful</b>
-    <span id="toastText">Welcome to J1mPPaZ.</span>
-  </div>
+  Account creation successful
 </div>
 <script>
-/* =========================
-   DATA
-========================= */
+const BGL_PRICE = 2.30;
+const RANKS = [
+  "Unranked",
+  "Rookie",
+  "Bronze",
+  "Silver",
+  "Gold",
+  "Platinum",
+  "Diamond",
+  "Elite",
+  "Champion",
+  "Apex"
+];
+let currentUser =
+  JSON.parse(localStorage.getItem("jpp_user")) || null;
+/* ================= NAVIGATION ================= */
 const titles = {
   store:"Store",
   buy:"Buy BGLs",
-  orders:"Order History",
-  ranks:"Rank Progress",
-  leaderboard:"Leaderboard",
+  history:"Order History",
+  rank:"Rank Progress",
+  leaderboard:"Monthly Leaderboard",
   profile:"Profile",
   admin:"Admin Panel"
 };
-const rankData = [
-  ["Unranked","No approved orders yet."],
-  ["Rookie","Starting progression tier."],
-  ["Bronze","Getting started."],
-  ["Silver","Growing member."],
-  ["Gold","Experienced member."],
-  ["Platinum","High tier member."],
-  ["Diamond","Top tier member."],
-  ["Elite","Elite member."],
-  ["Champion","Champion tier."],
-  ["Apex","Highest rank."]
-];
-let user =
-  JSON.parse(localStorage.getItem("j1mppaz_user") || "null");
-let admin =
-  localStorage.getItem("j1mppaz_admin") === "true";
-/* =========================
-   NAVIGATION
-========================= */
-function showView(id){
-  document
-    .querySelectorAll(".view")
-    .forEach(v => v.classList.remove("active"));
-  const target =
-    document.getElementById(id);
-  if(target){
-    target.classList.add("active");
-  }
-  document
-    .querySelectorAll("[data-view]")
-    .forEach(btn => {
-      btn.classList.toggle(
-        "active",
-        btn.dataset.view === id
-      );
-    });
-  document.getElementById("pageTitle").textContent =
-    titles[id] || "Store";
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
+document.querySelectorAll(".nav button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    showView(btn.dataset.view);
   });
-  if(id === "admin"){
-    updateAdmin();
-  }
-}
-document
-  .querySelectorAll("[data-view]")
-  .forEach(btn => {
-    btn.addEventListener(
-      "click",
-      () => showView(btn.dataset.view)
+});
+function showView(id){
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b=>{
+    b.classList.toggle(
+      "active",
+      b.dataset.view===id
     );
   });
-/* =========================
-   DISCORD LOGIN
-========================= */
-function openDiscord(){
-  if(user){
-    showView("profile");
-    return;
-  }
-  document
-    .getElementById("discordModal")
-    .classList.add("show");
-  setTimeout(() => {
-    document
-      .getElementById("discordUsername")
-      .focus();
-  },150);
+  document.getElementById("pageTitle").textContent =
+    titles[id];
+  if(id==="history") renderHistory();
+  if(id==="rank") renderRank();
+  if(id==="leaderboard") renderLeaderboard();
+  if(id==="profile") renderProfile();
+  if(id==="admin") renderAdmin();
 }
-function closeDiscord(){
-  document
-    .getElementById("discordModal")
+/* ================= BUY ================= */
+function getAmount(){
+  let amount =
+    parseInt(
+      document.getElementById("bglAmount").value
+    );
+  if(isNaN(amount) || amount<1){
+    amount=1;
+  }
+  if(amount>999999){
+    amount=999999;
+  }
+  return amount;
+}
+function updateBuy(){
+  const amount=getAmount();
+  document.getElementById("bglAmount").value=amount;
+  const total=amount*BGL_PRICE;
+  document.getElementById("totalPrice").textContent =
+    total.toFixed(2)+"€";
+}
+function changeAmount(value){
+  const input=document.getElementById("bglAmount");
+  let amount=getAmount();
+  amount+=value;
+  if(amount<1) amount=1;
+  input.value=amount;
+  updateBuy();
+}
+function setAmount(amount,button){
+  document.getElementById("bglAmount").value=amount;
+  document.querySelectorAll(".preset")
+    .forEach(x=>x.classList.remove("selected"));
+  button.classList.add("selected");
+  updateBuy();
+}
+/* ================= USER ================= */
+function openLogin(){
+  document.getElementById("loginModal")
+    .classList.add("show");
+}
+function closeLogin(){
+  document.getElementById("loginModal")
     .classList.remove("show");
 }
 function createAccount(){
   const username =
-    document
-      .getElementById("discordUsername")
-      .value
-      .trim();
+    document.getElementById("discordUsername")
+      .value.trim();
   if(!username){
-    document
-      .getElementById("discordUsername")
-      .focus();
     return;
   }
-  user = {
-    id:"user_" + Date.now(),
-    username:username,
-    avatar:username
-      .charAt(0)
-      .toUpperCase(),
-    rank:0,
+  currentUser={
+    username,
+    rankIndex:0,
     progress:0,
     orders:[]
   };
   localStorage.setItem(
-    "j1mppaz_user",
-    JSON.stringify(user)
+    "jpp_user",
+    JSON.stringify(currentUser)
   );
-  closeDiscord();
-  updateUI();
-  showToast(
-    "Account creation successful",
-    "Welcome to J1mPPaZ."
-  );
-  showView("profile");
+  closeLogin();
+  showToast("Account creation successful");
+  updateUserUI();
 }
-/* =========================
-   TOAST
-========================= */
-function showToast(title,text){
-  document.getElementById("toastTitle")
-    .textContent = title;
-  document.getElementById("toastText")
-    .textContent = text;
-  const toast =
-    document.getElementById("toast");
-  toast.classList.add("show");
-  setTimeout(() => {
-    toast.classList.remove("show");
-  },3500);
-}
-/* =========================
-   LOGOUT
-========================= */
-function logout(){
-  localStorage.removeItem("j1mppaz_user");
-  user = null;
-  updateUI();
-  showToast(
-    "Logged out",
-    "Your account has been disconnected."
-  );
-}
-/* =========================
-   UI
-========================= */
-function updateUI(){
-  const loggedIn = !!user;
-  document.getElementById(
-    "profileLoggedOut"
-  ).style.display =
-    loggedIn ? "none" : "block";
-  document.getElementById(
-    "profileLoggedIn"
-  ).style.display =
-    loggedIn ? "block" : "none";
-  document.getElementById(
-    "topLoginText"
-  ).textContent =
-    loggedIn
-      ? user.username
-      : "Login with Discord";
-  document.getElementById(
-    "homeAccount"
-  ).textContent =
-    loggedIn
-      ? user.username
-      : "Guest";
-  const rankIndex =
-    user ? user.rank : 0;
-  const progress =
-    user ? user.progress : 0;
-  document.getElementById(
-    "homeRank"
-  ).textContent =
-    rankData[rankIndex][0];
-  document.getElementById(
-    "homeProgress"
-  ).textContent =
-    progress + "%";
-  if(user){
-    document.getElementById(
-      "profileAvatar"
-    ).textContent =
-      user.avatar;
-    document.getElementById(
-      "profileName"
-    ).textContent =
-      user.username;
-    document.getElementById(
-      "profileRank"
-    ).textContent =
-      rankData[user.rank][0];
-    document.getElementById(
-      "profileProgress"
-    ).textContent =
-      user.progress + "%";
-    document.getElementById(
-      "profileOrders"
-    ).textContent =
-      user.orders.length;
-    document.getElementById(
-      "orderCount"
-    ).textContent =
-      user.orders.length +
-      (user.orders.length === 1
-        ? " ORDER"
-        : " ORDERS");
-  }
-  renderRanks();
-}
-/* =========================
-   RANKS
-========================= */
-function renderRanks(){
-  const grid =
-    document.getElementById("rankGrid");
-  grid.innerHTML = "";
-  const current =
-    user ? user.rank : 0;
-  const progress =
-    user ? user.progress : 0;
-  rankData.forEach((rank,index)=>{
-    const card =
-      document.createElement("div");
-    card.className =
-      "rankCard";
-    card.innerHTML = `
-      <div class="rankTop">
-        <div class="rankIcon">
-          ${index}
-        </div>
-        <div>
-          <div class="rankName">
-            ${rank[0]}
-          </div>
-          <div class="rankDesc">
-            ${rank[1]}
-          </div>
-        </div>
-        ${
-          index === current
-            ? `<div class="current">Current</div>`
-            : ""
-        }
-      </div>
-      ${
-        index === current
-          ? `
-            <div class="progress">
-              <div
-                class="progressBar"
-                style="width:${progress}%"
-              ></div>
-            </div>
-          `
-          : ""
-      }
-    `;
-    grid.appendChild(card);
-  });
-  document.getElementById(
-    "rankBadge"
-  ).textContent =
-    rankData[current][0].toUpperCase();
-}
-/* =========================
-   STORE SELECTION
-========================= */
-function selectBgl(amount){
-  if(!user){
-    openDiscord();
+function updateUserUI(){
+  if(!currentUser){
+    document.getElementById("topUser")
+      .textContent="Not logged in";
+    document.getElementById("avatar")
+      .textContent="?";
     return;
   }
-  showToast(
-    "BGL selected",
-    amount + " BGL selected."
+  document.getElementById("topUser")
+    .textContent=currentUser.username;
+  document.getElementById("avatar")
+    .textContent=
+      currentUser.username
+        .charAt(0)
+        .toUpperCase();
+}
+/* ================= ORDERS ================= */
+function getOrders(){
+  return JSON.parse(
+    localStorage.getItem("jpp_orders") || "[]"
   );
 }
-/* =========================
-   ADMIN
-========================= */
+function saveOrders(orders){
+  localStorage.setItem(
+    "jpp_orders",
+    JSON.stringify(orders)
+  );
+}
+function createOrder(){
+  if(!currentUser){
+    openLogin();
+    return;
+  }
+  const amount=getAmount();
+  const orders=getOrders();
+  const order={
+    id:"ORD-"+Date.now(),
+    username:currentUser.username,
+    amount,
+    total:(amount*BGL_PRICE).toFixed(2),
+    status:"pending",
+    created:new Date().toLocaleString()
+  };
+  orders.push(order);
+  saveOrders(orders);
+  currentUser.orders =
+    currentUser.orders || [];
+  currentUser.orders.push(order.id);
+  localStorage.setItem(
+    "jpp_user",
+    JSON.stringify(currentUser)
+  );
+  showToast("Order created");
+  showView("history");
+  renderHistory();
+}
+/* ================= HISTORY ================= */
+function renderHistory(){
+  const box=
+    document.getElementById("historyList");
+  if(!currentUser){
+    box.innerHTML=`
+      <div class="empty">
+        Login to see your order history.
+      </div>
+    `;
+    return;
+  }
+  const orders=getOrders()
+    .filter(o=>o.username===currentUser.username);
+  if(!orders.length){
+    box.innerHTML=`
+      <div class="empty">
+        No orders yet.
+      </div>
+    `;
+    return;
+  }
+  box.innerHTML=orders
+    .reverse()
+    .map(o=>`
+      <div class="history-item">
+        <div>
+          <strong>${o.amount} BGL</strong>
+          <div class="muted">
+            ${o.created}
+          </div>
+        </div>
+        <div class="status">
+          ${o.status}
+        </div>
+      </div>
+    `)
+    .join("");
+}
+/* ================= RANK ================= */
+function renderRank(){
+  if(!currentUser){
+    document.getElementById("rankName")
+      .textContent="Unranked";
+    document.getElementById("rankPercent")
+      .textContent="0%";
+    document.getElementById("rankBar")
+      .style.width="0%";
+    return;
+  }
+  const index=currentUser.rankIndex || 0;
+  const progress=currentUser.progress || 0;
+  document.getElementById("rankName")
+    .textContent=RANKS[index];
+  document.getElementById("rankPercent")
+    .textContent=progress+"%";
+  document.getElementById("rankBar")
+    .style.width=progress+"%";
+}
+/* ================= PROFILE ================= */
+function renderProfile(){
+  if(!currentUser){
+    document.getElementById("profileName")
+      .textContent="Guest";
+    document.getElementById("profileRank")
+      .textContent="Unranked · 0%";
+    document.getElementById("approvedCount")
+      .textContent="0";
+    return;
+  }
+  const orders=getOrders();
+  const approved=orders.filter(
+    o=>
+      o.username===currentUser.username &&
+      o.status==="approved"
+  ).length;
+  document.getElementById("profileName")
+    .textContent=currentUser.username;
+  document.getElementById("profileRank")
+    .textContent=
+      RANKS[currentUser.rankIndex || 0]
+      +" · "
+      +(currentUser.progress || 0)
+      +"%";
+  document.getElementById("approvedCount")
+    .textContent=approved;
+}
+/* ================= LEADERBOARD ================= */
+function renderLeaderboard(){
+  const box=
+    document.getElementById("leaderboardList");
+  if(!currentUser){
+    box.innerHTML=`
+      <div class="empty">
+        No registered users yet.
+      </div>
+    `;
+    return;
+  }
+  box.innerHTML=`
+    <div class="history-item">
+      <div>
+        <strong>${currentUser.username}</strong>
+        <div class="muted">
+          ${RANKS[currentUser.rankIndex || 0]}
+        </div>
+      </div>
+      <strong>
+        ${currentUser.progress || 0}%
+      </strong>
+    </div>
+  `;
+}
+/* ================= ADMIN ================= */
 function adminLogin(){
-  const username =
-    document.getElementById("adminUser").value;
-  const password =
-    document.getElementById("adminPass").value;
+  const username=
+    document.getElementById("adminUsername").value;
+  const password=
+    document.getElementById("adminPassword").value;
   if(
-    username === "JimpanAdmini" &&
-    password === "JimppaFortniteAdmin"
+    username==="JimpanAdmini" &&
+    password==="JimppaFortniteAdmin"
   ){
-    admin = true;
-    localStorage.setItem(
-      "j1mppaz_admin",
+    sessionStorage.setItem(
+      "jpp_admin",
       "true"
     );
-    updateAdmin();
-    showToast(
-      "Admin login successful",
-      "Welcome back."
-    );
+    renderAdmin();
+    showToast("Admin login successful");
   }else{
-    showToast(
-      "Login failed",
-      "Invalid admin credentials."
-    );
+    showToast("Invalid admin credentials");
   }
 }
 function adminLogout(){
-  admin = false;
-  localStorage.removeItem(
-    "j1mppaz_admin"
-  );
-  updateAdmin();
+  sessionStorage.removeItem("jpp_admin");
+  renderAdmin();
 }
-function updateAdmin(){
-  const login =
-    document.getElementById("adminLogin");
-  const content =
-    document.getElementById("adminContent");
-  if(admin){
-    login.style.display = "none";
-    content.classList.add("show");
-  }else{
-    login.style.display = "block";
-    content.classList.remove("show");
+function renderAdmin(){
+  const logged=
+    sessionStorage.getItem("jpp_admin")==="true";
+  document.getElementById("adminLogin")
+    .style.display=
+      logged ? "none":"block";
+  document.getElementById("adminDashboard")
+    .style.display=
+      logged ? "block":"none";
+  if(!logged) return;
+  const orders=getOrders();
+  const pending=
+    orders.filter(o=>o.status==="pending");
+  const approved=
+    orders.filter(o=>o.status==="approved");
+  document.getElementById("adminUsers")
+    .textContent=
+      currentUser ? "1":"0";
+  document.getElementById("adminPending")
+    .textContent=pending.length;
+  document.getElementById("adminApproved")
+    .textContent=approved.length;
+  const box=
+    document.getElementById("pendingOrders");
+  if(!pending.length){
+    box.innerHTML=`
+      <div class="empty">
+        No pending orders.
+      </div>
+    `;
+    return;
   }
-  document.getElementById(
-    "adminUsers"
-  ).textContent =
-    user ? "1" : "0";
+  box.innerHTML=pending.map(o=>`
+    <div class="order-row">
+      <div class="order-info">
+        <strong>
+          ${o.username} · ${o.amount} BGL
+        </strong>
+        <span>
+          ${o.id} · ${o.created} · ${o.total}€
+        </span>
+      </div>
+      <div class="order-actions">
+        <button
+          class="approve"
+          onclick="approveOrder('${o.id}')">
+          Approve
+        </button>
+        <button
+          class="reject"
+          onclick="rejectOrder('${o.id}')">
+          Reject
+        </button>
+      </div>
+    </div>
+  `).join("");
 }
-/* =========================
-   INITIALIZE
-========================= */
-updateUI();
-updateAdmin();
+/* ================= APPROVAL ================= */
+function approveOrder(id){
+  const orders=getOrders();
+  const order=orders.find(o=>o.id===id);
+  if(!order) return;
+  order.status="approved";
+  saveOrders(orders);
+  /*
+    Each approved order gives 25% progress.
+    When 100% is reached, rank advances.
+  */
+  if(
+    currentUser &&
+    currentUser.username===order.username
+  ){
+    currentUser.progress =
+      (currentUser.progress || 0)+25;
+    if(currentUser.progress>=100){
+      if(
+        currentUser.rankIndex <
+        RANKS.length-1
+      ){
+        currentUser.rankIndex++;
+        currentUser.progress=0;
+      }else{
+        currentUser.progress=100;
+      }
+    }
+    localStorage.setItem(
+      "jpp_user",
+      JSON.stringify(currentUser)
+    );
+  }
+  showToast("Order approved");
+  renderAdmin();
+  renderRank();
+  renderProfile();
+  renderHistory();
+}
+/* ================= REJECT ================= */
+function rejectOrder(id){
+  const orders=getOrders();
+  const order=orders.find(o=>o.id===id);
+  if(!order) return;
+  order.status="rejected";
+  saveOrders(orders);
+  showToast("Order rejected");
+  renderAdmin();
+  renderHistory();
+}
+/* ================= TOAST ================= */
+let toastTimer;
+function showToast(message){
+  const toast=
+    document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{
+    toast.classList.remove("show");
+  },2800);
+}
+/* ================= INIT ================= */
+updateUserUI();
+updateBuy();
+renderRank();
+renderHistory();
+renderLeaderboard();
+renderProfile();
 </script>
 </body>
 </html>
